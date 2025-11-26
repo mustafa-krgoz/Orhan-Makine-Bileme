@@ -45,7 +45,7 @@ export default function Navbar() {
             <div className="contact-info">
               <div className="contact-item">
                 <Phone className="contact-icon" />
-                <span>+90 424 234 56 78</span>
+                <span>+90 539 515 99 25</span>
               </div>
               <div className="contact-item">
                 <MapPin className="contact-icon" />
@@ -80,7 +80,7 @@ export default function Navbar() {
             <div className="logo-text">
                 <h1 className="logo-title">
                 <span className="orhan-text">Orhan</span>
-                <span className="makina-text"> Makina</span>
+                <span className="makina-text"> Makine</span>
                 </h1>
 
                 <p className="logo-subtext">

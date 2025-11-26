@@ -1,8 +1,7 @@
 // components/Hero/Hero.jsx
-// Hero bileşeni – sol üst kurumsal yerleşim + tam ekran video arkaplan
-
 import "./Hero.css";
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function Hero() {
   return (
@@ -13,35 +12,40 @@ export default function Hero() {
         <source src="/videos/makine.mp4" type="video/mp4" />
       </video>
 
-      {/* --- Karanlık Gradient Overlay (okunabilirlik için) --- */}
+      {/* --- Overlay --- */}
       <div className="hero-overlay"></div>
 
       {/* --- İçerik --- */}
       <div className="hero-content">
 
-        {/* Başlık */}
         <h1 className="hero-title">
           Profesyonel <span className="hero-highlight">Bileme Hizmetleri</span>
         </h1>
 
-        {/* Açıklama */}
         <p className="hero-description">
           Endüstriyel kesici takımlarınız için uzman bileme, bakım ve yenileme çözümleri sunuyoruz. 
           <strong> 40 yılı aşkın tecrübemiz</strong> ile kalite, hassasiyet ve güveni bir arada sağlıyoruz.
         </p>
 
-        {/* Butonlar */}
+        {/* --- Butonlar --- */}
         <div className="hero-buttons">
-          <button className="btn-primary">
-            Ürünleri İncele <ArrowRight className="btn-icon" />
-          </button>
 
-          <button className="btn-secondary">
+          <Link to="/urunler" className="btn-primary">
+            Ürünleri İncele <ArrowRight className="btn-icon" />
+          </Link>
+
+          <a 
+            href="https://wa.me/905395159925"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-secondary"
+          >
             WhatsApp’tan Yaz
-          </button>
+          </a>
+
         </div>
 
-        {/* İstatistikler */}
+        {/* --- İstatistikler --- */}
         <div className="hero-stats">
           <div className="stat-item">
             <span className="stat-number">2000+</span>
