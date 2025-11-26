@@ -4,12 +4,12 @@ import Navbar from "./components/Navbar/Navbar.jsx";
 import Footer from "./components/Footer/Footer.jsx";
 
 import HomePage from "./pages/HomePage.jsx";
-import CategoryPage from "./pages/CategoryPage.jsx";
+import ProductsPage from "./pages/ProductsPage.jsx";
 import ProductDetailPage from "./pages/ProductDetailPage.jsx";
-import CartPage from "./pages/CartPage.jsx";
-import CheckoutPage from "./pages/CheckoutPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
-import RegisterPage from "./pages/RegisterPage.jsx";
+import AdminRegisterPage from "./pages/AdminRegisterPage.jsx";
+import ContactPage from "./pages/ContactPage.jsx";
+
 
 function App() {
   return (
@@ -20,55 +20,63 @@ function App() {
         <Navbar />
 
         {/* İçerik */}
-        <main className="flex-grow pt-6 pb-10">
-          <div className="container mx-auto px-4">
-            <Routes>
+        <main className="flex-grow">
+          <Routes>
 
-              {/* Ana Sayfa */}
-              <Route path="/" element={<HomePage />} />
+            {/* Ana Sayfa */}
+            <Route path="/" element={<HomePage />} />
 
-              {/* Kategoriler */}
-              <Route path="/category/:categoryId" element={<CategoryPage />} />
-              <Route path="/products" element={<CategoryPage />} />
-              <Route path="/services" element={<CategoryPage />} />
+            {/* Ürünler Sayfası */}
+            <Route path="/products" element={<ProductsPage />} />
 
-              {/* Ürün Detayı */}
-              <Route path="/product/:productId" element={<ProductDetailPage />} />
+            {/* Ürün Detay Sayfası */}
+            <Route path="/urunler/:productSlug" element={<ProductDetailPage />} />
 
-              {/* Sepet */}
-              <Route path="/cart" element={<CartPage />} />
+            {/* İletişim Sayfası */}
+            <Route path="/contact" element={<ContactPage />} />
 
-              {/* Ödeme */}
-              <Route path="/checkout" element={<CheckoutPage />} />
+            {/* Auth */}
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/kayit" element={<AdminRegisterPage />} />
 
-              {/* Auth */}
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/register" element={<RegisterPage />} />
+            {/* Hakkımızda / İletişim */}
+            <Route path="/hakkimizda" element={
+              <div className="container mx-auto px-4 py-16">
+                <h1 className="text-4xl font-bold text-center mb-8">Hakkımızda</h1>
+                <p className="text-lg text-gray-600 text-center max-w-2xl mx-auto">
+                  Orhan Makine olarak 40 yılı aşkın süredir sektörde hizmet veriyoruz.
+                </p>
+              </div>
+            } />
+            
+            <Route path="/contact" element={
+              <div className="container mx-auto px-4 py-16">
+                <h1 className="text-4xl font-bold text-center mb-8">İletişim</h1>
+                <p className="text-lg text-gray-600 text-center max-w-2xl mx-auto">
+                  Bize ulaşmak için iletişim bilgilerimizi kullanabilirsiniz.
+                </p>
+              </div>
+            } />
 
-              {/* Hakkımızda / İletişim - geçici */}
-              <Route path="/about" element={<HomePage />} />
-              <Route path="/contact" element={<HomePage />} />
-
-              {/* 404 */}
-              <Route
-                path="*"
-                element={
-                  <div className="text-center py-20">
-                    <h1 className="text-5xl font-bold text-gray-800 mb-4">404</h1>
-                    <p className="text-lg text-gray-600 mb-8">
-                      Aradığınız sayfa bulunamadı.
-                    </p>
-                    <a
-                      href="/"
-                      className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition"
-                    >
-                      Ana Sayfaya Dön
-                    </a>
-                  </div>
-                }
-              />
-            </Routes>
-          </div>
+            {/* 404 Sayfası */}
+            <Route
+              path="*"
+              element={
+                <div className="container mx-auto px-4 py-20 text-center">
+                  <h1 className="text-5xl font-bold text-gray-800 mb-4">404</h1>
+                  <p className="text-lg text-gray-600 mb-8">
+                    Aradığınız sayfa bulunamadı.
+                  </p>
+                  <a
+                    href="/"
+                    className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition inline-block"
+                  >
+                    Ana Sayfaya Dön
+                  </a>
+                </div>
+              }
+            />
+          </Routes>
         </main>
 
         {/* Footer */}

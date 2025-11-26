@@ -59,7 +59,7 @@ export default function Navbar() {
 
             <div className="top-bar-cta">
               <Truck className="cta-icon" />
-              <span>Aynı Gün Teslimat</span>
+              <span>Güvenilir Teslimat</span>
             </div>
           </div>
         </div>
