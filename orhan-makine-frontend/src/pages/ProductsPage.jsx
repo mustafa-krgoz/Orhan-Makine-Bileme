@@ -12,7 +12,7 @@ const ProductsPage = () => {
       brand: "CORA",
       price: 7900,
       originalPrice: 8500,
-      image: "/images/CORA-KOMP....5HP-100L.png",
+      image: "/images/CORA-KOMPRESOR-2.5HP-100L.png",
       description: "Güçlü ve sessiz çalışan kompresör",
       features: ["Yüksek basınç kapasitesi", "Düşük enerji tüketimi", "Sessiz çalışma", "2 yıl garanti"],
       specifications: {
@@ -60,7 +60,7 @@ const ProductsPage = () => {
       brand: "Makita",
       price: 5300,
       originalPrice: 5800,
-      image: "/images/MAKITA 4350...TRONİK1.png",
+      image: "/images/MAKITA-4350CT-DEKUPAJ-ELEKTRONIK1.png",
       description: "Elektronik hız kontrolü ile dekupaj",
       features: ["Değişken hız", "Kolay bıçak değişimi", "Hassas kesim", "Pendulum ayarı"],
       specifications: {
@@ -84,7 +84,7 @@ const ProductsPage = () => {
       brand: "Makita",
       price: 14500,
       originalPrice: 15900,
-      image: "/images/MAKITA DHR...CI DELİCİ2.png",
+      image: "/images/MAKITA-DHR241RMJ-AKULU-KIRICI-DELICI-HILTI1.png",
       description: "Güçlü akülü kırıcı delici hilti",
       features: ["Kablosuz özgürlük", "Yüksek darbe gücü", "Uzun pil ömrü", "3 modlu çalışma"],
       specifications: {
@@ -108,7 +108,7 @@ const ProductsPage = () => {
       brand: "Makita",
       price: 2200,
       originalPrice: 2500,
-      image: "/images/MAKITA HG5...K ISITICİ2.png",
+      image: "/images/MAKITA-HG5030K-ISITICI1.png",
       description: "Portatif ısıtma çözümü",
       features: ["Hızlı ısınma", "Ayarlanabilir sıcaklık", "Güvenli kullanım", "Taşınabilir tasarım"],
       specifications: {
@@ -132,7 +132,7 @@ const ProductsPage = () => {
       brand: "Makita",
       price: 18500,
       originalPrice: 19900,
-      image: "/images/MAKITA LH10...TEZGAH.png",
+      image: "/images/MAKITA-LH1040-TABLALI-GONYE-TEZGAH.png",
       description: "Profesyonel gönye kesim tezgahı",
       features: ["Hassas açı ayarı", "Geniş kesim kapasitesi", "Sağlam yapı", "Lazer kılavuz"],
       specifications: {
@@ -156,7 +156,7 @@ const ProductsPage = () => {
       brand: "Makita",
       price: 8200,
       originalPrice: 8900,
-      image: "/images/makita-akulu-darbeli-matkap.png",
+      image: "/images/MAKITA-DHP484RTJ-AKULU-DARBELI-MATKAP1.png",
       description: "Profesyonel akülü darbeli matkap",
       features: ["Yüksek tork", "Uzun batarya ömrü", "Hızlı şarj", "LED aydınlatma"],
       specifications: {
@@ -180,7 +180,7 @@ const ProductsPage = () => {
       brand: "Makita",
       price: 4500,
       originalPrice: 5200,
-      image: "/images/makita-akusuz-darbeli-matkap.png",
+      image: "/images/akusuzdarbelimatkap1.png",
       description: "Güçlü kablolu darbeli matkap",
       features: ["Sürekli güç", "Yüksek performans", "Dayanıklı tasarım", "Emniyet kilitli"],
       specifications: {
@@ -201,7 +201,7 @@ const ProductsPage = () => {
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedBrands, setSelectedBrands] = useState([]);
-  const [showOnlyInStock, setShowOnlyInStock] = useState(false); // Radio button için
+  const [showOnlyInStock, setShowOnlyInStock] = useState(false);
   const [filters, setFilters] = useState({
     campaign: false,
     sponsored: false,
@@ -211,6 +211,7 @@ const ProductsPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOption, setSortOption] = useState('recommended');
   const [favorites, setFavorites] = useState([]);
+  const [imageErrors, setImageErrors] = useState({}); // Resim hatalarını takip etmek için
 
   // Kategorileri ve markaları dinamik olarak al
   const categories = [...new Set(products.map(product => product.category))];
@@ -277,6 +278,20 @@ const ProductsPage = () => {
 
     setFilteredProducts(result);
   }, [selectedCategories, selectedBrands, showOnlyInStock, filters, searchTerm, sortOption, products]);
+
+  // Resim yükleme hatası handler'ı
+  const handleImageError = (productId) => {
+    setImageErrors(prev => ({
+      ...prev,
+      [productId]: true
+    }));
+  };
+
+  // Varsayılan resim URL'i
+  const getDefaultImage = (productName) => {
+    // Ürün tipine göre varsayılan resim belirleyebilirsin
+    return "/images/default-product.png"; // public/images klasörüne bir default resim koy
+  };
 
   const toggleCategory = (category) => {
     setSelectedCategories(prev => 
@@ -471,12 +486,10 @@ const ProductsPage = () => {
                 {/* Ürün Resmi ve Etiketler */}
                 <div className="product-image">
                   <img 
-                    src={product.image} 
+                    src={imageErrors[product.id] ? getDefaultImage(product.name) : product.image}
                     alt={product.name}
-                    onError={(e) => {
-                      e.target.style.display = 'none';
-                      e.target.parentElement.style.background = '#f1f5f9';
-                    }}
+                    onError={() => handleImageError(product.id)}
+                    loading="lazy" // Performans için lazy loading
                   />
                   <div className="product-badges">
                     {product.price < product.originalPrice && (
