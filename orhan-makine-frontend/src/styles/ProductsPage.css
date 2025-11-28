@@ -282,104 +282,118 @@
     box-shadow: 0 20px 40px rgba(0,0,0,0.15);
     border-color: #60a5fa;
   }
-  
   /* ============================================= */
-  /*           ÜRÜN GÖRSEL ALANI                   */
-  /* ============================================= */
-  
-  .products-page .product-image {
+/*           ÜRÜN GÖRSEL ALANI (300x300)         */
+/* ============================================= */
+
+.products-page .product-image {
     position: relative;
-    
-    /* Geniş kartlara uygun görsel yüksekliği */
-    height: 250px; /* Daha yüksek görsel alanı */
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+
+    /* --- ÜRÜN RESİM ALANINI 300x300 SABİT KARE YAPIYORUZ --- */
+    width: 100%;
+    height: 300px; /* Sabit kare alan */
+
+    background: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 30px;
-    overflow: hidden;
-  }
-  
-  .products-page .product-image img {
-    max-width: 100%;
-    /* Büyük ve net görseller */
-    max-height: 190px;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-    transition: transform 0.3s ease;
-  }
-  
-  .products-page .product-card:hover .product-image img {
-    transform: scale(1.08);
-  }
-  
-  /* Etiketler */
-  .products-page .product-badges {
+
+    padding: 10px; /* Eskiden 20 idi, resimleri aşağı itiyordu */
+
+    overflow: hidden; /* Taşmayı önler */
+}
+
+
+/* --- RESİMLERİ 300x300 ALANA TAM OTURT --- */
+.products-page .product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;  /* Resim taşmadan tam sığar */
+
+    transition: transform 0.25s ease;
+    image-rendering: auto;
+}
+
+
+/* Hover efekti */
+.products-page .product-card:hover .product-image img {
+    transform: scale(1.05);
+}
+
+
+/* ============================================= */
+/*                 BADGE ALANI                   */
+/* ============================================= */
+.products-page .product-badges {
     position: absolute;
-    top: 16px;
-    left: 16px;
+    top: 10px;   /* 16 çok aşağı itiyordu */
+    left: 10px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    z-index: 2;
-  }
-  
-  .products-page .badge {
+    gap: 6px;
+    z-index: 5;
+}
+
+.products-page .badge {
     padding: 6px 12px;
     border-radius: 6px;
     font-size: 0.8rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  }
-  
-  .products-page .badge.discount {
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.products-page .badge.discount {
     background: #ef4444;
     color: white;
-  }
-  
-  .products-page .badge.new {
+}
+
+.products-page .badge.new {
     background: #10b981;
     color: white;
-  }
-  
-  .products-page .badge.campaign {
+}
+
+.products-page .badge.campaign {
     background: linear-gradient(135deg, #1e3a8a, #60a5fa);
     color: white;
-  }
-  
-  /* Favori butonu */
-  .products-page .favorite-btn {
+}
+
+
+/* ============================================= */
+/*                 FAVORİ BUTON                  */
+/* ============================================= */
+.products-page .favorite-btn {
     position: absolute;
-    top: 16px;
-    right: 16px;
+    top: 10px;
+    right: 10px;
+
     width: 40px;
     height: 40px;
     border-radius: 50%;
     background: white;
+
     border: none;
     cursor: pointer;
     font-size: 18px;
+
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    z-index: 2;
-  }
-  
-  .products-page .favorite-btn:hover {
+
+    transition: all 0.25s ease;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    z-index: 5;
+}
+
+.products-page .favorite-btn:hover {
     transform: scale(1.1);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  }
-  
-  .products-page .favorite-btn.active {
+}
+
+.products-page .favorite-btn.active {
     background: #ef4444;
     color: white;
-  }
-  
+}
   /* ============================================= */
   /*           ÜRÜN BİLGİ ALANI                    */
   /* ============================================= */
@@ -525,146 +539,140 @@
     font-size: 1rem;
     color: #64748b;
   }
+  /* ============================================= */
+/*           SABİT GÖRSEL BOYUTU (HER YERDE)     */
+/* ============================================= */
+
+.products-page .product-image {
+    width: 100%;
+    height: 280px !important;
+    min-height: 280px !important;
+    max-height: 280px !important;
+    padding: 16px;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  
+  .products-page .product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain !important;
+    transition: transform 0.3s ease;
+    image-rendering: auto;
+  }
+  
+  .products-page .product-card {
+    height: auto !important;
+    min-height: 620px !important; /* 🔥 Her kart aynı boy */
+  }
+  
+  
   
   /* ============================================= */
   /*           RESPONSIVE TASARIM                  */
   /* ============================================= */
   
-  /* Büyük ekranlar - 4'lü düzen */
-  @media (max-width: 1400px) {
-    .products-page .products-container {
-      max-width: 1400px;
-    }
-    
-    /* 4'lü düzen korunuyor */
+  /* ----------- 4’lü düzen (büyük ekran) ----------- */
+  @media (min-width: 1201px) {
     .products-page .products-grid {
-      grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(4, 1fr);
+        gap: 28px;
     }
   }
   
-  /* Orta boy ekranlar - 3'lü düzen */
+  /* ----------- 3’lü düzen (orta ekran) ----------- */
   @media (max-width: 1200px) {
     .products-page .products-grid {
-      grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3, 1fr);
+        gap: 26px;
     }
-    
+  
     .products-page .product-card {
-      height: 460px;
-      min-height: 460px;
+        min-height: 620px !important;
     }
   }
   
-  /* Tablet - 2'li düzen */
+  /* ----------- 2’li düzen (tablet) ----------- */
   @media (max-width: 1024px) {
     .products-page .products-container {
-      grid-template-columns: 250px 1fr;
-      gap: 24px;
+        grid-template-columns: 1fr;
+        gap: 24px;
     }
   
     .products-page .products-sidebar {
-      padding: 20px;
+        width: 100%;
+        position: static;
+        padding: 20px;
     }
   
     .products-page .products-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
     }
-    
+  
     .products-page .product-card {
-      height: 440px;
-      min-height: 440px;
+        min-height: 600px !important;
     }
-    
+  
     .products-page .product-image {
-      height: 220px;
+        height: 280px !important;
     }
   }
   
-  /* Küçük tablet - 2'li düzen */
+  
+  /* ----------- Küçük tablet (2’li düzen) ----------- */
   @media (max-width: 768px) {
     .products-page {
-      padding: 15px 0 40px;
+        padding: 10px 0 40px;
     }
   
     .products-page .products-container {
-      grid-template-columns: 1fr;
-      gap: 20px;
-      padding: 0 15px;
-    }
-  
-    .products-page .products-sidebar {
-      position: static;
-      max-height: none;
-    }
-  
-    .products-page .products-header {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 16px;
-    }
-  
-    .products-page .sort-options {
-      width: 100%;
-    }
-  
-    .products-page .sort-select {
-      flex: 1;
+        padding: 0 12px;
     }
   
     .products-page .products-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px;
     }
-    
+  
     .products-page .product-card {
-      height: 420px;
-      min-height: 420px;
+        min-height: 560px !important;
     }
-    
+  
     .products-page .product-image {
-      height: 200px;
+        height: 260px !important;
+        min-height: 260px !important;
     }
   }
   
-  /* Mobil - Tek sütun */
+  
+  /* ----------- Mobil (tek sütun) ----------- */
   @media (max-width: 640px) {
     .products-page .products-grid {
-      grid-template-columns: 1fr;
-      gap: 15px;
+        grid-template-columns: 1fr;
+        gap: 18px;
     }
-    
+  
     .products-page .product-card {
-      height: 400px;
-      min-height: 400px;
+        min-height: 500px !important;
     }
-    
+  
     .products-page .product-image {
-      height: 180px;
-      padding: 25px;
-    }
-    
-    .products-page .product-image img {
-      max-height: 150px;
+        height: 240px !important;
     }
   }
   
-  /* Küçük mobil */
-  @media (max-width: 480px) {
-    .products-page .products-grid {
-      grid-template-columns: 1fr;
-    }
   
+  /* ----------- Küçük Mobil ----------- */
+  @media (max-width: 480px) {
     .products-page .product-card {
-      max-width: 100%;
-      height: 380px;
-      min-height: 380px;
+        min-height: 480px !important;
     }
   
     .products-page .product-image {
-      height: 170px;
-    }
-    
-    .products-page .product-info {
-      padding: 16px;
+        height: 220px !important;
     }
   }
