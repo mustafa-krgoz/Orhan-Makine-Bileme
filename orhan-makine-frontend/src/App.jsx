@@ -9,6 +9,7 @@ import ProductDetailPage from "./pages/ProductDetailPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import AdminRegisterPage from "./pages/AdminRegisterPage.jsx";
 import ContactPage from "./pages/ContactPage.jsx";
+import ServicesPage from "./pages/ServicesPage.jsx";
 
 
 function App() {
@@ -39,24 +40,8 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/kayit" element={<AdminRegisterPage />} />
 
-            {/* Hakkımızda / İletişim */}
-            <Route path="/hakkimizda" element={
-              <div className="container mx-auto px-4 py-16">
-                <h1 className="text-4xl font-bold text-center mb-8">Hakkımızda</h1>
-                <p className="text-lg text-gray-600 text-center max-w-2xl mx-auto">
-                  Orhan Makine olarak 40 yılı aşkın süredir sektörde hizmet veriyoruz.
-                </p>
-              </div>
-            } />
-            
-            <Route path="/contact" element={
-              <div className="container mx-auto px-4 py-16">
-                <h1 className="text-4xl font-bold text-center mb-8">İletişim</h1>
-                <p className="text-lg text-gray-600 text-center max-w-2xl mx-auto">
-                  Bize ulaşmak için iletişim bilgilerimizi kullanabilirsiniz.
-                </p>
-              </div>
-            } />
+            {/* Hizmetlerimiz Sayfası */}
+            <Route path="/services" element={<ServicesPage />} />
 
             {/* 404 Sayfası */}
             <Route
