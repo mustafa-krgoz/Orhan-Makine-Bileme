@@ -1,4 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+// GLOBAL FAVORİ SİSTEMİ
+// Bu context, favorileri tüm site genelinde kullanılabilir yapar
+import { FavoritesProvider } from "./context/FavoritesContext";
+
 import Navbar from "./components/Navbar/Navbar.jsx";
 import Footer from "./components/Footer/Footer.jsx";
 import HomePage from "./pages/HomePage.jsx";
@@ -8,91 +13,72 @@ import LoginPage from "./pages/LoginPage.jsx";
 import AdminRegisterPage from "./pages/AdminRegisterPage.jsx";
 import ContactPage from "./pages/ContactPage.jsx";
 import ServicesPage from "./pages/ServicesPage.jsx";
+import FavoritesPage from "./pages/FavoritesPage.jsx"; // ⭐ Favoriler sayfası
 
 function App() {
   return (
-    <Router>
-      <div className="flex flex-col min-h-screen bg-white text-gray-900">
-        
-        {/* NAVBAR - Tüm sayfalarda gösterilen üst menü */}
-        <Navbar />
+    // ⭐ FAVORİLERİ GLOBAL KULLANMAK İÇİN BURAYA SARILIR
+    <FavoritesProvider>
+      <Router>
+        <div className="flex flex-col min-h-screen bg-white text-gray-900">
+          
+          {/* ⭐ NAVBAR — her sayfada gösteriliyor */}
+          <Navbar />
 
-        {/* ANA İÇERİK ALANI - Route'lara göre değişen kısım */}
-        <main className="flex-grow">
-          <Routes>
-            {/* 
-              ANA SAYFA 
-              Path: "/" - Ziyaretçi site.com'a girdiğinde görünen sayfa
-            */}
-            <Route path="/" element={<HomePage />} />
+          {/* ⭐ ROUTE DEĞİŞEN ANA İÇERİK */}
+          <main className="flex-grow">
+            <Routes>
 
-            {/* 
-              ÜRÜNLER SAYFASI 
-              Path: "/products" - Tüm ürünlerin listelendiği sayfa
-              Kullanım: site.com/products
-            */}
-            <Route path="/products" element={<ProductsPage />} />
+              {/* ANA SAYFA — site.com/ */}
+              <Route path="/" element={<HomePage />} />
 
-            // Ürün Detay Sayfası Route'u - ID ile çalışacak şekilde
-            <Route path="/product/:id" element={<ProductDetailPage />} />
-            
-            {/* 
-              İLETİŞİM SAYFASI 
-              Path: "/contact" - İletişim formu ve bilgilerinin olduğu sayfa
-              Kullanım: site.com/contact
-            */}
-            <Route path="/contact" element={<ContactPage />} />
+              {/* TÜM ÜRÜNLER SAYFASI — site.com/products */}
+              <Route path="/products" element={<ProductsPage />} />
 
-            {/* 
-              GİRİŞ SAYFASI 
-              Path: "/login" - Kullanıcı girişi için sayfa
-              Kullanım: site.com/login
-            */}
-            <Route path="/login" element={<LoginPage />} />
+              {/* ÜRÜN DETAY SAYFASI — site.com/product/1, site.com/product/2 */}
+              <Route path="/product/:id" element={<ProductDetailPage />} />
 
-            {/* 
-              YÖNETİCİ KAYIT SAYFASI 
-              Path: "/kayit" - Admin kayıt sayfası
-              Kullanım: site.com/kayit
-            */}
-            <Route path="/kayit" element={<AdminRegisterPage />} />
+              {/* FAVORİLER SAYFASI ⭐ — site.com/favorites */}
+              <Route path="/favorites" element={<FavoritesPage />} />
 
-            {/* 
-              HİZMETLER SAYFASI 
-              Path: "/services" - Şirket hizmetlerinin anlatıldığı sayfa
-              Kullanım: site.com/services
-            */}
-            <Route path="/services" element={<ServicesPage />} />
+              {/* İLETİŞİM SAYFASI — site.com/contact */}
+              <Route path="/contact" element={<ContactPage />} />
 
-            {/* 
-              404 SAYFASI - Fallback Route
-              Path: "*" - Tanımlanmamış tüm URL'ler için
-              Kullanım: site.com/olmayan-bir-sayfa (otomatik buraya yönlendirilir)
-            */}
-            <Route
-              path="*"
-              element={
-                <div className="container mx-auto px-4 py-20 text-center">
-                  <h1 className="text-5xl font-bold text-gray-800 mb-4">404</h1>
-                  <p className="text-lg text-gray-600 mb-8">
-                    Aradığınız sayfa bulunamadı.
-                  </p>
-                  <a
-                    href="/"
-                    className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition inline-block"
-                  >
-                    Ana Sayfaya Dön
-                  </a>
-                </div>
-              }
-            />
-          </Routes>
-        </main>
+              {/* GİRİŞ SAYFASI — site.com/login */}
+              <Route path="/login" element={<LoginPage />} />
 
-        {/* FOOTER - Tüm sayfalarda gösterilen alt menü */}
-        <Footer />
-      </div>
-    </Router>
+              {/* ADMIN KAYIT SAYFASI — site.com/kayit */}
+              <Route path="/kayit" element={<AdminRegisterPage />} />
+
+              {/* HİZMETLER SAYFASI — site.com/services */}
+              <Route path="/services" element={<ServicesPage />} />
+
+              {/* 404 SAYFASI — tanımlanmamış tüm URL'ler için */}
+              <Route
+                path="*"
+                element={
+                  <div className="container mx-auto px-4 py-20 text-center">
+                    <h1 className="text-5xl font-bold text-gray-800 mb-4">404</h1>
+                    <p className="text-lg text-gray-600 mb-8">
+                      Aradığınız sayfa bulunamadı.
+                    </p>
+                    <a
+                      href="/"
+                      className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition inline-block"
+                    >
+                      Ana Sayfaya Dön
+                    </a>
+                  </div>
+                }
+              />
+            </Routes>
+          </main>
+
+          {/* ⭐ FOOTER — her sayfanın altında gösterilir */}
+          <Footer />
+        </div>
+      </Router>
+    </FavoritesProvider>
   );
 }
 

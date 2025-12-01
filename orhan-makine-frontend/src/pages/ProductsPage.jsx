@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/ProductsPage.css';
 import { productsData } from "../data/productsData";
+import { useFavorites } from "../context/FavoritesContext"; // ✅ Context import
 
 const ProductsPage = () => {
   const [products, setProducts] = useState(productsData);
@@ -17,33 +18,30 @@ const ProductsPage = () => {
   });
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOption, setSortOption] = useState('recommended');
-  const [favorites, setFavorites] = useState([]);
-  const [imageErrors, setImageErrors] = useState({}); // Resim hatalarını takip etmek için
 
-  // Kategorileri ve markaları dinamik olarak al
+  // ✅ FAVORİLER CONTEXT'TEN GELİYOR - TÜM DEĞERLERİ AL
+  const { isFavorite, toggleFavorite } = useFavorites();
+
+  const [imageErrors, setImageErrors] = useState({});
+
   const categories = [...new Set(products.map(product => product.category))];
   const brands = [...new Set(products.map(product => product.brand))];
 
-  // Filtreleme fonksiyonu
   useEffect(() => {
     let result = products;
 
-    // Stok durumu filtresi (radio button)
     if (showOnlyInStock) {
       result = result.filter(product => product.inStock);
     }
 
-    // Kategori filtreleme
     if (selectedCategories.length > 0) {
       result = result.filter(product => selectedCategories.includes(product.category));
     }
 
-    // Marka filtreleme
     if (selectedBrands.length > 0) {
       result = result.filter(product => selectedBrands.includes(product.brand));
     }
 
-    // Özel filtreler
     if (filters.campaign) {
       result = result.filter(product => product.isCampaign);
     }
@@ -57,7 +55,6 @@ const ProductsPage = () => {
       result = result.filter(product => product.price < product.originalPrice);
     }
 
-    // Arama filtreleme
     if (searchTerm) {
       result = result.filter(product => 
         product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -65,7 +62,6 @@ const ProductsPage = () => {
       );
     }
 
-    // Sıralama
     switch (sortOption) {
       case 'price-low':
         result = [...result].sort((a, b) => a.price - b.price);
@@ -86,7 +82,6 @@ const ProductsPage = () => {
     setFilteredProducts(result);
   }, [selectedCategories, selectedBrands, showOnlyInStock, filters, searchTerm, sortOption, products]);
 
-  // Resim yükleme hatası handler'ı
   const handleImageError = (productId) => {
     setImageErrors(prev => ({
       ...prev,
@@ -94,11 +89,7 @@ const ProductsPage = () => {
     }));
   };
 
-  // Varsayılan resim URL'i
-  const getDefaultImage = (productName) => {
-    // Ürün tipine göre varsayılan resim belirleyebilirsin
-    return "/images/default-product.png"; // public/images klasörüne bir default resim koy
-  };
+  const getDefaultImage = () => "/images/default-product.png";
 
   const toggleCategory = (category) => {
     setSelectedCategories(prev => 
@@ -116,14 +107,6 @@ const ProductsPage = () => {
     );
   };
 
-  const toggleFavorite = (productId) => {
-    setFavorites(prev => 
-      prev.includes(productId) 
-        ? prev.filter(id => id !== productId)
-        : [...prev, productId]
-    );
-  };
-
   const formatPrice = (price) => {
     return new Intl.NumberFormat('tr-TR', {
       minimumFractionDigits: 2,
@@ -138,10 +121,10 @@ const ProductsPage = () => {
   return (
     <div className="products-page">
       <div className="products-container">
-        {/* Sol Sidebar - Filtreler */}
+        
+        {/* SOL SİDEBAR */}
         <div className="products-sidebar">
           
-          {/* STOK DURUMU - RADIO BUTTON */}
           <div className="filter-group">
             <h3>Stok Durumu</h3>
             <div className="radio-options">
@@ -155,6 +138,7 @@ const ProductsPage = () => {
                 <span className="radio-mark"></span>
                 Tüm Ürünler ({products.length})
               </label>
+
               <label className="radio-item">
                 <input
                   type="radio"
@@ -168,7 +152,6 @@ const ProductsPage = () => {
             </div>
           </div>
 
-          {/* Ürün Grupları */}
           <div className="filter-group">
             <h3>Ürün Grupları</h3>
             <div className="category-list">
@@ -180,13 +163,12 @@ const ProductsPage = () => {
                     onChange={() => toggleCategory(category)}
                   />
                   <span className="checkmark"></span>
-                  {category.charAt(0).toUpperCase() + category.slice(1).replace('-', ' ')}
+                  {category}
                 </label>
               ))}
             </div>
           </div>
 
-          {/* Marka Filtresi */}
           <div className="filter-group">
             <h3>Marka</h3>
             <div className="brand-list">
@@ -204,7 +186,6 @@ const ProductsPage = () => {
             </div>
           </div>
 
-          {/* Filtre Seçenekleri */}
           <div className="filter-group">
             <h3>Filtre Seçenekleri</h3>
             <div className="filter-options">
@@ -215,8 +196,9 @@ const ProductsPage = () => {
                   onChange={(e) => setFilters(prev => ({...prev, campaign: e.target.checked}))}
                 />
                 <span className="checkmark"></span>
-                Kampanyalı Ürünler ({products.filter(p => p.isCampaign).length})
+                Kampanyalı Ürünler
               </label>
+
               <label className="checkbox-item">
                 <input
                   type="checkbox"
@@ -224,8 +206,9 @@ const ProductsPage = () => {
                   onChange={(e) => setFilters(prev => ({...prev, sponsored: e.target.checked}))}
                 />
                 <span className="checkmark"></span>
-                Sponsor Ürünler ({products.filter(p => p.isSponsored).length})
+                Sponsor Ürünler
               </label>
+
               <label className="checkbox-item">
                 <input
                   type="checkbox"
@@ -233,8 +216,9 @@ const ProductsPage = () => {
                   onChange={(e) => setFilters(prev => ({...prev, new: e.target.checked}))}
                 />
                 <span className="checkmark"></span>
-                Yeni Ürünler ({products.filter(p => p.isNew).length})
+                Yeni Ürünler
               </label>
+
               <label className="checkbox-item">
                 <input
                   type="checkbox"
@@ -242,12 +226,11 @@ const ProductsPage = () => {
                   onChange={(e) => setFilters(prev => ({...prev, discounted: e.target.checked}))}
                 />
                 <span className="checkmark"></span>
-                İndirimli Ürünler ({products.filter(p => p.price < p.originalPrice).length})
+                İndirimli Ürünler
               </label>
             </div>
           </div>
 
-          {/* Hızlı Arama */}
           <div className="filter-group">
             <h3>Hızlı Arama</h3>
             <div className="search-box">
@@ -263,13 +246,11 @@ const ProductsPage = () => {
           </div>
         </div>
 
-        {/* Sağ İçerik - Ürün Listesi */}
+        {/* SAĞ ÜRÜN LİSTE ALANI */}
         <div className="products-content">
-          {/* Üst Bilgi Bar */}
+
           <div className="products-header">
-            <div className="products-info">
-              <span className="products-count">Toplam {filteredProducts.length} ürün</span>
-            </div>
+            <span className="products-count">Toplam {filteredProducts.length} ürün</span>
             <div className="sort-options">
               <label>Sıralama:</label>
               <select 
@@ -286,18 +267,18 @@ const ProductsPage = () => {
             </div>
           </div>
 
-          {/* Ürün Grid */}
           <div className="products-grid">
             {filteredProducts.map(product => (
               <div key={product.id} className="product-card">
-                {/* Ürün Resmi ve Etiketler */}
+
                 <div className="product-image">
                   <img 
-                    src={imageErrors[product.id] ? getDefaultImage(product.name) : product.image}
+                    src={imageErrors[product.id] ? getDefaultImage() : product.image}
                     alt={product.name}
                     onError={() => handleImageError(product.id)}
-                    loading="lazy" // Performans için lazy loading
+                    loading="lazy"
                   />
+
                   <div className="product-badges">
                     {product.price < product.originalPrice && (
                       <span className="badge discount">
@@ -307,22 +288,22 @@ const ProductsPage = () => {
                     {product.isNew && <span className="badge new">YENİ</span>}
                     {product.isCampaign && <span className="badge campaign">KAMPANYA</span>}
                   </div>
+
+                  {/* ✅ FAVORİ BUTONU - isFavorite fonksiyonunu kullanıyoruz */}
                   <button 
-                    className={`favorite-btn ${favorites.includes(product.id) ? 'active' : ''}`}
+                    className={`favorite-btn ${isFavorite(product.id) ? 'active' : ''}`}
                     onClick={() => toggleFavorite(product.id)}
-                    aria-label="Favorilere ekle"
+                    aria-label={isFavorite(product.id) ? "Favorilerden çıkar" : "Favorilere ekle"}
                   >
-                    ❤
+                    {isFavorite(product.id) ? '❤️' : '🤍'}
                   </button>
                 </div>
 
-                {/* Ürün Bilgileri */}
                 <div className="product-info">
                   <div className="product-brand">{product.brand}</div>
                   <h3 className="product-name">{product.name}</h3>
                   <div className="product-description">{product.description}</div>
 
-                  {/* Fiyat Bilgisi */}
                   <div className="product-pricing">
                     {product.price < product.originalPrice && (
                       <div className="original-price">{formatPrice(product.originalPrice)} TL</div>
@@ -330,7 +311,6 @@ const ProductsPage = () => {
                     <div className="current-price">{formatPrice(product.price)} TL</div>
                   </div>
 
-                  {/* Aksiyon Butonları */}
                   <div className="product-actions">
                     <button 
                       className="add-to-cart-btn" 
@@ -338,6 +318,7 @@ const ProductsPage = () => {
                     >
                       {product.inStock ? 'SEPETE EKLE' : 'STOKTA YOK'}
                     </button>
+
                     <Link to={`/product/${product.id}`} className="view-details-btn">
                       Detaylı İncele
                     </Link>
@@ -347,7 +328,6 @@ const ProductsPage = () => {
             ))}
           </div>
 
-          {/* Ürün Bulunamadı */}
           {filteredProducts.length === 0 && (
             <div className="no-products">
               <h3>Ürün bulunamadı</h3>

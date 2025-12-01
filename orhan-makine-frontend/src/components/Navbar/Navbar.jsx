@@ -1,5 +1,5 @@
-// components/Navbar/Navbar.jsx
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { productsData } from "../../data/productsData";
 import { 
   Search, 
@@ -11,8 +11,10 @@ import {
   Menu, 
   X,
   Truck,
-  ShieldCheck
+  ShieldCheck,
+  Heart
 } from "lucide-react";
+import { useFavorites } from "../../context/FavoritesContext";
 import './Navbar.css';
 
 export default function Navbar() {
@@ -21,21 +23,27 @@ export default function Navbar() {
   
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [showSearchResults, setShowSearchResults] = useState(false);
+
+  // ⭐ FAVORİLER CONTEXT'İ — global state
+  const { favoritesCount } = useFavorites();
 
   const cartCount = 3;
 
   const menuItems = [
     { text: "Anasayfa", path: "/" },
-    { text: "Ürünler", path: "/products" }, // ⬅ dropdown kaldırıldı, direkt link
+    { text: "Ürünler", path: "/products" },
     { text: "Hizmetlerimiz", path: "/services" },
     { text: "Hakkımızda", path: "/about" },
     { text: "Galeri", path: "/gallery" },
     { text: "İletişim", path: "/contact" }
   ];
 
+  // 🔍 Arama filtresi
   useEffect(() => {
     if (searchQuery.trim() === "") {
       setSearchResults([]);
+      setShowSearchResults(false);
       return;
     }
   
@@ -45,14 +53,31 @@ export default function Navbar() {
       product.category.toLowerCase().includes(searchQuery.toLowerCase())
     );
   
-    setSearchResults(results.slice(0, 6)); // En fazla 6 sonuç
+    setSearchResults(results.slice(0, 6));
+    setShowSearchResults(true);
   }, [searchQuery]);
 
+  // Navbar scroll efekti
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleSearchItemClick = () => {
+    setSearchQuery("");
+    setShowSearchResults(false);
+  };
+
+  const handleSearchBlur = () => {
+    setTimeout(() => {
+      setShowSearchResults(false);
+    }, 200);
+  };
 
   return (
     <>
@@ -87,90 +112,106 @@ export default function Navbar() {
       <nav className={`navbar ${isScrolled ? "navbar-scrolled" : ""}`}>
         <div className="nav-container">
 
-                    {/* LOGO */}
-            <a href="/" className="logo-wrapper">
+          {/* LOGO */}
+          <Link to="/" className="logo-wrapper">
             <img 
-                src="/images/logo.png"
-                alt="Orhan Makine Logo"
-                className="navbar-logo"
+              src="/images/logo.png"
+              alt="Orhan Makine Logo"
+              className="navbar-logo"
             />
 
             <div className="logo-text">
-                <h1 className="logo-title">
+              <h1 className="logo-title">
                 <span className="orhan-text">Orhan</span>
                 <span className="makina-text"> Makine</span>
-                </h1>
+              </h1>
 
-                <p className="logo-subtext">
+              <p className="logo-subtext">
                 BİLEME İNŞ. TUR. PAZ. İTH. İHR. SAN. ve TİC. LTD.
-                </p>
+              </p>
             </div>
-            </a>
+          </Link>
 
           {/* DESKTOP MENU */}
           <div className="nav-menu">
             {menuItems.map((item) => (
-              <a key={item.text} href={item.path} className="nav-item">
+              <Link key={item.text} to={item.path} className="nav-item">
                 {item.text}
-              </a>
+              </Link>
             ))}
           </div>
 
           {/* RIGHT ACTIONS */}
           <div className="nav-actions">
 
-                  {/* SEARCH */}
-        <div className="search-container">
-          <div className="search-wrapper">
-            <input
-              type="text"
-              placeholder="Ürün ara..."
-              className="search-input"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <Search className="search-icon" />
-          </div>
+            {/* SEARCH */}
+            <div className="search-container">
+              <div className="search-wrapper">
+                <input
+                  type="text"
+                  placeholder="Ürün ara..."
+                  className="search-input"
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                  onFocus={() => searchQuery && setShowSearchResults(true)}
+                  onBlur={handleSearchBlur}
+                />
+                <Search className="search-icon" />
+              </div>
 
-          {/* 🔽 ARA SONUÇ DROPDOWN BURAYA GELİYOR 🔽 */}
-          {searchQuery.length > 0 && (
-            <div className="search-dropdown">
-              {searchResults.length > 0 ? (
-                searchResults.map((p) => (
-                  <Link 
-                    key={p.id}
-                    to={`/product/${p.id}`}
-                    className="search-result-item"
-                    onClick={() => setSearchQuery("")}
-                  >
-                    <img src={p.image} alt={p.name} />
-                    <span>{p.name}</span>
-                  </Link>
-                ))
-              ) : (
-                <div className="search-no-result">Sonuç bulunamadı</div>
+              {/* 🔽 ARA SONUÇ DROPDOWN 🔽 */}
+              {showSearchResults && searchQuery.length > 0 && (
+                <div className="search-dropdown">
+                  {searchResults.length > 0 ? (
+                    searchResults.map((product) => (
+                      <Link 
+                        key={product.id}
+                        to={`/product/${product.id}`}
+                        className="search-result-item"
+                        onClick={handleSearchItemClick}
+                      >
+                        <img 
+                          src={product.image} 
+                          alt={product.name}
+                          onError={(e) => {
+                            e.target.src = "/images/default-product.png";
+                          }}
+                        />
+                        <span className="search-result-name">{product.name}</span>
+                      </Link>
+                    ))
+                  ) : (
+                    <div className="search-no-result">
+                      "Ürün bulunamadı"
+                    </div>
+                  )}
+                </div>
               )}
+              {/* 🔼 BURAYA KADAR 🔼 */}
             </div>
-          )}
-          {/* 🔼 BURAYA KADAR 🔼 */}
-        </div>
-            <div className="action-icons">
 
+            <div className="action-icons">
               {/* USER ICON */}
-              <a href="/login" className="action-icon">
+              <Link to="/login" className="action-icon">
                 <User className="icon" />
-              </a>
+              </Link>
 
               {/* ADMIN ICON */}
-              <a href="/admin" className="action-icon" title="Admin Paneli">
+              <Link to="/admin" className="action-icon" title="Admin Paneli">
                 <ShieldCheck className="icon" />
-              </a>
+              </Link>
+
+              {/* ⭐ FAVORİLER İCONU — favoritesCount kullanıyoruz */}
+              <Link to="/favorites" className="action-icon" title="Favorilerim">
+                <Heart className="icon" />
+                {favoritesCount > 0 && <span className="cart-badge">{favoritesCount}</span>}
+              </Link>
 
               {/* CART ICON */}
-              <a href="/cart" className="action-icon cart-icon">
+              <Link to="/cart" className="action-icon cart-icon">
                 <ShoppingCart className="icon" />
                 {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
-              </a>
+              </Link>
 
               {/* MOBILE MENU BUTTON */}
               <button
@@ -179,7 +220,6 @@ export default function Navbar() {
               >
                 {isMenuOpen ? <X className="icon" /> : <Menu className="icon" />}
               </button>
-
             </div>
           </div>
         </div>
@@ -188,19 +228,24 @@ export default function Navbar() {
         <div className={`mobile-menu ${isMenuOpen ? "mobile-menu-open" : ""}`}>
           <div className="mobile-nav-items">
             {menuItems.map((item) => (
-              <a
+              <Link
                 key={item.text}
-                href={item.path}
+                to={item.path}
                 className="mobile-nav-item"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {item.text}
-              </a>
+              </Link>
             ))}
 
-            <a href="/admin" className="mobile-nav-item">
+            <Link to="/admin" className="mobile-nav-item" onClick={() => setIsMenuOpen(false)}>
               Admin Paneli
-            </a>
+            </Link>
+
+            {/* ⭐ MOBILE MENÜDE FAVORİLER LİNKİ */}
+            <Link to="/favorites" className="mobile-nav-item" onClick={() => setIsMenuOpen(false)}>
+              Favorilerim {favoritesCount > 0 && `(${favoritesCount})`}
+            </Link>
           </div>
         </div>
       </nav>
