@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import '../styles/ProductDetailPage.css';
 import { productsData } from "../data/productsData";
+import { useFavorites } from "../context/FavoritesContext"; // ⭐ Favori context'i import et
 import { FaTruck, FaShieldAlt, FaUndo, FaHeart, FaExchangeAlt, FaTag, FaStar, FaShareAlt } from 'react-icons/fa';
 
 const ProductDetailPage = () => {
@@ -9,7 +10,9 @@ const ProductDetailPage = () => {
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('description');
-  const [isFavorite, setIsFavorite] = useState(false);
+  
+  // ⭐ FAVORİ CONTEXT'İNİ KULLAN
+  const { isFavorite, toggleFavorite } = useFavorites();
 
   // Ürünü bul
   const product = productsData.find((p) => p.id === Number(id));
@@ -57,6 +60,11 @@ const ProductDetailPage = () => {
   const calculateInstallment = () => {
     const monthly = product.price / 12;
     return formatPrice(monthly);
+  };
+
+  // ⭐ FAVORİ BUTONU TIKLANINCA
+  const handleFavoriteClick = () => {
+    toggleFavorite(product.id);
   };
 
   return (
@@ -216,13 +224,16 @@ const ProductDetailPage = () => {
               >
                 HEMEN AL
               </button>
+              
+              {/* ⭐ FAVORİ BUTONU - context'ten isFavorite fonksiyonunu kullanıyoruz */}
               <button 
-                className={`btn-favorite ${isFavorite ? 'active' : ''}`}
-                onClick={() => setIsFavorite(!isFavorite)}
-                aria-label="Favorilere ekle"
+                className={`btn-favorite ${isFavorite(product.id) ? 'active' : ''}`}
+                onClick={handleFavoriteClick}
+                aria-label={isFavorite(product.id) ? "Favorilerden çıkar" : "Favorilere ekle"}
               >
                 <FaHeart />
               </button>
+              
               <button className="btn-share" aria-label="Paylaş">
                 <FaShareAlt />
               </button>

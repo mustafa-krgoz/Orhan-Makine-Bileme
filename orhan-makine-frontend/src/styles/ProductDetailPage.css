@@ -390,29 +390,93 @@
 .btn-buy-now:hover:not(:disabled) {
   background: #1e7e34;
 }
-
 .btn-add-to-cart:disabled,
 .btn-buy-now:disabled {
   background: #ccc;
   cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .btn-favorite,
 .btn-share {
   width: 50px;
+  height: 50px;
   background: #f8f9fa;
   color: #666;
   border: 1px solid #ddd;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-favorite {
+  position: relative;
 }
 
 .btn-favorite.active {
   color: #dc3545;
   background: #ffe6e6;
+  border-color: #dc3545;
+  animation: favorite-pulse 0.3s ease;
 }
 
-.btn-favorite:hover,
+@keyframes favorite-pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.btn-favorite:hover {
+  background: #f0f0f0;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.btn-favorite.active:hover {
+  background: #ffdbdb;
+  border-color: #dc3545;
+}
+
 .btn-share:hover {
   background: #e9ecef;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Favori butonuna ekstra efekt */
+.btn-favorite::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 6px;
+  background: rgba(220, 53, 69, 0.1);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.btn-favorite.active::before {
+  opacity: 1;
+}
+
+/* Mobil için */
+@media (max-width: 576px) {
+  .btn-favorite,
+  .btn-share {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .btn-favorite:hover,
+  .btn-share:hover {
+    transform: none;
+    box-shadow: none;
+  }
 }
 
 /* Garanti */
