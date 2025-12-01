@@ -1,4 +1,3 @@
-// components/Hero/Hero.jsx
 import "./Hero.css";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -30,8 +29,9 @@ export default function Hero() {
         {/* --- Butonlar --- */}
         <div className="hero-buttons">
 
-          <Link to="/urunler" className="btn-primary">
-            Ürünleri İncele <ArrowRight className="btn-icon" />
+          {/* ⭐ DÜZELTİLDİ: Ok ikonu kaldırıldı ve ürünler sayfasına yönlendiriliyor */}
+          <Link to="/products" className="btn-primary">
+            Ürünleri İncele
           </Link>
 
           <a 
@@ -40,7 +40,7 @@ export default function Hero() {
             rel="noopener noreferrer"
             className="btn-secondary"
           >
-            WhatsApp’tan Yaz
+            WhatsApp'tan Yaz
           </a>
 
         </div>
