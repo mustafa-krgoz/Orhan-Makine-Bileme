@@ -1,50 +1,43 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import '../styles/ProductDetailPage.css';
+import { productsData } from "../data/productsData";
+import { FaTruck, FaShieldAlt, FaUndo, FaHeart, FaExchangeAlt, FaTag, FaStar, FaShareAlt } from 'react-icons/fa';
 
 const ProductDetailPage = () => {
   const { id } = useParams();
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('description');
+  const [isFavorite, setIsFavorite] = useState(false);
 
-  // Burada normalde API'den ürün detayı çekilir, şimdilik mock data kullanıyoruz
-  const product = {
-    id: 1,
-    name: "CORA Kompresör",
-    category: "kompresor",
-    subCategory: "elektrikli",
-    brand: "CORA",
-    price: 7900,
-    originalPrice: 8500,
-    images: [
-      "/images/CORA-KOMPRESOR-2.5HP-100L.png",
-      "/images/CORA-KOMPRESOR-2.5HP-100L.png",
-      "/images/CORA-KOMPRESOR-2.5HP-100L.png"
-    ],
-    description: "Güçlü ve sessiz çalışan kompresör. Profesyonel kullanıma uygun, yüksek performanslı kompresör modeli. Düşük enerji tüketimi ile uzun süreli kullanım sağlar.",
-    features: ["Yüksek basınç kapasitesi", "Düşük enerji tüketimi", "Sessiz çalışma", "2 yıl garanti", "Termik koruma", "Otomatik basınç kontrolü"],
-    specifications: {
-      "Güç": "2.5 HP",
-      "Kapasite": "100 Litre",
-      "Maksimum Basınç": "8 Bar",
-      "Ağırlık": "45 kg",
-      "Boyutlar": "60x40x80 cm",
-      "Hava Çıkışı": "1/4 inch",
-      "Motor Tipi": "Direk tahrik",
-      "Ses Seviyesi": "65 dB"
-    },
-    inStock: true,
-    isNew: true,
-    isCampaign: true,
-    rating: 4.5,
-    reviewCount: 24,
-    reviews: [
-      { id: 1, user: "Ahmet Y.", rating: 5, comment: "Çok sessiz ve güçlü, tavsiye ederim.", date: "2024-01-15" },
-      { id: 2, user: "Mehmet K.", rating: 4, comment: "Fiyat/performans ürünü, memnunum.", date: "2024-01-10" }
-    ]
+  // Ürünü bul
+  const product = productsData.find((p) => p.id === Number(id));
+
+  if (!product) {
+    return (
+      <div className="product-not-found">
+        <h2>Ürün bulunamadı</h2>
+        <Link to="/products" className="back-to-products">Ürünlere Dön</Link>
+      </div>
+    );
+  }
+
+  // Resimleri hazırla
+  const images = product.images || [product.image];
+  
+  // Teknik özellikler için veri hazırla (örnek)
+  const specifications = product.specifications || {
+    "Tipi": "A Tip",
+    "Uyumlu Makine": "EXF5121",
+    "Kazıma Genişliği": "25 mm",
+    "Kazıma Derinliği": "15 - 25 mm",
+    "Paket İçeriği": "1 ADET",
+    "Stok Kodu": product.stockCode || "rm_EX75127",
+    "Marka": product.brand || "EUROMAX"
   };
 
+  // Fiyat formatlama
   const formatPrice = (price) => {
     return new Intl.NumberFormat('tr-TR', {
       minimumFractionDigits: 2,
@@ -52,133 +45,244 @@ const ProductDetailPage = () => {
     }).format(price);
   };
 
-  const calculateDiscount = (original, current) => {
-    return Math.round(((original - current) / original) * 100);
+  // İndirim hesaplama
+  const calculateDiscount = () => {
+    if (!product.originalPrice || product.price >= product.originalPrice) return 0;
+    return Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100);
   };
 
-  if (!product) {
-    return <div className="product-not-found">Ürün bulunamadı.</div>;
-  }
+  const discountPercentage = calculateDiscount();
+
+  // Taksit hesaplama (örnek)
+  const calculateInstallment = () => {
+    const monthly = product.price / 12;
+    return formatPrice(monthly);
+  };
 
   return (
     <div className="product-detail-page">
-      <div className="product-detail-container">
+      <div className="container">
+        
         {/* Breadcrumb */}
         <nav className="breadcrumb">
           <Link to="/">Ana Sayfa</Link>
           <span> / </span>
           <Link to="/products">Ürünler</Link>
           <span> / </span>
-          <span>{product.name}</span>
+          <Link to={`/products?category=${product.category}`}>{product.category}</Link>
+          <span> / </span>
+          <span className="current">{product.name}</span>
         </nav>
 
-        <div className="product-detail-content">
-          {/* Sol Taraf - Görseller */}
-          <div className="product-images">
-            <div className="main-image">
-              <img src={product.images[selectedImage]} alt={product.name} />
-              {product.isNew && <span className="product-badge new">YENİ</span>}
-              {product.isCampaign && <span className="product-badge campaign">KAMPANYA</span>}
+        <div className="product-main">
+          
+          {/* Sol Kolon - Ürün Görselleri */}
+          <div className="product-gallery">
+            <div className="main-image-container">
+              <img 
+                src={images[selectedImage]} 
+                alt={product.name}
+                className="main-image"
+                loading="lazy"
+              />
+              {discountPercentage > 0 && (
+                <div className="discount-badge-large">
+                  %{discountPercentage} İNDİRİM
+                </div>
+              )}
+              {product.isNew && <div className="new-badge">YENİ</div>}
             </div>
-            <div className="image-thumbnails">
-              {product.images.map((image, index) => (
+
+            <div className="thumbnail-gallery">
+              {images.map((img, index) => (
                 <button
                   key={index}
                   className={`thumbnail ${selectedImage === index ? 'active' : ''}`}
                   onClick={() => setSelectedImage(index)}
+                  aria-label={`Resim ${index + 1}`}
                 >
-                  <img src={image} alt={`${product.name} ${index + 1}`} />
+                  <img src={img} alt={`${product.name} - ${index + 1}`} />
                 </button>
               ))}
             </div>
           </div>
 
-          {/* Sağ Taraf - Ürün Bilgileri */}
+          {/* Orta Kolon - Ürün Bilgileri */}
           <div className="product-info">
             <div className="product-header">
               <h1 className="product-title">{product.name}</h1>
-              <div className="product-rating">
+              
+              <div className="product-meta">
+                <span className="brand">{product.brand}</span>
+                <span className="separator">•</span>
+                <span className="stock-code">Stok Kodu: {product.stockCode || "rm_EX75127"}</span>
+              </div>
+
+              <div className="rating-section">
                 <div className="stars">
-                  {'★'.repeat(Math.floor(product.rating))}
-                  {'☆'.repeat(5 - Math.floor(product.rating))}
+                  {[...Array(5)].map((_, i) => (
+                    <FaStar 
+                      key={i} 
+                      className={i < Math.floor(product.rating || 4) ? "star-filled" : "star-empty"} 
+                    />
+                  ))}
                 </div>
-                <span className="rating-text">({product.reviewCount} değerlendirme)</span>
+                <span className="review-count">({product.reviewCount || 0} yorum)</span>
+                <button className="write-review">Yorum Yap</button>
               </div>
             </div>
 
-            <div className="product-brand">{product.brand}</div>
-
-            <div className="product-pricing">
-              {product.price < product.originalPrice && (
-                <div className="original-price">{formatPrice(product.originalPrice)} TL</div>
-              )}
-              <div className="current-price">{formatPrice(product.price)} TL</div>
-              {product.price < product.originalPrice && (
-                <div className="discount-badge">
-                  %{calculateDiscount(product.originalPrice, product.price)} İNDİRİM
+            <div className="price-section">
+              {product.originalPrice && product.originalPrice > product.price && (
+                <div className="original-price">
+                  <span className="old-price">{formatPrice(product.originalPrice)} TL</span>
+                  <span className="discount-percent">%{discountPercentage}</span>
                 </div>
               )}
+              
+              <div className="current-price">{formatPrice(product.price)} TL</div>
+              
+              <div className="installment-info">
+                <FaTag className="installment-icon" />
+                <span>{calculateInstallment()} TL x 12 taksit</span>
+              </div>
             </div>
 
-            <div className="product-stock">
-              <span className={`stock-status ${product.inStock ? 'in-stock' : 'out-of-stock'}`}>
-                {product.inStock ? '✓ Stokta' : 'Stokta Yok'}
-              </span>
+            <div className="stock-info">
+              <div className={`stock-status ${product.inStock ? 'in-stock' : 'out-of-stock'}`}>
+                {product.inStock ? '✓ Stokta Var' : 'Stokta Yok'}
+              </div>
+              {product.inStock && (
+                <div className="shipping-time">
+                  <FaTruck /> Aynı gün kargo
+                </div>
+              )}
             </div>
 
             <div className="product-features">
               <h3>Öne Çıkan Özellikler</h3>
               <ul>
-                {product.features.map((feature, index) => (
-                  <li key={index}>✓ {feature}</li>
-                ))}
+                {product.features?.map((feature, index) => (
+                  <li key={index}>
+                    <span className="feature-check">✓</span>
+                    {feature}
+                  </li>
+                )) || (
+                  <>
+                    <li><span className="feature-check">✓</span> Orijinal EUROMAX Ürünü</li>
+                    <li><span className="feature-check">✓</span> Yüksek Kalite</li>
+                    <li><span className="feature-check">✓</span> Uyumlu Makineler için</li>
+                  </>
+                )}
               </ul>
             </div>
 
-            <div className="product-actions">
-              <div className="quantity-selector">
-                <label>Adet:</label>
-                <div className="quantity-controls">
-                  <button 
-                    onClick={() => setQuantity(q => Math.max(1, q - 1))}
-                    disabled={quantity <= 1}
-                  >
-                    -
-                  </button>
-                  <span>{quantity}</span>
-                  <button onClick={() => setQuantity(q => q + 1)}>+</button>
-                </div>
-              </div>
-
-              <div className="action-buttons">
-                <button className="add-to-cart-btn" disabled={!product.inStock}>
-                  SEPETE EKLE
+            <div className="quantity-section">
+              <label htmlFor="quantity">Adet:</label>
+              <div className="quantity-control">
+                <button 
+                  onClick={() => setQuantity(q => Math.max(1, q - 1))}
+                  disabled={quantity <= 1}
+                  aria-label="Azalt"
+                >
+                  −
                 </button>
-                <button className="buy-now-btn" disabled={!product.inStock}>
-                  HEMEN AL
+                <input
+                  type="number"
+                  id="quantity"
+                  value={quantity}
+                  onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+                  min="1"
+                />
+                <button 
+                  onClick={() => setQuantity(q => q + 1)}
+                  aria-label="Arttır"
+                >
+                  +
                 </button>
-                <button className="favorite-btn">❤</button>
               </div>
             </div>
 
-            <div className="product-shipping">
-              <div className="shipping-info">
-                <span>🚚 Aynı Gün Kargo</span>
-                <span>🔄 14 Gün İade</span>
-                <span>🛡️ 2 Yıl Garanti</span>
+            <div className="action-buttons">
+              <button 
+                className="btn-add-to-cart"
+                disabled={!product.inStock}
+              >
+                SEPETE EKLE
+              </button>
+              <button 
+                className="btn-buy-now"
+                disabled={!product.inStock}
+              >
+                HEMEN AL
+              </button>
+              <button 
+                className={`btn-favorite ${isFavorite ? 'active' : ''}`}
+                onClick={() => setIsFavorite(!isFavorite)}
+                aria-label="Favorilere ekle"
+              >
+                <FaHeart />
+              </button>
+              <button className="btn-share" aria-label="Paylaş">
+                <FaShareAlt />
+              </button>
+            </div>
+
+            <div className="guarantee-section">
+              <div className="guarantee-item">
+                <FaUndo />
+                <span>14 Gün İade</span>
               </div>
+              <div className="guarantee-item">
+                <FaShieldAlt />
+                <span>2 Yıl Garanti</span>
+              </div>
+              <div className="guarantee-item">
+                <FaExchangeAlt />
+                <span>Kolay Değişim</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Sağ Kolon - Kargo ve Ödeme */}
+          <div className="product-sidebar">
+            <div className="shipping-card">
+              <h3><FaTruck /> Kargo Bilgisi</h3>
+              <div className="shipping-details">
+                <p><strong>Ücretsiz Kargo:</strong> 500 TL ve üzeri alışverişlerde</p>
+                <p><strong>Kargo Süresi:</strong> 1-3 iş günü</p>
+                <p><strong>Kapıda Ödeme:</strong> Mevcuttur</p>
+              </div>
+            </div>
+
+            <div className="payment-card">
+              <h3>Ödeme Seçenekleri</h3>
+              <div className="payment-methods">
+                <span className="payment-method">Kredi Kartı</span>
+                <span className="payment-method">Havale/EFT</span>
+                <span className="payment-method">Kapıda Ödeme</span>
+              </div>
+              <div className="installment-note">
+                <FaTag /> Taksit seçenekleri için tıklayın
+              </div>
+            </div>
+
+            <div className="contact-card">
+              <h3>Yardım İster misiniz?</h3>
+              <p>Ürünle ilgili sorularınız için bize ulaşın.</p>
+              <button className="btn-contact">İletişime Geç</button>
             </div>
           </div>
         </div>
 
-        {/* Alt Kısım - Detaylar */}
-        <div className="product-details-tabs">
+        {/* Alt Bölüm - Tab'lar */}
+        <div className="product-tabs">
           <div className="tab-headers">
             <button 
               className={`tab-header ${activeTab === 'description' ? 'active' : ''}`}
               onClick={() => setActiveTab('description')}
             >
-              Ürün Açıklaması
+              Ürün Bilgisi
             </button>
             <button 
               className={`tab-header ${activeTab === 'specifications' ? 'active' : ''}`}
@@ -190,7 +294,13 @@ const ProductDetailPage = () => {
               className={`tab-header ${activeTab === 'reviews' ? 'active' : ''}`}
               onClick={() => setActiveTab('reviews')}
             >
-              Değerlendirmeler ({product.reviewCount})
+              Yorumlar (0)
+            </button>
+            <button 
+              className={`tab-header ${activeTab === 'questions' ? 'active' : ''}`}
+              onClick={() => setActiveTab('questions')}
+            >
+              Soru & Cevap
             </button>
           </div>
 
@@ -198,15 +308,11 @@ const ProductDetailPage = () => {
             {activeTab === 'description' && (
               <div className="tab-panel">
                 <h3>Ürün Açıklaması</h3>
-                <p>{product.description}</p>
-                <div className="feature-details">
-                  <h4>Detaylı Özellikler</h4>
-                  <ul>
-                    {product.features.map((feature, index) => (
-                      <li key={index}>{feature}</li>
-                    ))}
-                  </ul>
-                </div>
+                <p>{product.fullDescription || product.description}</p>
+                <p>
+                  <strong>EUROMAX</strong> markasının kalitesi ve güvencesiyle sunulan bu ürün, 
+                  dayanıklılığı ve yüksek performansı ile öne çıkmaktadır.
+                </p>
               </div>
             )}
 
@@ -214,9 +320,9 @@ const ProductDetailPage = () => {
               <div className="tab-panel">
                 <h3>Teknik Özellikler</h3>
                 <div className="specifications-table">
-                  {Object.entries(product.specifications).map(([key, value]) => (
+                  {Object.entries(specifications).map(([key, value]) => (
                     <div key={key} className="spec-row">
-                      <div className="spec-name">{key}</div>
+                      <div className="spec-key">{key}</div>
                       <div className="spec-value">{value}</div>
                     </div>
                   ))}
@@ -226,34 +332,31 @@ const ProductDetailPage = () => {
 
             {activeTab === 'reviews' && (
               <div className="tab-panel">
-                <h3>Müşteri Değerlendirmeleri</h3>
-                <div className="reviews-summary">
-                  <div className="average-rating">
-                    <div className="rating-score">{product.rating}</div>
-                    <div className="rating-stars">
-                      {'★'.repeat(Math.floor(product.rating))}
-                      {'☆'.repeat(5 - Math.floor(product.rating))}
-                    </div>
-                    <div className="rating-count">{product.reviewCount} değerlendirme</div>
-                  </div>
-                </div>
-                <div className="reviews-list">
-                  {product.reviews.map(review => (
-                    <div key={review.id} className="review-item">
-                      <div className="review-header">
-                        <div className="review-user">{review.user}</div>
-                        <div className="review-rating">
-                          {'★'.repeat(review.rating)}
-                          {'☆'.repeat(5 - review.rating)}
-                        </div>
-                        <div className="review-date">{review.date}</div>
-                      </div>
-                      <div className="review-comment">{review.comment}</div>
-                    </div>
-                  ))}
+                <h3>Müşteri Yorumları</h3>
+                <div className="no-reviews">
+                  <p>Bu ürün için henüz yorum yapılmamış.</p>
+                  <button className="btn-write-review">İlk Yorumu Sen Yap</button>
                 </div>
               </div>
             )}
+
+            {activeTab === 'questions' && (
+              <div className="tab-panel">
+                <h3>Soru & Cevap</h3>
+                <div className="no-questions">
+                  <p>Bu ürün için henüz soru sorulmamış.</p>
+                  <button className="btn-ask-question">Soru Sor</button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Benzer Ürünler Bölümü (isteğe bağlı) */}
+        <div className="related-products">
+          <h2>Benzer Ürünler</h2>
+          <div className="related-products-grid">
+            {/* Buraya benzer ürünler eklenebilir */}
           </div>
         </div>
       </div>

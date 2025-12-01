@@ -1,8 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
 import Navbar from "./components/Navbar/Navbar.jsx";
 import Footer from "./components/Footer/Footer.jsx";
-
 import HomePage from "./pages/HomePage.jsx";
 import ProductsPage from "./pages/ProductsPage.jsx";
 import ProductDetailPage from "./pages/ProductDetailPage.jsx";
@@ -11,39 +9,66 @@ import AdminRegisterPage from "./pages/AdminRegisterPage.jsx";
 import ContactPage from "./pages/ContactPage.jsx";
 import ServicesPage from "./pages/ServicesPage.jsx";
 
-
 function App() {
   return (
     <Router>
       <div className="flex flex-col min-h-screen bg-white text-gray-900">
-
-        {/* Navbar */}
+        
+        {/* NAVBAR - Tüm sayfalarda gösterilen üst menü */}
         <Navbar />
 
-        {/* İçerik */}
+        {/* ANA İÇERİK ALANI - Route'lara göre değişen kısım */}
         <main className="flex-grow">
           <Routes>
-
-            {/* Ana Sayfa */}
+            {/* 
+              ANA SAYFA 
+              Path: "/" - Ziyaretçi site.com'a girdiğinde görünen sayfa
+            */}
             <Route path="/" element={<HomePage />} />
 
-            {/* Ürünler Sayfası */}
+            {/* 
+              ÜRÜNLER SAYFASI 
+              Path: "/products" - Tüm ürünlerin listelendiği sayfa
+              Kullanım: site.com/products
+            */}
             <Route path="/products" element={<ProductsPage />} />
 
-            {/* Ürün Detay Sayfası */}
-            <Route path="/urunler/:productSlug" element={<ProductDetailPage />} />
-
-            {/* İletişim Sayfası */}
+            // Ürün Detay Sayfası Route'u - ID ile çalışacak şekilde
+            <Route path="/product/:id" element={<ProductDetailPage />} />
+            
+            {/* 
+              İLETİŞİM SAYFASI 
+              Path: "/contact" - İletişim formu ve bilgilerinin olduğu sayfa
+              Kullanım: site.com/contact
+            */}
             <Route path="/contact" element={<ContactPage />} />
 
-            {/* Auth */}
+            {/* 
+              GİRİŞ SAYFASI 
+              Path: "/login" - Kullanıcı girişi için sayfa
+              Kullanım: site.com/login
+            */}
             <Route path="/login" element={<LoginPage />} />
+
+            {/* 
+              YÖNETİCİ KAYIT SAYFASI 
+              Path: "/kayit" - Admin kayıt sayfası
+              Kullanım: site.com/kayit
+            */}
             <Route path="/kayit" element={<AdminRegisterPage />} />
 
-            {/* Hizmetlerimiz Sayfası */}
+            {/* 
+              HİZMETLER SAYFASI 
+              Path: "/services" - Şirket hizmetlerinin anlatıldığı sayfa
+              Kullanım: site.com/services
+            */}
             <Route path="/services" element={<ServicesPage />} />
 
-            {/* 404 Sayfası */}
+            {/* 
+              404 SAYFASI - Fallback Route
+              Path: "*" - Tanımlanmamış tüm URL'ler için
+              Kullanım: site.com/olmayan-bir-sayfa (otomatik buraya yönlendirilir)
+            */}
             <Route
               path="*"
               element={
@@ -64,7 +89,7 @@ function App() {
           </Routes>
         </main>
 
-        {/* Footer */}
+        {/* FOOTER - Tüm sayfalarda gösterilen alt menü */}
         <Footer />
       </div>
     </Router>

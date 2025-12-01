@@ -1,5 +1,6 @@
 // components/Navbar/Navbar.jsx
 import { useState, useEffect } from "react";
+import { productsData } from "../../data/productsData";
 import { 
   Search, 
   ShoppingCart, 
@@ -17,7 +18,9 @@ import './Navbar.css';
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
 
   const cartCount = 3;
 
@@ -29,6 +32,21 @@ export default function Navbar() {
     { text: "Galeri", path: "/gallery" },
     { text: "İletişim", path: "/contact" }
   ];
+
+  useEffect(() => {
+    if (searchQuery.trim() === "") {
+      setSearchResults([]);
+      return;
+    }
+  
+    const results = productsData.filter((product) =>
+      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      product.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      product.category.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  
+    setSearchResults(results.slice(0, 6)); // En fazla 6 sonuç
+  }, [searchQuery]);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -101,20 +119,41 @@ export default function Navbar() {
           {/* RIGHT ACTIONS */}
           <div className="nav-actions">
 
-            {/* SEARCH */}
-            <div className="search-container">
-              <div className="search-wrapper">
-                <input
-                  type="text"
-                  placeholder="Ürün ara..."
-                  className="search-input"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-                <Search className="search-icon" />
-              </div>
-            </div>
+                  {/* SEARCH */}
+        <div className="search-container">
+          <div className="search-wrapper">
+            <input
+              type="text"
+              placeholder="Ürün ara..."
+              className="search-input"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <Search className="search-icon" />
+          </div>
 
+          {/* 🔽 ARA SONUÇ DROPDOWN BURAYA GELİYOR 🔽 */}
+          {searchQuery.length > 0 && (
+            <div className="search-dropdown">
+              {searchResults.length > 0 ? (
+                searchResults.map((p) => (
+                  <Link 
+                    key={p.id}
+                    to={`/product/${p.id}`}
+                    className="search-result-item"
+                    onClick={() => setSearchQuery("")}
+                  >
+                    <img src={p.image} alt={p.name} />
+                    <span>{p.name}</span>
+                  </Link>
+                ))
+              ) : (
+                <div className="search-no-result">Sonuç bulunamadı</div>
+              )}
+            </div>
+          )}
+          {/* 🔼 BURAYA KADAR 🔼 */}
+        </div>
             <div className="action-icons">
 
               {/* USER ICON */}
