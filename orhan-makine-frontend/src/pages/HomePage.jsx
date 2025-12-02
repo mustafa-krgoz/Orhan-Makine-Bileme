@@ -234,7 +234,7 @@ export default function HomePage() {
           {/* ⭐ TÜM ÜRÜNLERİ GÖR BUTONU - ürünler sayfasına yönlendirir */}
           <div className="view-all-products">
             <Link to="/products" className="view-all-button">
-              Tüm Ürünleri Gör <ArrowRight className="button-icon" />
+              Tüm Ürünleri Gör
             </Link>
           </div>
         </div>

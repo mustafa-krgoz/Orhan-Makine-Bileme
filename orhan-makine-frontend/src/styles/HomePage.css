@@ -1,9 +1,15 @@
 /* styles/HomePage.css */
+
+/* ============================= */
+/*          ANA SAYFA            */
+/* ============================= */
 .homepage {
   min-height: 100vh;
 }
 
-/* HERO SECTION */
+/* ============================= */
+/*          HERO SECTION         */
+/* ============================= */
 .hero-section {
   background: linear-gradient(135deg, #0c4a6e 0%, #0369a1 50%, #0284c7 100%);
   color: white;
@@ -142,7 +148,9 @@
   letter-spacing: 0.05em;
 }
 
-/* SECTIONS STYLES */
+/* ============================= */
+/*     CONTAINER GENEL STYLES    */
+/* ============================= */
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -150,9 +158,9 @@
 }
 
 .container-full {
-  max-width: 1700px; /* daha geniş görünüm */
+  max-width: 1700px; /* Ürün slider için daha geniş container */
   margin: 0 auto;
-  padding: 0 20px; /* SAĞ-SOL boşluğu azaltıldı */
+  padding: 0 20px;
 }
 
 .section-header {
@@ -175,58 +183,253 @@
   line-height: 1.6;
 }
 
-/* SERVICES SECTION */
+//* ⭐ HİZMETLER BÖLÜMÜ - 3'lü grid yapısı */
 .services-section {
   padding: 80px 0;
   background: #f8fafc;
 }
 
+/* ⭐ 3 EŞİT SÜTUNLU GRİD */
 .services-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(3, 1fr); /* 3 eşit sütun */
+  gap: 2.5rem; /* Kartlar arası boşluk */
+  max-width: 1200px; /* Maksimum genişlik */
+  margin: 0 auto; /* Ortala */
 }
 
+/* ⭐ HİZMET KARTLARI */
 .service-card {
   background: #ffffff;
-  padding: 2.5rem 2rem;
-  border-radius: 16px;
+  padding: 2.5rem 2rem; /* İç boşluk artırıldı */
+  border-radius: 16px; /* Köşeler daha yuvarlak */
   text-align: center;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08); /* Gölge artırıldı */
   transition: all 0.3s ease;
   border: 1px solid #f1f5f9;
+  height: 100%; /* Tüm kartlar eşit yükseklikte */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .service-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  transform: translateY(-10px); /* Hover'da daha fazla yukarı hareket */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15); /* Hover gölgesi artırıldı */
 }
 
 .service-icon {
-  width: 80px;
-  height: 80px;
-  background: #dbeafe;
+  width: 90px; /* Büyütüldü */
+  height: 90px;
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); /* Gradient eklendi */
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 1.5rem;
   color: #1d4ed8;
+  font-size: 2rem; /* İkon boyutu büyütüldü */
+  box-shadow: 0 4px 15px rgba(29, 78, 216, 0.15); /* İkon gölgesi */
 }
 
 .service-title {
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: 1.6rem; /* Başlık boyutu artırıldı */
+  font-weight: 700; /* Daha kalın font */
   color: #1e293b;
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
 }
 
 .service-description {
   color: #64748b;
-  line-height: 1.6;
+  line-height: 1.7;
+  font-size: 1.05rem; /* Yazı boyutu artırıldı */
+}
+/* ============================= */
+/*   GÜVENİLEN MARKALAR - GÜNCELLENDİ  */
+/*  3'lü grid yapısı - YAN YANA    */
+/* ============================= */
+.brands-section {
+  padding: 80px 0;
+  background: #f0f9ff;
 }
 
-/* PRODUCTS SECTION - SLIDER STYLES */
+/* FIX: 3'lü grid yapısı - Tüm marka kartları yan yana */
+.brands-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 eşit sütun */
+  gap: 2.5rem; /* Kartlar arası boşluk */
+  max-width: 1300px; /* Container maksimum genişliği */
+  margin: 0 auto; /* Ortala */
+}
+
+/* Marka Kartları */
+.brand-card {
+  background: #ffffff;
+  padding: 2.5rem;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s ease;
+  border: 1px solid #e0f2fe;
+  position: relative;
+  overflow: hidden;
+  height: 100%; /* Tüm kartlar eşit yükseklikte */
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(135deg, #1d6fb8 0%, #2b8df5 100%);
+  transform: scaleX(0);
+  transition: transform 0.4s ease;
+}
+
+.brand-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 25px 50px -12px rgba(29, 111, 184, 0.15);
+}
+
+.brand-card:hover::before {
+  transform: scaleX(1);
+}
+
+.brand-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.brand-logo {
+  width: 90px; /* Büyütüldü */
+  height: 90px;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border-radius: 18px; /* Köşeler daha yuvarlak */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #f1f5f9;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Logo gölgesi */
+}
+
+.brand-logo-image {
+  width: 75%; /* Logo boyutu */
+  height: 75%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.brand-card:hover .brand-logo-image {
+  transform: scale(1.15); /* Hover'da daha fazla büyüme */
+}
+
+.brand-logo-fallback {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.logo-icon {
+  width: 2.8rem; /* Büyütüldü */
+  height: 2.8rem;
+  color: #1d6fb8;
+}
+
+.brand-title {
+  font-size: 1.85rem; /* Büyütüldü */
+  font-weight: 800; /* Daha kalın */
+  color: #1e293b;
+  margin: 0;
+  background: linear-gradient(135deg, #1e293b 0%, #374151 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.brand-description {
+  color: #64748b;
+  line-height: 1.7;
+  margin-bottom: 2rem;
+  font-size: 1.1rem; /* Büyütüldü */
+  flex-grow: 1; /* Açıklama alanı genişlesin */
+}
+
+.brand-features {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 2.5rem;
+  flex-grow: 1; /* Özellikler alanı genişlesin */
+}
+
+.brand-feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  color: #475569;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+  font-size: 1.05rem; /* Büyütüldü */
+}
+
+.brand-feature-item:last-child {
+  margin-bottom: 0;
+}
+
+.brand-button {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, #1d6fb8 0%, #2b8df5 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1.1rem; /* Büyütüldü */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  margin-top: auto; /* Buton en altta */
+}
+
+.brand-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.brand-button:hover::before {
+  left: 100%;
+}
+
+.brand-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px rgba(29, 111, 184, 0.3);
+}
+
+/* ============================= */
+/*   POPÜLER ÜRÜNLER BÖLÜMÜ     */
+/* ============================= */
 .products-section {
   padding: 80px 0;
   background: #ffffff;
@@ -254,7 +457,7 @@
   transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Slider Arrows */
+/* Slider Okları */
 .slider-arrow {
   width: 60px;
   height: 60px;
@@ -282,7 +485,7 @@
   transform: scale(0.95);
 }
 
-/* PRODUCT CARDS - GÜNCELLENMİŞ */
+/* Ürün Kartları */
 .product-card {
   background: #ffffff;
   border-radius: 16px;
@@ -292,18 +495,16 @@
   border: 1px solid #f1f5f9;
   display: flex;
   flex-direction: column;
-  width: calc(25% - 18px);  /* 4 kart + boşluk için doğru genişlik */
-  margin-right: 24px;        /* Kartlar arası boşluk */
+  width: calc(25% - 18px);
+  margin-right: 24px;
   flex-shrink: 0;
   position: relative;
 }
 
-/* Son kart sağa boşluk bırakmasın */
 .products-track .product-card:last-child {
   margin-right: 0;
 }
 
-/* Hover efekti */
 .product-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
@@ -333,7 +534,7 @@
   transform: scale(1.05);
 }
 
-/* ÜRÜN BADGELERİ */
+/* Ürün Rozetleri */
 .home-product-badges {
   position: absolute;
   top: 15px;
@@ -373,7 +574,6 @@
   flex: 1;
 }
 
-/* Ürün Marka Bilgisi */
 .product-brand {
   color: #64748b;
   font-size: 0.85rem;
@@ -383,7 +583,6 @@
   letter-spacing: 0.5px;
 }
 
-/* Ürün Başlığı */
 .product-title {
   font-size: 1.25rem;
   font-weight: 600;
@@ -392,7 +591,6 @@
   line-height: 1.4;
 }
 
-/* FİYAT BİLGİSİ */
 .product-pricing {
   margin-bottom: 15px;
 }
@@ -411,7 +609,6 @@
   margin: 0 0 15px 0;
 }
 
-/* Ürün Açıklaması */
 .product-description {
   color: #64748b;
   font-size: 0.95rem;
@@ -425,7 +622,6 @@
   text-overflow: ellipsis;
 }
 
-/* ÜRÜN ÖZELLİKLERİ */
 .product-features {
   list-style: none;
   padding: 0;
@@ -451,7 +647,6 @@
   margin-top: 2px;
 }
 
-/* ÜRÜN BUTONU */
 .product-button {
   width: 100%;
   padding: 12px 20px;
@@ -487,16 +682,15 @@
   transform: translateX(4px);
 }
 
-/* TÜM ÜRÜNLERİ GÖR BUTONU */
+/* Tüm Ürünleri Gör Butonu */
 .view-all-products {
   text-align: center;
   margin-top: 40px;
 }
 
 .view-all-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
+  display: inline-block;
+  text-align: center;
   background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
   color: white;
   padding: 14px 32px;
@@ -505,7 +699,6 @@
   font-weight: 600;
   font-size: 1.05rem;
   transition: all 0.3s ease;
-  border: none;
   cursor: pointer;
 }
 
@@ -515,7 +708,7 @@
   box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
 }
 
-/* ÜRÜN YÜKLENİYOR GÖSTERİMİ */
+/* Ürün Yükleniyor Gösterimi */
 .products-loading {
   text-align: center;
   padding: 60px 20px;
@@ -523,246 +716,122 @@
   font-size: 1.1rem;
 }
 
-/* BRANDS SECTION */
-.brands-section {
-  padding: 80px 0;
-  background: #f0f9ff;
-}
+/* ============================= */
+/*       RESPONSIVE TASARIM      */
+/* ============================= */
 
-.brands-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-  gap: 2.5rem;
-}
-
-.brand-card {
-  background: #ffffff;
-  padding: 2.5rem;
-  border-radius: 20px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-  transition: all 0.4s ease;
-  border: 1px solid #e0f2fe;
-  position: relative;
-  overflow: hidden;
-}
-
-.brand-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(135deg, #1d6fb8 0%, #2b8df5 100%);
-  transform: scaleX(0);
-  transition: transform 0.4s ease;
-}
-
-.brand-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 25px 50px -12px rgba(29, 111, 184, 0.15);
-}
-
-.brand-card:hover::before {
-  transform: scaleX(1);
-}
-
-.brand-header {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.brand-logo {
-  width: 80px;
-  height: 80px;
-  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid #f1f5f9;
-  position: relative;
-  overflow: hidden;
-  flex-shrink: 0;
-}
-
-.brand-logo-image {
-  width: 70%;
-  height: 70%;
-  object-fit: contain;
-  transition: transform 0.3s ease;
-}
-
-.brand-card:hover .brand-logo-image {
-  transform: scale(1.1);
-}
-
-.brand-logo-fallback {
-  display: none;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-}
-
-.logo-icon {
-  width: 2.5rem;
-  height: 2.5rem;
-  color: #1d6fb8;
-}
-
-.brand-title {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: #1e293b;
-  margin: 0;
-  background: linear-gradient(135deg, #1e293b 0%, #374151 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.brand-description {
-  color: #64748b;
-  line-height: 1.7;
-  margin-bottom: 2rem;
-  font-size: 1.05rem;
-  text-align: justify;
-}
-
-.brand-features {
-  list-style: none;
-  padding: 0;
-  margin-bottom: 2.5rem;
-}
-
-.brand-feature-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  color: #475569;
-  margin-bottom: 1rem;
-  line-height: 1.5;
-}
-
-.brand-feature-item:last-child {
-  margin-bottom: 0;
-}
-
-.brand-button {
-  width: 100%;
-  padding: 1rem 1.5rem;
-  background: linear-gradient(135deg, #1d6fb8 0%, #2b8df5 100%);
-  color: #ffffff;
-  border: none;
-  border-radius: 12px;
-  font-weight: 600;
-  font-size: 1.05rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-  text-decoration: none;
-}
-
-.brand-button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s;
-}
-
-.brand-button:hover::before {
-  left: 100%;
-}
-
-.brand-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 25px rgba(29, 111, 184, 0.3);
-}
-
-/* Slider Dots */
-.slider-dots {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  margin-top: 40px;
-}
-
-.slider-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  border: 2px solid #1d6fb8;
-  background: transparent;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  padding: 0;
-}
-
-.slider-dot:hover {
-  background: rgba(29, 111, 184, 0.3);
-  transform: scale(1.2);
-}
-
-.slider-dot.active {
-  background: #1d6fb8;
-  width: 32px;
-  border-radius: 6px;
-}
-
-/* RESPONSIVE DESIGN */
-@media (max-width: 1400px) {
-  .container-full {
+/* Large Desktop (1400px ve üstü) */
+@media (min-width: 1400px) {
+  .services-grid {
     max-width: 1300px;
-    padding: 0 30px;
+  }
+  
+  .brands-grid {
+    max-width: 1400px;
   }
 }
 
+/* Desktop (1024px - 1399px) */
 @media (max-width: 1200px) {
-  .container-full {
+  /* Neden Biz Bölümü - 3'lü grid */
+  .services-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    max-width: 1000px;
+  }
+  
+  .service-card {
+    padding: 2rem 1.5rem;
+  }
+  
+  /* Güvenilen Markalar - 3'lü grid */
+  .brands-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
     max-width: 1100px;
   }
-
+  
+  .brand-card {
+    padding: 2rem;
+  }
+  
+  .brand-logo {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .brand-title {
+    font-size: 1.7rem;
+  }
+  
+  /* Ürün Kartları */
   .product-card {
     width: calc(33.333% - 16px);
-  }
-
-  .brands-grid {
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   }
 }
 
+/* Tablet (768px - 1023px) */
 @media (max-width: 1024px) {
-  .container-full {
-    padding: 0 25px;
+  .hero-title {
+    font-size: 3rem;
   }
-
+  
+  /* Neden Biz Bölümü - 2'li grid */
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 sütun */
+    gap: 2rem;
+    max-width: 800px;
+  }
+  
+  .service-card {
+    padding: 2rem;
+  }
+  
+  .service-icon {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .service-title {
+    font-size: 1.5rem;
+  }
+  
+  /* Güvenilen Markalar - 2'li grid */
+  .brands-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 sütun */
+    gap: 2rem;
+    max-width: 900px;
+  }
+  
+  .brand-card {
+    padding: 2rem;
+  }
+  
+  .brand-logo {
+    width: 75px;
+    height: 75px;
+  }
+  
+  .brand-title {
+    font-size: 1.6rem;
+  }
+  
+  .brand-description {
+    font-size: 1.05rem;
+  }
+  
+  /* Ürün Kartları */
   .product-card {
-    width: calc(33.333% - 16px);
+    width: calc(50% - 16px);
   }
-
+  
   .slider-arrow {
     width: 50px;
     height: 50px;
   }
-  
-  .brands-grid {
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2rem;
-  }
 }
 
+/* Küçük Tablet (641px - 767px) */
 @media (max-width: 768px) {
   .hero-title {
     font-size: 2.5rem;
@@ -794,8 +863,38 @@
     font-size: 2rem;
   }
   
-  .services-grid, .brands-grid {
-    grid-template-columns: 1fr;
+  /* Neden Biz Bölümü - 2'li grid */
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  
+  .service-card {
+    padding: 1.75rem 1.5rem;
+  }
+  
+  .service-icon {
+    width: 70px;
+    height: 70px;
+    font-size: 1.75rem;
+  }
+  
+  .service-title {
+    font-size: 1.4rem;
+  }
+  
+  .service-description {
+    font-size: 1rem;
+  }
+  
+  /* Güvenilen Markalar - 2'li grid */
+  .brands-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  
+  .brand-card {
+    padding: 1.75rem;
   }
   
   .brand-header {
@@ -803,40 +902,92 @@
     text-align: center;
     gap: 0.5rem;
   }
-
-  /* Products Slider Mobile */
-  .container-full {
-    padding: 0 20px;
+  
+  .brand-logo {
+    width: 70px;
+    height: 70px;
   }
-
+  
+  .brand-title {
+    font-size: 1.5rem;
+  }
+  
+  /* Ürün Slider Mobile */
   .products-slider-wrapper {
     gap: 1rem;
   }
-
+  
   .product-card {
     width: calc(50% - 12px);
   }
-
+  
   .slider-arrow {
     width: 45px;
     height: 45px;
   }
-
+  
   .product-image {
     height: 200px;
   }
+}
+
+/* Telefon (481px - 640px) */
+@media (max-width: 640px) {
+  /* Neden Biz Bölümü - Tek sütun */
+  .services-grid {
+    grid-template-columns: 1fr; /* Tek sütun */
+    max-width: 400px;
+    gap: 1.5rem;
+  }
   
+  .service-card {
+    padding: 2rem;
+  }
+  
+  .service-icon {
+    width: 75px;
+    height: 75px;
+  }
+  
+  .service-title {
+    font-size: 1.5rem;
+  }
+  
+  /* Güvenilen Markalar - Tek sütun */
   .brands-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* Tek sütun */
+    max-width: 400px;
     gap: 1.5rem;
   }
   
   .brand-card {
     padding: 2rem;
   }
-}
-
-@media (max-width: 640px) {
+  
+  .brand-header {
+    flex-direction: row;
+    text-align: left;
+  }
+  
+  .brand-logo {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .brand-title {
+    font-size: 1.5rem;
+  }
+  
+  .brand-description {
+    text-align: center;
+    font-size: 1.05rem;
+  }
+  
+  .brand-feature-item {
+    font-size: 1rem;
+  }
+  
+  /* Ürün Kartları */
   .product-card {
     width: calc(50% - 10px);
   }
@@ -853,6 +1004,7 @@
   }
 }
 
+/* Küçük Telefon (480px ve altı) */
 @media (max-width: 480px) {
   .hero-section {
     padding: 80px 0 60px;
@@ -869,67 +1021,60 @@
   .container {
     padding: 0 16px;
   }
-
+  
   .container-full {
     padding: 0 15px;
   }
   
-  .service-card, .product-content, .brand-card {
+  /* Neden Biz Bölümü - Mobil */
+  .services-grid {
+    gap: 1.25rem;
+  }
+  
+  .service-card {
     padding: 1.5rem;
   }
-
-  .products-slider-wrapper {
-    gap: 0.75rem;
+  
+  .service-icon {
+    width: 65px;
+    height: 65px;
+    margin-bottom: 1rem;
   }
-
-  .product-card {
-    width: 100%;
-    margin-right: 0;
+  
+  .service-title {
+    font-size: 1.3rem;
+    margin-bottom: 0.75rem;
   }
-
-  .slider-arrow {
-    width: 40px;
-    height: 40px;
-  }
-
-  .slider-dots {
-    gap: 8px;
-    margin-top: 30px;
-  }
-
-  .slider-dot {
-    width: 10px;
-    height: 10px;
-  }
-
-  .slider-dot.active {
-    width: 24px;
-  }
-
-  .product-title {
-    font-size: 1.25rem;
-  }
-
-  .product-button {
-    padding: 0.875rem 1.25rem;
+  
+  .service-description {
     font-size: 0.95rem;
   }
   
+  /* Güvenilen Markalar - Mobil */
   .brands-section {
     padding: 60px 0;
+  }
+  
+  .brands-grid {
+    gap: 1.25rem;
   }
   
   .brand-card {
     padding: 1.5rem;
   }
   
+  .brand-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  
   .brand-logo {
-    width: 70px;
-    height: 70px;
+    width: 65px;
+    height: 65px;
   }
   
   .brand-title {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
   }
   
   .brand-description {
@@ -938,8 +1083,8 @@
   }
   
   .brand-feature-item {
+    font-size: 0.95rem;
     justify-content: center;
-    text-align: center;
   }
   
   .brand-button {
@@ -947,8 +1092,80 @@
     font-size: 1rem;
   }
   
+  /* Ürün Slider Mobile */
+  .products-slider-wrapper {
+    gap: 0.75rem;
+  }
+  
+  .product-card {
+    width: 100%;
+    margin-right: 0;
+  }
+  
+  .slider-arrow {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .product-title {
+    font-size: 1.25rem;
+  }
+  
+  .product-button {
+    padding: 0.875rem 1.25rem;
+    font-size: 0.95rem;
+  }
+  
   .view-all-button {
     padding: 12px 24px;
     font-size: 1rem;
+  }
+}
+
+/* Çok Küçük Ekranlar (360px ve altı) */
+@media (max-width: 360px) {
+  /* Neden Biz Bölümü */
+  .services-grid {
+    gap: 1rem;
+  }
+  
+  .service-card {
+    padding: 1.25rem;
+  }
+  
+  .service-icon {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+  }
+  
+  .service-title {
+    font-size: 1.2rem;
+  }
+  
+  /* Güvenilen Markalar */
+  .brands-grid {
+    gap: 1rem;
+  }
+  
+  .brand-card {
+    padding: 1.25rem;
+  }
+  
+  .brand-logo {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .brand-title {
+    font-size: 1.3rem;
+  }
+  
+  .brand-description {
+    font-size: 0.95rem;
+  }
+  
+  .brand-feature-item {
+    font-size: 0.9rem;
   }
 }
