@@ -1,84 +1,101 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-// GLOBAL FAVORİ SİSTEMİ
-// Bu context, favorileri tüm site genelinde kullanılabilir yapar
+// GLOBAL CONTEXT'LER
 import { FavoritesProvider } from "./context/FavoritesContext";
+import { CartProvider } from "./context/CartContext";
 
+// COMPONENTS
 import Navbar from "./components/Navbar/Navbar.jsx";
 import Footer from "./components/Footer/Footer.jsx";
+
+// PAGES
 import HomePage from "./pages/HomePage.jsx";
 import ProductsPage from "./pages/ProductsPage.jsx";
 import ProductDetailPage from "./pages/ProductDetailPage.jsx";
+import CartPage from "./pages/CartPage.jsx"; // ⭐ Sepet sayfası
+import CheckoutPage from "./pages/CheckoutPage.jsx"; // ⭐ Ödeme sayfası
 import LoginPage from "./pages/LoginPage.jsx";
-import AdminRegisterPage from "./pages/AdminRegisterPage.jsx";
 import ContactPage from "./pages/ContactPage.jsx";
 import ServicesPage from "./pages/ServicesPage.jsx";
 import FavoritesPage from "./pages/FavoritesPage.jsx"; // ⭐ Favoriler sayfası
+import NotFoundPage from "./pages/NotFoundPage.jsx"; // ⭐ 404 sayfası
+
+// TOAST CONTAINER
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
-    // ⭐ FAVORİLERİ GLOBAL KULLANMAK İÇİN BURAYA SARILIR
-    <FavoritesProvider>
-      <Router>
-        <div className="flex flex-col min-h-screen bg-white text-gray-900">
-          
-          {/* ⭐ NAVBAR — her sayfada gösteriliyor */}
-          <Navbar />
+    // ⭐ GLOBAL CONTEXT'LER
+    <CartProvider>
+      <FavoritesProvider>
+        <Router>
+          <div className="flex flex-col min-h-screen bg-white text-gray-900">
+            
+            {/* ⭐ NAVBAR — her sayfada gösteriliyor */}
+            <Navbar />
 
-          {/* ⭐ ROUTE DEĞİŞEN ANA İÇERİK */}
-          <main className="flex-grow">
-            <Routes>
+            {/* ⭐ TOAST CONTAINER — bildirimler için */}
+            <ToastContainer 
+              position="bottom-right"
+              autoClose={3000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+            />
 
-              {/* ANA SAYFA — site.com/ */}
-              <Route path="/" element={<HomePage />} />
+            {/* ⭐ ROUTE DEĞİŞEN ANA İÇERİK */}
+            <main className="flex-grow">
+              <Routes>
 
-              {/* TÜM ÜRÜNLER SAYFASI — site.com/products */}
-              <Route path="/products" element={<ProductsPage />} />
+                {/* ANA SAYFA — site.com/ */}
+                <Route path="/" element={<HomePage />} />
 
-              {/* ÜRÜN DETAY SAYFASI — site.com/product/1, site.com/product/2 */}
-              <Route path="/product/:id" element={<ProductDetailPage />} />
+                {/* TÜM ÜRÜNLER SAYFASI — site.com/products */}
+                <Route path="/products" element={<ProductsPage />} />
 
-              {/* FAVORİLER SAYFASI ⭐ — site.com/favorites */}
-              <Route path="/favorites" element={<FavoritesPage />} />
+                {/* ÜRÜN DETAY SAYFASI — site.com/product/1, site.com/product/2 */}
+                <Route path="/product/:id" element={<ProductDetailPage />} />
 
-              {/* İLETİŞİM SAYFASI — site.com/contact */}
-              <Route path="/contact" element={<ContactPage />} />
+                {/* ⭐ SEPET SAYFASI — site.com/cart */}
+                <Route path="/cart" element={<CartPage />} />
 
-              {/* GİRİŞ SAYFASI — site.com/login */}
-              <Route path="/login" element={<LoginPage />} />
+                {/* ⭐ ÖDEME SAYFASI — site.com/checkout */}
+                <Route path="/checkout" element={<CheckoutPage />} />
 
-              {/* ADMIN KAYIT SAYFASI — site.com/kayit */}
-              <Route path="/kayit" element={<AdminRegisterPage />} />
+                {/* ⭐ FAVORİLER SAYFASI — site.com/favorites */}
+                <Route path="/favorites" element={<FavoritesPage />} />
 
-              {/* HİZMETLER SAYFASI — site.com/services */}
-              <Route path="/services" element={<ServicesPage />} />
+                {/* HİZMETLER SAYFASI — site.com/services */}
+                <Route path="/services" element={<ServicesPage />} />
 
-              {/* 404 SAYFASI — tanımlanmamış tüm URL'ler için */}
-              <Route
-                path="*"
-                element={
-                  <div className="container mx-auto px-4 py-20 text-center">
-                    <h1 className="text-5xl font-bold text-gray-800 mb-4">404</h1>
-                    <p className="text-lg text-gray-600 mb-8">
-                      Aradığınız sayfa bulunamadı.
-                    </p>
-                    <a
-                      href="/"
-                      className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition inline-block"
-                    >
-                      Ana Sayfaya Dön
-                    </a>
-                  </div>
-                }
-              />
-            </Routes>
-          </main>
+                {/* İLETİŞİM SAYFASI — site.com/contact */}
+                <Route path="/contact" element={<ContactPage />} />
 
-          {/* ⭐ FOOTER — her sayfanın altında gösterilir */}
-          <Footer />
-        </div>
-      </Router>
-    </FavoritesProvider>
+                {/* GİRİŞ SAYFASI — site.com/login */}
+                <Route path="/login" element={<LoginPage />} />
+
+                {/* 404 SAYFASI — site.com/404 */}
+                <Route path="/404" element={<NotFoundPage />} />
+
+                {/* ⭐ 404 YÖNLENDİRME — tanımlanmamış tüm URL'ler için */}
+                <Route path="*" element={<NotFoundPage />} />
+
+              </Routes>
+            </main>
+
+            {/* ⭐ FOOTER — her sayfanın altında gösterilir */}
+            <Footer />
+            
+          </div>
+        </Router>
+      </FavoritesProvider>
+    </CartProvider>
   );
 }
 

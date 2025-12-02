@@ -1,0 +1,123 @@
+.not-found-page {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  }
+  
+  .not-found-content {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+    background: white;
+    padding: 60px 40px;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+  }
+  
+  .not-found-icon {
+    font-size: 5rem;
+    color: #fbbf24;
+    margin-bottom: 30px;
+  }
+  
+  .not-found-content h1 {
+    font-size: 6rem;
+    font-weight: 900;
+    color: #1e293b;
+    margin: 0;
+    line-height: 1;
+  }
+  
+  .not-found-content h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #475569;
+    margin: 20px 0;
+  }
+  
+  .not-found-description {
+    font-size: 1.1rem;
+    color: #64748b;
+    line-height: 1.6;
+    margin-bottom: 40px;
+  }
+  
+  .not-found-actions {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+  }
+  
+  .btn-home, .btn-products {
+    padding: 15px 30px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-home {
+    background: linear-gradient(135deg, #1d6fb8 0%, #2b8df5 100%);
+    color: white;
+  }
+  
+  .btn-products {
+    background: #f8fafc;
+    color: #475569;
+    border: 2px solid #e2e8f0;
+  }
+  
+  .btn-home:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(29, 111, 184, 0.3);
+  }
+  
+  .btn-products:hover {
+    background: #e2e8f0;
+    transform: translateY(-3px);
+  }
+  
+  .not-found-help {
+    padding-top: 30px;
+    border-top: 2px solid #f1f5f9;
+    color: #64748b;
+  }
+  
+  .not-found-help a {
+    color: #1d6fb8;
+    font-weight: 600;
+    text-decoration: none;
+    margin-left: 5px;
+  }
+  
+  .not-found-help a:hover {
+    text-decoration: underline;
+  }
+  
+  @media (max-width: 768px) {
+    .not-found-content h1 {
+      font-size: 4rem;
+    }
+    
+    .not-found-content h2 {
+      font-size: 2rem;
+    }
+    
+    .not-found-actions {
+      flex-direction: column;
+    }
+    
+    .btn-home, .btn-products {
+      width: 100%;
+      justify-content: center;
+    }
+  }

@@ -1,0 +1,219 @@
+.share-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.3s ease;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  .share-modal {
+    background: white;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 500px;
+    padding: 30px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.3s ease;
+  }
+  
+  @keyframes slideUp {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  
+  .share-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f1f5f9;
+  }
+  
+  .share-modal-header h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+  }
+  
+  .close-button {
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    color: #64748b;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+  }
+  
+  .close-button:hover {
+    background: #f1f5f9;
+    color: #ef4444;
+    transform: rotate(90deg);
+  }
+  
+  .share-link-section {
+    margin-bottom: 30px;
+  }
+  
+  .link-input-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f8fafc;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px 16px;
+    transition: all 0.3s ease;
+  }
+  
+  .link-input-group:focus-within {
+    border-color: #1d6fb8;
+    box-shadow: 0 0 0 3px rgba(29, 111, 184, 0.1);
+  }
+  
+  .link-icon {
+    color: #64748b;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+  }
+  
+  .link-input {
+    flex: 1;
+    border: none;
+    background: none;
+    font-size: 0.95rem;
+    color: #1e293b;
+    outline: none;
+  }
+  
+  .copy-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #1d6fb8 0%, #2b8df5 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+  }
+  
+  .copy-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(29, 111, 184, 0.3);
+  }
+  
+  .copy-button.copied {
+    background: #10b981;
+  }
+  
+  .share-platforms h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #475569;
+    margin-bottom: 20px;
+  }
+  
+  .platform-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+  }
+  
+  .platform-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 20px 15px;
+    background: #f8fafc;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    color: var(--platform-color, #1d6fb8);
+  }
+  
+  .platform-button:hover {
+    transform: translateY(-5px);
+    background: var(--platform-color);
+    color: white;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  }
+  
+  .platform-button:hover .platform-icon {
+    transform: scale(1.2);
+  }
+  
+  .platform-icon {
+    font-size: 2rem;
+    transition: transform 0.3s ease;
+  }
+  
+  .platform-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+  
+  .share-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 20px;
+    border-top: 2px solid #f1f5f9;
+  }
+  
+  .cancel-button {
+    padding: 12px 28px;
+    background: #f1f5f9;
+    color: #64748b;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .cancel-button:hover {
+    background: #e2e8f0;
+    color: #475569;
+    transform: translateY(-2px);
+  }
+  
+  /* Responsive */
+  @media (max-width: 640px) {
+    .share-modal {
+      width: 95%;
+      padding: 20px;
+    }
+    
+    .platform-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .copy-button {
+      padding: 10px 12px;
+      font-size: 0.85rem;
+    }
+  }

@@ -8,10 +8,9 @@
     height: 100vh;
     overflow: hidden;
     background: #000;
-
-    /* Container paddinglerini kırar → full width */
     margin-left: calc(-50vw + 50%);
     margin-right: calc(-50vw + 50%);
+    z-index: 1; /* NAVBAR'DAN DÜŞÜK OLMALI */
 }
 
 /* Video - sayfa yenilenir yenilenmez otomatik başlar */
@@ -21,11 +20,10 @@
     left: 50%;
     width: 100vw;
     height: 100vh;
+    overflow: hidden;
     object-fit: cover;
     transform: translate(-50%, -50%);
-    z-index: 1;
-
-    /* Daha akıcı loop için */
+    z-index: 0 !important;
     filter: brightness(1.35) contrast(1.1);
     will-change: transform;
 }
@@ -43,7 +41,7 @@
         rgba(29, 111, 184, 0.3) 50%,
         rgba(0, 0, 0, 0.8) 100%
     );
-    z-index: 2;
+    z-index: 2; /* DÜŞÜK Z-INDEX */
 }
 
 /* İçerik — Sol üst konumlandırma */
@@ -51,7 +49,7 @@
     position: absolute;
     top: 110px;          /* Navbar'ın hemen altına */
     left: 90px;          /* Sol tarafa hizalanır */
-    z-index: 3;
+    z-index: 3; /* DÜŞÜK Z-INDEX */
 
     width: auto;
     height: auto;
@@ -71,18 +69,16 @@
     font-size: 4rem;
     font-weight: 800;
     margin-bottom: 1.5rem;
-    line-height: 1.05;            /* Tek satır için gerekli */
-
-    white-space: nowrap;          /* 📌 TEK SATIR ZORUNLU */
+    line-height: 1.05;
+    white-space: nowrap;
     text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-
     animation: fadeInUp 0.8s ease-out 0.2s both;
 }
 
 /* Hizmetleri rengi → beyaz */
 .hero-highlight {
-    color: #ffffff !important;    /* 📌 Artık beyaz */
-    background: none !important;  /* Mavi gradient iptal */
+    color: #ffffff !important;
+    background: none !important;
 }
 
 /* Açıklama */
@@ -92,7 +88,6 @@
     margin-bottom: 2.5rem;
     max-width: 700px;
     opacity: 0.95;
-
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
     animation: fadeInUp 0.8s ease-out 0.4s both;
 }
@@ -109,12 +104,10 @@
     display: flex;
     align-items: center;
     gap: 10px;
-
     padding: 16px 32px;
     border-radius: 12px;
     font-size: 1.1rem;
     font-weight: 600;
-
     cursor: pointer;
     border: none;
 }
@@ -164,6 +157,7 @@
     left: 50%;
     transform: translateX(-50%);
     animation: bounce 2s infinite;
+    z-index: 3; /* DÜŞÜK Z-INDEX */
 }
 
 .scroll-arrow {
