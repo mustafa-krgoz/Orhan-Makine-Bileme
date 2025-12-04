@@ -9,7 +9,7 @@ import {
   FaTruck, FaHeart, FaExchangeAlt, 
   FaTag, FaStar, FaShareAlt, FaShoppingCart, FaBolt,
   FaCreditCard, FaUniversity, FaMoneyBill, FaShippingFast,
-  FaPhone, FaEnvelope, FaComment, FaUser
+  FaPhone, FaEnvelope, FaComment, FaUser, FaQuestionCircle
 } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -22,12 +22,23 @@ const ProductDetailPage = () => {
   const [activeTab, setActiveTab] = useState('description');
   const [showShareModal, setShowShareModal] = useState(false);
   const [isHoveringImage, setIsHoveringImage] = useState(false);
+  
+  // YORUMLAR İÇİN STATE'LER
   const [reviewRating, setReviewRating] = useState(0);
   const [reviewText, setReviewText] = useState('');
   const [reviewName, setReviewName] = useState('');
-  const [reviewEmail, setReviewEmail] = useState('');
+  const [reviews, setReviews] = useState([]);
+  const [averageRating, setAverageRating] = useState(0);
+  const [totalReviews, setTotalReviews] = useState(0);
+  
+  // SORU & CEVAP İÇİN STATE'LER
+  const [questionText, setQuestionText] = useState('');
+  const [questionName, setQuestionName] = useState('');
+  const [questions, setQuestions] = useState([]);
 
   const reviewsTabRef = useRef(null);
+  const questionTabRef = useRef(null);
+  const questionFormRef = useRef(null);
   const commentFormRef = useRef(null);
 
   const { isFavorite, toggleFavorite } = useFavorites();
@@ -35,12 +46,18 @@ const ProductDetailPage = () => {
 
   const product = productsData.find((p) => p.id === Number(id));
 
-  // URL'de yorum hash'i varsa Yorumlar tab'ına git
+  // URL hash kontrolü - Yorumlar ve Soru&Cevap için
   useEffect(() => {
     if (location.hash === '#reviews') {
       setActiveTab('reviews');
       setTimeout(() => {
         reviewsTabRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+    if (location.hash === '#questions') {
+      setActiveTab('questions');
+      setTimeout(() => {
+        questionTabRef.current?.scrollIntoView({ behavior: 'smooth' });
       }, 100);
     }
     if (location.hash === '#write-review') {
@@ -51,6 +68,7 @@ const ProductDetailPage = () => {
     }
   }, [location]);
 
+  // Ürün bulunamazsa hata sayfası göster
   if (!product) {
     return (
       <div className="product-not-found">
@@ -60,8 +78,10 @@ const ProductDetailPage = () => {
     );
   }
 
+  // Ürün görsellerini al
   const images = product.images || [product.image];
 
+  // Teknik özellikleri al veya varsayılan değerler kullan
   const specifications = product.specifications || {
     "Tipi": "A Tip",
     "Uyumlu Makine": "EXF5121",
@@ -72,6 +92,7 @@ const ProductDetailPage = () => {
     "Marka": product.brand || "MACROZA"
   };
 
+  // Fiyat formatlama fonksiyonu
   const formatPrice = (price) => {
     return new Intl.NumberFormat('tr-TR', {
       minimumFractionDigits: 2,
@@ -79,6 +100,7 @@ const ProductDetailPage = () => {
     }).format(price);
   };
 
+  // İndirim hesaplama
   const calculateDiscount = () => {
     if (!product.originalPrice || product.price >= product.originalPrice) return 0;
     return Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100);
@@ -86,16 +108,19 @@ const ProductDetailPage = () => {
 
   const discountPercentage = calculateDiscount();
 
+  // Taksit hesaplama
   const calculateInstallment = (installmentCount = 12) => {
     const monthly = product.price / installmentCount;
     return formatPrice(monthly);
   };
 
+  // Favori butonu işlevi
   const handleFavoriteClick = () => {
     toggleFavorite(product.id);
     toast.success(isFavorite(product.id) ? 'Favorilerden çıkarıldı' : 'Favorilere eklendi');
   };
 
+  // Sepete ekle butonu işlevi
   const handleAddToCart = () => {
     addToCart(product, quantity);
     toast.success(`${product.name} sepete eklendi!`, {
@@ -105,6 +130,7 @@ const ProductDetailPage = () => {
     });
   };
 
+  // Hemen al butonu işlevi
   const handleBuyNow = () => {
     addToCart(product, quantity);
     window.location.href = '/cart';
@@ -112,7 +138,8 @@ const ProductDetailPage = () => {
 
   const productUrl = window.location.href;
 
-  // Yorum yap butonuna tıklanınca Yorumlar tab'ına git
+  // YORUM İŞLEMLERİ
+  // Yorumlar tab'ına git
   const handleReviewClick = () => {
     setActiveTab('reviews');
     setTimeout(() => {
@@ -128,18 +155,13 @@ const ProductDetailPage = () => {
     }, 100);
   };
 
-  // Yorum gönderme işlemi
+  // Yorum gönderme işlemi - E-POSTA ALANI KALDIRILDI
   const handleSubmitReview = (e) => {
     e.preventDefault();
     
-    // Basit doğrulama
+    // Doğrulama
     if (!reviewName.trim()) {
       toast.error('Lütfen adınızı giriniz');
-      return;
-    }
-    
-    if (!reviewEmail.trim()) {
-      toast.error('Lütfen e-posta adresinizi giriniz');
       return;
     }
     
@@ -148,35 +170,121 @@ const ProductDetailPage = () => {
       return;
     }
     
-    if (!reviewText.trim()) {
-      toast.error('Lütfen yorumunuzu yazınız');
+    if (!reviewText.trim() || reviewText.trim().length < 10) {
+      toast.error('Lütfen en az 10 karakterlik yorum yazınız');
       return;
     }
     
-    // Burada yorumu backend'e gönderebilirsiniz
-    console.log('Yorum gönderildi:', {
-      name: reviewName,
-      email: reviewEmail,
+    // Yeni yorum oluştur - E-POSTA BİLGİSİ YOK
+    const newReview = {
+      id: Date.now(),
+      name: reviewName.trim(),
       rating: reviewRating,
-      text: reviewText,
-      productId: product.id
-    });
+      text: reviewText.trim(),
+      date: new Date().toLocaleDateString('tr-TR')
+    };
     
-    toast.success('Yorumunuz başarıyla gönderildi! Teşekkür ederiz.');
+    // Yorumları güncelle (demo amaçlı local state)
+    const updatedReviews = [newReview, ...reviews];
+    setReviews(updatedReviews);
+    
+    // Ortalama rating'i güncelle
+    const newTotalReviews = updatedReviews.length;
+    const newAverage = updatedReviews.reduce((acc, review) => acc + review.rating, 0) / newTotalReviews;
+    
+    setTotalReviews(newTotalReviews);
+    setAverageRating(newAverage.toFixed(1));
     
     // Formu temizle
     setReviewName('');
-    setReviewEmail('');
     setReviewRating(0);
     setReviewText('');
+    
+    toast.success('Yorumunuz başarıyla gönderildi!');
   };
 
-  // Kategori bilgilerini formatla
+  // SORU İŞLEMLERİ
+  // Soru & Cevap tab'ına git
+  const handleQuestionClick = () => {
+    setActiveTab('questions');
+    setTimeout(() => {
+      questionTabRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+  };
+
+  // Soru sor butonuna tıklanınca soru formuna git
+  const handleAskQuestionClick = () => {
+    setActiveTab('questions');
+    setTimeout(() => {
+      questionFormRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+  };
+
+  // Soru gönderme işlemi
+  const handleSubmitQuestion = (e) => {
+    e.preventDefault();
+    
+    if (!questionName.trim()) {
+      toast.error('Lütfen adınızı giriniz');
+      return;
+    }
+    
+    if (!questionText.trim() || questionText.trim().length < 10) {
+      toast.error('Lütfen en az 10 karakterlik soru yazınız');
+      return;
+    }
+    
+    // Yeni soru oluştur
+    const newQuestion = {
+      id: Date.now(),
+      name: questionName.trim(),
+      question: questionText.trim(),
+      date: new Date().toLocaleDateString('tr-TR'),
+      answers: []
+    };
+    
+    // Soruları güncelle (demo amaçlı)
+    setQuestions([newQuestion, ...questions]);
+    
+    // Formu temizle
+    setQuestionName('');
+    setQuestionText('');
+    
+    toast.success('Soranız başarıyla gönderildi!');
+  };
+
+  // Demo cevap gönderme fonksiyonu
+  const handleSubmitAnswer = (questionId, answerText) => {
+    if (!answerText.trim()) return;
+    
+    const updatedQuestions = questions.map(q => {
+      if (q.id === questionId) {
+        return {
+          ...q,
+          answers: [
+            ...q.answers,
+            {
+              id: Date.now(),
+              text: answerText.trim(),
+              date: new Date().toLocaleDateString('tr-TR'),
+              answeredBy: 'Mağaza Yetkilisi'
+            }
+          ]
+        };
+      }
+      return q;
+    });
+    
+    setQuestions(updatedQuestions);
+    toast.success('Cevabınız gönderildi!');
+  };
+
+  // Kategori formatlama
   const formatCategories = () => {
     if (Array.isArray(product.categories)) {
       return product.categories.join(', ');
     }
-    return product.category || 'Macroza Yedek Biçakları, Kamal Açma Makinesi Yedek Biçaklar';
+    return product.category || 'Kategori';
   };
 
   return (
@@ -208,13 +316,13 @@ const ProductDetailPage = () => {
 
         <div className="product-main">
 
-          {/* SOL KOLON - Ürün Galerisi (Yeni Düzen) */}
+          {/* SOL KOLON - Ürün Galerisi */}
           <div className="product-left-column">
             
-            {/* Ürün Galerisi - Yeni Düzen: Küçük resimler solda, büyük resim sağda */}
+            {/* Ürün Galerisi */}
             <div className="product-gallery-new">
               
-              {/* SOL - Küçük Resimler (Vertical) */}
+              {/* SOL - Küçük Resimler */}
               <div className="thumbnail-gallery-vertical">
                 {images.map((img, index) => (
                   <button
@@ -288,34 +396,54 @@ const ProductDetailPage = () => {
           <div className="product-middle-column">
             <div className="product-info">
 
-              {/* Ürün Başlığı - Sadece Ürün İsmi */}
+              {/* Ürün Başlığı */}
               <div className="product-header">
                 <h1 className="product-title">{product.name}</h1>
 
-                {/* Puanlama ve Yorum Yap Butonu - Marka kaldırıldı */}
+                {/* PUANLAMA VE AKSİYON LİNKLERİ - GÜNCELLENDİ */}
                 <div className="product-rating-section">
                   <div className="rating-container">
-                    <span className="rating-score">{product.rating || 4.0}</span>
-                    <div className="stars">
-                      {[...Array(5)].map((_, i) => (
-                        <FaStar
-                          key={i}
-                          className={i < Math.floor(product.rating || 4) ? "star-filled" : "star-empty"}
-                        />
-                      ))}
+                    {/* Puanlama */}
+                    <div className="rating-display">
+                      <span className="rating-score">{averageRating}</span>
+                      <div className="stars">
+                        {[...Array(5)].map((_, i) => (
+                          <FaStar
+                            key={i}
+                            className={i < Math.floor(averageRating) ? "star-filled" : "star-empty"}
+                          />
+                        ))}
+                      </div>
+                      <span className="review-count">({totalReviews} yorum)</span>
                     </div>
-                    <button 
-                      className="review-action-btn"
-                      onClick={handleReviewClick}
-                    >
-                      <FaComment className="review-icon" />
-                      Yorum Yap
-                    </button>
+                    
+                    {/* AKSİYON LİNKLERİ - GÜNCELLENDİ */}
+                    <div className="action-links">
+                      <button 
+                        className="action-link review-link"
+                        onClick={handleReviewClick}
+                        aria-label="Yorumlar sayfasına git"
+                      >
+                        <FaComment className="action-icon" />
+                        <span>Yorumlar</span>
+                      </button>
+                      
+                      <span className="divider">|</span>
+                      
+                      <button 
+                        className="action-link question-link"
+                        onClick={handleQuestionClick}
+                        aria-label="Soru & Cevap sayfasına git"
+                      >
+                        <FaQuestionCircle className="action-icon" />
+                        <span>Soru & Cevap</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              {/* FİYAT BİLGİSİ - Adet'in üstünde */}
+              {/* FİYAT BİLGİSİ */}
               <div className="price-section-top">
                 <div className="price-display-top">
                   {product.originalPrice && product.originalPrice > product.price && (
@@ -500,8 +628,9 @@ const ProductDetailPage = () => {
             <button 
               className={`tab-header ${activeTab === 'questions' ? 'active' : ''}`}
               onClick={() => setActiveTab('questions')}
+              ref={questionTabRef}
             >
-              Soru & Cevap ({product.qnaCount || 0})
+              Soru & Cevap ({questions.length})
             </button>
             <button 
               className={`tab-header ${activeTab === 'installment' ? 'active' : ''}`}
@@ -519,7 +648,7 @@ const ProductDetailPage = () => {
               className={`tab-header ${activeTab === 'reviews' ? 'active' : ''}`}
               onClick={() => setActiveTab('reviews')}
             >
-              Yorumlar ({product.reviewCount || 0})
+              Yorumlar ({totalReviews})
             </button>
           </div>
 
@@ -576,25 +705,124 @@ const ProductDetailPage = () => {
               </div>
             )}
 
-            {/* Soru & Cevap Tab */}
+            {/* SORU & CEVAP TAB - GÜNCELLENMİŞ */}
             {activeTab === 'questions' && (
               <div className="tab-panel">
                 <div className="questions-header">
-                  <h3>Soru & Cevap</h3>
-                  <button className="btn-ask-question">Soru Sor</button>
+                  <h3>Soru & Cevap ({questions.length})</h3>
+                  <button 
+                    className="btn-ask-question"
+                    onClick={handleAskQuestionClick}
+                  >
+                    Soru Sor
+                  </button>
                 </div>
-                {product.qnaCount > 0 ? (
-                  <div className="questions-list">
-                    {/* Soru-cevap listesi buraya gelecek */}
-                  </div>
-                ) : (
-                  <div className="no-questions">
-                    <div className="no-questions-icon">❓</div>
-                    <h4>Henüz Soru Yok</h4>
-                    <p>Bu ürün için henüz soru sorulmamış.</p>
-                    <button className="btn-ask-first">İlk Soruyu Sen Sor</button>
-                  </div>
-                )}
+
+                {/* SORU SORMA FORMU */}
+                <div className="ask-question-section" ref={questionFormRef}>
+                  <h4>Soru Sor</h4>
+                  <p className="form-description">
+                    Bu ürün hakkında merak ettiklerinizi sorun. En kısa sürede cevaplayacağız.
+                  </p>
+                  
+                  <form className="question-form" onSubmit={handleSubmitQuestion}>
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="questionName">
+                        Adınız Soyadınız *
+                      </label>
+                      <input
+                        type="text"
+                        id="questionName"
+                        className="form-input"
+                        value={questionName}
+                        onChange={(e) => setQuestionName(e.target.value)}
+                        placeholder="Adınızı ve soyadınızı girin"
+                        required
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="questionText">
+                        Sorunuz *
+                      </label>
+                      <textarea
+                        id="questionText"
+                        className="form-textarea"
+                        value={questionText}
+                        onChange={(e) => setQuestionText(e.target.value)}
+                        placeholder="Ürün hakkında sormak istediğiniz soruyu yazın..."
+                        rows="4"
+                        required
+                      ></textarea>
+                      <small className="form-help">
+                        Sorunuz en az 10 karakter olmalıdır.
+                      </small>
+                    </div>
+
+                    <div className="form-actions">
+                      <button type="submit" className="btn-submit-question">
+                        <FaQuestionCircle className="submit-icon" />
+                        Soruyu Gönder
+                      </button>
+                    </div>
+                  </form>
+                </div>
+
+                {/* SORULAR LİSTESİ */}
+                <div className="questions-list">
+                  {questions.length > 0 ? (
+                    questions.map((question) => (
+                      <div key={question.id} className="question-item">
+                        <div className="question-header">
+                          <div className="questioner-info">
+                            <FaUser className="user-icon" />
+                            <div>
+                              <span className="questioner-name">{question.name}</span>
+                              <span className="question-date">{question.date}</span>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div className="question-content">
+                          <p>{question.question}</p>
+                        </div>
+
+                        {/* CEVAPLAR */}
+                        {question.answers && question.answers.length > 0 && (
+                          <div className="answers-section">
+                            <h5>Cevaplar ({question.answers.length})</h5>
+                            {question.answers.map((answer) => (
+                              <div key={answer.id} className="answer-item">
+                                <div className="answer-header">
+                                  <FaUser className="answer-user-icon" />
+                                  <div>
+                                    <span className="answer-author">{answer.answeredBy}</span>
+                                    <span className="answer-date">{answer.date}</span>
+                                  </div>
+                                </div>
+                                <div className="answer-content">
+                                  <p>{answer.text}</p>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ))
+                  ) : (
+                    <div className="no-questions">
+                      <div className="no-questions-icon">❓</div>
+                      <h4>Henüz Soru Yok</h4>
+                      <p>Bu ürün için henüz soru sorulmamış.</p>
+                      <button 
+                        className="btn-ask-first"
+                        onClick={handleAskQuestionClick}
+                      >
+                        İlk Soruyu Sen Sor
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             )}
 
@@ -695,11 +923,11 @@ const ProductDetailPage = () => {
               </div>
             )}
 
-            {/* YORUMLAR TAB - GÜNCELLENMİŞ */}
+            {/* YORUMLAR TAB - GÜNCELLENMİŞ (E-POSTA ALANI KALDIRILDI) */}
             {activeTab === 'reviews' && (
               <div className="tab-panel">
                 <div className="reviews-header">
-                  <h3>Müşteri Yorumları</h3>
+                  <h3>Müşteri Yorumları ({totalReviews})</h3>
                   <button 
                     className="btn-write-review"
                     onClick={handleWriteReviewClick}
@@ -708,23 +936,23 @@ const ProductDetailPage = () => {
                   </button>
                 </div>
                 
-                {/* Yorum Özeti */}
+                {/* YORUM ÖZETİ */}
                 <div className="review-summary">
                   <div className="average-rating">
-                    <span className="rating-number">{product.rating || 4.0}</span>
+                    <span className="rating-number">{averageRating}</span>
                     <div className="rating-stars-large">
                       {[...Array(5)].map((_, i) => (
                         <FaStar 
                           key={i} 
-                          className={i < Math.floor(product.rating || 4) ? "star-filled" : "star-empty"} 
+                          className={i < Math.floor(averageRating) ? "star-filled" : "star-empty"} 
                         />
                       ))}
                     </div>
-                    <span className="total-reviews">{product.reviewCount || 0} yorum</span>
+                    <span className="total-reviews">{totalReviews} yorum</span>
                   </div>
                 </div>
 
-                {/* YORUM YAZMA FORMU - Kayıtlı/Kayıtsız Tüm Kullanıcılar İçin */}
+                {/* YORUM YAZMA FORMU - E-POSTA ALANI KALDIRILDI */}
                 <div className="write-review-section" ref={commentFormRef}>
                   <h4>Yorumunuzu Yazın</h4>
                   <p className="form-description">
@@ -753,7 +981,7 @@ const ProductDetailPage = () => {
                       </div>
                     </div>
 
-                    {/* Ad Soyad */}
+                    {/* Ad Soyad - E-POSTA ALANI KALDIRILDI */}
                     <div className="form-group">
                       <label className="form-label" htmlFor="reviewName">
                         Adınız Soyadınız *
@@ -767,25 +995,6 @@ const ProductDetailPage = () => {
                         placeholder="Adınızı ve soyadınızı girin"
                         required
                       />
-                    </div>
-
-                    {/* E-posta */}
-                    <div className="form-group">
-                      <label className="form-label" htmlFor="reviewEmail">
-                        E-posta Adresiniz *
-                      </label>
-                      <input
-                        type="email"
-                        id="reviewEmail"
-                        className="form-input"
-                        value={reviewEmail}
-                        onChange={(e) => setReviewEmail(e.target.value)}
-                        placeholder="E-posta adresinizi girin"
-                        required
-                      />
-                      <small className="form-help">
-                        E-posta adresiniz yayınlanmayacaktır.
-                      </small>
                     </div>
 
                     {/* Yorum */}
@@ -820,27 +1029,47 @@ const ProductDetailPage = () => {
                   </form>
                 </div>
 
-                {/* Mevcut Yorumlar */}
-                {product.reviewCount > 0 ? (
-                  <div className="reviews-list">
-                    {/* Yorum listesi buraya gelecek */}
-                    <div className="no-reviews-message">
-                      <p>Henüz yorum yapılmamış. İlk yorumu siz yapın!</p>
+                {/* MEVCUT YORUMLAR */}
+                <div className="reviews-list">
+                  {reviews.length > 0 ? (
+                    reviews.map((review) => (
+                      <div key={review.id} className="review-item">
+                        <div className="review-header">
+                          <div className="reviewer-info">
+                            <FaUser className="user-icon" />
+                            <div>
+                              <span className="reviewer-name">{review.name}</span>
+                              <span className="review-date">{review.date}</span>
+                            </div>
+                          </div>
+                          <div className="review-rating">
+                            {[...Array(5)].map((_, i) => (
+                              <FaStar 
+                                key={i} 
+                                className={i < review.rating ? "star-filled" : "star-empty"} 
+                              />
+                            ))}
+                          </div>
+                        </div>
+                        <div className="review-content">
+                          <p>{review.text}</p>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="no-reviews">
+                      <div className="no-reviews-icon">📝</div>
+                      <h4>Henüz Yorum Yok</h4>
+                      <p>Bu ürün için henüz müşteri yorumu bulunmuyor.</p>
+                      <button 
+                        className="btn-be-first"
+                        onClick={handleWriteReviewClick}
+                      >
+                        İlk Yorumu Sen Yap
+                      </button>
                     </div>
-                  </div>
-                ) : (
-                  <div className="no-reviews">
-                    <div className="no-reviews-icon">📝</div>
-                    <h4>Henüz Yorum Yok</h4>
-                    <p>Bu ürün için henüz müşteri yorumu bulunmuyor.</p>
-                    <button 
-                      className="btn-be-first"
-                      onClick={handleWriteReviewClick}
-                    >
-                      İlk Yorumu Sen Yap
-                    </button>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
             )}
           </div>
