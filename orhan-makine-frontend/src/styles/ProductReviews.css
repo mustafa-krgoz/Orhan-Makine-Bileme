@@ -1,0 +1,704 @@
+/* ============================================
+   ÜRÜN YORUMLARI BİLEŞENİ STİLLERİ
+   Modern, responsive ve SEO uyumlu tasarım
+   ============================================ */
+
+   .product-reviews-container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern font */
+    color: #333; /* Koyu gri metin rengi */
+    line-height: 1.6; /* Okunabilirlik için satır yüksekliği */
+  }
+  
+  /* YORUM ÖZETİ BÖLÜMÜ */
+  .reviews-summary-section {
+    display: grid; /* Grid layout */
+    grid-template-columns: 1fr 1fr; /* İki eşit kolon */
+    gap: 30px; /* Kolonlar arası boşluk */
+    margin-bottom: 40px; /* Alt boşluk */
+    padding: 25px; /* İç boşluk */
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); /* Gradient arka plan */
+    border-radius: 12px; /* Köşe yuvarlama */
+    border: 1px solid #eaeaea; /* Açık gri kenarlık */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); /* Hafif gölge */
+  }
+  
+  /* ORTALAMA PUAN KARTI */
+  .average-rating-card {
+    display: flex; /* Flexbox layout */
+    flex-direction: column; /* Dikey sıralama */
+    align-items: center; /* Yatay ortalama */
+    justify-content: center; /* Dikey ortalama */
+    text-align: center; /* Ortalı metin */
+    padding: 20px; /* İç boşluk */
+    background: white; /* Beyaz arka plan */
+    border-radius: 10px; /* Köşe yuvarlama */
+    border: 1px solid #eaeaea; /* Açık gri kenarlık */
+    box-shadow: 0 2px 15px rgba(30, 58, 138, 0.1); /* Mavi tonlu gölge */
+  }
+  
+  .average-rating-score {
+    margin-bottom: 15px; /* Alt boşluk */
+  }
+  
+  .rating-number {
+    font-size: 48px; /* Büyük puan yazısı */
+    font-weight: 800; /* Çok kalın */
+    color: #1e3a8a; /* Koyu mavi renk */
+    line-height: 1; /* Satır yüksekliği */
+  }
+  
+  .rating-max {
+    font-size: 24px; /* Daha küçük yazı */
+    color: #666; /* Gri renk */
+    font-weight: 600; /* Yarı kalın */
+  }
+  
+  .rating-stars-large {
+    display: flex; /* Flexbox layout */
+    gap: 5px; /* Yıldızlar arası boşluk */
+    margin-bottom: 15px; /* Alt boşluk */
+  }
+  
+  .star-icon {
+    font-size: 28px; /* Büyük yıldız ikonu */
+    transition: all 0.3s ease; /* Geçiş efekti */
+  }
+  
+  .star-icon.filled {
+    color: #ffc107; /* Sarı dolu yıldız */
+  }
+  
+  .star-icon.empty {
+    color: #e4e5e9; /* Açık gri boş yıldız */
+  }
+  
+  .total-reviews {
+    font-size: 16px; /* Yazı boyutu */
+    color: #666; /* Gri renk */
+    font-weight: 500; /* Orta kalınlık */
+  }
+  
+  /* PUAN DAĞILIMI */
+  .rating-distribution {
+    display: flex; /* Flexbox layout */
+    flex-direction: column; /* Dikey sıralama */
+    gap: 12px; /* Satırlar arası boşluk */
+    padding: 15px; /* İç boşluk */
+    background: white; /* Beyaz arka plan */
+    border-radius: 10px; /* Köşe yuvarlama */
+    border: 1px solid #eaeaea; /* Açık gri kenarlık */
+  }
+  
+  .rating-bar-row {
+    display: flex; /* Flexbox layout */
+    align-items: center; /* Dikey ortalama */
+    gap: 10px; /* Elemanlar arası boşluk */
+  }
+  
+  .star-label {
+    min-width: 70px; /* Minimum genişlik */
+    font-size: 14px; /* Yazı boyutu */
+    color: #666; /* Gri renk */
+    font-weight: 500; /* Orta kalınlık */
+  }
+  
+  .rating-bar-container {
+    flex: 1; /* Esnek genişlik */
+    height: 8px; /* Bar yüksekliği */
+    background: #eaeaea; /* Açık gri arka plan */
+    border-radius: 4px; /* Köşe yuvarlama */
+    overflow: hidden; /* Taşan içeriği gizle */
+  }
+  
+  .rating-bar-fill {
+    height: 100%; /* Tam yükseklik */
+    background: linear-gradient(90deg, #1e3a8a 0%, #3b82f6 100%); /* Mavi gradient */
+    border-radius: 4px; /* Köşe yuvarlama */
+    transition: width 0.5s ease; /* Genişlik geçiş efekti */
+  }
+  
+  .rating-count {
+    min-width: 30px; /* Minimum genişlik */
+    text-align: right; /* Sağa hizalı */
+    font-size: 14px; /* Yazı boyutu */
+    color: #333; /* Koyu gri */
+    font-weight: 600; /* Yarı kalın */
+  }
+  
+  /* YORUM YAZMA FORMU */
+  .write-review-section {
+    margin-bottom: 40px; /* Alt boşluk */
+    padding: 30px; /* İç boşluk */
+    background: white; /* Beyaz arka plan */
+    border-radius: 12px; /* Köşe yuvarlama */
+    border: 1px solid #eaeaea; /* Açık gri kenarlık */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); /* Hafif gölge */
+  }
+  
+  .section-title {
+    font-size: 24px; /* Başlık boyutu */
+    font-weight: 700; /* Kalın yazı */
+    color: #1a1a1a; /* Çok koyu gri */
+    margin-bottom: 10px; /* Alt boşluk */
+  }
+  
+  .section-subtitle {
+    color: #666; /* Gri renk */
+    margin-bottom: 25px; /* Alt boşluk */
+    font-size: 16px; /* Yazı boyutu */
+    line-height: 1.5; /* Satır yüksekliği */
+  }
+  
+  /* YORUM FORMU */
+  .review-form {
+    display: flex; /* Flexbox layout */
+    flex-direction: column; /* Dikey sıralama */
+    gap: 25px; /* Form elemanları arası boşluk */
+  }
+  
+  .form-group {
+    display: flex; /* Flexbox layout */
+    flex-direction: column; /* Dikey sıralama */
+    gap: 8px; /* Etiket ve input arası boşluk */
+  }
+  
+  .form-label {
+    font-weight: 600; /* Yarı kalın */
+    color: #333; /* Koyu gri */
+    font-size: 15px; /* Yazı boyutu */
+    display: flex; /* Flexbox layout */
+    align-items: center; /* Dikey ortalama */
+    gap: 5px; /* Elemanlar arası boşluk */
+  }
+  
+  .form-label::after {
+    content: '*'; /* Zorunlu alan işareti */
+    color: #dc3545; /* Kırmızı renk */
+  }
+  
+  /* YILDIZ PUANLAMA GİRİŞİ */
+  .star-rating-input {
+    display: flex; /* Flexbox layout */
+    align-items: center; /* Dikey ortalama */
+    gap: 10px; /* Elemanlar arası boşluk */
+    flex-wrap: wrap; /* Satır kaydırma */
+  }
+  
+  .star-button {
+    background: none; /* Arka plan yok */
+    border: none; /* Kenarlık yok */
+    cursor: pointer; /* Pointer cursor */
+    padding: 5px; /* İç boşluk */
+    font-size: 28px; /* Büyük yıldız */
+    color: #e4e5e9; /* Açık gri renk */
+    transition: all 0.2s ease; /* Geçiş efekti */
+    border-radius: 50%; /* Daire şekli */
+  }
+  
+  .star-button.selected {
+    color: #ffc107; /* Sarı renk */
+    transform: scale(1.1); /* Büyüme efekti */
+  }
+  
+  .star-button:hover {
+    transform: scale(1.2); /* Hover büyüme efekti */
+    color: #ffc107; /* Sarı renk */
+  }
+  
+  .rating-text {
+    font-size: 16px; /* Yazı boyutu */
+    color: #666; /* Gri renk */
+    font-weight: 500; /* Orta kalınlık */
+    margin-left: 10px; /* Sol boşluk */
+  }
+  
+  /* FORM INPUTLARI */
+  .form-input,
+  .form-textarea {
+    padding: 14px 16px; /* İç boşluk */
+    border: 1px solid #ddd; /* Gri kenarlık */
+    border-radius: 8px; /* Köşe yuvarlama */
+    font-size: 15px; /* Yazı boyutu */
+    color: #333; /* Koyu gri */
+    transition: all 0.3s ease; /* Geçiş efekti */
+    background: #f8f9fa; /* Açık gri arka plan */
+  }
+  
+  .form-input:focus,
+  .form-textarea:focus {
+    outline: none; /* Odak çerçevesi yok */
+    border-color: #1e3a8a; /* Mavi kenarlık */
+    box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.15); /* Mavi gölge */
+    background: white; /* Beyaz arka plan */
+  }
+  
+  .form-textarea {
+    resize: vertical; /* Sadece dikey boyutlandırma */
+    min-height: 150px; /* Minimum yükseklik */
+    line-height: 1.5; /* Satır yüksekliği */
+  }
+  
+  .character-count {
+    text-align: right; /* Sağa hizalı */
+    font-size: 13px; /* Küçük yazı */
+    color: #666; /* Gri renk */
+    margin-top: 5px; /* Üst boşluk */
+  }
+  
+  /* FORM AKSİYONLARI */
+  .form-actions {
+    display: flex; /* Flexbox layout */
+    flex-direction: column; /* Dikey sıralama */
+    gap: 12px; /* Elemanlar arası boşluk */
+    align-items: flex-start; /* Sola hizalı */
+  }
+  
+  .btn-submit-review {
+    display: flex; /* Flexbox layout */
+    align-items: center; /* Dikey ortalama */
+    gap: 10px; /* İkon ve metin arası boşluk */
+    padding: 14px 28px; /* İç boşluk */
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); /* Mavi gradient */
+    color: white; /* Beyaz yazı */
+    border: none; /* Kenarlık yok */
+    border-radius: 8px; /* Köşe yuvarlama */
+    font-weight: 600; /* Yarı kalın */
+    cursor: pointer; /* Pointer cursor */
+    transition: all 0.3s ease; /* Geçiş efekti */
+    font-size: 16px; /* Yazı boyutu */
+  }
+  
+  .btn-submit-review:hover:not(:disabled) {
+    transform: translateY(-2px); /* Yukarı hareket */
+    box-shadow: 0 6px 20px rgba(30, 58, 138, 0.3); /* Mavi gölge */
+    background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%); /* Koyu gradient */
+  }
+  
+  .btn-submit-review:disabled {
+    opacity: 0.6; /* Şeffaflık */
+    cursor: not-allowed; /* Yasak cursor */
+  }
+  
+  .loading-spinner {
+    width: 16px; /* Genişlik */
+    height: 16px; /* Yükseklik */
+    border: 2px solid rgba(255, 255, 255, 0.3); /* Açık beyaz kenarlık */
+    border-top: 2px solid white; /* Beyaz üst kenarlık */
+    border-radius: 50%; /* Daire şekli */
+    animation: spin 1s linear infinite; /* Dönme animasyonu */
+    margin-right: 8px; /* Sağ boşluk */
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); } /* Başlangıç */
+    100% { transform: rotate(360deg); } /* Bitiş */
+  }
+  
+  .submit-icon {
+    font-size: 18px; /* İkon boyutu */
+  }
+  
+  .form-note {
+    color: #666; /* Gri renk */
+    font-size: 13px; /* Küçük yazı */
+    line-height: 1.4; /* Satır yüksekliği */
+  }
+  
+  /* MEVCUT YORUMLAR BÖLÜMÜ */
+  .existing-reviews-section {
+    padding: 30px; /* İç boşluk */
+    background: white; /* Beyaz arka plan */
+    border-radius: 12px; /* Köşe yuvarlama */
+    border: 1px solid #eaeaea; /* Açık gri kenarlık */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); /* Hafif gölge */
+  }
+  
+  /* YORUM KARTLARI */
+  .reviews-list {
+    display: flex; /* Flexbox layout */
+    flex-direction: column; /* Dikey sıralama */
+    gap: 20px; /* Kartlar arası boşluk */
+    margin-top: 20px; /* Üst boşluk */
+  }
+  
+  .review-card {
+    padding: 25px; /* İç boşluk */
+    background: #f8f9fa; /* Açık gri arka plan */
+    border-radius: 10px; /* Köşe yuvarlama */
+    border: 1px solid #eaeaea; /* Açık gri kenarlık */
+    transition: all 0.3s ease; /* Geçiş efekti */
+  }
+  
+  .review-card:hover {
+    transform: translateY(-2px); /* Yukarı hareket */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Gölge */
+    border-color: #ddd; /* Koyu gri kenarlık */
+  }
+  
+  .review-header {
+    display: flex; /* Flexbox layout */
+    justify-content: space-between; /* Elemanları ayır */
+    align-items: center; /* Dikey ortalama */
+    margin-bottom: 15px; /* Alt boşluk */
+  }
+  
+  .reviewer-info {
+    display: flex; /* Flexbox layout */
+    align-items: center; /* Dikey ortalama */
+    gap: 12px; /* Elemanlar arası boşluk */
+  }
+  
+  .reviewer-avatar {
+    width: 45px; /* Genişlik */
+    height: 45px; /* Yükseklik */
+    border-radius: 50%; /* Daire şekli */
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); /* Mavi gradient */
+    display: flex; /* Flexbox layout */
+    align-items: center; /* Dikey ortalama */
+    justify-content: center; /* Yatay ortalama */
+    color: white; /* Beyaz ikon */
+    font-size: 18px; /* İkon boyutu */
+  }
+  
+  .reviewer-details {
+    display: flex; /* Flexbox layout */
+    flex-direction: column; /* Dikey sıralama */
+    gap: 3px; /* Elemanlar arası boşluk */
+  }
+  
+  .reviewer-name {
+    font-weight: 600; /* Yarı kalın */
+    color: #333; /* Koyu gri */
+    font-size: 16px; /* Yazı boyutu */
+  }
+  
+  .review-date {
+    font-size: 14px; /* Yazı boyutu */
+    color: #666; /* Gri renk */
+  }
+  
+  .review-rating {
+    display: flex; /* Flexbox layout */
+    align-items: center; /* Dikey ortalama */
+    gap: 10px; /* Elemanlar arası boşluk */
+  }
+  
+  .review-stars {
+    display: flex; /* Flexbox layout */
+    gap: 3px; /* Yıldızlar arası boşluk */
+  }
+  
+  .star-icon-small {
+    font-size: 16px; /* Küçük yıldız */
+  }
+  
+  .star-icon-small.filled {
+    color: #ffc107; /* Sarı dolu yıldız */
+  }
+  
+  .star-icon-small.empty {
+    color: #e4e5e9; /* Açık gri boş yıldız */
+  }
+  
+  .review-rating-number {
+    font-weight: 600; /* Yarı kalın */
+    color: #1e3a8a; /* Mavi renk */
+    font-size: 14px; /* Yazı boyutu */
+  }
+  
+  .review-content {
+    margin-bottom: 15px; /* Alt boşluk */
+  }
+  
+  .review-content p {
+    color: #333; /* Koyu gri */
+    line-height: 1.6; /* Satır yüksekliği */
+    font-size: 15px; /* Yazı boyutu */
+  }
+  
+  .review-footer {
+    display: flex; /* Flexbox layout */
+    gap: 15px; /* Butonlar arası boşluk */
+    padding-top: 15px; /* Üst boşluk */
+    border-top: 1px solid #eaeaea; /* Üst kenarlık */
+  }
+  
+  .helpful-button,
+  .report-button {
+    display: flex; /* Flexbox layout */
+    align-items: center; /* Dikey ortalama */
+    gap: 6px; /* İkon ve metin arası boşluk */
+    padding: 8px 16px; /* İç boşluk */
+    background: white; /* Beyaz arka plan */
+    border: 1px solid #ddd; /* Gri kenarlık */
+    border-radius: 6px; /* Köşe yuvarlama */
+    color: #666; /* Gri renk */
+    font-size: 14px; /* Yazı boyutu */
+    cursor: pointer; /* Pointer cursor */
+    transition: all 0.2s ease; /* Geçiş efekti */
+  }
+  
+  .helpful-button:hover {
+    background: #f8f9fa; /* Açık gri arka plan */
+    border-color: #1e3a8a; /* Mavi kenarlık */
+    color: #1e3a8a; /* Mavi renk */
+  }
+  
+  .report-button:hover {
+    background: #fff5f5; /* Açık kırmızı arka plan */
+    border-color: #dc3545; /* Kırmızı kenarlık */
+    color: #dc3545; /* Kırmızı renk */
+  }
+  
+  /* YORUM YOK DURUMU */
+  .no-reviews {
+    text-align: center; /* Ortalı metin */
+    padding: 50px 20px; /* İç boşluk */
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); /* Gradient arka plan */
+    border-radius: 10px; /* Köşe yuvarlama */
+    border: 2px dashed #ddd; /* Kesikli kenarlık */
+  }
+  
+  .no-reviews-icon {
+    font-size: 64px; /* Büyük ikon */
+    color: #1e3a8a; /* Mavi renk */
+    margin-bottom: 20px; /* Alt boşluk */
+    opacity: 0.5; /* Şeffaflık */
+  }
+  
+  .no-reviews h4 {
+    font-size: 20px; /* Yazı boyutu */
+    color: #333; /* Koyu gri */
+    margin-bottom: 10px; /* Alt boşluk */
+    font-weight: 600; /* Yarı kalın */
+  }
+  
+  .no-reviews p {
+    color: #666; /* Gri renk */
+    margin-bottom: 10px; /* Alt boşluk */
+  }
+  
+  .encourage-text {
+    color: #1e3a8a; /* Mavi renk */
+    font-weight: 600; /* Yarı kalın */
+    font-size: 16px; /* Yazı boyutu */
+  }
+  
+  /* ============================================
+     RESPONSIVE TASARIM
+     Mobile-first yaklaşım
+     ============================================ */
+  
+  /* 768px ve altı için (Tablet) */
+  @media (max-width: 768px) {
+    .reviews-summary-section {
+      grid-template-columns: 1fr; /* Tek kolon */
+      gap: 20px; /* Daha küçük boşluk */
+      padding: 20px; /* Daha küçük iç boşluk */
+    }
+    
+    .average-rating-card {
+      padding: 15px; /* Daha küçük iç boşluk */
+    }
+    
+    .rating-number {
+      font-size: 40px; /* Daha küçük puan */
+    }
+    
+    .star-icon {
+      font-size: 24px; /* Daha küçük yıldız */
+    }
+    
+    .write-review-section,
+    .existing-reviews-section {
+      padding: 20px; /* Daha küçük iç boşluk */
+    }
+    
+    .section-title {
+      font-size: 20px; /* Daha küçük başlık */
+    }
+    
+    .review-card {
+      padding: 20px; /* Daha küçük iç boşluk */
+    }
+    
+    .review-header {
+      flex-direction: column; /* Dikey sıralama */
+      align-items: flex-start; /* Sola hizalı */
+      gap: 15px; /* Elemanlar arası boşluk */
+    }
+    
+    .review-rating {
+      align-self: flex-start; /* Kendini sola hizala */
+    }
+  }
+  
+  /* 576px ve altı için (Mobil) */
+  @media (max-width: 576px) {
+    .product-reviews-container {
+      padding: 10px; /* Daha küçük yan boşluk */
+    }
+    
+    .reviews-summary-section {
+      padding: 15px; /* Daha küçük iç boşluk */
+      margin-bottom: 30px; /* Daha küçük alt boşluk */
+    }
+    
+    .rating-distribution {
+      padding: 10px; /* Daha küçük iç boşluk */
+    }
+    
+    .star-label {
+      min-width: 60px; /* Daha küçük minimum genişlik */
+      font-size: 13px; /* Daha küçük yazı */
+    }
+    
+    .rating-count {
+      min-width: 25px; /* Daha küçük minimum genişlik */
+      font-size: 13px; /* Daha küçük yazı */
+    }
+    
+    .write-review-section,
+    .existing-reviews-section {
+      padding: 15px; /* Daha küçük iç boşluk */
+    }
+    
+    .form-input,
+    .form-textarea {
+      padding: 12px; /* Daha küçük iç boşluk */
+      font-size: 14px; /* Daha küçük yazı */
+    }
+    
+    .star-button {
+      font-size: 24px; /* Daha küçük yıldız */
+    }
+    
+    .btn-submit-review {
+      padding: 12px 20px; /* Daha küçük iç boşluk */
+      font-size: 15px; /* Daha küçük yazı */
+      width: 100%; /* Tam genişlik */
+      justify-content: center; /* Ortalı içerik */
+    }
+    
+    .reviewer-avatar {
+      width: 40px; /* Daha küçük avatar */
+      height: 40px; /* Daha küçük avatar */
+      font-size: 16px; /* Daha küçük ikon */
+    }
+    
+    .review-footer {
+      flex-direction: column; /* Dikey sıralama */
+      gap: 10px; /* Daha küçük boşluk */
+    }
+    
+    .helpful-button,
+    .report-button {
+      width: 100%; /* Tam genişlik */
+      justify-content: center; /* Ortalı içerik */
+    }
+    
+    .no-reviews {
+      padding: 30px 15px; /* Daha küçük iç boşluk */
+    }
+    
+    .no-reviews-icon {
+      font-size: 48px; /* Daha küçük ikon */
+    }
+  }
+  
+  /* 400px ve altı için (Küçük mobil) */
+  @media (max-width: 400px) {
+    .rating-bar-row {
+      flex-wrap: wrap; /* Satır kaydırma */
+      gap: 8px; /* Daha küçük boşluk */
+    }
+    
+    .star-label {
+      min-width: 100%; /* Tam genişlik */
+    }
+    
+    .rating-bar-container {
+      order: 2; /* İkinci sırada */
+      width: 100%; /* Tam genişlik */
+    }
+    
+    .rating-count {
+      order: 3; /* Üçüncü sırada */
+      text-align: left; /* Sola hizalı */
+    }
+    
+    .star-rating-input {
+      justify-content: center; /* Ortalı içerik */
+    }
+  }
+  
+  /* ANİMASYONLAR */
+  @keyframes fadeIn {
+    from {
+      opacity: 0; /* Görünmez başlangıç */
+      transform: translateY(10px); /* Aşağıdan gel */
+    }
+    to {
+      opacity: 1; /* Görünür bitiş */
+      transform: translateY(0); /* Normal pozisyon */
+    }
+  }
+  
+  .review-card {
+    animation: fadeIn 0.5s ease; /* Giriş animasyonu */
+  }
+  
+  /* YÜKSEK KONTRAST MODU İÇİN */
+  @media (prefers-contrast: high) {
+    .form-input,
+    .form-textarea,
+    .review-card,
+    .average-rating-card {
+      border: 2px solid #000; /* Kalın siyah kenarlık */
+    }
+    
+    .btn-submit-review {
+      border: 2px solid #000; /* Kalın siyah kenarlık */
+    }
+  }
+  
+  /* KARANLIK MOD DESTEĞİ */
+  @media (prefers-color-scheme: dark) {
+    .product-reviews-container {
+      background: #1a1a1a; /* Koyu arka plan */
+      color: #f0f0f0; /* Açık metin */
+    }
+    
+    .write-review-section,
+    .existing-reviews-section,
+    .review-card,
+    .average-rating-card,
+    .rating-distribution {
+      background: #2d2d2d; /* Koyu kart arka planı */
+      border-color: #404040; /* Koyu kenarlık */
+    }
+    
+    .form-input,
+    .form-textarea {
+      background: #3a3a3a; /* Koyu input arka planı */
+      color: #f0f0f0; /* Açık metin */
+      border-color: #505050; /* Koyu kenarlık */
+    }
+    
+    .review-content p,
+    .section-title {
+      color: #f0f0f0; /* Açık metin */
+    }
+    
+    .form-label,
+    .reviewer-name {
+      color: #e0e0e0; /* Açık gri metin */
+    }
+    
+    .form-note,
+    .review-date,
+    .character-count,
+    .section-subtitle {
+      color: #b0b0b0; /* Orta gri metin */
+    }
+  }

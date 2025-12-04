@@ -1,28 +1,55 @@
-import React, { useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import React, { useState, useRef, useEffect } from 'react';
+import { useParams, Link, useLocation } from 'react-router-dom';
 import '../styles/ProductDetailPage.css';
 import { productsData } from "../data/productsData";
 import { useFavorites } from "../context/FavoritesContext";
 import { useCart } from "../context/CartContext";
 import ShareModal from '../components/ShareModel/ShareModel';
 import { 
-  FaTruck, FaShieldAlt, FaUndo, FaHeart, FaExchangeAlt, 
-  FaTag, FaStar, FaShareAlt, FaShoppingCart, FaBolt
+  FaTruck, FaHeart, FaExchangeAlt, 
+  FaTag, FaStar, FaShareAlt, FaShoppingCart, FaBolt,
+  FaCreditCard, FaUniversity, FaMoneyBill, FaShippingFast,
+  FaPhone, FaEnvelope, FaComment, FaUser
 } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const ProductDetailPage = () => {
   const { id } = useParams();
+  const location = useLocation();
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('description');
   const [showShareModal, setShowShareModal] = useState(false);
+  const [isHoveringImage, setIsHoveringImage] = useState(false);
+  const [reviewRating, setReviewRating] = useState(0);
+  const [reviewText, setReviewText] = useState('');
+  const [reviewName, setReviewName] = useState('');
+  const [reviewEmail, setReviewEmail] = useState('');
+
+  const reviewsTabRef = useRef(null);
+  const commentFormRef = useRef(null);
 
   const { isFavorite, toggleFavorite } = useFavorites();
   const { addToCart } = useCart();
 
   const product = productsData.find((p) => p.id === Number(id));
+
+  // URL'de yorum hash'i varsa Yorumlar tab'ına git
+  useEffect(() => {
+    if (location.hash === '#reviews') {
+      setActiveTab('reviews');
+      setTimeout(() => {
+        reviewsTabRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+    if (location.hash === '#write-review') {
+      setActiveTab('reviews');
+      setTimeout(() => {
+        commentFormRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+  }, [location]);
 
   if (!product) {
     return (
@@ -41,8 +68,8 @@ const ProductDetailPage = () => {
     "Kazıma Genişliği": "25 mm",
     "Kazıma Derinliği": "15 - 25 mm",
     "Paket İçeriği": "1 ADET",
-    "Stok Kodu": product.stockCode || "rm_EX75127",
-    "Marka": product.brand || "EUROMAX"
+    "Stok Kodu": product.stockCode || "38248",
+    "Marka": product.brand || "MACROZA"
   };
 
   const formatPrice = (price) => {
@@ -59,8 +86,8 @@ const ProductDetailPage = () => {
 
   const discountPercentage = calculateDiscount();
 
-  const calculateInstallment = () => {
-    const monthly = product.price / 12;
+  const calculateInstallment = (installmentCount = 12) => {
+    const monthly = product.price / installmentCount;
     return formatPrice(monthly);
   };
 
@@ -84,6 +111,73 @@ const ProductDetailPage = () => {
   };
 
   const productUrl = window.location.href;
+
+  // Yorum yap butonuna tıklanınca Yorumlar tab'ına git
+  const handleReviewClick = () => {
+    setActiveTab('reviews');
+    setTimeout(() => {
+      reviewsTabRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+  };
+
+  // Yorum yaz butonuna tıklanınca yorum formuna git
+  const handleWriteReviewClick = () => {
+    setActiveTab('reviews');
+    setTimeout(() => {
+      commentFormRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+  };
+
+  // Yorum gönderme işlemi
+  const handleSubmitReview = (e) => {
+    e.preventDefault();
+    
+    // Basit doğrulama
+    if (!reviewName.trim()) {
+      toast.error('Lütfen adınızı giriniz');
+      return;
+    }
+    
+    if (!reviewEmail.trim()) {
+      toast.error('Lütfen e-posta adresinizi giriniz');
+      return;
+    }
+    
+    if (!reviewRating) {
+      toast.error('Lütfen puan veriniz');
+      return;
+    }
+    
+    if (!reviewText.trim()) {
+      toast.error('Lütfen yorumunuzu yazınız');
+      return;
+    }
+    
+    // Burada yorumu backend'e gönderebilirsiniz
+    console.log('Yorum gönderildi:', {
+      name: reviewName,
+      email: reviewEmail,
+      rating: reviewRating,
+      text: reviewText,
+      productId: product.id
+    });
+    
+    toast.success('Yorumunuz başarıyla gönderildi! Teşekkür ederiz.');
+    
+    // Formu temizle
+    setReviewName('');
+    setReviewEmail('');
+    setReviewRating(0);
+    setReviewText('');
+  };
+
+  // Kategori bilgilerini formatla
+  const formatCategories = () => {
+    if (Array.isArray(product.categories)) {
+      return product.categories.join(', ');
+    }
+    return product.category || 'Macroza Yedek Biçakları, Kamal Açma Makinesi Yedek Biçaklar';
+  };
 
   return (
     <div className="product-detail-page">
@@ -114,311 +208,231 @@ const ProductDetailPage = () => {
 
         <div className="product-main">
 
-          {/* SOL — Ürün galerisi */}
-          <div className="product-gallery">
-            <div className="main-image-container">
-              <img 
-                src={images[selectedImage]}
-                alt={product.name}
-                className="main-image"
-                loading="lazy"
-              />
-              {discountPercentage > 0 && (
-                <div className="discount-badge-large">
-                  %{discountPercentage} İNDİRİM
-                </div>
-              )}
-              {product.isNew && <div className="new-badge">YENİ</div>}
-              {product.isCampaign && <div className="campaign-badge">KAMPANYA</div>}
-            </div>
-
-            <div className="thumbnail-gallery">
-              {images.map((img, index) => (
-                <button
-                  key={index}
-                  className={`thumbnail ${selectedImage === index ? 'active' : ''}`}
-                  onClick={() => setSelectedImage(index)}
-                  aria-label={`Resim ${index + 1}`}
-                >
-                  <img src={img} alt={`${product.name} - ${index + 1}`} />
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* ORTA — Ürün Info */}
-          <div className="product-info">
-
-            <div className="product-header">
-              <h1 className="product-title">{product.name}</h1>
-
-              <div className="product-meta">
-                <span className="brand">{product.brand}</span>
-                <span className="separator">•</span>
-                <span className="stock-code">Stok Kodu: {product.stockCode || "rm_EX75127"}</span>
-                <span className="separator">•</span>
-                <span className="category">{product.category}</span>
-              </div>
-
-              <div className="rating-section">
-                <div className="stars">
-                  {[...Array(5)].map((_, i) => (
-                    <FaStar
-                      key={i}
-                      className={i < Math.floor(product.rating || 4) ? "star-filled" : "star-empty"}
-                    />
-                  ))}
-                </div>
-                <span className="rating-score">{product.rating || 4.0}/5</span>
-                <span className="review-count">({product.reviewCount || 0} yorum)</span>
-                <button className="write-review">Yorum Yap</button>
-              </div>
-            </div>
-
-            {/* Fiyat alanı */}
-            <div className="price-section">
-              {product.originalPrice && product.originalPrice > product.price && (
-                <div className="original-price">
-                  <span className="old-price">{formatPrice(product.originalPrice)} TL</span>
-                  <span className="discount-percent">%{discountPercentage}</span>
-                </div>
-              )}
-              <div className="current-price">{formatPrice(product.price)} TL</div>
-
-              <div className="price-details">
-                <div className="installment-info">
-                  <FaTag className="installment-icon" />
-                  <span>{calculateInstallment()} TL x 12 taksit</span>
-                </div>
-                {product.price > 1000 && (
-                  <div className="cash-discount">
-                    <FaBolt className="cash-icon" />
-                    <span>Peşin fiyatına {formatPrice(product.price * 0.95)} TL</span>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Stok bilgisi */}
-            <div className="stock-info">
-              <div className={`stock-status ${product.inStock ? 'in-stock' : 'out-of-stock'}`}>
-                {product.inStock ? (
-                  <>
-                    <span className="stock-icon">✓</span>
-                    <span>Stokta Var</span>
-                  </>
-                ) : (
-                  <>
-                    <span className="stock-icon">✗</span>
-                    <span>Stokta Yok</span>
-                  </>
-                )}
-              </div>
-
-              {product.inStock && (
-                <div className="shipping-time">
-                  <FaTruck /> 
-                  <div>
-                    <strong>Aynı gün kargo</strong>
-                    <small>Saat 17:00'a kadar verilen siparişler</small>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Ürün Özellikleri */}
-            <div className="product-features">
-              <h3>Öne Çıkan Özellikler</h3>
-              <ul>
-                {product.features.map((f, i) => (
-                  <li key={i}>
-                    <span className="feature-check">✓</span> 
-                    <span>{f}</span>
-                  </li>
+          {/* SOL KOLON - Ürün Galerisi (Yeni Düzen) */}
+          <div className="product-left-column">
+            
+            {/* Ürün Galerisi - Yeni Düzen: Küçük resimler solda, büyük resim sağda */}
+            <div className="product-gallery-new">
+              
+              {/* SOL - Küçük Resimler (Vertical) */}
+              <div className="thumbnail-gallery-vertical">
+                {images.map((img, index) => (
+                  <button
+                    key={index}
+                    className={`thumbnail-vertical ${selectedImage === index ? 'active' : ''}`}
+                    onClick={() => setSelectedImage(index)}
+                    aria-label={`Resim ${index + 1}`}
+                  >
+                    <img src={img} alt={`${product.name} - ${index + 1}`} />
+                  </button>
                 ))}
-              </ul>
-            </div>
-
-            {/* Adet */}
-            <div className="quantity-section">
-              <label>Adet:</label>
-              <div className="quantity-control">
-                <button 
-                  onClick={() => setQuantity(q => Math.max(1, q - 1))} 
-                  disabled={quantity <= 1}
-                  aria-label="Azalt"
-                >
-                  −
-                </button>
-                <input 
-                  type="number" 
-                  value={quantity} 
-                  onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-                  min="1"
-                  max="99"
-                />
-                <button 
-                  onClick={() => setQuantity(q => q + 1)}
-                  aria-label="Arttır"
-                >
-                  +
-                </button>
               </div>
-              <div className="quantity-note">Maksimum 99 adet</div>
-            </div>
 
-            {/* BUTONLAR */}
-            <div className="action-buttons">
-              <button 
-                className="btn-add-to-cart" 
-                onClick={handleAddToCart}
-                disabled={!product.inStock}
-              >
-                <FaShoppingCart /> SEPETE EKLE
-              </button>
-              <button 
-                className="btn-buy-now" 
-                onClick={handleBuyNow}
-                disabled={!product.inStock}
-              >
-                HEMEN AL
-              </button>
-
-              {/* BUTON GRUBU */}
-              <div className="action-button-group">
-                {/* FAVORİ */}
-                <button 
-                  className={`btn-favorite ${isFavorite(product.id) ? "active" : ""}`}
-                  onClick={handleFavoriteClick}
-                  aria-label={isFavorite(product.id) ? "Favorilerden çıkar" : "Favorilere ekle"}
+              {/* SAĞ - Ana Resim */}
+              <div className="main-image-section">
+                <div 
+                  className="main-image-container"
+                  onMouseEnter={() => setIsHoveringImage(true)}
+                  onMouseLeave={() => setIsHoveringImage(false)}
                 >
-                  <FaHeart />
-                </button>
-
-                {/* PAYLAŞ */}
-                <button 
-                  className="btn-share" 
-                  onClick={() => setShowShareModal(true)}
-                  aria-label="Paylaş"
-                >
-                  <FaShareAlt />
-                </button>
-              </div>
-            </div>
-
-            {/* Garanti */}
-            <div className="guarantee-section">
-              <div className="guarantee-item">
-                <FaUndo />
-                <div>
-                  <span>14 Gün İade</span>
-                  <small>Koşulsuz iade</small>
+                  <img 
+                    src={images[selectedImage]}
+                    alt={product.name}
+                    className={`main-image ${isHoveringImage ? 'zoom-active' : ''}`}
+                    loading="lazy"
+                  />
+                  
+                  {isHoveringImage && (
+                    <div className="zoom-overlay">
+                      <div className="zoom-text">
+                        🔍 Yakınlaştırmak için üzerine gelin
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
-              <div className="guarantee-item">
-                <FaShieldAlt />
-                <div>
-                  <span>2 Yıl Garanti</span>
-                  <small>Resmi garanti</small>
-                </div>
-              </div>
-              <div className="guarantee-item">
-                <FaExchangeAlt />
-                <div>
-                  <span>Kolay Değişim</span>
-                  <small>7 gün içinde</small>
-                </div>
-              </div>
+
             </div>
 
-            {/* Hızlı Satın Alma */}
-            <div className="quick-buy-section">
-              <h4>Hızlı Satın Alma</h4>
-              <div className="quick-buy-options">
-                <button className="quick-buy-btn" onClick={() => {
-                  setQuantity(1);
-                  handleAddToCart();
-                }}>
-                  1 Adet Satın Al
-                </button>
-                <button className="quick-buy-btn" onClick={() => {
-                  setQuantity(2);
-                  handleAddToCart();
-                }}>
-                  2 Adet Satın Al
-                </button>
+            {/* Ürün Detay Bilgileri */}
+            <div className="product-details-card">
+              <div className="detail-row">
+                <span className="detail-label">Kategori</span>
+                <span className="detail-value">{formatCategories()}</span>
+              </div>
+              <div className="detail-row">
+                <span className="detail-label">Marka</span>
+                <span className="detail-value">{product.brand || "MACROZA"}</span>
+              </div>
+              <div className="detail-row">
+                <span className="detail-label">Stok Kodu</span>
+                <span className="detail-value">{product.stockCode || "38248"}</span>
+              </div>
+              <div className="detail-row">
+                <span className="detail-label">Stok Durumu</span>
+                <span className={`detail-value stock-status-indicator ${product.inStock ? 'in-stock' : 'out-of-stock'}`}>
+                  {product.inStock ? 'Stokta Var' : 'Stokta Yok'}
+                </span>
+              </div>
+              <div className="detail-row">
+                <span className="detail-label">Havale</span>
+                <span className="detail-value eft-discount">
+                  (%2.00 Havale/EFT indirimi)
+                </span>
               </div>
             </div>
 
           </div>
 
-          {/* SAĞ — Kargo / Ödeme / İletişim */}
-          <div className="product-sidebar">
+          {/* ORTA KOLON - Ürün Bilgileri ve Butonlar */}
+          <div className="product-middle-column">
+            <div className="product-info">
 
-            <div className="shipping-card">
-              <div className="card-header">
-                <FaTruck />
-                <h3>Kargo Bilgisi</h3>
-              </div>
-              <div className="shipping-details">
-                <div className="shipping-item">
-                  <strong>Ücretsiz Kargo:</strong>
-                  <span className="free-shipping">500 TL +</span>
-                </div>
-                <div className="shipping-item">
-                  <strong>Kargo Süresi:</strong>
-                  <span>1-3 iş günü</span>
-                </div>
-                <div className="shipping-item">
-                  <strong>Kapıda Ödeme:</strong>
-                  <span className="available">Mevcut</span>
-                </div>
-                <div className="shipping-item">
-                  <strong>Kargo Firmaları:</strong>
-                  <div className="couriers">
-                    <span>Aras</span>
-                    <span>Yurtiçi</span>
-                    <span>Sürat</span>
+              {/* Ürün Başlığı - Sadece Ürün İsmi */}
+              <div className="product-header">
+                <h1 className="product-title">{product.name}</h1>
+
+                {/* Puanlama ve Yorum Yap Butonu - Marka kaldırıldı */}
+                <div className="product-rating-section">
+                  <div className="rating-container">
+                    <span className="rating-score">{product.rating || 4.0}</span>
+                    <div className="stars">
+                      {[...Array(5)].map((_, i) => (
+                        <FaStar
+                          key={i}
+                          className={i < Math.floor(product.rating || 4) ? "star-filled" : "star-empty"}
+                        />
+                      ))}
+                    </div>
+                    <button 
+                      className="review-action-btn"
+                      onClick={handleReviewClick}
+                    >
+                      <FaComment className="review-icon" />
+                      Yorum Yap
+                    </button>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div className="payment-card">
-              <h3>Ödeme Seçenekleri</h3>
-              <div className="payment-methods">
-                <div className="payment-method active">
-                  <span className="method-icon">💳</span>
-                  <span>Kredi Kartı</span>
-                  <small>Tek çekim/taksit</small>
-                </div>
-                <div className="payment-method">
-                  <span className="method-icon">🏦</span>
-                  <span>Havale/EFT</span>
-                  <small>%3 indirim</small>
-                </div>
-                <div className="payment-method">
-                  <span className="method-icon">🚚</span>
-                  <span>Kapıda Ödeme</span>
-                  <small>+20 TL</small>
+              {/* FİYAT BİLGİSİ - Adet'in üstünde */}
+              <div className="price-section-top">
+                <div className="price-display-top">
+                  {product.originalPrice && product.originalPrice > product.price && (
+                    <div className="original-price-top">
+                      <span className="old-price">{formatPrice(product.originalPrice)} TL</span>
+                      {discountPercentage > 0 && (
+                        <span className="discount-percent">%{discountPercentage}</span>
+                      )}
+                    </div>
+                  )}
+                  <div className="current-price-top">{formatPrice(product.price)} TL</div>
+                  
+                  <div className="installment-highlight-top">
+                    <FaTag className="installment-icon" />
+                    <span>{calculateInstallment(12)} TL'den başlayan taksitlerle!</span>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* İLETİŞİM */}
+              {/* Adet Seçimi */}
+              <div className="quantity-section">
+                <label>Adet:</label>
+                <div className="quantity-control">
+                  <button 
+                    onClick={() => setQuantity(q => Math.max(1, q - 1))} 
+                    disabled={quantity <= 1}
+                    aria-label="Azalt"
+                  >
+                    −
+                  </button>
+                  <input 
+                    type="number" 
+                    value={quantity} 
+                    onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+                    min="1"
+                    max="99"
+                  />
+                  <button 
+                    onClick={() => setQuantity(q => q + 1)}
+                    aria-label="Arttır"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+
+              {/* BUTONLAR */}
+              <div className="action-buttons-container">
+                <div className="primary-buttons">
+                  {/* SEPETE EKLE BUTONU */}
+                  <button 
+                    className="btn-add-to-cart" 
+                    onClick={handleAddToCart}
+                    disabled={!product.inStock}
+                  >
+                    <div className="btn-content">
+                      <FaShoppingCart className="btn-icon" />
+                      <span className="btn-text">SEPETE EKLE</span>
+                    </div>
+                  </button>
+
+                  {/* HEMEN AL BUTONU */}
+                  <button 
+                    className="btn-buy-now" 
+                    onClick={handleBuyNow}
+                    disabled={!product.inStock}
+                  >
+                    <div className="btn-content">
+                      <span className="btn-text">HEMEN SATIN AL</span>
+                    </div>
+                  </button>
+                </div>
+
+                {/* İKİNCİL BUTONLAR */}
+                <div className="secondary-buttons">
+                  <button 
+                    className={`btn-favorite ${isFavorite(product.id) ? "active" : ""}`}
+                    onClick={handleFavoriteClick}
+                    aria-label={isFavorite(product.id) ? "Favorilerden çıkar" : "Favorilere ekle"}
+                  >
+                    <FaHeart className="favorite-icon" />
+                    <span className="favorite-text">
+                      {isFavorite(product.id) ? "Favorilerde" : "Favorilere Ekle"}
+                    </span>
+                  </button>
+
+                  <button 
+                    className="btn-share" 
+                    onClick={() => setShowShareModal(true)}
+                    aria-label="Paylaş"
+                  >
+                    <FaShareAlt className="share-icon" />
+                    <span className="share-text">Paylaş</span>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          {/* SAĞ KOLON - İletişim ve Ödeme Bilgileri */}
+          <div className="product-right-column">
+            
+            {/* YARDIM İSTER MİSİNİZ? */}
             <div className="contact-card">
               <h3>Yardım İster misiniz?</h3>
               <p>Ürünle ilgili sorularınız için bize ulaşın.</p>
               <div className="contact-options">
                 <a href="tel:+905001234567" className="contact-option">
-                  <span className="option-icon">📞</span>
+                  <FaPhone className="option-icon" />
                   <div>
                     <span>Telefon</span>
                     <small>+90 (500) 123 45 67</small>
                   </div>
                 </a>
                 <a href="mailto:info@orhanmakine.com" className="contact-option">
-                  <span className="option-icon">✉️</span>
+                  <FaEnvelope className="option-icon" />
                   <div>
                     <span>E-posta</span>
                     <small>info@orhanmakine.com</small>
@@ -430,21 +444,36 @@ const ProductDetailPage = () => {
               </Link>
             </div>
 
-            {/* GÜVENLİ ALIŞVERİŞ */}
-            <div className="security-card">
-              <h3>Güvenli Alışveriş</h3>
-              <div className="security-features">
-                <div className="security-item">
-                  <span className="security-icon">🔒</span>
-                  <span>SSL Sertifikası</span>
+            {/* ÖDEME SEÇENEKLERİ */}
+            <div className="payment-info-card">
+              <h3>Ödeme Seçenekleri</h3>
+              <div className="payment-info-list">
+                <div className="payment-info-item">
+                  <div className="payment-method-info">
+                    <FaCreditCard className="payment-icon" />
+                    <div className="payment-details">
+                      <span className="payment-method-name">Kredi Kartı</span>
+                      <small className="payment-method-desc">Tüm bankalar, tek çekim/taksit</small>
+                    </div>
+                  </div>
                 </div>
-                <div className="security-item">
-                  <span className="security-icon">🏛️</span>
-                  <span>Banka Onaylı</span>
+                <div className="payment-info-item">
+                  <div className="payment-method-info">
+                    <FaUniversity className="payment-icon" />
+                    <div className="payment-details">
+                      <span className="payment-method-name">Havale/EFT</span>
+                      <small className="payment-method-desc">%2 indirim, banka hesap bilgileri</small>
+                    </div>
+                  </div>
                 </div>
-                <div className="security-item">
-                  <span className="security-icon">🛡️</span>
-                  <span>3D Secure</span>
+                <div className="payment-info-item">
+                  <div className="payment-method-info">
+                    <FaMoneyBill className="payment-icon" />
+                    <div className="payment-details">
+                      <span className="payment-method-name">Kapıda Ödeme</span>
+                      <small className="payment-method-desc">Nakit veya kredi kartı, +20 TL</small>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -454,7 +483,7 @@ const ProductDetailPage = () => {
         </div>
 
         {/* TAB'LAR */}
-        <div className="product-tabs">
+        <div className="product-tabs" ref={reviewsTabRef}>
           <div className="tab-headers">
             <button 
               className={`tab-header ${activeTab === 'description' ? 'active' : ''}`}
@@ -469,26 +498,34 @@ const ProductDetailPage = () => {
               Teknik Özellikler
             </button>
             <button 
-              className={`tab-header ${activeTab === 'reviews' ? 'active' : ''}`}
-              onClick={() => setActiveTab('reviews')}
-            >
-              Yorumlar ({product.reviewCount || 0})
-            </button>
-            <button 
               className={`tab-header ${activeTab === 'questions' ? 'active' : ''}`}
               onClick={() => setActiveTab('questions')}
             >
               Soru & Cevap ({product.qnaCount || 0})
             </button>
             <button 
-              className={`tab-header ${activeTab === 'documents' ? 'active' : ''}`}
-              onClick={() => setActiveTab('documents')}
+              className={`tab-header ${activeTab === 'installment' ? 'active' : ''}`}
+              onClick={() => setActiveTab('installment')}
             >
-              Dokümanlar
+              Taksit Seçenekleri
+            </button>
+            <button 
+              className={`tab-header ${activeTab === 'shipping' ? 'active' : ''}`}
+              onClick={() => setActiveTab('shipping')}
+            >
+              Kargo Bilgileri
+            </button>
+            <button 
+              className={`tab-header ${activeTab === 'reviews' ? 'active' : ''}`}
+              onClick={() => setActiveTab('reviews')}
+            >
+              Yorumlar ({product.reviewCount || 0})
             </button>
           </div>
 
           <div className="tab-content">
+            
+            {/* Ürün Bilgisi Tab */}
             {activeTab === 'description' && (
               <div className="tab-panel">
                 <div className="description-content">
@@ -499,19 +536,24 @@ const ProductDetailPage = () => {
                       Bu ürün profesyonel kullanım için tasarlanmıştır. Yüksek kaliteli malzemelerden üretilmiştir ve uzun ömürlü kullanım sunar.
                     </p>
                   </div>
-                  <div className="description-features">
-                    <h4>Ekstra Özellikler</h4>
-                    <ul>
-                      <li>Yüksek performanslı motor</li>
-                      <li>Uzun ömürlü kullanım</li>
-                      <li>Enerji tasarrufu</li>
-                      <li>Kolay bakım</li>
-                    </ul>
-                  </div>
+                  {product.features && product.features.length > 0 && (
+                    <div className="product-features-tab">
+                      <h4>Özellikler</h4>
+                      <ul>
+                        {product.features.map((f, i) => (
+                          <li key={i}>
+                            <span className="feature-check">✓</span> 
+                            <span>{f}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                 </div>
               </div>
             )}
 
+            {/* Teknik Özellikler Tab */}
             {activeTab === 'specifications' && (
               <div className="tab-panel">
                 <h3>Teknik Özellikler</h3>
@@ -534,40 +576,7 @@ const ProductDetailPage = () => {
               </div>
             )}
 
-            {activeTab === 'reviews' && (
-              <div className="tab-panel">
-                <div className="reviews-header">
-                  <h3>Müşteri Yorumları</h3>
-                  <button className="btn-write-review">Yorum Yap</button>
-                </div>
-                {product.reviewCount > 0 ? (
-                  <div className="reviews-list">
-                    <div className="review-summary">
-                      <div className="average-rating">
-                        <span className="rating-number">{product.rating || 4.0}</span>
-                        <div className="rating-stars">
-                          {[...Array(5)].map((_, i) => (
-                            <FaStar key={i} className={i < Math.floor(product.rating || 4) ? "star-filled" : "star-empty"} />
-                          ))}
-                        </div>
-                        <span className="total-reviews">{product.reviewCount || 0} yorum</span>
-                      </div>
-                    </div>
-                    <div className="no-reviews-message">
-                      <p>Henüz yorum yapılmamış. İlk yorumu siz yapın!</p>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="no-reviews">
-                    <div className="no-reviews-icon">📝</div>
-                    <h4>Henüz Yorum Yok</h4>
-                    <p>Bu ürün için henüz müşteri yorumu bulunmuyor.</p>
-                    <button className="btn-be-first">İlk Yorumu Sen Yap</button>
-                  </div>
-                )}
-              </div>
-            )}
-
+            {/* Soru & Cevap Tab */}
             {activeTab === 'questions' && (
               <div className="tab-panel">
                 <div className="questions-header">
@@ -589,35 +598,249 @@ const ProductDetailPage = () => {
               </div>
             )}
 
-            {activeTab === 'documents' && (
+            {/* Taksit Seçenekleri Tab */}
+            {activeTab === 'installment' && (
               <div className="tab-panel">
-                <h3>Dokümanlar</h3>
-                <div className="documents-list">
-                  <div className="document-item">
-                    <span className="doc-icon">📄</span>
-                    <div className="doc-info">
-                      <h4>Kullanım Kılavuzu</h4>
-                      <p>PDF - 2.4 MB</p>
+                <h3>Taksit Seçenekleri</h3>
+                <div className="installment-table-container">
+                  <div className="installment-table">
+                    <div className="installment-table-header">
+                      <div>Taksit</div>
+                      <div>Taksit Tutarı</div>
+                      <div>Toplam Tutar</div>
                     </div>
-                    <button className="btn-download">İndir</button>
+                    {[1, 2, 3, 6, 9, 12].map((installment) => (
+                      <div key={installment} className="installment-table-row">
+                        <div className="installment-count">
+                          {installment === 1 ? 'Tek Çekim' : `${installment} Taksit`}
+                        </div>
+                        <div className="installment-amount">
+                          {installment === 1 
+                            ? formatPrice(product.price)
+                            : formatPrice(product.price / installment)
+                          } TL
+                        </div>
+                        <div className="installment-total">
+                          {formatPrice(product.price)} TL
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                  <div className="document-item">
-                    <span className="doc-icon">📋</span>
-                    <div className="doc-info">
-                      <h4>Teknik Çizim</h4>
-                      <p>DWG - 5.1 MB</p>
-                    </div>
-                    <button className="btn-download">İndir</button>
-                  </div>
-                  <div className="document-item">
-                    <span className="doc-icon">📊</span>
-                    <div className="doc-info">
-                      <h4>Garanti Belgesi</h4>
-                      <p>PDF - 1.2 MB</p>
-                    </div>
-                    <button className="btn-download">İndir</button>
+                  <div className="installment-notes">
+                    <h4>Taksit Notları:</h4>
+                    <ul>
+                      <li>Taksit seçenekleri bankalara göre değişiklik gösterebilir.</li>
+                      <li>Minimum taksit tutarı 100 TL'dir.</li>
+                      <li>İndirimler tek çekim fiyatı üzerinden uygulanır.</li>
+                    </ul>
                   </div>
                 </div>
+              </div>
+            )}
+
+            {/* Kargo Bilgileri Tab */}
+            {activeTab === 'shipping' && (
+              <div className="tab-panel">
+                <h3>Kargo Bilgileri</h3>
+                <div className="shipping-info-tab">
+                  <div className="shipping-info-grid">
+                    <div className="shipping-info-card">
+                      <div className="shipping-info-icon">
+                        <FaShippingFast />
+                      </div>
+                      <h4>Teslimat Süresi</h4>
+                      <p><strong>1-3 İş Günü</strong></p>
+                      <small>Stok durumuna göre değişir</small>
+                    </div>
+                    
+                    <div className="shipping-info-card">
+                      <div className="shipping-info-icon">
+                        <FaTruck />
+                      </div>
+                      <h4>Kargo Ücreti</h4>
+                      <p><strong>500 TL Üzeri Ücretsiz</strong></p>
+                      <small>500 TL altı için 25 TL</small>
+                    </div>
+                    
+                    <div className="shipping-info-card">
+                      <div className="shipping-info-icon">
+                        <FaMoneyBill />
+                      </div>
+                      <h4>Kapıda Ödeme</h4>
+                      <p><strong className="available">Mevcut</strong></p>
+                      <small>+20 TL ek ücret</small>
+                    </div>
+                  </div>
+                  
+                  <div className="shipping-companies">
+                    <h4>Anlaşmalı Kargo Firmaları</h4>
+                    <div className="company-logos">
+                      <span className="company-logo">Aras Kargo</span>
+                      <span className="company-logo">Yurtiçi Kargo</span>
+                      <span className="company-logo">Sürat Kargo</span>
+                      <span className="company-logo">MNG Kargo</span>
+                    </div>
+                  </div>
+                  
+                  <div className="shipping-terms">
+                    <h4>Kargo Şartları</h4>
+                    <ul>
+                      <li>Siparişler saat 17:00'a kadar verilirse aynı gün kargoya verilir.</li>
+                      <li>Ürün teslimatında imza alınır.</li>
+                      <li>Hasarlı ürün teslimatında kargo firmasına tutanak tutturulmalıdır.</li>
+                      <li>Adres değişikliği kargoya verilmeden önce yapılabilir.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* YORUMLAR TAB - GÜNCELLENMİŞ */}
+            {activeTab === 'reviews' && (
+              <div className="tab-panel">
+                <div className="reviews-header">
+                  <h3>Müşteri Yorumları</h3>
+                  <button 
+                    className="btn-write-review"
+                    onClick={handleWriteReviewClick}
+                  >
+                    Yorum Yap
+                  </button>
+                </div>
+                
+                {/* Yorum Özeti */}
+                <div className="review-summary">
+                  <div className="average-rating">
+                    <span className="rating-number">{product.rating || 4.0}</span>
+                    <div className="rating-stars-large">
+                      {[...Array(5)].map((_, i) => (
+                        <FaStar 
+                          key={i} 
+                          className={i < Math.floor(product.rating || 4) ? "star-filled" : "star-empty"} 
+                        />
+                      ))}
+                    </div>
+                    <span className="total-reviews">{product.reviewCount || 0} yorum</span>
+                  </div>
+                </div>
+
+                {/* YORUM YAZMA FORMU - Kayıtlı/Kayıtsız Tüm Kullanıcılar İçin */}
+                <div className="write-review-section" ref={commentFormRef}>
+                  <h4>Yorumunuzu Yazın</h4>
+                  <p className="form-description">
+                    Ürün hakkındaki deneyimlerinizi paylaşın. Yorum yapmak için kayıt olmanıza gerek yok.
+                  </p>
+                  
+                  <form className="review-form" onSubmit={handleSubmitReview}>
+                    {/* Puanlama */}
+                    <div className="form-group">
+                      <label className="form-label">Puanınız:</label>
+                      <div className="rating-input">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <button
+                            key={star}
+                            type="button"
+                            className={`rating-star-btn ${star <= reviewRating ? 'selected' : ''}`}
+                            onClick={() => setReviewRating(star)}
+                            aria-label={`${star} yıldız`}
+                          >
+                            <FaStar />
+                          </button>
+                        ))}
+                        <span className="rating-text">
+                          {reviewRating === 0 ? 'Puan seçin' : `${reviewRating} / 5`}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Ad Soyad */}
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="reviewName">
+                        Adınız Soyadınız *
+                      </label>
+                      <input
+                        type="text"
+                        id="reviewName"
+                        className="form-input"
+                        value={reviewName}
+                        onChange={(e) => setReviewName(e.target.value)}
+                        placeholder="Adınızı ve soyadınızı girin"
+                        required
+                      />
+                    </div>
+
+                    {/* E-posta */}
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="reviewEmail">
+                        E-posta Adresiniz *
+                      </label>
+                      <input
+                        type="email"
+                        id="reviewEmail"
+                        className="form-input"
+                        value={reviewEmail}
+                        onChange={(e) => setReviewEmail(e.target.value)}
+                        placeholder="E-posta adresinizi girin"
+                        required
+                      />
+                      <small className="form-help">
+                        E-posta adresiniz yayınlanmayacaktır.
+                      </small>
+                    </div>
+
+                    {/* Yorum */}
+                    <div className="form-group">
+                      <label className="form-label" htmlFor="reviewText">
+                        Yorumunuz *
+                      </label>
+                      <textarea
+                        id="reviewText"
+                        className="form-textarea"
+                        value={reviewText}
+                        onChange={(e) => setReviewText(e.target.value)}
+                        placeholder="Ürün hakkındaki deneyimlerinizi yazın..."
+                        rows="5"
+                        required
+                      ></textarea>
+                      <small className="form-help">
+                        Yorumunuz en az 10 karakter olmalıdır.
+                      </small>
+                    </div>
+
+                    {/* Gönder Butonu */}
+                    <div className="form-actions">
+                      <button type="submit" className="btn-submit-review">
+                        <FaComment className="submit-icon" />
+                        Yorumu Gönder
+                      </button>
+                      <small className="form-note">
+                        Yorumunuz onaylandıktan sonra yayınlanacaktır.
+                      </small>
+                    </div>
+                  </form>
+                </div>
+
+                {/* Mevcut Yorumlar */}
+                {product.reviewCount > 0 ? (
+                  <div className="reviews-list">
+                    {/* Yorum listesi buraya gelecek */}
+                    <div className="no-reviews-message">
+                      <p>Henüz yorum yapılmamış. İlk yorumu siz yapın!</p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="no-reviews">
+                    <div className="no-reviews-icon">📝</div>
+                    <h4>Henüz Yorum Yok</h4>
+                    <p>Bu ürün için henüz müşteri yorumu bulunmuyor.</p>
+                    <button 
+                      className="btn-be-first"
+                      onClick={handleWriteReviewClick}
+                    >
+                      İlk Yorumu Sen Yap
+                    </button>
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -627,7 +850,6 @@ const ProductDetailPage = () => {
         <div className="related-products">
           <h3>Benzer Ürünler</h3>
           <div className="related-products-grid">
-            {/* Buraya benzer ürünlerin listesi gelecek */}
             <div className="related-placeholder">
               <p>Benzer ürünler yükleniyor...</p>
             </div>
