@@ -9,7 +9,11 @@ import {
   FaTruck, FaHeart, FaExchangeAlt, 
   FaTag, FaStar, FaShareAlt, FaShoppingCart, FaBolt,
   FaCreditCard, FaUniversity, FaMoneyBill, FaShippingFast,
-  FaPhone, FaEnvelope, FaComment, FaUser, FaQuestionCircle
+  FaPhone, FaEnvelope, FaComment, FaUser, FaQuestionCircle,
+  FaBox, FaShieldAlt, FaTools, FaCertificate, FaInfoCircle,
+  FaCheckCircle, FaCalendarAlt, FaMapMarkerAlt, FaClock,
+  FaRuler, FaWeight, FaCube, FaBolt as FaBoltIcon,
+  FaIndustry, FaCogs, FaHardHat
 } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -81,17 +85,6 @@ const ProductDetailPage = () => {
   // Ürün görsellerini al
   const images = product.images || [product.image];
 
-  // Teknik özellikleri al veya varsayılan değerler kullan
-  const specifications = product.specifications || {
-    "Tipi": "A Tip",
-    "Uyumlu Makine": "EXF5121",
-    "Kazıma Genişliği": "25 mm",
-    "Kazıma Derinliği": "15 - 25 mm",
-    "Paket İçeriği": "1 ADET",
-    "Stok Kodu": product.stockCode || "38248",
-    "Marka": product.brand || "MACROZA"
-  };
-
   // Fiyat formatlama fonksiyonu
   const formatPrice = (price) => {
     return new Intl.NumberFormat('tr-TR', {
@@ -139,7 +132,6 @@ const ProductDetailPage = () => {
   const productUrl = window.location.href;
 
   // YORUM İŞLEMLERİ
-  // Yorumlar tab'ına git
   const handleReviewClick = () => {
     setActiveTab('reviews');
     setTimeout(() => {
@@ -147,7 +139,6 @@ const ProductDetailPage = () => {
     }, 100);
   };
 
-  // Yorum yaz butonuna tıklanınca yorum formuna git
   const handleWriteReviewClick = () => {
     setActiveTab('reviews');
     setTimeout(() => {
@@ -155,11 +146,9 @@ const ProductDetailPage = () => {
     }, 100);
   };
 
-  // Yorum gönderme işlemi - E-POSTA ALANI KALDIRILDI
   const handleSubmitReview = (e) => {
     e.preventDefault();
     
-    // Doğrulama
     if (!reviewName.trim()) {
       toast.error('Lütfen adınızı giriniz');
       return;
@@ -175,7 +164,6 @@ const ProductDetailPage = () => {
       return;
     }
     
-    // Yeni yorum oluştur - E-POSTA BİLGİSİ YOK
     const newReview = {
       id: Date.now(),
       name: reviewName.trim(),
@@ -184,18 +172,15 @@ const ProductDetailPage = () => {
       date: new Date().toLocaleDateString('tr-TR')
     };
     
-    // Yorumları güncelle (demo amaçlı local state)
     const updatedReviews = [newReview, ...reviews];
     setReviews(updatedReviews);
     
-    // Ortalama rating'i güncelle
     const newTotalReviews = updatedReviews.length;
     const newAverage = updatedReviews.reduce((acc, review) => acc + review.rating, 0) / newTotalReviews;
     
     setTotalReviews(newTotalReviews);
     setAverageRating(newAverage.toFixed(1));
     
-    // Formu temizle
     setReviewName('');
     setReviewRating(0);
     setReviewText('');
@@ -204,7 +189,6 @@ const ProductDetailPage = () => {
   };
 
   // SORU İŞLEMLERİ
-  // Soru & Cevap tab'ına git
   const handleQuestionClick = () => {
     setActiveTab('questions');
     setTimeout(() => {
@@ -212,7 +196,6 @@ const ProductDetailPage = () => {
     }, 100);
   };
 
-  // Soru sor butonuna tıklanınca soru formuna git
   const handleAskQuestionClick = () => {
     setActiveTab('questions');
     setTimeout(() => {
@@ -220,7 +203,6 @@ const ProductDetailPage = () => {
     }, 100);
   };
 
-  // Soru gönderme işlemi
   const handleSubmitQuestion = (e) => {
     e.preventDefault();
     
@@ -234,7 +216,6 @@ const ProductDetailPage = () => {
       return;
     }
     
-    // Yeni soru oluştur
     const newQuestion = {
       id: Date.now(),
       name: questionName.trim(),
@@ -243,40 +224,12 @@ const ProductDetailPage = () => {
       answers: []
     };
     
-    // Soruları güncelle (demo amaçlı)
     setQuestions([newQuestion, ...questions]);
     
-    // Formu temizle
     setQuestionName('');
     setQuestionText('');
     
     toast.success('Soranız başarıyla gönderildi!');
-  };
-
-  // Demo cevap gönderme fonksiyonu
-  const handleSubmitAnswer = (questionId, answerText) => {
-    if (!answerText.trim()) return;
-    
-    const updatedQuestions = questions.map(q => {
-      if (q.id === questionId) {
-        return {
-          ...q,
-          answers: [
-            ...q.answers,
-            {
-              id: Date.now(),
-              text: answerText.trim(),
-              date: new Date().toLocaleDateString('tr-TR'),
-              answeredBy: 'Mağaza Yetkilisi'
-            }
-          ]
-        };
-      }
-      return q;
-    });
-    
-    setQuestions(updatedQuestions);
-    toast.success('Cevabınız gönderildi!');
   };
 
   // Kategori formatlama
@@ -331,7 +284,7 @@ const ProductDetailPage = () => {
                     onClick={() => setSelectedImage(index)}
                     aria-label={`Resim ${index + 1}`}
                   >
-                    <img src={img} alt={`${product.name} - ${index + 1}`} />
+                    <img src={img} alt={`${product.name} - ${index + 1}`} loading="lazy" />
                   </button>
                 ))}
               </div>
@@ -392,19 +345,19 @@ const ProductDetailPage = () => {
 
           </div>
 
-          {/* ORTA KOLON - Ürün Bilgileri ve Butonlar */}
+          {/* ORTA KOLON - Ürün Bilgileri ve Butonlar - GÜNCELLENDİ (DAHA SIKI) */}
           <div className="product-middle-column">
             <div className="product-info">
 
-              {/* Ürün Başlığı */}
-              <div className="product-header">
+              {/* Ürün Başlığı - DAHA SIKI */}
+              <header className="product-header">
                 <h1 className="product-title">{product.name}</h1>
 
-                {/* PUANLAMA VE AKSİYON LİNKLERİ - GÜNCELLENDİ */}
-                <div className="product-rating-section">
-                  <div className="rating-container">
+                {/* PUANLAMA VE AKSİYON LİNKLERİ - DAHA SIKI */}
+                <div className="product-rating-section compact">
+                  <div className="rating-container compact">
                     {/* Puanlama */}
-                    <div className="rating-display">
+                    <div className="rating-display compact">
                       <span className="rating-score">{averageRating}</span>
                       <div className="stars">
                         {[...Array(5)].map((_, i) => (
@@ -417,8 +370,8 @@ const ProductDetailPage = () => {
                       <span className="review-count">({totalReviews} yorum)</span>
                     </div>
                     
-                    {/* AKSİYON LİNKLERİ - GÜNCELLENDİ */}
-                    <div className="action-links">
+                    {/* AKSİYON LİNKLERİ - DAHA SIKI */}
+                    <div className="action-links compact">
                       <button 
                         className="action-link review-link"
                         onClick={handleReviewClick}
@@ -441,11 +394,11 @@ const ProductDetailPage = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </header>
 
-              {/* FİYAT BİLGİSİ */}
-              <div className="price-section-top">
-                <div className="price-display-top">
+              {/* FİYAT BİLGİSİ - DAHA SIKI */}
+              <div className="price-section-top compact">
+                <div className="price-display-top compact">
                   {product.originalPrice && product.originalPrice > product.price && (
                     <div className="original-price-top">
                       <span className="old-price">{formatPrice(product.originalPrice)} TL</span>
@@ -463,8 +416,8 @@ const ProductDetailPage = () => {
                 </div>
               </div>
 
-              {/* Adet Seçimi */}
-              <div className="quantity-section">
+              {/* Adet Seçimi - DAHA SIKI */}
+              <div className="quantity-section compact">
                 <label>Adet:</label>
                 <div className="quantity-control">
                   <button 
@@ -490,8 +443,8 @@ const ProductDetailPage = () => {
                 </div>
               </div>
 
-              {/* BUTONLAR */}
-              <div className="action-buttons-container">
+              {/* BUTONLAR - DAHA SIKI */}
+              <div className="action-buttons-container compact">
                 <div className="primary-buttons">
                   {/* SEPETE EKLE BUTONU */}
                   <button 
@@ -610,102 +563,198 @@ const ProductDetailPage = () => {
 
         </div>
 
-        {/* TAB'LAR */}
+        {/* TAB'LAR - GÜNCELLENDİ (TEKNİK ÖZELLİKLER TAB'I KALDIRILDI) */}
         <div className="product-tabs" ref={reviewsTabRef}>
           <div className="tab-headers">
             <button 
               className={`tab-header ${activeTab === 'description' ? 'active' : ''}`}
               onClick={() => setActiveTab('description')}
             >
-              Ürün Bilgisi
-            </button>
-            <button 
-              className={`tab-header ${activeTab === 'specifications' ? 'active' : ''}`}
-              onClick={() => setActiveTab('specifications')}
-            >
-              Teknik Özellikler
+              <FaInfoCircle className="tab-icon" />
+              <span>Ürün Bilgisi</span>
             </button>
             <button 
               className={`tab-header ${activeTab === 'questions' ? 'active' : ''}`}
               onClick={() => setActiveTab('questions')}
               ref={questionTabRef}
             >
-              Soru & Cevap ({questions.length})
+              <FaQuestionCircle className="tab-icon" />
+              <span>Soru & Cevap ({questions.length})</span>
             </button>
             <button 
               className={`tab-header ${activeTab === 'installment' ? 'active' : ''}`}
               onClick={() => setActiveTab('installment')}
             >
-              Taksit Seçenekleri
+              <FaCalendarAlt className="tab-icon" />
+              <span>Taksit Seçenekleri</span>
             </button>
             <button 
               className={`tab-header ${activeTab === 'shipping' ? 'active' : ''}`}
               onClick={() => setActiveTab('shipping')}
             >
-              Kargo Bilgileri
+              <FaTruck className="tab-icon" />
+              <span>Kargo Bilgileri</span>
             </button>
             <button 
               className={`tab-header ${activeTab === 'reviews' ? 'active' : ''}`}
               onClick={() => setActiveTab('reviews')}
             >
-              Yorumlar ({totalReviews})
+              <FaStar className="tab-icon" />
+              <span>Yorumlar ({totalReviews})</span>
             </button>
           </div>
 
           <div className="tab-content">
             
-            {/* Ürün Bilgisi Tab */}
+            {/* ÜRÜN BİLGİSİ TAB - TAMAMEN YENİ DETAYLI TASARIM */}
             {activeTab === 'description' && (
-              <div className="tab-panel">
-                <div className="description-content">
-                  <h3>Ürün Açıklaması</h3>
-                  <div className="description-text">
-                    <p>{product.description}</p>
-                    <p className="additional-info">
-                      Bu ürün profesyonel kullanım için tasarlanmıştır. Yüksek kaliteli malzemelerden üretilmiştir ve uzun ömürlü kullanım sunar.
-                    </p>
+              <div className="tab-panel modern">
+                <header className="description-header">
+                  <h2 className="section-title">
+                    <FaInfoCircle className="section-icon" />
+                    Ürün Açıklaması
+                  </h2>
+                  <div className="product-badge">
+                    <FaCertificate className="badge-icon" />
+                    <span>Orijinal Ürün</span>
                   </div>
-                  {product.features && product.features.length > 0 && (
-                    <div className="product-features-tab">
-                      <h4>Özellikler</h4>
-                      <ul>
-                        {product.features.map((f, i) => (
-                          <li key={i}>
-                            <span className="feature-check">✓</span> 
-                            <span>{f}</span>
-                          </li>
-                        ))}
-                      </ul>
+                </header>
+                
+                <div className="description-content-modern">
+                  {/* Ana Açıklama */}
+                  <section className="description-main">
+                    <p className="description-lead">
+                      MACROZA EXF5121 KAZIMA BIÇAK ORTA, endüstriyel ve profesyonel kullanım için özel olarak tasarlanmış yüksek performanslı bir kazıma bıçağıdır. Özel alaşım çelikten üretilen bu bıçak, uzun ömürlü kullanım ve yüksek dayanıklılık sunar. Ağır iş koşullarında bile maksimum verimlilik sağlayan ürün, EXF5121 modelleri ile tam uyumludur.
+                    </p>
+                    
+                    <div className="description-highlights">
+                      <div className="highlight-item">
+                        <FaShieldAlt className="highlight-icon" />
+                        <div>
+                          <h3>2 Yıl Garanti</h3>
+                          <p>Üretici firma garantisi ile güvence altında</p>
+                        </div>
+                      </div>
+                      <div className="highlight-item">
+                        <FaBox className="highlight-icon" />
+                        <div>
+                          <h3>Orijinal Kutu</h3>
+                          <p>Kutulu ve belgeli orijinal ürün</p>
+                        </div>
+                      </div>
+                      <div className="highlight-item">
+                        <FaIndustry className="highlight-icon" />
+                        <div>
+                          <h3>Endüstriyel Kalite</h3>
+                          <p>Profesyonel kullanıma uygun</p>
+                        </div>
+                      </div>
                     </div>
-                  )}
+                  </section>
+                  
+                  {/* Ürün Özellikleri */}
+                  <section className="product-features-modern">
+                    <h3 className="features-title">
+                      <FaCheckCircle className="features-icon" />
+                      Ürün Özellikleri
+                    </h3>
+                    <div className="features-grid">
+                      <div className="feature-card">
+                        <FaBoltIcon className="feature-icon" />
+                        <div className="feature-content">
+                          <h4>Yüksek Dayanıklılık</h4>
+                          <p>Özel ısıl işlem görmüş çelik yapı</p>
+                        </div>
+                      </div>
+                      <div className="feature-card">
+                        <FaCogs className="feature-icon" />
+                        <div className="feature-content">
+                          <h4>Kolay Montaj</h4>
+                          <p>Standart bağlantı sistemleri ile uyumlu</p>
+                        </div>
+                      </div>
+                      <div className="feature-card">
+                        <FaHardHat className="feature-icon" />
+                        <div className="feature-content">
+                          <h4>Güvenli Kullanım</h4>
+                          <p>Koruyucu tasarım ile iş güvenliği</p>
+                        </div>
+                      </div>
+                      <div className="feature-card">
+                        <FaShippingFast className="feature-icon" />
+                        <div className="feature-content">
+                          <h4>Hızlı Teslimat</h4>
+                          <p>Stoktan aynı gün kargo imkanı</p>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                  
+                  {/* Teknik Ölçüler */}
+                  <section className="technical-specs-modern">
+                    <h3 className="specs-title">
+                      <FaRuler className="specs-icon" />
+                      Teknik Ölçüler
+                    </h3>
+                    <div className="specs-table-modern">
+                      <div className="specs-row">
+                        <span className="specs-label">Ürün Tipi</span>
+                        <span className="specs-value">Kazıma Bıçağı - Orta</span>
+                      </div>
+                      <div className="specs-row">
+                        <span className="specs-label">Uyumlu Makine</span>
+                        <span className="specs-value">EXF5121 Serisi</span>
+                      </div>
+                      <div className="specs-row">
+                        <span className="specs-label">Kazıma Genişliği</span>
+                        <span className="specs-value">25 mm</span>
+                      </div>
+                      <div className="specs-row">
+                        <span className="specs-label">Kazıma Derinliği</span>
+                        <span className="specs-value">15 - 25 mm (ayarlanabilir)</span>
+                      </div>
+                      <div className="specs-row">
+                        <span className="specs-label">Malzeme</span>
+                        <span className="specs-value">Yüksek Karbon Çelik</span>
+                      </div>
+                      <div className="specs-row">
+                        <span className="specs-label">Ağırlık</span>
+                        <span className="specs-value">850 gr</span>
+                      </div>
+                      <div className="specs-row">
+                        <span className="specs-label">Boyutlar</span>
+                        <span className="specs-value">150 x 45 x 25 mm</span>
+                      </div>
+                      <div className="specs-row">
+                        <span className="specs-label">Paket İçeriği</span>
+                        <span className="specs-value">1 Adet Kazıma Bıçağı + Montaj Vidaları</span>
+                      </div>
+                    </div>
+                  </section>
+                  
+                  {/* Ek Bilgiler */}
+                  <section className="additional-info-modern">
+                    <h3>Kullanım ve Bakım Bilgileri</h3>
+                    <div className="info-grid">
+                      <div className="info-card">
+                        <h4>Kullanım Alanı</h4>
+                        <p>Endüstriyel kazıma işlemleri, yol bakımı, inşaat sektörü, tarım makineleri bakımı için ideal.</p>
+                      </div>
+                      <div className="info-card">
+                        <h4>Bakım Önerileri</h4>
+                        <p>Her kullanımdan sonra temizlenmeli, düzenli yağlanmalı ve kuru ortamda saklanmalıdır.</p>
+                      </div>
+                      <div className="info-card">
+                        <h4>Performans</h4>
+                        <p>Yüksek tork dayanımı, uzun ömürlü keskinlik ve minimum bakım gereksinimi.</p>
+                      </div>
+                    </div>
+                  </section>
                 </div>
               </div>
             )}
 
-            {/* Teknik Özellikler Tab */}
-            {activeTab === 'specifications' && (
-              <div className="tab-panel">
-                <h3>Teknik Özellikler</h3>
-                <div className="specifications-table">
-                  {Object.entries(specifications).map(([key, value]) => (
-                    <div key={key} className="spec-row">
-                      <div className="spec-key">{key}</div>
-                      <div className="spec-value">{value}</div>
-                    </div>
-                  ))}
-                </div>
-                <div className="spec-notes">
-                  <h4>Notlar:</h4>
-                  <ul>
-                    <li>Tüm ölçüler yaklaşık değerlerdir.</li>
-                    <li>Ürün görselleri temsilidir.</li>
-                    <li>Teknik özellikler üretici firma tarafından değiştirilebilir.</li>
-                  </ul>
-                </div>
-              </div>
-            )}
-
-            {/* SORU & CEVAP TAB - GÜNCELLENMİŞ */}
+            {/* SORU & CEVAP TAB - AYNI KALDI */}
             {activeTab === 'questions' && (
               <div className="tab-panel">
                 <div className="questions-header">
@@ -826,104 +875,227 @@ const ProductDetailPage = () => {
               </div>
             )}
 
-            {/* Taksit Seçenekleri Tab */}
+            {/* TAKSİT SEÇENEKLERİ TAB - AYNI KALDI */}
             {activeTab === 'installment' && (
-              <div className="tab-panel">
-                <h3>Taksit Seçenekleri</h3>
-                <div className="installment-table-container">
-                  <div className="installment-table">
-                    <div className="installment-table-header">
-                      <div>Taksit</div>
-                      <div>Taksit Tutarı</div>
-                      <div>Toplam Tutar</div>
+              <div className="tab-panel modern">
+                <h3 className="section-title">
+                  <FaCalendarAlt className="section-icon" />
+                  Taksit Seçenekleri
+                </h3>
+                
+                <div className="installment-modern">
+                  <div className="installment-summary">
+                    <div className="summary-card">
+                      <div className="summary-icon">
+                        <FaCreditCard />
+                      </div>
+                      <div className="summary-content">
+                        <h4>Toplam Tutar</h4>
+                        <p className="total-amount">{formatPrice(product.price)} TL</p>
+                      </div>
                     </div>
-                    {[1, 2, 3, 6, 9, 12].map((installment) => (
-                      <div key={installment} className="installment-table-row">
-                        <div className="installment-count">
-                          {installment === 1 ? 'Tek Çekim' : `${installment} Taksit`}
+                    <div className="summary-card">
+                      <div className="summary-icon">
+                        <FaTag />
+                      </div>
+                      <div className="summary-content">
+                        <h4>En Uygun Taksit</h4>
+                        <p className="best-installment">{calculateInstallment(12)} x 12 Ay</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="installment-table-modern">
+                    <div className="table-header-modern">
+                      <div className="header-cell">Taksit Sayısı</div>
+                      <div className="header-cell">Aylık Taksit Tutarı</div>
+                      <div className="header-cell">Toplam Tutar</div>
+                      <div className="header-cell">Seçenek</div>
+                    </div>
+                    
+                    {[1, 2, 3, 6, 9, 12].map((installment, index) => {
+                      const monthlyAmount = installment === 1 
+                        ? product.price 
+                        : product.price / installment;
+                      const isRecommended = installment === 12;
+                      
+                      return (
+                        <div 
+                          key={installment} 
+                          className={`installment-row-modern ${isRecommended ? 'recommended' : ''} ${index % 2 === 0 ? 'even' : 'odd'}`}
+                        >
+                          <div className="cell installment-count">
+                            {installment === 1 ? 'Tek Çekim' : `${installment} Taksit`}
+                            {isRecommended && <span className="recommended-badge">Önerilen</span>}
+                          </div>
+                          <div className="cell installment-amount">
+                            <span className="amount-value">{formatPrice(monthlyAmount)} TL</span>
+                            {installment > 1 && <span className="amount-period">/ay</span>}
+                          </div>
+                          <div className="cell installment-total">
+                            {formatPrice(product.price)} TL
+                          </div>
+                          <div className="cell installment-action">
+                            <button className="select-installment-btn">
+                              {installment === 1 ? 'Tek Çekim Öde' : `${installment} Taksit Seç`}
+                            </button>
+                          </div>
                         </div>
-                        <div className="installment-amount">
-                          {installment === 1 
-                            ? formatPrice(product.price)
-                            : formatPrice(product.price / installment)
-                          } TL
-                        </div>
-                        <div className="installment-total">
-                          {formatPrice(product.price)} TL
+                      );
+                    })}
+                  </div>
+                  
+                  <div className="installment-notes-modern">
+                    <div className="notes-grid">
+                      <div className="note-card">
+                        <div className="note-icon">ℹ️</div>
+                        <div className="note-content">
+                          <h5>Taksit Notları</h5>
+                          <p>Taksit seçenekleri bankalara göre değişiklik gösterebilir.</p>
                         </div>
                       </div>
-                    ))}
-                  </div>
-                  <div className="installment-notes">
-                    <h4>Taksit Notları:</h4>
-                    <ul>
-                      <li>Taksit seçenekleri bankalara göre değişiklik gösterebilir.</li>
-                      <li>Minimum taksit tutarı 100 TL'dir.</li>
-                      <li>İndirimler tek çekim fiyatı üzerinden uygulanır.</li>
-                    </ul>
+                      <div className="note-card">
+                        <div className="note-icon">💰</div>
+                        <div className="note-content">
+                          <h5>Minimum Tutar</h5>
+                          <p>Minimum taksit tutarı 100 TL'dir.</p>
+                        </div>
+                      </div>
+                      <div className="note-card">
+                        <div className="note-icon">🎯</div>
+                        <div className="note-content">
+                          <h5>İndirimler</h5>
+                          <p>İndirimler tek çekim fiyatı üzerinden uygulanır.</p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             )}
 
-            {/* Kargo Bilgileri Tab */}
+            {/* KARGO BİLGİLERİ TAB - GÜNCELLENDİ (RENK VE İKON) */}
             {activeTab === 'shipping' && (
-              <div className="tab-panel">
-                <h3>Kargo Bilgileri</h3>
-                <div className="shipping-info-tab">
-                  <div className="shipping-info-grid">
-                    <div className="shipping-info-card">
-                      <div className="shipping-info-icon">
+              <div className="tab-panel modern">
+                <h3 className="section-title">
+                  <FaTruck className="section-icon" />
+                  Kargo Bilgileri
+                </h3>
+                
+                <div className="shipping-modern">
+                  <div className="shipping-highlights">
+                    <div className="highlight-card primary">
+                      <div className="highlight-icon">
                         <FaShippingFast />
                       </div>
-                      <h4>Teslimat Süresi</h4>
-                      <p><strong>1-3 İş Günü</strong></p>
-                      <small>Stok durumuna göre değişir</small>
+                      <div className="highlight-content">
+                        <h4>Teslimat Süresi</h4>
+                        <p className="highlight-value">1-3 İş Günü</p>
+                        <small>Stok durumuna göre değişir</small>
+                      </div>
                     </div>
                     
-                    <div className="shipping-info-card">
-                      <div className="shipping-info-icon">
+                    <div className="highlight-card secondary">
+                      <div className="highlight-icon">
                         <FaTruck />
                       </div>
-                      <h4>Kargo Ücreti</h4>
-                      <p><strong>500 TL Üzeri Ücretsiz</strong></p>
-                      <small>500 TL altı için 25 TL</small>
+                      <div className="highlight-content">
+                        <h4>Kargo Ücreti</h4>
+                        <p className="highlight-value">500 TL Üzeri Ücretsiz</p>
+                        <small>500 TL altı için 25 TL</small>
+                      </div>
                     </div>
                     
-                    <div className="shipping-info-card">
-                      <div className="shipping-info-icon">
+                    <div className="highlight-card tertiary">
+                      <div className="highlight-icon">
                         <FaMoneyBill />
                       </div>
-                      <h4>Kapıda Ödeme</h4>
-                      <p><strong className="available">Mevcut</strong></p>
-                      <small>+20 TL ek ücret</small>
+                      <div className="highlight-content">
+                        <h4>Kapıda Ödeme</h4>
+                        <p className="highlight-value available">Mevcut</p>
+                        <small>+20 TL ek ücret</small>
+                      </div>
                     </div>
                   </div>
                   
-                  <div className="shipping-companies">
-                    <h4>Anlaşmalı Kargo Firmaları</h4>
-                    <div className="company-logos">
-                      <span className="company-logo">Aras Kargo</span>
-                      <span className="company-logo">Yurtiçi Kargo</span>
-                      <span className="company-logo">Sürat Kargo</span>
-                      <span className="company-logo">MNG Kargo</span>
+                  <div className="shipping-details-grid">
+                    <div className="detail-section">
+                      <h4 className="detail-title">
+                        <FaClock className="detail-icon" />
+                        Teslimat Süreçleri
+                      </h4>
+                      <ul className="detail-list">
+                        <li className="detail-item">
+                          <span className="item-bullet">✓</span>
+                          <span>Siparişler saat 17:00'a kadar verilirse aynı gün kargoya verilir.</span>
+                        </li>
+                        <li className="detail-item">
+                          <span className="item-bullet">✓</span>
+                          <span>Hafta içi verilen siparişler en geç 2 iş günü içinde kargolanır.</span>
+                        </li>
+                        <li className="detail-item">
+                          <span className="item-bullet">✓</span>
+                          <span>Hafta sonu verilen siparişler pazartesi günü kargolanır.</span>
+                        </li>
+                        <li className="detail-item">
+                          <span className="item-bullet">✓</span>
+                          <span>Teslimat süresi kargo firmasına ve teslimat adresine göre değişir.</span>
+                        </li>
+                      </ul>
+                    </div>
+                    
+                    <div className="detail-section">
+                      <h4 className="detail-title">
+                        <FaMapMarkerAlt className="detail-icon" />
+                        Teslimat Koşulları
+                      </h4>
+                      <ul className="detail-list">
+                        <li className="detail-item">
+                          <span className="item-bullet">✓</span>
+                          <span>Ürün teslimatında imza alınır.</span>
+                        </li>
+                        <li className="detail-item">
+                          <span className="item-bullet">✓</span>
+                          <span>Hasarlı ürün teslimatında kargo firmasına tutanak tutturulmalıdır.</span>
+                        </li>
+                        <li className="detail-item">
+                          <span className="item-bullet">✓</span>
+                          <span>Adres değişikliği kargoya verilmeden önce yapılabilir.</span>
+                        </li>
+                        <li className="detail-item">
+                          <span className="item-bullet">✓</span>
+                          <span>Teslimat adresinde alıcı yoksa ürün en yakın şubeye bırakılır.</span>
+                        </li>
+                      </ul>
                     </div>
                   </div>
                   
-                  <div className="shipping-terms">
-                    <h4>Kargo Şartları</h4>
-                    <ul>
-                      <li>Siparişler saat 17:00'a kadar verilirse aynı gün kargoya verilir.</li>
-                      <li>Ürün teslimatında imza alınır.</li>
-                      <li>Hasarlı ürün teslimatında kargo firmasına tutanak tutturulmalıdır.</li>
-                      <li>Adres değişikliği kargoya verilmeden önce yapılabilir.</li>
-                    </ul>
+                  <div className="shipping-companies-modern">
+                    <h4 className="companies-title">Anlaşmalı Kargo Firmaları</h4>
+                    <div className="companies-grid">
+                      <div className="company-card">
+                        <div className="company-logo">Aras Kargo</div>
+                        <small className="company-desc">Tüm Türkiye</small>
+                      </div>
+                      <div className="company-card">
+                        <div className="company-logo">Yurtiçi Kargo</div>
+                        <small className="company-desc">Tüm Türkiye</small>
+                      </div>
+                      <div className="company-card">
+                        <div className="company-logo">Sürat Kargo</div>
+                        <small className="company-desc">Tüm Türkiye</small>
+                      </div>
+                      <div className="company-card">
+                        <div className="company-logo">MNG Kargo</div>
+                        <small className="company-desc">Tüm Türkiye</small>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             )}
 
-            {/* YORUMLAR TAB - GÜNCELLENMİŞ (E-POSTA ALANI KALDIRILDI) */}
+            {/* YORUMLAR TAB - AYNI KALDI */}
             {activeTab === 'reviews' && (
               <div className="tab-panel">
                 <div className="reviews-header">
@@ -952,7 +1124,7 @@ const ProductDetailPage = () => {
                   </div>
                 </div>
 
-                {/* YORUM YAZMA FORMU - E-POSTA ALANI KALDIRILDI */}
+                {/* YORUM YAZMA FORMU */}
                 <div className="write-review-section" ref={commentFormRef}>
                   <h4>Yorumunuzu Yazın</h4>
                   <p className="form-description">
@@ -981,7 +1153,7 @@ const ProductDetailPage = () => {
                       </div>
                     </div>
 
-                    {/* Ad Soyad - E-POSTA ALANI KALDIRILDI */}
+                    {/* Ad Soyad */}
                     <div className="form-group">
                       <label className="form-label" htmlFor="reviewName">
                         Adınız Soyadınız *
