@@ -1,492 +1,279 @@
-/* src/pages/ServicesPage.css */
-.services-page {
+/* src/styles/ServicesPage.css */
+
+/* ==============================================
+   CSS DEĞİŞKENLERİ
+   ============================================== */
+   :root {
+    --primary-color: #1d6fb8; /* Ana Mavi */
+    --secondary-color: #2b8df5; /* Açık Mavi */
+    --accent-color: #dc2626; /* Kırmızı Vurgu (Opsiyonel) */
+    --text-dark: #1e293b;
+    --text-gray: #64748b;
+    --bg-light: #f8fafc;
+    --shadow-default: 0 4px 18px rgba(0, 0, 0, 0.08);
+    --shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+
+/* ==============================================
+   ANA SAYFA KAPSAYICI (BODY)
+   ============================================== */
+.srvc-page {
     min-height: 100vh;
-    background: #f8fafc;
-  }
-  
-  .services-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-  }
-  
-  /* Hero Section */
-  .services-hero {
-    background: linear-gradient(135deg, #1e3a8a 0%, #60a5fa 100%);
-    color: white;
-    padding: 80px 0 60px;
+    padding: 60px 0; /* Üst/Alt boşluk artırıldı */
+    /* Daha yumuşak bir gradyan ve renk kullanımı */
+    background: linear-gradient(135deg, #1d6fb8 0%, #2b8df5 100%);
+    font-family: 'Poppins', sans-serif; /* Modern, okunaklı bir font */
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+
+/* ==============================================
+   HİZMETLER BAŞLIK (ANA BOŞLUK AYARI BURADA)
+   ============================================== */
+.srvc-header {
     text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .services-hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  }
-  
-  .services-hero-content {
-    position: relative;
-    z-index: 2;
+    margin-bottom: 40px; /* BOŞLUK AZALTILDI (ÖNCE 70px idi) */
+    padding: 0 24px;
+}
+
+.srvc-main-title {
+    font-size: 3.2rem; /* Daha büyük başlık */
+    font-weight: 800;
+    color: white;
+    text-shadow: 0 3px 6px rgba(0, 0, 0, 0.3); /* Hafif gölge */
+    margin-bottom: 10px;
+}
+
+.srvc-main-desc {
+    font-size: 1.35rem; /* Daha büyük açıklama */
+    color: rgba(255, 255, 255, 0.95);
     max-width: 800px;
+    margin: 10px auto 0;
+    font-weight: 400;
+}
+
+
+/* ==============================================
+   HİZMETLER ANA BÖLÜMÜ
+   ============================================== */
+.srvc-services-section {
+    max-width: 1300px; /* GENİŞLİK tekrar artırıldı */
     margin: 0 auto;
-  }
-  
-  .services-hero-title {
-    font-size: 3.5rem;
-    font-weight: 800;
-    margin-bottom: 20px;
-    background: linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  
-  .services-hero-description {
-    font-size: 1.25rem;
-    line-height: 1.6;
-    color: #e0f2fe;
-    margin-bottom: 40px;
-  }
-  
-  .services-hero-stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 30px;
-    max-width: 600px;
-    margin: 0 auto;
-  }
-  
-  .services-stat-item {
-    text-align: center;
-  }
-  
-  .services-stat-number {
-    display: block;
-    font-size: 2.5rem;
-    font-weight: 800;
-    color: #7dd3fc;
-    line-height: 1;
-    margin-bottom: 8px;
-  }
-  
-  .services-stat-label {
-    font-size: 0.9rem;
-    color: #bae6fd;
-    font-weight: 600;
-  }
-  
-  /* Section Header */
-  .services-section-header {
-    text-align: center;
-    margin-bottom: 60px;
-  }
-  
-  .services-section-title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #1e293b;
-    margin-bottom: 16px;
-  }
-  
-  .services-section-description {
-    font-size: 1.125rem;
-    color: #64748b;
-    max-width: 600px;
-    margin: 0 auto;
-    line-height: 1.6;
-  }
-  
-  /* Services Section */
-  .services-section {
-    padding: 80px 0 40px;
-  }
-  
-  .services-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-    gap: 40px;
-  }
-  
-  .services-service-card {
-    background: white;
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-    border: 1px solid #f1f5f9;
-    transition: all 0.3s ease;
-  }
-  
-  .services-service-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
-  }
-  
-  .services-service-header {
-    padding: 40px 30px 30px;
-    color: white;
-    text-align: center;
-  }
-  
-  .services-service-icon-wrapper {
-    width: 80px;
-    height: 80px;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 20px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-  }
-  
-  .services-service-icon {
-    width: 40px;
-    height: 40px;
-    color: white;
-  }
-  
-  .services-service-title {
-    font-size: 1.75rem;
-    font-weight: 700;
-    margin-bottom: 12px;
-  }
-  
-  .services-service-description {
-    font-size: 1.1rem;
-    opacity: 0.9;
-    line-height: 1.5;
-    margin: 0;
-  }
-  
-  .services-service-content {
-    padding: 30px;
-  }
-  
-  .services-service-features {
-    margin-bottom: 30px;
-  }
-  
-  .services-service-features h4 {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #1e293b;
-    margin-bottom: 16px;
-  }
-  
-  .services-service-features ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .services-service-features li {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 8px 0;
-    color: #475569;
-    line-height: 1.5;
-  }
-  
-  .services-feature-check {
-    width: 18px;
-    height: 18px;
-    color: #10b981;
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
-  
-  .services-service-process h4 {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #1e293b;
-    margin-bottom: 16px;
-  }
-  
-  .services-process-steps {
+    padding: 20px 20px;
+}
+
+.srvc-services-list {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-  }
-  
-  .services-process-step {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px;
-    background: #f8fafc;
-    border-radius: 10px;
-    border-left: 4px solid #1e3a8a;
-  }
-  
-  .services-step-number {
-    width: 28px;
-    height: 28px;
-    background: #1e3a8a;
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.8rem;
-    font-weight: 700;
-    flex-shrink: 0;
-  }
-  
-  .services-step-text {
-    color: #374151;
-    font-weight: 500;
-  }
-  
-  .services-service-cta {
-    width: 100%;
-    padding: 14px;
-    background: #1e3a8a;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 20px;
-  }
-  
-  .services-service-cta:hover {
-    background: #1e40af;
-    transform: translateY(-2px);
-  }
-  
-  /* Why Choose Us Section */
-  .services-why-choose-section {
-    padding: 80px 0;
-    background: white;
-    border-radius: 20px;
-    margin: 40px 0;
-  }
-  
-  .services-features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
-    max-width: 1000px;
-    margin: 0 auto;
-  }
-  
-  .services-feature-card {
-    text-align: center;
-    padding: 40px 30px;
-    background: #f8fafc;
-    border-radius: 16px;
+    gap: 60px; /* Kartlar arası boşluk artırıldı */
+}
+
+
+/* ==============================================
+   HİZMET KARTLARI
+   ============================================== */
+.srvc-service-item {
+    background: var(--bg-light); 
+    border-radius: 20px; /* Daha yuvarlak köşeler */
+    padding: 50px 50px; /* İç boşluk artırıldı */
     border: 1px solid #e2e8f0;
-    transition: all 0.3s ease;
-  }
-  
-  .services-feature-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    border-color: #1e3a8a;
-  }
-  
-  .services-feature-icon-wrapper {
-    width: 70px;
+    box-shadow: var(--shadow-default);
+    transition: all 0.4s ease-in-out; 
+    transform: translateY(0);
+}
+
+.srvc-service-item:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-5px);
+}
+
+/* Fade animasyonu (Gecikmeli yükleme hissi verir) */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* ==============================================
+   HİZMET KARTI BAŞLIK
+   ============================================== */
+.srvc-service-header {
+    display: flex;
+    align-items: center; /* Dikeyde ortalama */
+    gap: 30px; /* Boşluk artırıldı */
+    margin-bottom: 40px;
+    padding-bottom: 25px;
+    border-bottom: 2px solid #eef2f8; /* Daha yumuşak ayırıcı */
+}
+
+.srvc-service-icon {
+    width: 70px; /* Boyut büyütüldü */
     height: 70px;
-    background: linear-gradient(135deg, #1e3a8a 0%, #60a5fa 100%);
-    border-radius: 18px;
+    background: white; 
+    color: var(--primary-color);
+    border-radius: 50%; /* Daire ikon */
+    border: 3px solid var(--primary-color);
     display: flex;
+    justify-content: center;
     align-items: center;
-    justify-content: center;
-    margin: 0 auto 20px;
-    color: white;
-  }
-  
-  .services-feature-icon {
-    width: 32px;
-    height: 32px;
-  }
-  
-  .services-feature-card h3 {
-    font-size: 1.375rem;
-    font-weight: 700;
-    color: #1e293b;
-    margin-bottom: 12px;
-  }
-  
-  .services-feature-card p {
-    color: #64748b;
-    line-height: 1.6;
-    margin: 0;
-  }
-  
-  /* CTA Section */
-  .services-cta-section {
-    background: linear-gradient(135deg, #1e293b 0%, #374151 100%);
-    color: white;
-    padding: 60px 40px;
-    border-radius: 20px;
-    text-align: center;
-    margin: 60px 0;
-  }
-  
-  .services-cta-content {
-    max-width: 600px;
-    margin: 0 auto;
-  }
-  
-  .services-cta-icon {
-    width: 48px;
-    height: 48px;
-    color: #60a5fa;
-    margin: 0 auto 20px;
-  }
-  
-  .services-cta-content h2 {
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 16px;
-    color: white;
-  }
-  
-  .services-cta-content p {
-    font-size: 1.125rem;
-    color: #cbd5e1;
-    line-height: 1.6;
-    margin-bottom: 30px;
-  }
-  
-  .services-cta-buttons {
-    display: flex;
-    gap: 16px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  
-  .services-cta-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 14px 28px;
-    border-radius: 10px;
-    font-weight: 600;
-    text-decoration: none;
+    flex-shrink: 0; /* Küçülmesini engeller */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.srvc-service-title {
+    font-size: 2rem; 
+    font-weight: 800;
+    color: var(--text-dark);
+    line-height: 1.2;
+}
+
+.srvc-service-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-gray);
+    margin-top: 5px;
+}
+
+
+/* ==============================================
+   HİZMET DETAY MADDELERİ
+   ============================================== */
+.srvc-service-details {
+    display: grid;
+    /* İki sütunlu modern grid yapısı */
+    grid-template-columns: repeat(auto-fit, minmax(45%, 1fr)); 
+    gap: 30px; /* Grid içi boşluk */
+}
+
+.srvc-detail-item {
+    background: #ffffff; /* Beyaz kart içi */
+    border-left: 6px solid var(--primary-color); /* Daha kalın vurgu */
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
+}
+
+.srvc-detail-item:hover {
+    border-left-color: var(--secondary-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.srvc-detail-content {
+    color: #374151; /* Daha koyu metin rengi */
     font-size: 1rem;
-  }
-  
-  .services-cta-btn.primary {
-    background: #60a5fa;
-    color: white;
-  }
-  
-  .services-cta-btn.primary:hover {
-    background: #3b82f6;
-    transform: translateY(-2px);
-  }
-  
-  .services-cta-btn.secondary {
-    background: transparent;
-    color: white;
-    border: 2px solid #60a5fa;
-  }
-  
-  .services-cta-btn.secondary:hover {
-    background: #60a5fa;
-    transform: translateY(-2px);
-  }
-  
-  .services-btn-icon {
-    width: 18px;
-    height: 18px;
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 1024px) {
-    .services-grid {
-      grid-template-columns: 1fr;
-      gap: 30px;
+    line-height: 1.7; /* Okunabilirliği artırmak için satır yüksekliği */
+}
+
+/* Metin İçi Vurgu (SEO ve Okunabilirlik için) */
+.srvc-detail-content strong {
+    /* Alt başlıkları ve vurgulu kelimeleri belirginleştirir */
+    color: var(--primary-color); 
+    font-weight: 800;
+}
+
+
+/* ==============================================
+   RESPONSIVE TASARIM
+   ============================================== */
+
+/* Tablet (≤ 1024px) */
+@media (max-width: 1024px) {
+    .srvc-main-title {
+        font-size: 2.8rem;
+    }
+
+    .srvc-service-item {
+        padding: 40px 30px;
     }
     
-    .services-hero-title {
-      font-size: 3rem;
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .services-hero {
-      padding: 60px 0 40px;
+    .srvc-service-details {
+        /* 1024px altında gridi bozmadan kartları büyüt */
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
     
-    .services-hero-title {
-      font-size: 2.5rem;
+    .srvc-service-title {
+        font-size: 1.7rem;
+    }
+}
+
+/* Orta Mobil (≤ 768px) */
+@media (max-width: 768px) {
+    .srvc-main-title {
+        font-size: 2.4rem;
     }
     
-    .services-hero-description {
-      font-size: 1.125rem;
+    .srvc-main-desc {
+        font-size: 1.1rem;
+    }
+
+    .srvc-service-item {
+        padding: 30px 20px;
+        border-radius: 16px;
     }
     
-    .services-section-title {
-      font-size: 2rem;
+    .srvc-service-header {
+        /* Mobil görünümde ikon üste, yazı alta */
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+        gap: 15px;
     }
     
-    .services-service-header {
-      padding: 30px 20px 20px;
+    .srvc-service-icon {
+        width: 60px;
+        height: 60px;
+    }
+
+    .srvc-service-title {
+        font-size: 1.5rem;
     }
     
-    .services-service-content {
-      padding: 24px;
+    .srvc-service-subtitle {
+        font-size: 1rem;
+    }
+
+    .srvc-detail-content {
+        font-size: 0.95rem;
+    }
+}
+
+/* Küçük Mobil (≤ 480px) */
+@media (max-width: 480px) {
+    .srvc-page {
+        padding: 40px 0;
     }
     
-    .services-cta-section {
-      padding: 40px 24px;
+    .srvc-main-title {
+        font-size: 2rem;
     }
     
-    .services-cta-content h2 {
-      font-size: 1.75rem;
+    .srvc-services-section {
+        padding: 10px;
+    }
+
+    .srvc-service-item {
+        padding: 24px 15px;
+        border-radius: 12px;
     }
     
-    .services-cta-buttons {
-      flex-direction: column;
-      align-items: center;
+    .srvc-services-list {
+        gap: 40px;
     }
     
-    .services-cta-btn {
-      width: 100%;
-      max-width: 300px;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .services-container {
-      padding: 0 16px;
+    .srvc-service-title {
+        font-size: 1.3rem;
     }
     
-    .services-hero-title {
-      font-size: 2rem;
+    .srvc-detail-item {
+        padding: 15px;
     }
-    
-    .services-hero-stats {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-    }
-    
-    .services-stat-number {
-      font-size: 2rem;
-    }
-    
-    .services-service-card {
-      margin: 0 -16px;
-      border-radius: 0;
-    }
-    
-    .services-features-grid {
-      grid-template-columns: 1fr;
-    }
-  }
+}
