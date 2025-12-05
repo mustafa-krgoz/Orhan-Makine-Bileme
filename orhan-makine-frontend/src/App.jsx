@@ -19,10 +19,12 @@ import ContactPage from "./pages/ContactPage.jsx";
 import ServicesPage from "./pages/ServicesPage.jsx";
 import FavoritesPage from "./pages/FavoritesPage.jsx"; // ⭐ Favoriler sayfası
 import NotFoundPage from "./pages/NotFoundPage.jsx"; // ⭐ 404 sayfası
+import AboutPage from "./pages/AboutPage.jsx";
 
 // TOAST CONTAINER
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 
 function App() {
   return (
@@ -73,6 +75,9 @@ function App() {
 
                 {/* HİZMETLER SAYFASI — site.com/services */}
                 <Route path="/services" element={<ServicesPage />} />
+
+                {/* HKKIMIZDA SAYFASI — site.com/services */}
+                <Route path="/about" element={<AboutPage />} />
 
                 {/* İLETİŞİM SAYFASI — site.com/contact */}
                 <Route path="/contact" element={<ContactPage />} />
