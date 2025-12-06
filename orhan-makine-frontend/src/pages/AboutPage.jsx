@@ -4,9 +4,20 @@ import {
   Factory, Target, Eye, Award, Users, Clock,
   CheckCircle, Shield, Wrench, Package, Truck,
   Phone, Mail, MapPin, ChevronRight, Star,
-  HardHat, Settings, Zap, ShieldCheck, Globe
+  HardHat, Settings, Zap, ShieldCheck, Globe,
+  User, Briefcase, Cpu, Drill, Compass,
+  Thermometer, Warehouse, Scissors, Anchor, 
+  Droplets, Flame, GitBranch, Hammer, Sparkles, 
+  Hexagon, Battery, Ruler
 } from 'lucide-react';
 import '../styles/AboutPage.css';
+
+// Custom TreePine icon component - EN ÜSTTE TANIMLA
+const TreePine = (props) => (
+  <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M13 16L12 21M11 16L12 21M12 16V21M9 8L7 13M15 8L17 13M12 3L9 8H15L12 3Z" />
+  </svg>
+);
 
 const AboutPage = () => {
   const [activeSection, setActiveSection] = useState('about');
@@ -44,7 +55,34 @@ const AboutPage = () => {
           "addressLocality": "Elazığ",
           "addressRegion": "Elazığ",
           "addressCountry": "TR"
-        }
+        },
+        "employee": [
+          {
+            "@type": "Person",
+            "name": "Mehmet Özcan Orhan",
+            "jobTitle": "Sahip"
+          },
+          {
+            "@type": "Person",
+            "name": "Hasan Esen",
+            "jobTitle": "Satış Uzmanı"
+          },
+          {
+            "@type": "Person",
+            "name": "Halit Mustafa Karagöz",
+            "jobTitle": "Yazılım Mühendisi"
+          },
+          {
+            "@type": "Person",
+            "name": "Ercan Orhan",
+            "jobTitle": "Makine Mühendisi"
+          },
+          {
+            "@type": "Person",
+            "name": "Uğur",
+            "jobTitle": "Makine Mühendisi"
+          }
+        ]
       }
     });
     document.head.appendChild(script);
@@ -54,16 +92,158 @@ const AboutPage = () => {
     };
   }, []);
 
-  // Markalar listesi
+  // Güncellenmiş Markalar Listesi (25 marka)
   const brands = [
-    { name: 'Freud', description: 'Kaliteli Testere Bıçakları', category: 'Testereler' },
-    { name: 'Farabi', description: 'Endüstriyel Testereler', category: 'Testereler' },
-    { name: 'Mızrak', description: 'Profesyonel Makineler', category: 'Makineler' },
-    { name: 'Biçmaksan', description: 'Kesim Makineleri', category: 'Makineler' },
-    { name: 'Altendorf', description: 'Kesim Sistemleri', category: 'Makineler' },
-    { name: 'Homag', description: 'CNC Makineler', category: 'CNC' },
-    { name: 'Weeke', description: 'Panel İşleme', category: 'CNC' },
-    { name: 'Schelling', description: 'Kesim Makineleri', category: 'Makineler' }
+    { 
+      name: 'Freud', 
+      description: 'İtalyan kalitesi testere bıçakları ve kesici takımlar', 
+      category: 'Testereler',
+      icon: <Wrench size={24} />
+    },
+    { 
+      name: 'Farabi', 
+      description: 'Türkiye\'nin lider testere üreticisi', 
+      category: 'Testereler',
+      icon: <Wrench size={24} />
+    },
+    { 
+      name: 'Mızrak', 
+      description: 'Endüstriyel makine üretiminde Türk markası', 
+      category: 'Makineler',
+      icon: <Factory size={24} />
+    },
+    { 
+      name: 'MAKİTA', 
+      description: 'Profesyonel elektrikli el aletleri', 
+      category: 'El Aletleri',
+      icon: <Drill size={24} />
+    },
+    { 
+      name: 'BEA', 
+      description: 'Havalı zımba ve çivi çakma makinaları', 
+      category: 'Havalı Aletler',
+      icon: <Package size={24} />
+    },
+    { 
+      name: 'BIGLIFT', 
+      description: 'Transpalet, istifleme ve kaldırma ekipmanları', 
+      category: 'Kaldırma',
+      icon: <Truck size={24} />
+    },
+    { 
+      name: 'CORA', 
+      description: 'Kompresörler ve boya tabancaları', 
+      category: 'Hava Sistemleri',
+      icon: <Droplets size={24} />
+    },
+    { 
+      name: 'EDN', 
+      description: 'Yüksek kalite daire testereler', 
+      category: 'Testereler',
+      icon: <Wrench size={24} />
+    },
+    { 
+      name: 'EUROMAX', 
+      description: 'Palta-karol-boru işleme ve endüstriyel makinalar', 
+      category: 'Endüstriyel',
+      icon: <Factory size={24} />
+    },
+    { 
+      name: 'FACTOR', 
+      description: 'Asfalt ve beton zemin işleme makineleri', 
+      category: 'İnşaat',
+      icon: <Thermometer size={24} />
+    },
+    { 
+      name: 'GISON', 
+      description: 'Havalı aletler ve aksesuarlar', 
+      category: 'Havalı Aletler',
+      icon: <Zap size={24} />
+    },
+    { 
+      name: 'KAMA by REİS', 
+      description: 'Bahçe ve tarım makineleri, jeneratörler', 
+      category: 'Bahçe',
+      icon: <GitBranch size={24} />
+    },
+    { 
+      name: 'KINSAW', 
+      description: 'Geniş yelpazede testere çeşitleri', 
+      category: 'Testereler',
+      icon: <Wrench size={24} />
+    },
+    { 
+      name: 'LEICA', 
+      description: 'Lazerli ölçü aletleri ve geomatik çözümler', 
+      category: 'Ölçüm',
+      icon: <Compass size={24} />
+    },
+    { 
+      name: 'OZCO', 
+      description: 'Sütunlu matkaplar, frezeler, tornalar', 
+      category: 'Takım Tezgahları',
+      icon: <Wrench size={24} />
+    },
+    { 
+      name: 'PRO-SAW', 
+      description: 'Daire testereler, elmas testereler, karot uçları', 
+      category: 'Kesim',
+      icon: <Scissors size={24} />
+    },
+    { 
+      name: 'RAPID', 
+      description: 'Zımba ve silikon tabancaları', 
+      category: 'Montaj',
+      icon: <Package size={24} />
+    },
+    { 
+      name: 'SCHEPPACH', 
+      description: 'Ahşap işleme makineleri', 
+      category: 'Ahşap',
+      icon: <TreePine size={24} />
+    },
+    { 
+      name: 'STARK', 
+      description: 'Metal işleme testereleri', 
+      category: 'Metal',
+      icon: <Wrench size={24} />
+    },
+    { 
+      name: 'TOPSHOP', 
+      description: 'El aletleri ve freze bıçakları', 
+      category: 'El Aletleri',
+      icon: <Hammer size={24} />
+    },
+    { 
+      name: 'TURCOBOOR', 
+      description: 'Manyetik matkaplar ve aksesuarları', 
+      category: 'Delme',
+      icon: <Zap size={24} />
+    },
+    { 
+      name: 'VIRAX', 
+      description: 'Boru işleme ekipmanları', 
+      category: 'Boru',
+      icon: <Droplets size={24} />
+    },
+    { 
+      name: 'WELDER', 
+      description: 'Kaynak makineleri ve aksesuarları', 
+      category: 'Kaynak',
+      icon: <Flame size={24} />
+    },
+    { 
+      name: 'WELLER', 
+      description: 'Lehim havyaları ve el aletleri', 
+      category: 'Elektronik',
+      icon: <Zap size={24} />
+    },
+    { 
+      name: 'KNIPEX', 
+      description: 'Alman kalitesi penseler ve sıkma aletleri', 
+      category: 'El Aletleri',
+      icon: <Wrench size={24} />
+    }
   ];
 
   // Çözümler listesi
@@ -112,6 +292,60 @@ const AboutPage = () => {
     'Endüstriyel Üretim'
   ];
 
+  // Ekibimiz listesi
+  const teamMembers = [
+    {
+      id: 1,
+      name: 'Mehmet Özcan Orhan',
+      title: 'Sahip & Kurucu',
+      role: 'Genel Müdür',
+      age: 58,
+      experience: '40+ yıl',
+      description: '40 yılı aşkın sektör tecrübesi ile firmanın kurucusu ve yöneticisi. Mobilya makinaları konusunda uzman.',
+      image: '/images/team/mehmet-ozcan-orhan.png'
+    },
+    {
+      id: 2,
+      name: 'Hasan Esen',
+      title: 'Satış Uzmanı',
+      role: 'Satış Müdürü',
+      age: 45,
+      experience: '20+ yıl',
+      description: 'Satış ve müşteri ilişkileri konusunda uzman. Teknik ürün bilgisi ile müşterilere en uygun çözümleri sunar.',
+      image: '/images/team/hasan-esen.png'
+    },
+    {
+      id: 3,
+      name: 'Halit Mustafa Karagöz',
+      title: 'Yazılım Mühendisi',
+      role: 'Teknoloji Direktörü',
+      age: 32,
+      experience: '8+ yıl',
+      description: 'Dijital dönüşüm ve yazılım çözümlerinden sorumlu. E-ticaret ve ERP sistemleri uzmanı.',
+      image: '/images/team/halit-mustafa-karagoz.png'
+    },
+    {
+      id: 4,
+      name: 'Ercan Orhan',
+      title: 'Makine Mühendisi',
+      role: 'Teknik Servis Müdürü',
+      age: 38,
+      experience: '15+ yıl',
+      description: 'Makine bakım, onarım ve teknik servis konularında uzman. CNC makinalarında uzmanlaşmıştır.',
+      image: '/images/team/ercan-orhan.png'
+    },
+    {
+      id: 5,
+      name: 'Uğur',
+      title: 'Makine Mühendisi',
+      role: 'Ürün Uzmanı',
+      age: 35,
+      experience: '12+ yıl',
+      description: 'Ürün geliştirme ve kalite kontrol sorumlusu. Yeni teknolojilerin takibi ve uygulanmasından sorumlu.',
+      image: '/images/team/ugur.png'
+    }
+  ];
+
   return (
     <div className="about-page">
       {/* Hero Section */}
@@ -133,18 +367,18 @@ const AboutPage = () => {
           </div>
           <div className="about-hero-image-container">
             <img 
-                src="/images/orhan-makine-bina.png" 
-                alt="Orhan Makine Bileme İşyeri - Elazığ"
-                className="about-hero-image"
-                loading="eager"
-                width="800"
-                height="600"
+              src="/images/joblocations/orhan-makine-bina.png" 
+              alt="Orhan Makine Bileme İşyeri - Elazığ"
+              className="about-hero-image"
+              loading="eager"
+              width="800"
+              height="600"
             />
             <div className="about-hero-badge">
-                <Clock size={20} />
-                <span>1980'den Beri</span>
+              <Clock size={20} />
+              <span>1980'den Beri</span>
             </div>
-            </div>
+          </div>
         </div>
       </section>
 
@@ -168,6 +402,14 @@ const AboutPage = () => {
             <span>Misyon & Vizyon</span>
           </button>
           <button 
+            className={`about-nav-button ${activeSection === 'team' ? 'about-nav-active' : ''}`}
+            onClick={() => setActiveSection('team')}
+            aria-label="Ekibimiz bölümüne git"
+          >
+            <Users size={20} />
+            <span>Ekibimiz</span>
+          </button>
+          <button 
             className={`about-nav-button ${activeSection === 'solutions' ? 'about-nav-active' : ''}`}
             onClick={() => setActiveSection('solutions')}
             aria-label="Çözümler bölümüne git"
@@ -178,7 +420,7 @@ const AboutPage = () => {
           <button 
             className={`about-nav-button ${activeSection === 'brands' ? 'about-nav-active' : ''}`}
             onClick={() => setActiveSection('brands')}
-            aria-label="Markalar bölümüne git"
+            aria-label="Markalarımız bölümüne git"
           >
             <Award size={20} />
             <span>Markalarımız</span>
@@ -226,7 +468,7 @@ const AboutPage = () => {
                     <div className="about-stat-label">Mutlu Müşteri</div>
                   </div>
                   <div className="about-stat">
-                    <div className="about-stat-number">50+</div>
+                    <div className="about-stat-number">25+</div>
                     <div className="about-stat-label">Marka</div>
                   </div>
                   <div className="about-stat">
@@ -238,18 +480,18 @@ const AboutPage = () => {
               
               <div className="about-story-image-container">
                 <img 
-                    src="/images/orhan-makine-bina.png" 
-                    alt="Orhan Makine Bileme Fabrika ve İşyeri"
-                    className="about-story-image"
-                    loading="lazy"
-                    width="600"
-                    height="400"
+                  src="/images/joblocations/orhan-makine-bina.png" 
+                  alt="Orhan Makine Bileme Fabrika ve İşyeri"
+                  className="about-story-image"
+                  loading="lazy"
+                  width="600"
+                  height="400"
                 />
                 <div className="about-story-overlay">
-                    <HardHat size={24} />
-                    <p>Profesyonel Ekip, Kaliteli Hizmet</p>
+                  <HardHat size={24} />
+                  <p>Profesyonel Ekip, Kaliteli Hizmet</p>
                 </div>
-             </div>
+              </div>
             </div>
 
             {/* Sektörler */}
@@ -366,6 +608,83 @@ const AboutPage = () => {
           </div>
         </section>
 
+        {/* Team Section */}
+        <section 
+          id="team" 
+          className={`about-section ${activeSection === 'team' ? 'about-section-active' : ''}`}
+          aria-labelledby="team-heading"
+        >
+          <div className="about-section-header">
+            <Users size={32} className="about-section-icon" />
+            <h2 id="team-heading" className="about-section-title">Ekibimiz</h2>
+            <p className="about-section-subtitle">Uzman Kadromuzla Yanınızdayız</p>
+          </div>
+
+          <div className="about-team-intro">
+            <p className="about-team-description">
+              40 yıllık tecrübemizin arkasında, her biri kendi alanında uzmanlaşmış 
+              deneyimli bir ekip bulunuyor. Müşterilerimize en iyi hizmeti sunmak 
+              için sürekli çalışıyoruz.
+            </p>
+          </div>
+
+          <div className="about-team-grid">
+            {teamMembers.map((member) => (
+              <div key={member.id} className="about-team-card">
+                <div className="about-team-image-container">
+                  <div className="about-team-ellipse">
+                    <img 
+                      src={member.image} 
+                      alt={`${member.name} - ${member.title}`}
+                      className="about-team-image"
+                      loading="lazy"
+                      width="200"
+                      height="200"
+                    />
+                  </div>
+                  <div className="about-team-experience">
+                    <Clock size={16} />
+                    <span>{member.experience}</span>
+                  </div>
+                </div>
+                <div className="about-team-info">
+                  <h3 className="about-team-name">{member.name}</h3>
+                  <div className="about-team-titles">
+                    <span className="about-team-title">{member.title}</span>
+                    <span className="about-team-role">{member.role}</span>
+                  </div>
+                  <div className="about-team-details">
+                    <div className="about-team-detail">
+                      <User size={14} />
+                      <span>{member.age} yaş</span>
+                    </div>
+                    <div className="about-team-detail">
+                      <Briefcase size={14} />
+                      <span>{member.experience} tecrübe</span>
+                    </div>
+                  </div>
+                  <p className="about-team-description-text">{member.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="about-team-stats">
+            <div className="about-team-stat">
+              <div className="about-team-stat-number">5</div>
+              <div className="about-team-stat-label">Uzman Personel</div>
+            </div>
+            <div className="about-team-stat">
+              <div className="about-team-stat-number">110+</div>
+              <div className="about-team-stat-label">Toplam Tecrübe (Yıl)</div>
+            </div>
+            <div className="about-team-stat">
+              <div className="about-team-stat-number">7/24</div>
+              <div className="about-team-stat-label">Teknik Destek</div>
+            </div>
+          </div>
+        </section>
+
         {/* Solutions Section */}
         <section 
           id="solutions" 
@@ -454,7 +773,7 @@ const AboutPage = () => {
           <div className="about-section-header">
             <Award size={32} className="about-section-icon" />
             <h2 id="brands-heading" className="about-section-title">Markalarımız</h2>
-            <p className="about-section-subtitle">Dünyanın Önde Gelen Markalarını Temsil Ediyoruz</p>
+            <p className="about-section-subtitle">25+ Kaliteli Markayı Temsil Ediyoruz</p>
           </div>
 
           <div className="about-brands-intro">
@@ -469,9 +788,7 @@ const AboutPage = () => {
               <div key={index} className="about-brand-card">
                 <div className="about-brand-header">
                   <div className="about-brand-icon">
-                    {brand.category === 'Testereler' && <Wrench size={24} />}
-                    {brand.category === 'Makineler' && <Settings size={24} />}
-                    {brand.category === 'CNC' && <Zap size={24} />}
+                    {brand.icon}
                   </div>
                   <span className="about-brand-category">{brand.category}</span>
                 </div>
@@ -484,37 +801,47 @@ const AboutPage = () => {
                   <span className="about-brand-feature">
                     <CheckCircle size={14} /> Teknik Destek
                   </span>
+                  <span className="about-brand-feature">
+                    <CheckCircle size={14} /> Yedek Parça
+                  </span>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Brand Partnerships */}
-          <div className="about-partnerships">
-            <h3 className="about-partnerships-title">Resmi Distribütörlüklerimiz</h3>
-            <div className="about-partnerships-content">
-              <div className="about-partnership-info">
-                <p>
-                  <strong>Freud</strong> - İtalya'nın lider testere bıçağı üreticisi
-                </p>
-                <p>
-                  <strong>Farabi</strong> - Türkiye'nin önde gelen testere üreticisi
-                </p>
-                <p>
-                  <strong>Mızrak</strong> - Endüstriyel makine üretiminde Türkiye markası
-                </p>
-                <p>
-                  <strong>Homag Group</strong> - Dünyanın önde gelen CNC makine üreticisi
-                </p>
+          {/* Brand Categories Summary */}
+          <div className="about-brand-categories">
+            <h3 className="about-brand-categories-title">Marka Kategorilerimiz</h3>
+            <div className="about-brand-categories-grid">
+              <div className="about-brand-category-item">
+                <Wrench size={24} />
+                <h4>Testere Sistemleri</h4>
+                <p>Freud, Farabi, EDN, KINSAW, PRO-SAW, STARK</p>
               </div>
-              <div className="about-partnership-benefits">
-                <h4 className="about-benefits-title">Distribütörlük Avantajları</h4>
-                <ul className="about-benefits-list">
-                  <li>Orijinal ürün garantisi</li>
-                  <li>Doğrudan üretici fiyatları</li>
-                  <li>Hızlı yedek parça temini</li>
-                  <li>Teknik eğitim desteği</li>
-                </ul>
+              <div className="about-brand-category-item">
+                <Wrench size={24} />
+                <h4>El Aletleri</h4>
+                <p>MAKİTA, TOPSHOP, WELLER, KNIPEX, WELDER</p>
+              </div>
+              <div className="about-brand-category-item">
+                <Factory size={24} />
+                <h4>Endüstriyel Makineler</h4>
+                <p>Mızrak, EUROMAX, SCHEPPACH, OZCO</p>
+              </div>
+              <div className="about-brand-category-item">
+                <Zap size={24} />
+                <h4>Havalı Aletler</h4>
+                <p>BEA, GISON, CORA, TURCOBOOR, RAPID</p>
+              </div>
+              <div className="about-brand-category-item">
+                <Truck size={24} />
+                <h4>İş Makineleri</h4>
+                <p>BIGLIFT, FACTOR, KAMA by REİS, VIRAX</p>
+              </div>
+              <div className="about-brand-category-item">
+                <Compass size={24} />
+                <h4>Ölçüm Aletleri</h4>
+                <p>LEICA - Lazerli ölçü aletleri</p>
               </div>
             </div>
           </div>
@@ -538,42 +865,6 @@ const AboutPage = () => {
               <Package size={20} />
               <span>Ürünlerimizi Görün</span>
             </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Info */}
-      <section className="about-contact-info">
-        <div className="about-contact-grid">
-          <div className="about-contact-item">
-            <div className="about-contact-icon">
-              <Phone size={24} />
-            </div>
-            <div className="about-contact-content">
-              <h3 className="about-contact-title">Telefon</h3>
-              <p className="about-contact-detail">+90 (500) 123 45 67</p>
-              <p className="about-contact-note">7/24 Teknik Destek</p>
-            </div>
-          </div>
-          <div className="about-contact-item">
-            <div className="about-contact-icon">
-              <Mail size={24} />
-            </div>
-            <div className="about-contact-content">
-              <h3 className="about-contact-title">E-posta</h3>
-              <p className="about-contact-detail">info@orhanmakine.com</p>
-              <p className="about-contact-note">24 saat içinde yanıt</p>
-            </div>
-          </div>
-          <div className="about-contact-item">
-            <div className="about-contact-icon">
-              <MapPin size={24} />
-            </div>
-            <div className="about-contact-content">
-              <h3 className="about-contact-title">Adres</h3>
-              <p className="about-contact-detail">Merkez, Elazığ</p>
-              <p className="about-contact-note">Showroom ve Servis</p>
-            </div>
           </div>
         </div>
       </section>

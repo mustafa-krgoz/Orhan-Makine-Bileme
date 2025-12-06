@@ -26,6 +26,7 @@
     --about-radius-md: 12px;
     --about-radius-lg: 16px;
     --about-radius-xl: 24px;
+    --about-radius-ellipse: 50%;
     
     /* GÖLGELER */
     --about-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -91,7 +92,7 @@
     text-decoration: underline;
   }
   
-  .about-breadcrumb-current {
+  .about-breadcrumb-current { 
     color: var(--about-white);
     font-weight: 500;
   }
@@ -106,7 +107,7 @@
     line-height: var(--about-heading-line);
     margin-bottom: 20px;
   }
-  ß
+  
   .about-hero-description {
     font-size: 1.125rem;
     color: rgba(255, 255, 255, 0.9);
@@ -157,7 +158,7 @@
     background: rgba(255, 255, 255, 0.95);
   }
   
-  .about-quick-nav > div {
+  .about-quick-nav-container {
     max-width: var(--about-max-width);
     margin: 0 auto;
     padding: 0 var(--about-container-padding);
@@ -502,6 +503,166 @@
     font-size: 15px;
   }
   
+  /* Team Section */
+  .about-team-intro {
+    text-align: center;
+    margin-bottom: 50px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .about-team-description {
+    font-size: 1.125rem;
+    color: var(--about-gray);
+    line-height: 1.7;
+  }
+  
+  .about-team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+  }
+  
+  .about-team-card {
+    background: var(--about-white);
+    border-radius: var(--about-radius-xl);
+    box-shadow: var(--about-shadow-md);
+    overflow: hidden;
+    transition: var(--about-transition);
+    border: 1px solid var(--about-border);
+  }
+  
+  .about-team-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--about-shadow-lg);
+    border-color: var(--about-primary);
+  }
+  
+  .about-team-image-container {
+    position: relative;
+    padding: 30px;
+    background: linear-gradient(135deg, rgba(29, 111, 184, 0.1) 0%, rgba(45, 141, 245, 0.1) 100%);
+    text-align: center;
+  }
+  
+  .about-team-ellipse {
+    width: 180px;
+    height: 180px;
+    margin: 0 auto;
+    border-radius: var(--about-radius-ellipse);
+    overflow: hidden;
+    border: 4px solid var(--about-white);
+    box-shadow: var(--about-shadow-md);
+    background: var(--about-white);
+  }
+  
+  .about-team-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .about-team-experience {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: var(--about-white);
+    color: var(--about-primary);
+    padding: 8px 12px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    box-shadow: var(--about-shadow-sm);
+  }
+  
+  .about-team-info {
+    padding: 25px;
+  }
+  
+  .about-team-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--about-dark);
+    text-align: center;
+  }
+  
+  .about-team-titles {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 15px;
+  }
+  
+  .about-team-title {
+    color: var(--about-primary);
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  
+  .about-team-role {
+    color: var(--about-gray);
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+  
+  .about-team-details {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 15px;
+  }
+  
+  .about-team-detail {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.875rem;
+    color: var(--about-gray);
+  }
+  
+  .about-team-description-text {
+    color: var(--about-gray);
+    line-height: 1.6;
+    font-size: 0.9375rem;
+    text-align: center;
+  }
+  
+  .about-team-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    background: var(--about-white);
+    padding: 30px;
+    border-radius: var(--about-radius-xl);
+    box-shadow: var(--about-shadow-md);
+    margin-top: 40px;
+  }
+  
+  .about-team-stat {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .about-team-stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--about-primary);
+    margin-bottom: 8px;
+  }
+  
+  .about-team-stat-label {
+    font-size: 0.875rem;
+    color: var(--about-gray);
+    font-weight: 500;
+  }
+  
   /* Solutions */
   .about-solutions {
     display: grid;
@@ -637,8 +798,8 @@
   
   .about-brands-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 30px;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 25px;
     margin-bottom: 60px;
   }
   
@@ -649,6 +810,9 @@
     box-shadow: var(--about-shadow-md);
     transition: var(--about-transition);
     border: 1px solid var(--about-border);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
   }
   
   .about-brand-card:hover {
@@ -695,11 +859,13 @@
     font-size: 14px;
     line-height: 1.5;
     margin-bottom: 15px;
+    flex-grow: 1;
   }
   
   .about-brand-features {
     display: flex;
-    gap: 10px;
+    flex-wrap: wrap;
+    gap: 8px;
   }
   
   .about-brand-feature {
@@ -708,80 +874,64 @@
     gap: 4px;
     font-size: 12px;
     color: var(--about-success);
+    background: rgba(16, 185, 129, 0.1);
+    padding: 4px 8px;
+    border-radius: 12px;
   }
   
-  /* Partnerships */
-  .about-partnerships {
+  /* Brand Categories */
+  .about-brand-categories {
     background: var(--about-white);
     padding: 40px;
     border-radius: var(--about-radius-xl);
     box-shadow: var(--about-shadow-md);
+    margin-top: 40px;
   }
   
-  .about-partnerships-title {
+  .about-brand-categories-title {
     font-size: 1.75rem;
     font-weight: 600;
     margin-bottom: 30px;
-    color: var(--about-dark);
     text-align: center;
-  }
-  
-  .about-partnerships-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
-  }
-  
-  .about-partnership-info p {
-    padding: 12px 0;
-    border-bottom: 1px solid var(--about-border);
-    color: var(--about-gray);
-  }
-  
-  .about-partnership-info p strong {
-    color: var(--about-primary);
-  }
-  
-  .about-partnership-info p:last-child {
-    border-bottom: none;
-  }
-  
-  .about-partnership-benefits {
-    background: var(--about-light);
-    padding: 30px;
-    border-radius: var(--about-radius-lg);
-  }
-  
-  .about-benefits-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-bottom: 20px;
     color: var(--about-dark);
   }
   
-  .about-benefits-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  .about-brand-categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
   }
   
-  .about-benefits-list li {
-    padding: 10px 0;
+  .about-brand-category-item {
+    background: var(--about-light);
+    padding: 25px;
+    border-radius: var(--about-radius-lg);
+    border-top: 4px solid var(--about-primary);
+    text-align: center;
+    transition: var(--about-transition);
+  }
+  
+  .about-brand-category-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--about-shadow-md);
+  }
+  
+  .about-brand-category-item svg {
+    color: var(--about-primary);
+    margin-bottom: 15px;
+  }
+  
+  .about-brand-category-item h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--about-dark);
+  }
+  
+  .about-brand-category-item p {
     color: var(--about-gray);
-    border-bottom: 1px solid var(--about-border);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .about-benefits-list li:before {
-    content: "✓";
-    color: var(--about-success);
-    font-weight: bold;
-  }
-  
-  .about-benefits-list li:last-child {
-    border-bottom: none;
+    font-size: 14px;
+    line-height: 1.5;
   }
   
   /* ============================================
@@ -862,69 +1012,6 @@
   }
   
   /* ============================================
-     CONTACT INFO
-     ============================================ */
-  
-  .about-contact-info {
-    background: var(--about-white);
-    padding: 60px var(--about-container-padding);
-  }
-  
-  .about-contact-grid {
-    max-width: var(--about-max-width);
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
-  }
-  
-  .about-contact-item {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    padding: 30px;
-    background: var(--about-light);
-    border-radius: var(--about-radius-xl);
-    transition: var(--about-transition);
-  }
-  
-  .about-contact-item:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--about-shadow-md);
-  }
-  
-  .about-contact-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 60px;
-    height: 60px;
-    background: rgba(29, 111, 184, 0.1);
-    border-radius: 12px;
-    color: var(--about-primary);
-    flex-shrink: 0;
-  }
-  
-  .about-contact-title {
-    font-size: 1.125rem;
-    font-weight: 600;
-    margin-bottom: 8px;
-    color: var(--about-dark);
-  }
-  
-  .about-contact-detail {
-    font-size: 1.25rem;
-    font-weight: 500;
-    color: var(--about-primary);
-    margin-bottom: 4px;
-  }
-  
-  .about-contact-note {
-    font-size: 14px;
-    color: var(--about-gray);
-  }
-  
-  /* ============================================
      RESPONSIVE TASARIM
      ============================================ */
   
@@ -953,13 +1040,13 @@
     .about-stats,
     .about-values-grid,
     .about-solutions,
-    .about-brands-grid,
     .about-products-grid,
-    .about-contact-grid {
+    .about-team-stats {
       grid-template-columns: repeat(2, 1fr);
     }
     
-    .about-industries-list {
+    .about-industries-list,
+    .about-brand-categories-grid {
       grid-template-columns: repeat(2, 1fr);
     }
     
@@ -971,6 +1058,14 @@
     .about-cta-button {
       width: 100%;
       max-width: 300px;
+    }
+    
+    .about-team-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .about-brands-grid {
+      grid-template-columns: repeat(2, 1fr);
     }
   }
   
@@ -992,7 +1087,7 @@
       font-size: 1.75rem;
     }
     
-    .about-quick-nav > div {
+    .about-quick-nav-container {
       overflow-x: auto;
       padding-bottom: 10px;
     }
@@ -1001,14 +1096,24 @@
       padding: 15px;
       font-size: 14px;
       white-space: nowrap;
+      min-width: 120px;
     }
     
-    .about-stats {
+    .about-stats,
+    .about-team-stats {
       grid-template-columns: repeat(2, 1fr);
     }
     
     .about-cta-title {
       font-size: 2rem;
+    }
+    
+    .about-team-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .about-brands-grid {
+      grid-template-columns: 1fr;
     }
   }
   
@@ -1046,17 +1151,19 @@
     .about-vision,
     .about-value-card,
     .about-solution-card,
-    .about-brand-card {
+    .about-brand-card,
+    .about-team-card,
+    .about-brand-category-item {
       padding: 25px;
     }
     
     .about-stats,
     .about-values-grid,
     .about-solutions,
-    .about-brands-grid,
     .about-products-grid,
-    .about-contact-grid,
-    .about-industries-list {
+    .about-team-stats,
+    .about-industries-list,
+    .about-brand-categories-grid {
       grid-template-columns: 1fr;
     }
     
@@ -1072,8 +1179,15 @@
       font-size: 1rem;
     }
     
-    .about-contact-item {
-      padding: 20px;
+    .about-team-ellipse {
+      width: 150px;
+      height: 150px;
+    }
+    
+    .about-nav-button {
+      min-width: 100px;
+      padding: 12px 8px;
+      font-size: 13px;
     }
   }
   
@@ -1097,12 +1211,18 @@
       font-size: 14px;
     }
     
-    .about-stat {
+    .about-stat,
+    .about-team-stat {
       padding: 15px;
     }
     
     .about-stat-number {
       font-size: 1.5rem;
+    }
+    
+    .about-team-ellipse {
+      width: 120px;
+      height: 120px;
     }
   }
   
@@ -1135,15 +1255,18 @@
     .about-solution-card,
     .about-brand-card,
     .about-product-category,
-    .about-partnerships,
-    .about-partnership-benefits,
-    .about-contact-item {
+    .about-team-card,
+    .about-brand-category-item,
+    .about-team-stats,
+    .about-brand-categories {
       background: #334155;
     }
     
     .about-industry-item:hover,
     .about-solution-card:hover,
-    .about-brand-card:hover {
+    .about-brand-card:hover,
+    .about-team-card:hover,
+    .about-brand-category-item:hover {
       background: #475569;
     }
     
@@ -1151,6 +1274,15 @@
     .about-mission:hover,
     .about-vision:hover {
       background: #475569;
+    }
+    
+    .about-team-ellipse {
+      border-color: #1e293b;
+      background: #1e293b;
+    }
+    
+    .about-team-image-container {
+      background: linear-gradient(135deg, rgba(29, 111, 184, 0.2) 0%, rgba(45, 141, 245, 0.2) 100%);
     }
   }
   
@@ -1163,13 +1295,14 @@
     .about-value-card,
     .about-solution-card,
     .about-brand-card,
-    .about-contact-item,
-    .about-cta-button,
+    .about-team-card,
     .about-nav-button:hover,
     .about-industry-item:hover,
     .about-story-image-container:hover,
     .about-mission:hover,
-    .about-vision:hover {
+    .about-vision:hover,
+    .about-brand-category-item:hover,
+    .about-cta-button {
       transition: none;
       transform: none;
     }
