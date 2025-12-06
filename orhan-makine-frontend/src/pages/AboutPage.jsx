@@ -1,3 +1,8 @@
+// ============================================
+// HAKKIMIZDA SAYFASI - ORHAN MAKİNE BİLEME
+// Modern, Responsive ve SEO Uyumlu Tasarım
+// ============================================
+
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
@@ -5,26 +10,104 @@ import {
   CheckCircle, Shield, Wrench, Package, Truck,
   Phone, Mail, MapPin, ChevronRight, Star,
   HardHat, Settings, Zap, ShieldCheck, Globe,
-  User, Briefcase, Cpu, Drill, Compass,
-  Thermometer, Warehouse, Scissors, Anchor, 
-  Droplets, Flame, GitBranch, Hammer, Sparkles, 
-  Hexagon, Battery, Ruler
+  User, Briefcase, Cpu, Image as ImageIcon,
+  ChevronLeft, ChevronRight as ChevronRightIcon,
+  Drill, Droplets, Thermometer, GitBranch, Compass,
+  Scissors, Flame, Hammer
 } from 'lucide-react';
+import { brandsData, brandCategories } from '../data/brandsData';
 import '../styles/AboutPage.css';
 
-// Custom TreePine icon component - EN ÜSTTE TANIMLA
+// TreePine özel ikonu
 const TreePine = (props) => (
   <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
     <path d="M13 16L12 21M11 16L12 21M12 16V21M9 8L7 13M15 8L17 13M12 3L9 8H15L12 3Z" />
   </svg>
 );
 
-const AboutPage = () => {
-  const [activeSection, setActiveSection] = useState('about');
+// İkon mapping fonksiyonu
+const getIconComponent = (iconName, size = 24) => {
+  const iconMap = {
+    'Wrench': <Wrench size={size} />,
+    'Factory': <Factory size={size} />,
+    'Drill': <Drill size={size} />,
+    'Package': <Package size={size} />,
+    'Truck': <Truck size={size} />,
+    'Droplets': <Droplets size={size} />,
+    'Thermometer': <Thermometer size={size} />,
+    'GitBranch': <GitBranch size={size} />,
+    'Compass': <Compass size={size} />,
+    'Scissors': <Scissors size={size} />,
+    'Flame': <Flame size={size} />,
+    'Zap': <Zap size={size} />,
+    'Hammer': <Hammer size={size} />,
+    'TreePine': <TreePine {...{ width: size, height: size }} />
+  };
+  
+  return iconMap[iconName] || <Wrench size={size} />;
+};
 
-  // SEO için sayfa başlığı
+const AboutPage = () => {
+  // ============================================
+  // STATE YÖNETİMİ
+  // ============================================
+  const [activeSection, setActiveSection] = useState('about');
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // ============================================
+  // BİNA GÖRSELLERİ
+  // ============================================
+  const buildingImages = [
+    {
+      src: '/images/joblocations/bina1.png',
+      alt: 'Orhan Makine Bileme - Satış ve Servis Bölümü',
+      title: 'Satış ve Servis Bölümü'
+    },
+    {
+      src: '/images/joblocations/bina2.png',
+      alt: 'Orhan Makine Bileme - Ürün Showroom',
+      title: 'Ürün Showroom'
+    },
+    {
+      src: '/images/joblocations/bina3.png',
+      alt: 'Orhan Makine Bileme - Teknik Servis Atölyesi',
+      title: 'Teknik Servis Atölyesi'
+    },
+    {
+      src: '/images/joblocations/bina4.png',
+      alt: 'Orhan Makine Bileme - Depo ve Lojistik',
+      title: 'Depo ve Lojistik Bölümü'
+    },
+    {
+      src: '/images/joblocations/bina5.png',
+      alt: 'Orhan Makine Bileme - Ofis ve Yönetim',
+      title: 'Ofis ve Yönetim'
+    }
+  ];
+
+  // ============================================
+  // GÖRSEL GALERİ FONKSİYONLARI
+  // ============================================
+  const handlePrevImage = () => {
+    setCurrentImageIndex((prev) => 
+      prev === 0 ? buildingImages.length - 1 : prev - 1
+    );
+  };
+
+  const handleNextImage = () => {
+    setCurrentImageIndex((prev) => 
+      prev === buildingImages.length - 1 ? 0 : prev + 1
+    );
+  };
+
+  // ============================================
+  // SEO VE META AYARLARI
+  // ============================================
   React.useEffect(() => {
+    // Sayfa başlığı
     document.title = 'Hakkımızda | Orhan Makine Bileme - 40 Yıllık Tecrübe';
+    
+    // Meta açıklama
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute('content', 
@@ -32,7 +115,7 @@ const AboutPage = () => {
       );
     }
     
-    // Structured data için JSON-LD
+    // Structured Data (JSON-LD)
     const script = document.createElement('script');
     script.type = 'application/ld+json';
     script.text = JSON.stringify({
@@ -75,11 +158,11 @@ const AboutPage = () => {
           {
             "@type": "Person",
             "name": "Ercan Orhan",
-            "jobTitle": "Makine Mühendisi"
+            "jobTitle": "Makine Mühendisxi"
           },
           {
             "@type": "Person",
-            "name": "Uğur",
+            "name": "Alparslan Ayyıldız",
             "jobTitle": "Makine Mühendisi"
           }
         ]
@@ -88,165 +171,15 @@ const AboutPage = () => {
     document.head.appendChild(script);
 
     return () => {
-      document.head.removeChild(script);
+      if (document.head.contains(script)) {
+        document.head.removeChild(script);
+      }
     };
   }, []);
 
-  // Güncellenmiş Markalar Listesi (25 marka)
-  const brands = [
-    { 
-      name: 'Freud', 
-      description: 'İtalyan kalitesi testere bıçakları ve kesici takımlar', 
-      category: 'Testereler',
-      icon: <Wrench size={24} />
-    },
-    { 
-      name: 'Farabi', 
-      description: 'Türkiye\'nin lider testere üreticisi', 
-      category: 'Testereler',
-      icon: <Wrench size={24} />
-    },
-    { 
-      name: 'Mızrak', 
-      description: 'Endüstriyel makine üretiminde Türk markası', 
-      category: 'Makineler',
-      icon: <Factory size={24} />
-    },
-    { 
-      name: 'MAKİTA', 
-      description: 'Profesyonel elektrikli el aletleri', 
-      category: 'El Aletleri',
-      icon: <Drill size={24} />
-    },
-    { 
-      name: 'BEA', 
-      description: 'Havalı zımba ve çivi çakma makinaları', 
-      category: 'Havalı Aletler',
-      icon: <Package size={24} />
-    },
-    { 
-      name: 'BIGLIFT', 
-      description: 'Transpalet, istifleme ve kaldırma ekipmanları', 
-      category: 'Kaldırma',
-      icon: <Truck size={24} />
-    },
-    { 
-      name: 'CORA', 
-      description: 'Kompresörler ve boya tabancaları', 
-      category: 'Hava Sistemleri',
-      icon: <Droplets size={24} />
-    },
-    { 
-      name: 'EDN', 
-      description: 'Yüksek kalite daire testereler', 
-      category: 'Testereler',
-      icon: <Wrench size={24} />
-    },
-    { 
-      name: 'EUROMAX', 
-      description: 'Palta-karol-boru işleme ve endüstriyel makinalar', 
-      category: 'Endüstriyel',
-      icon: <Factory size={24} />
-    },
-    { 
-      name: 'FACTOR', 
-      description: 'Asfalt ve beton zemin işleme makineleri', 
-      category: 'İnşaat',
-      icon: <Thermometer size={24} />
-    },
-    { 
-      name: 'GISON', 
-      description: 'Havalı aletler ve aksesuarlar', 
-      category: 'Havalı Aletler',
-      icon: <Zap size={24} />
-    },
-    { 
-      name: 'KAMA by REİS', 
-      description: 'Bahçe ve tarım makineleri, jeneratörler', 
-      category: 'Bahçe',
-      icon: <GitBranch size={24} />
-    },
-    { 
-      name: 'KINSAW', 
-      description: 'Geniş yelpazede testere çeşitleri', 
-      category: 'Testereler',
-      icon: <Wrench size={24} />
-    },
-    { 
-      name: 'LEICA', 
-      description: 'Lazerli ölçü aletleri ve geomatik çözümler', 
-      category: 'Ölçüm',
-      icon: <Compass size={24} />
-    },
-    { 
-      name: 'OZCO', 
-      description: 'Sütunlu matkaplar, frezeler, tornalar', 
-      category: 'Takım Tezgahları',
-      icon: <Wrench size={24} />
-    },
-    { 
-      name: 'PRO-SAW', 
-      description: 'Daire testereler, elmas testereler, karot uçları', 
-      category: 'Kesim',
-      icon: <Scissors size={24} />
-    },
-    { 
-      name: 'RAPID', 
-      description: 'Zımba ve silikon tabancaları', 
-      category: 'Montaj',
-      icon: <Package size={24} />
-    },
-    { 
-      name: 'SCHEPPACH', 
-      description: 'Ahşap işleme makineleri', 
-      category: 'Ahşap',
-      icon: <TreePine size={24} />
-    },
-    { 
-      name: 'STARK', 
-      description: 'Metal işleme testereleri', 
-      category: 'Metal',
-      icon: <Wrench size={24} />
-    },
-    { 
-      name: 'TOPSHOP', 
-      description: 'El aletleri ve freze bıçakları', 
-      category: 'El Aletleri',
-      icon: <Hammer size={24} />
-    },
-    { 
-      name: 'TURCOBOOR', 
-      description: 'Manyetik matkaplar ve aksesuarları', 
-      category: 'Delme',
-      icon: <Zap size={24} />
-    },
-    { 
-      name: 'VIRAX', 
-      description: 'Boru işleme ekipmanları', 
-      category: 'Boru',
-      icon: <Droplets size={24} />
-    },
-    { 
-      name: 'WELDER', 
-      description: 'Kaynak makineleri ve aksesuarları', 
-      category: 'Kaynak',
-      icon: <Flame size={24} />
-    },
-    { 
-      name: 'WELLER', 
-      description: 'Lehim havyaları ve el aletleri', 
-      category: 'Elektronik',
-      icon: <Zap size={24} />
-    },
-    { 
-      name: 'KNIPEX', 
-      description: 'Alman kalitesi penseler ve sıkma aletleri', 
-      category: 'El Aletleri',
-      icon: <Wrench size={24} />
-    }
-  ];
-
-  // Çözümler listesi
+  // ============================================
+  // ÇÖZÜMLER VERİLERİ
+  // ============================================
   const solutions = [
     {
       icon: <Settings size={24} />,
@@ -271,7 +204,7 @@ const AboutPage = () => {
     {
       icon: <ShieldCheck size={24} />,
       title: 'Teknik Servis',
-      description: '7/24 teknik destek ve bakım hizmetleri'
+      description: 'Uzman teknik destek ve bakım hizmetleri'
     },
     {
       icon: <Globe size={24} />,
@@ -280,7 +213,9 @@ const AboutPage = () => {
     }
   ];
 
-  // Sektörler listesi
+  // ============================================
+  // SEKTÖRLER LİSTESİ
+  // ============================================
   const industries = [
     'Mobilya Üretimi',
     'Ahşap İşleme',
@@ -292,15 +227,17 @@ const AboutPage = () => {
     'Endüstriyel Üretim'
   ];
 
-  // Ekibimiz listesi
+  // ============================================
+  // EKİP ÜYELERİ
+  // ============================================
   const teamMembers = [
     {
       id: 1,
       name: 'Mehmet Özcan Orhan',
       title: 'Sahip & Kurucu',
       role: 'Genel Müdür',
-      age: 58,
-      experience: '40+ yıl',
+      age: 49,
+      experience: '32+ yıl',
       description: '40 yılı aşkın sektör tecrübesi ile firmanın kurucusu ve yöneticisi. Mobilya makinaları konusunda uzman.',
       image: '/images/team/mehmet-ozcan-orhan.png'
     },
@@ -309,7 +246,7 @@ const AboutPage = () => {
       name: 'Hasan Esen',
       title: 'Satış Uzmanı',
       role: 'Satış Müdürü',
-      age: 45,
+      age: 50,
       experience: '20+ yıl',
       description: 'Satış ve müşteri ilişkileri konusunda uzman. Teknik ürün bilgisi ile müşterilere en uygun çözümleri sunar.',
       image: '/images/team/hasan-esen.png'
@@ -319,8 +256,8 @@ const AboutPage = () => {
       name: 'Halit Mustafa Karagöz',
       title: 'Yazılım Mühendisi',
       role: 'Teknoloji Direktörü',
-      age: 32,
-      experience: '8+ yıl',
+      age: 24,
+      experience: '3+ yıl',
       description: 'Dijital dönüşüm ve yazılım çözümlerinden sorumlu. E-ticaret ve ERP sistemleri uzmanı.',
       image: '/images/team/halit-mustafa-karagoz.png'
     },
@@ -336,35 +273,47 @@ const AboutPage = () => {
     },
     {
       id: 5,
-      name: 'Uğur',
+      name: 'Alparslan Ayyıldız',
       title: 'Makine Mühendisi',
       role: 'Ürün Uzmanı',
-      age: 35,
-      experience: '12+ yıl',
+      age: 29,
+      experience: '7+ yıl',
       description: 'Ürün geliştirme ve kalite kontrol sorumlusu. Yeni teknolojilerin takibi ve uygulanmasından sorumlu.',
       image: '/images/team/ugur.png'
     }
   ];
 
+  // ============================================
+  // RENDER
+  // ============================================
   return (
     <div className="about-page">
-      {/* Hero Section */}
+      {/* ============================================
+          HERO SECTION - Ana Banner
+          ============================================ */}
       <section className="about-hero">
         <div className="about-hero-content">
           <div className="about-hero-text">
+            {/* Breadcrumb Navigasyonu */}
             <div className="about-breadcrumb">
               <Link to="/" className="about-breadcrumb-link">Ana Sayfa</Link>
               <ChevronRight size={16} />
               <span className="about-breadcrumb-current">Hakkımızda</span>
             </div>
+            
+            {/* Ana Başlık */}
             <h1 className="about-hero-title">
               40 Yılı Aşkın Tecrübe ile Mobilya Sektöründe
             </h1>
+            
+            {/* Açıklama */}
             <p className="about-hero-description">
               1980'den bu yana mobilya ve endüstriyel sektöre kaliteli makine satışı, 
               teknik destek ve çözüm ortaklığı sunuyoruz.
             </p>
           </div>
+          
+          {/* Hero Görseli */}
           <div className="about-hero-image-container">
             <img 
               src="/images/joblocations/orhan-makine-bina.png" 
@@ -382,7 +331,9 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* Quick Navigation */}
+      {/* ============================================
+          QUICK NAVIGATION - Hızlı Erişim Menüsü
+          ============================================ */}
       <nav className="about-quick-nav" aria-label="Sayfa içi navigasyon">
         <div className="about-quick-nav-container">
           <button 
@@ -428,15 +379,20 @@ const AboutPage = () => {
         </div>
       </nav>
 
-      {/* Main Content */}
+      {/* ============================================
+          MAIN CONTENT - Ana İçerik
+          ============================================ */}
       <main className="about-main-content">
         
-        {/* About Section */}
+        {/* ============================================
+            HAKKIMIZDA BÖLÜMÜ
+            ============================================ */}
         <section 
           id="about" 
           className={`about-section ${activeSection === 'about' ? 'about-section-active' : ''}`}
           aria-labelledby="about-heading"
         >
+          {/* Bölüm Başlığı */}
           <div className="about-section-header">
             <Factory size={32} className="about-section-icon" />
             <h2 id="about-heading" className="about-section-title">Hakkımızda</h2>
@@ -444,6 +400,7 @@ const AboutPage = () => {
           </div>
           
           <div className="about-section-content">
+            {/* Hikaye ve İstatistikler */}
             <div className="about-story">
               <div className="about-story-text">
                 <h3 className="about-story-title">Orhan Makine Bileme'nin Hikayesi</h3>
@@ -458,6 +415,8 @@ const AboutPage = () => {
                   Sadece makine satışı değil, aynı zamanda teknik destek, bakım ve 
                   danışmanlık hizmetleriyle müşterilerimizin yanındayız.
                 </p>
+                
+                {/* İstatistikler */}
                 <div className="about-stats">
                   <div className="about-stat">
                     <div className="about-stat-number">40+</div>
@@ -472,24 +431,57 @@ const AboutPage = () => {
                     <div className="about-stat-label">Marka</div>
                   </div>
                   <div className="about-stat">
-                    <div className="about-stat-number">24/7</div>
-                    <div className="about-stat-label">Teknik Destek</div>
+                    <div className="about-stat-number">110+</div>
+                    <div className="about-stat-label">Yıl Deneyim</div>
                   </div>
                 </div>
               </div>
               
-              <div className="about-story-image-container">
-                <img 
-                  src="/images/joblocations/orhan-makine-bina.png" 
-                  alt="Orhan Makine Bileme Fabrika ve İşyeri"
-                  className="about-story-image"
-                  loading="lazy"
-                  width="600"
-                  height="400"
-                />
-                <div className="about-story-overlay">
-                  <HardHat size={24} />
-                  <p>Profesyonel Ekip, Kaliteli Hizmet</p>
+              {/* Bina Görselleri Galerisi */}
+              <div className="about-building-gallery">
+                <div className="about-gallery-main">
+                  <img 
+                    src={buildingImages[currentImageIndex].src}
+                    alt={buildingImages[currentImageIndex].alt}
+                    className="about-gallery-image"
+                    loading="lazy"
+                    width="600"
+                    height="400"
+                  />
+                  <div className="about-gallery-overlay">
+                    <ImageIcon size={20} />
+                    <span>{buildingImages[currentImageIndex].title}</span>
+                  </div>
+                  
+                  {/* Galeri Kontrolleri */}
+                  <button 
+                    className="about-gallery-btn about-gallery-prev"
+                    onClick={handlePrevImage}
+                    aria-label="Önceki görsel"
+                  >
+                    <ChevronLeft size={24} />
+                  </button>
+                  <button 
+                    className="about-gallery-btn about-gallery-next"
+                    onClick={handleNextImage}
+                    aria-label="Sonraki görsel"
+                  >
+                    <ChevronRightIcon size={24} />
+                  </button>
+                </div>
+                
+                {/* Thumbnail'ler */}
+                <div className="about-gallery-thumbnails">
+                  {buildingImages.map((img, index) => (
+                    <button
+                      key={index}
+                      className={`about-gallery-thumb ${index === currentImageIndex ? 'active' : ''}`}
+                      onClick={() => setCurrentImageIndex(index)}
+                      aria-label={`${img.title} görselini göster`}
+                    >
+                      <img src={img.src} alt={img.alt} />
+                    </button>
+                  ))}
                 </div>
               </div>
             </div>
@@ -509,7 +501,9 @@ const AboutPage = () => {
           </div>
         </section>
 
-        {/* Mission & Vision Section */}
+        {/* ============================================
+            MİSYON & VİZYON BÖLÜMÜ
+            ============================================ */}
         <section 
           id="mission" 
           className={`about-section ${activeSection === 'mission' ? 'about-section-active' : ''}`}
@@ -522,6 +516,7 @@ const AboutPage = () => {
           </div>
 
           <div className="about-mission-vision">
+            {/* Misyon */}
             <div className="about-mission">
               <div className="about-mission-icon">
                 <Target size={48} />
@@ -540,6 +535,7 @@ const AboutPage = () => {
               </ul>
             </div>
 
+            {/* Vizyon */}
             <div className="about-vision">
               <div className="about-vision-icon">
                 <Eye size={48} />
@@ -560,7 +556,7 @@ const AboutPage = () => {
             </div>
           </div>
 
-          {/* Values */}
+          {/* Değerlerimiz */}
           <div className="about-values">
             <h3 className="about-values-title">Değerlerimiz</h3>
             <div className="about-values-grid">
@@ -608,7 +604,9 @@ const AboutPage = () => {
           </div>
         </section>
 
-        {/* Team Section */}
+        {/* ============================================
+            EKİP BÖLÜMÜ
+            ============================================ */}
         <section 
           id="team" 
           className={`about-section ${activeSection === 'team' ? 'about-section-active' : ''}`}
@@ -679,13 +677,15 @@ const AboutPage = () => {
               <div className="about-team-stat-label">Toplam Tecrübe (Yıl)</div>
             </div>
             <div className="about-team-stat">
-              <div className="about-team-stat-number">7/24</div>
-              <div className="about-team-stat-label">Teknik Destek</div>
+              <div className="about-team-stat-number">100%</div>
+              <div className="about-team-stat-label">Müşteri Memnuniyeti</div>
             </div>
           </div>
         </section>
 
-        {/* Solutions Section */}
+        {/* ============================================
+            ÇÖZÜMLER BÖLÜMÜ
+            ============================================ */}
         <section 
           id="solutions" 
           className={`about-section ${activeSection === 'solutions' ? 'about-section-active' : ''}`}
@@ -720,7 +720,7 @@ const AboutPage = () => {
             ))}
           </div>
 
-          {/* Detailed Products */}
+          {/* Detaylı Ürün Grupları */}
           <div className="about-products-detail">
             <h3 className="about-products-title">Ürün Gruplarımız</h3>
             <div className="about-products-grid">
@@ -764,7 +764,9 @@ const AboutPage = () => {
           </div>
         </section>
 
-        {/* Brands Section */}
+        {/* ============================================
+            MARKALAR BÖLÜMÜ
+            ============================================ */}
         <section 
           id="brands" 
           className={`about-section ${activeSection === 'brands' ? 'about-section-active' : ''}`}
@@ -783,17 +785,18 @@ const AboutPage = () => {
             </p>
           </div>
 
+          {/* Marka Kartları - brandsData'dan çekiliyor */}
           <div className="about-brands-grid">
-            {brands.map((brand, index) => (
-              <div key={index} className="about-brand-card">
+            {brandsData.map((brand) => (
+              <div key={brand.id} className="about-brand-card">
                 <div className="about-brand-header">
                   <div className="about-brand-icon">
-                    {brand.icon}
+                    {getIconComponent(brand.icon, 24)}
                   </div>
                   <span className="about-brand-category">{brand.category}</span>
                 </div>
                 <h3 className="about-brand-name">{brand.name}</h3>
-                <p className="about-brand-description">{brand.description}</p>
+                <p className="about-brand-description">{brand.shortDescription}</p>
                 <div className="about-brand-features">
                   <span className="about-brand-feature">
                     <CheckCircle size={14} /> Orijinal Ürün
@@ -809,46 +812,25 @@ const AboutPage = () => {
             ))}
           </div>
 
-          {/* Brand Categories Summary */}
+          {/* Marka Kategorileri Özeti */}
           <div className="about-brand-categories">
             <h3 className="about-brand-categories-title">Marka Kategorilerimiz</h3>
             <div className="about-brand-categories-grid">
-              <div className="about-brand-category-item">
-                <Wrench size={24} />
-                <h4>Testere Sistemleri</h4>
-                <p>Freud, Farabi, EDN, KINSAW, PRO-SAW, STARK</p>
-              </div>
-              <div className="about-brand-category-item">
-                <Wrench size={24} />
-                <h4>El Aletleri</h4>
-                <p>MAKİTA, TOPSHOP, WELLER, KNIPEX, WELDER</p>
-              </div>
-              <div className="about-brand-category-item">
-                <Factory size={24} />
-                <h4>Endüstriyel Makineler</h4>
-                <p>Mızrak, EUROMAX, SCHEPPACH, OZCO</p>
-              </div>
-              <div className="about-brand-category-item">
-                <Zap size={24} />
-                <h4>Havalı Aletler</h4>
-                <p>BEA, GISON, CORA, TURCOBOOR, RAPID</p>
-              </div>
-              <div className="about-brand-category-item">
-                <Truck size={24} />
-                <h4>İş Makineleri</h4>
-                <p>BIGLIFT, FACTOR, KAMA by REİS, VIRAX</p>
-              </div>
-              <div className="about-brand-category-item">
-                <Compass size={24} />
-                <h4>Ölçüm Aletleri</h4>
-                <p>LEICA - Lazerli ölçü aletleri</p>
-              </div>
+              {brandCategories.map((category) => (
+                <div key={category.id} className="about-brand-category-item">
+                  {getIconComponent(category.icon, 24)}
+                  <h4>{category.name}</h4>
+                  <p>{category.brands.join(', ')}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
       </main>
 
-      {/* CTA Section */}
+      {/* ============================================
+          CTA SECTION - Çağrı-Eylem Bölümü
+          ============================================ */}
       <section className="about-cta">
         <div className="about-cta-content">
           <h2 className="about-cta-title">Sektörünüz İçin Doğru Makineyi Bulun</h2>
