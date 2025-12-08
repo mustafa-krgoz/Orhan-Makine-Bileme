@@ -1,97 +1,77 @@
 import '../styles/HomePage.css'
 import Hero from "../components/Hero/Hero.jsx";
-import { ArrowRight, Shield, Clock, Truck, Star, CheckCircle, ChevronLeft, ChevronRight } from "lucide-react"
+import { ArrowRight, Shield, Clock, Truck, CheckCircle, ChevronLeft, ChevronRight } from "lucide-react"
 import { useState, useEffect } from "react"
 import { Link } from "react-router-dom";
-import { productsData } from "../data/productsData"; // ⭐ Ürün verilerini import ediyoruz
+import { productsData } from "../data/productsData";
 
 export default function HomePage() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [featuredProducts, setFeaturedProducts] = useState([]); // ⭐ Popüler ürünleri state'te tutuyoruz
+  const [featuredProducts, setFeaturedProducts] = useState([]);
   
-  // ⭐ POPÜLER ÜRÜNLERİ productsData.js'DEN AL - sayfa yüklendiğinde çalışır
   useEffect(() => {
-    // 1. Önce indirimli ürünleri al (en popüler olduğu için)
-    const discountedProducts = productsData
-      .filter(product => product.price < product.originalPrice)
-      .slice(0, 3);
+    // Popüler ürünleri seç
+    const allProducts = [...productsData]
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 6);
     
-    // 2. Eğer 3'ten az indirimli ürün varsa, yeni ürünler ekle
-    const remainingCount = 6 - discountedProducts.length;
-    const otherProducts = productsData
-      .filter(product => !discountedProducts.includes(product))
-      .filter(product => product.isNew || product.isCampaign) // Yeni veya kampanyalı ürünler
-      .slice(0, remainingCount);
-    
-    // 3. İkisini birleştir
-    const allProducts = [...discountedProducts, ...otherProducts];
-    
-    // 4. Eğer hala 6'dan azsa, rastgele ürünler ekle
-    if (allProducts.length < 6) {
-      const remaining = productsData
-        .filter(product => !allProducts.includes(product))
-        .slice(0, 6 - allProducts.length);
-      allProducts.push(...remaining);
-    }
-    
-    setFeaturedProducts(allProducts.slice(0, 6)); // En fazla 6 ürün göster
+    setFeaturedProducts(allProducts);
   }, []);
 
   const services = [
     {
       icon: <Shield className="w-8 h-8" />,
       title: "Kalite Garantisi",
-      description: "Tüm işlemlerimizde yüksek kalite standartları ve garanti"
+      description: "Tüm makinelerimizde 2 yıl garantili ve kalite standartlarında hizmet"
     },
     {
       icon: <Clock className="w-8 h-8" />,
       title: "Hızlı Teslimat",
-      description: "Aynı gün teslimat ile acil ihtiyaçlarınıza çözüm"
+      description: "Stoktan aynı gün teslimat ile üretiminizin aksamamasını sağlıyoruz"
     },
     {
       icon: <Truck className="w-8 h-8" />,
-      title: "Ücretsiz Kargo",
-      description: "Belirli tutar üzeri ücretsiz kargo imkanı"
+      title: "Ücretsiz Montaj",
+      description: "Belirli modellerde ücretsiz kurulum ve montaj hizmeti sunuyoruz"
     },
   ]
 
   const brands = [
     { 
       name: "MAKİTA",
-      description: "Dünyanın en güçlü elektrikli el aleti markalarından biri.",
-      image: "/images/makita-logo.png",
+      description: "Dünyanın önde gelen elektrikli el aleti markası. Profesyonel kullanıcıların tercihi.",
+      image: "/images/brands/makita-logo.png",
       features: [
         "Profesyonel motor teknolojisi",
-        "Uzun ömürlü batarya",
-        "Titreşim azaltan tasarım",
+        "Uzun ömürlü batarya sistemi",
+        "Titreşim azaltan ergonomik tasarım",
         "Geniş ürün gamı"
       ]
     },
     { 
       name: "FREUD", 
-      description: "Ahşap kesim ve talaşlı üretimde dünya lideri İtalyan marka.",
-      image: "/images/freud-logo.png",
+      description: "Ahşap işleme ve endüstriyel kesimde dünya lideri İtalyan marka.",
+      image: "/images/brands/freud-logo.png",
       features: [
-        "İtalyan mühendisliği",
+        "İtalyan mühendisliği ve tasarımı",
         "Endüstriyel dayanıklılık",
-        "Premium karbür uç",
-        "Uzun ömürlü kesim"
+        "Premium karbür uç teknolojisi",
+        "Uzun ömürlü kesim performansı"
       ]
     },
     { 
       name: "MIZRAK",
-      description: "Türkiye'nin güçlü yerli üreticilerinden.",
-      image: "/images/mizrak-logo.png",
+      description: "Türkiye'nin güçlü yerli üreticilerinden. Yüksek kalite, uygun fiyat.",
+      image: "/images/brands/mizrak-logo.png",
       features: [
-        "Yerli üretim",
-        "Kaliteli işçilik",
-        "Yüksek uyumluluk",
-        "Uygun fiyat"
+        "Yerli üretim ve mühendislik",
+        "Üstün kalite kontrol",
+        "Yüksek uyumluluk ve esneklik",
+        "Uygun fiyat-performans oranı"
       ]
     }
   ];
 
-  // ⭐ SLIDER HESAPLAMALARI - featuredProducts yüklendikten sonra çalışır
   const maxSlide = featuredProducts.length > 4 ? featuredProducts.length - 4 : 0;
 
   const nextSlide = () => {
@@ -102,7 +82,6 @@ export default function HomePage() {
     setCurrentSlide((prev) => (prev <= 0 ? maxSlide : prev - 1))
   }
 
-  // ⭐ FİYAT FORMATLAMA FONKSİYONU
   const formatPrice = (price) => {
     return new Intl.NumberFormat('tr-TR', {
       minimumFractionDigits: 2,
@@ -110,112 +89,92 @@ export default function HomePage() {
     }).format(price);
   }
 
-  // ⭐ ÜRÜN ADINI URL UYUMLU HALE GETİRME FONKSİYONU
-  const createProductSlug = (productName) => {
-    return productName
-      .toLowerCase()
-      .replace(/ /g, "-")
-      .replace(/ı/g, "i")
-      .replace(/ö/g, "o")
-      .replace(/ü/g, "u")
-      .replace(/ş/g, "s")
-      .replace(/ç/g, "c")
-      .replace(/ğ/g, "g");
-  }
-
   return (
     <div className="homepage">
       <Hero />
 
-      {/* ========================== */}
       {/* POPÜLER ÜRÜNLER BÖLÜMÜ */}
-      {/* ========================== */}
-      <section className="products-section">
-        <div className="container-full">
-          <div className="section-header">
-            <h2 className="section-title">Popüler Ürünler</h2>
-            <p className="section-description">En çok tercih edilen ürünler</p>
+      <section className="home-products-section">
+        <div className="home-container-full">
+          <div className="home-section-header">
+            <h2 className="home-section-title">Popüler Ürünlerimiz</h2>
+            <p className="home-section-description">
+              En çok tercih edilen makine ve ekipmanlar
+            </p>
           </div>
           
-          {/* ⭐ ÜRÜNLER YÜKLENİYORSA LOADER GÖSTER */}
           {featuredProducts.length === 0 ? (
-            <div className="products-loading">
+            <div className="home-products-loading">
               <p>Ürünler yükleniyor...</p>
             </div>
           ) : (
-            <div className="products-slider-wrapper">
+            <div className="home-products-slider-wrapper">
               
-              {/* ⭐ SOL OK BUTONU - önceki ürünlere kaydırır */}
-              <button className="slider-arrow slider-arrow-left" onClick={prevSlide}>
+              {/* SOL OK BUTONU */}
+              <button 
+                className="home-slider-arrow home-slider-arrow-left" 
+                onClick={prevSlide}
+                aria-label="Önceki ürünler"
+              >
                 <ChevronLeft className="w-6 h-6" />
               </button>
 
-              {/* ⭐ ÜRÜN SLIDER KONTEYNERI */}
-              <div className="products-slider-container">
-                <div className="products-slider">
+              {/* ÜRÜN SLIDER KONTEYNERI */}
+              <div className="home-products-slider-container">
+                <div className="home-products-slider">
                   <div 
-                    className="products-track"
+                    className="home-products-track"
                     style={{ transform: `translateX(calc(-${currentSlide * 25}%))` }}
                   >
-                    {featuredProducts.map((product, index) => (
-                      <div key={product.id} className="product-card"> {/* ⭐ product.id kullanıyoruz */}
+                    {featuredProducts.map((product) => (
+                      <div key={product.id} className="home-product-card">
                         
-                        {/* ⭐ ÜRÜN RESMİ */}
-                        <div className="product-image">
+                        {/* ÜRÜN RESMİ */}
+                        <div className="home-product-image">
                           <img 
                             src={product.image} 
                             alt={product.name}
+                            loading="lazy"
                             onError={(e) => {
                               e.target.src = "/images/default-product.png";
                             }}
                           />
-                          
-                          {/* ⭐ ÜRÜN BADGELERİ (indirim, yeni, kampanya) */}
-                          <div className="home-product-badges">
-                            {product.price < product.originalPrice && (
-                              <span className="badge discount">
-                                %{Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}
-                              </span>
-                            )}
-                            {product.isNew && <span className="badge new">YENİ</span>}
-                            {product.isCampaign && <span className="badge campaign">KAMPANYA</span>}
-                          </div>
                         </div>
 
-                        {/* ⭐ ÜRÜN İÇERİĞİ */}
-                        <div className="product-content">
-                          <div className="product-brand">{product.brand}</div>
-                          <h3 className="product-title">{product.name}</h3>
+                        {/* ÜRÜN İÇERİĞİ */}
+                        <div className="home-product-content">
+                          <div className="home-product-brand">{product.brand}</div>
+                          <h3 className="home-product-title">{product.name}</h3>
                           
-                          {/* ⭐ FİYAT BİLGİSİ */}
-                          <div className="product-pricing">
-                            {product.price < product.originalPrice && (
-                              <div className="original-price-home">
-                                {formatPrice(product.originalPrice)} TL
-                              </div>
-                            )}
-                            <p className="product-price">{formatPrice(product.price)} TL</p>
+                          {/* FİYAT BİLGİSİ */}
+                          <div className="home-product-pricing">
+                            <p className="home-product-price">{formatPrice(product.price)} TL</p>
                           </div>
                           
-                          <p className="product-description">{product.description}</p>
+                          <p className="home-product-description">
+                            {product.description.length > 100 
+                              ? `${product.description.substring(0, 100)}...` 
+                              : product.description}
+                          </p>
 
-                          {/* ⭐ ÜRÜN ÖZELLİKLERİ */}
-                          <ul className="product-features">
+                          {/* ÜRÜN ÖZELLİKLERİ */}
+                          <ul className="home-product-features">
                             {(product.features || []).slice(0, 2).map((feature, idx) => (
-                              <li key={idx} className="feature-item">
-                                <CheckCircle className="feature-icon" /> {feature}
+                              <li key={idx} className="home-feature-item">
+                                <CheckCircle className="home-feature-icon" /> 
+                                <span>{feature}</span>
                               </li>
                             ))}
                           </ul>
 
-                          {/* ⭐ DETAYLI İNCELE BUTONU - ürün detay sayfasına yönlendirir */}
+                          {/* DETAYLI İNCELE BUTONU */}
                           <Link 
-                            to={`/product/${product.id}`} // ⭐ URL'de ürün ID'sini kullanıyoruz
-                            className="product-button"
+                            to={`/product/${product.id}`}
+                            className="home-product-button"
+                            aria-label={`${product.name} detaylı incele`}
                           >
-                            Detaylı İncele <ArrowRight className="button-icon" />
+                            Detaylı İncele <ArrowRight className="home-button-icon" />
                           </Link>
-
                         </div>
                       </div>
                     ))}
@@ -223,104 +182,124 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* ⭐ SAĞ OK BUTONU - sonraki ürünlere kaydırır */}
-              <button className="slider-arrow slider-arrow-right" onClick={nextSlide}>
+              {/* SAĞ OK BUTONU */}
+              <button 
+                className="home-slider-arrow home-slider-arrow-right" 
+                onClick={nextSlide}
+                aria-label="Sonraki ürünler"
+              >
                 <ChevronRight className="w-6 h-6" />
               </button>
-
             </div>
           )}
           
-          {/* ⭐ TÜM ÜRÜNLERİ GÖR BUTONU - ürünler sayfasına yönlendirir */}
-          <div className="view-all-products">
-            <Link to="/products" className="view-all-button">
+          {/* TÜM ÜRÜNLERİ GÖR BUTONU */}
+          <div className="home-view-all-products">
+            <Link to="/products" className="home-view-all-button">
               Tüm Ürünleri Gör
             </Link>
           </div>
         </div>
       </section>
 
-      {/* ========================== */}
       {/* HİZMETLER BÖLÜMÜ */}
-      {/* ========================== */}
-      <section className="services-section">
-        <div className="container">
-          <div className="section-header">
-            <h2 className="section-title">Neden Bizi Tercih Etmelisiniz?</h2>
-            <p className="section-description">
-              Kalite ve müşteri memnuniyeti odaklı çalışma prensibimizle yanınızdayız.
+      <section className="home-services-section">
+        <div className="home-container">
+          <div className="home-section-header">
+            <h2 className="home-section-title">Neden Orhan Makine?</h2>
+            <p className="home-section-description">
+              40 yıllık sektör tecrübemizle, makine satışında en güvenilir çözüm ortağınız
             </p>
           </div>
 
-          <div className="services-grid">
+          <div className="home-services-grid">
             {services.map((service, index) => (
-              <div key={index} className="service-card">
-                <div className="service-icon">{service.icon}</div>
-                <h3 className="service-title">{service.title}</h3>
-                <p className="service-description">{service.description}</p>
+              <div key={index} className="home-service-card">
+                <div className="home-service-icon">{service.icon}</div>
+                <h3 className="home-service-title">{service.title}</h3>
+                <p className="home-service-description">{service.description}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ========================== */}
       {/* MARKALAR BÖLÜMÜ */}
-      {/* ========================== */}
-      <section className="brands-section">
-        <div className="container">
-          <div className="section-header">
-            <h2 className="section-title">Güvenilen Markalar</h2>
-            <p className="section-description">
-              Kaliteye ortak olduğumuz ve güvendiğimiz markalar
+      <section className="home-brands-section">
+        <div className="home-container">
+          <div className="home-section-header">
+            <h2 className="home-section-title">Güvendiğimiz Markalar</h2>
+            <p className="home-section-description">
+              Dünyaca ünlü kaliteli markaları sizlerle buluşturuyoruz
             </p>
           </div>
 
-          <div className="brands-grid">
+          <div className="home-brands-grid">
             {brands.map((brand, index) => (
-              <div key={index} className="brand-card">
+              <div key={index} className="home-brand-card">
                 
-                <div className="brand-header">
-                  <div className="brand-logo">
+                <div className="home-brand-header">
+                  <div className="home-brand-logo">
                     <img 
                       src={brand.image} 
                       alt={`${brand.name} logo`}
-                      className="brand-logo-image"
+                      className="home-brand-logo-image"
+                      loading="lazy"
                       onError={(e) => {
                         e.target.style.display = 'none';
-                        e.target.nextElementSibling.style.display = 'flex';
+                        e.target.parentElement.innerHTML = `<span class="home-brand-name-fallback">${brand.name}</span>`;
                       }}
                     />
-                    <div className="brand-logo-fallback">
-                      <Star className="logo-icon" />
-                    </div>
                   </div>
 
-                  <h3 className="brand-title">{brand.name}</h3>
+                  <h3 className="home-brand-title">{brand.name}</h3>
                 </div>
 
-                <p className="brand-description">{brand.description}</p>
+                <p className="home-brand-description">{brand.description}</p>
 
-                <ul className="brand-features">
+                <ul className="home-brand-features">
                   {brand.features.map((feature, idx) => (
-                    <li key={idx} className="brand-feature-item">
-                      <CheckCircle className="feature-icon" />
-                      {feature}
+                    <li key={idx} className="home-brand-feature-item">
+                      <CheckCircle className="home-feature-icon" />
+                      <span>{feature}</span>
                     </li>
                   ))}
                 </ul>
 
-                {/* ⭐ MARKA ÜRÜNLERİ BUTONU - ürünler sayfasına yönlendirir */}
-                <Link to="/products" className="brand-button">
-                  Ürünleri İncele <ArrowRight className="button-icon" />
+                {/* MARKA ÜRÜNLERİ BUTONU */}
+                <Link to={`/products?brand=${brand.name.toLowerCase()}`} className="home-brand-button">
+                  Ürünleri İncele <ArrowRight className="home-button-icon" />
                 </Link>
-
               </div>
             ))}
           </div>
         </div>
       </section>
 
+      {/* SEO İÇERİK BÖLÜMÜ */}
+      <section className="home-seo-section">
+        <div className="home-container">
+          <div className="home-seo-content">
+            <h2 className="home-seo-title">Orhan Makine - Profesyonel Makine Satış Hizmetleri</h2>
+            <div className="home-seo-text">
+              <p>
+                Orhan Makine olarak, sektördeki 40 yıllık tecrübemizle kaliteli makineleri en uygun fiyatlarla 
+                müşterilerimizle buluşturuyoruz. Makita, Freud ve Mizrak gibi dünyaca ünlü markaların 
+                güvenilir distribütörü olarak, profesyonel makine satış hizmetleri sunmaktayız.
+              </p>
+              <p>
+                Tüm ürünlerimiz 2 yıl garantili olup, ücretsiz kargo ve hızlı teslimat imkanıyla 
+                hizmetinizdeyiz. Endüstriyel makinelerden profesyonel el aletlerine kadar geniş ürün 
+                yelpazemizle ihtiyacınız olan her türlü ekipmanı bulabilirsiniz.
+              </p>
+              <p>
+                WhatsApp üzerinden 7/24 destek hattımızla (0539 515 99 25) bize ulaşabilir, 
+                teknik destek ve ürün danışmanlığı alabilirsiniz.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }

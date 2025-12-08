@@ -169,12 +169,6 @@ export default function Footer() {
 
         </div>
       </div>
-
-      {/* Yukarı çık */}
-      <button onClick={scrollToTop} className="footer-scroll-top-btn">
-        <ArrowUp className="footer-scroll-icon" />
-      </button>
-
     </footer>
   );
 }

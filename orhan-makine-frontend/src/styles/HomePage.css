@@ -5,177 +5,39 @@
 /* ============================= */
 .homepage {
   min-height: 100vh;
-}
-
-/* ============================= */
-/*          HERO SECTION         */
-/* ============================= */
-.hero-section {
-  background: linear-gradient(135deg, #0c4a6e 0%, #0369a1 50%, #0284c7 100%);
-  color: white;
-  padding: 100px 0 80px;
-  position: relative;
-  overflow: hidden;
-}
-
-.hero-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-}
-
-.hero-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-  position: relative;
-  z-index: 2;
-}
-
-.hero-content {
-  text-align: center;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.hero-title {
-  font-size: 3.5rem;
-  font-weight: 800;
-  line-height: 1.1;
-  margin-bottom: 1.5rem;
-  background: linear-gradient(135deg, #ffffff 0%, #bae6fd 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.hero-highlight {
-  background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.hero-description {
-  font-size: 1.25rem;
-  line-height: 1.6;
-  margin-bottom: 2.5rem;
-  color: #e0f2fe;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.hero-buttons {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-bottom: 3rem;
-}
-
-.btn-primary, .btn-secondary {
-  padding: 1rem 2rem;
-  border-radius: 12px;
-  font-weight: 600;
-  font-size: 1.125rem;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  cursor: pointer;
-  text-decoration: none;
-}
-
-.btn-primary {
   background: #ffffff;
-  color: #0369a1;
-  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
-}
-
-.btn-primary:hover {
-  background: #f0f9ff;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
-}
-
-.btn-secondary {
-  background: transparent;
-  color: #ffffff;
-  border: 2px solid #ffffff;
-}
-
-.btn-secondary:hover {
-  background: #ffffff;
-  color: #0369a1;
-  transform: translateY(-2px);
-}
-
-.btn-icon {
-  width: 1.25rem;
-  height: 1.25rem;
-  margin-left: 0.5rem;
-}
-
-.hero-stats {
-  display: flex;
-  justify-content: center;
-  gap: 3rem;
-  flex-wrap: wrap;
-}
-
-.stat-item {
-  text-align: center;
-}
-
-.stat-number {
-  display: block;
-  font-size: 2.5rem;
-  font-weight: 800;
-  color: #7dd3fc;
-  line-height: 1;
-}
-
-.stat-label {
-  font-size: 0.875rem;
-  color: #bae6fd;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  overflow-x: hidden;
 }
 
 /* ============================= */
 /*     CONTAINER GENEL STYLES    */
 /* ============================= */
-.container {
+.home-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
 }
 
-.container-full {
-  max-width: 1700px; /* Ürün slider için daha geniş container */
+.home-container-full {
+  max-width: 1700px;
   margin: 0 auto;
   padding: 0 20px;
 }
 
-.section-header {
+.home-section-header {
   text-align: center;
   margin-bottom: 4rem;
 }
 
-.section-title {
+.home-section-title {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #2e69b1 ;
+  color: #2e69b1;
   margin-bottom: 1rem;
+  line-height: 1.2;
 }
 
-.section-description {
+.home-section-description {
   font-size: 1.125rem;
   color: #64748b;
   max-width: 600px;
@@ -183,88 +45,87 @@
   line-height: 1.6;
 }
 
-//* ⭐ HİZMETLER BÖLÜMÜ - 3'lü grid yapısı */
-.services-section {
+/* ============================= */
+/*     HİZMETLER BÖLÜMÜ          */
+/* ============================= */
+.home-services-section {
   padding: 80px 0;
   background: #f8fafc;
 }
 
-/* ⭐ 3 EŞİT SÜTUNLU GRİD */
-.services-grid {
+.home-services-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 eşit sütun */
-  gap: 2.5rem; /* Kartlar arası boşluk */
-  max-width: 1200px; /* Maksimum genişlik */
-  margin: 0 auto; /* Ortala */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-/* ⭐ HİZMET KARTLARI */
-.service-card {
+.home-service-card {
   background: #ffffff;
-  padding: 2.5rem 2rem; /* İç boşluk artırıldı */
-  border-radius: 16px; /* Köşeler daha yuvarlak */
+  padding: 2.5rem 2rem;
+  border-radius: 16px;
   text-align: center;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08); /* Gölge artırıldı */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
   border: 1px solid #f1f5f9;
-  height: 100%; /* Tüm kartlar eşit yükseklikte */
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-.service-card:hover {
-  transform: translateY(-10px); /* Hover'da daha fazla yukarı hareket */
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15); /* Hover gölgesi artırıldı */
+.home-service-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  border-color: #dbeafe;
 }
 
-.service-icon {
-  width: 90px; /* Büyütüldü */
+.home-service-icon {
+  width: 90px;
   height: 90px;
-  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); /* Gradient eklendi */
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 1.5rem;
   color: #1d4ed8;
-  font-size: 2rem; /* İkon boyutu büyütüldü */
-  box-shadow: 0 4px 15px rgba(29, 78, 216, 0.15); /* İkon gölgesi */
+  font-size: 2.5rem;
+  box-shadow: 0 4px 15px rgba(29, 78, 216, 0.15);
 }
 
-.service-title {
-  font-size: 1.6rem; /* Başlık boyutu artırıldı */
-  font-weight: 700; /* Daha kalın font */
+.home-service-title {
+  font-size: 1.6rem;
+  font-weight: 700;
   color: #1e293b;
   margin-bottom: 1.2rem;
 }
 
-.service-description {
+.home-service-description {
   color: #64748b;
   line-height: 1.7;
-  font-size: 1.05rem; /* Yazı boyutu artırıldı */
+  font-size: 1.05rem;
 }
+
 /* ============================= */
-/*   GÜVENİLEN MARKALAR - GÜNCELLENDİ  */
-/*  3'lü grid yapısı - YAN YANA    */
+/*   GÜVENİLEN MARKALAR          */
 /* ============================= */
-.brands-section {
+.home-brands-section {
   padding: 80px 0;
   background: #f0f9ff;
 }
 
-/* FIX: 3'lü grid yapısı - Tüm marka kartları yan yana */
-.brands-grid {
+.home-brands-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 eşit sütun */
-  gap: 2.5rem; /* Kartlar arası boşluk */
-  max-width: 1300px; /* Container maksimum genişliği */
-  margin: 0 auto; /* Ortala */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+  max-width: 1300px;
+  margin: 0 auto;
 }
 
-/* Marka Kartları */
-.brand-card {
+.home-brand-card {
   background: #ffffff;
   padding: 2.5rem;
   border-radius: 20px;
@@ -273,12 +134,12 @@
   border: 1px solid #e0f2fe;
   position: relative;
   overflow: hidden;
-  height: 100%; /* Tüm kartlar eşit yükseklikte */
+  height: 100%;
   display: flex;
   flex-direction: column;
 }
 
-.brand-card::before {
+.home-brand-card::before {
   content: '';
   position: absolute;
   top: 0;
@@ -290,27 +151,27 @@
   transition: transform 0.4s ease;
 }
 
-.brand-card:hover {
+.home-brand-card:hover {
   transform: translateY(-10px);
   box-shadow: 0 25px 50px -12px rgba(29, 111, 184, 0.15);
 }
 
-.brand-card:hover::before {
+.home-brand-card:hover::before {
   transform: scaleX(1);
 }
 
-.brand-header {
+.home-brand-header {
   display: flex;
   align-items: center;
   gap: 1.5rem;
   margin-bottom: 1.5rem;
 }
 
-.brand-logo {
-  width: 90px; /* Büyütüldü */
+.home-brand-logo {
+  width: 90px;
   height: 90px;
   background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-  border-radius: 18px; /* Köşeler daha yuvarlak */
+  border-radius: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -318,37 +179,28 @@
   position: relative;
   overflow: hidden;
   flex-shrink: 0;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Logo gölgesi */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
 }
 
-.brand-logo-image {
-  width: 75%; /* Logo boyutu */
+.home-brand-logo-image {
+  width: 75%;
   height: 75%;
   object-fit: contain;
   transition: transform 0.3s ease;
 }
 
-.brand-card:hover .brand-logo-image {
-  transform: scale(1.15); /* Hover'da daha fazla büyüme */
+.home-brand-card:hover .home-brand-logo-image {
+  transform: scale(1.15);
 }
 
-.brand-logo-fallback {
+/* Yıldız ikonu kaldırıldı - fallback olarak sadece marka adı */
+.home-brand-logo-fallback {
   display: none;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
 }
 
-.logo-icon {
-  width: 2.8rem; /* Büyütüldü */
-  height: 2.8rem;
-  color: #1d6fb8;
-}
-
-.brand-title {
-  font-size: 1.85rem; /* Büyütüldü */
-  font-weight: 800; /* Daha kalın */
+.home-brand-title {
+  font-size: 1.85rem;
+  font-weight: 800;
   color: #1e293b;
   margin: 0;
   background: linear-gradient(135deg, #1e293b 0%, #374151 100%);
@@ -357,36 +209,36 @@
   background-clip: text;
 }
 
-.brand-description {
+.home-brand-description {
   color: #64748b;
   line-height: 1.7;
   margin-bottom: 2rem;
-  font-size: 1.1rem; /* Büyütüldü */
-  flex-grow: 1; /* Açıklama alanı genişlesin */
+  font-size: 1.1rem;
+  flex-grow: 1;
 }
 
-.brand-features {
+.home-brand-features {
   list-style: none;
   padding: 0;
   margin-bottom: 2.5rem;
-  flex-grow: 1; /* Özellikler alanı genişlesin */
+  flex-grow: 1;
 }
 
-.brand-feature-item {
+.home-brand-feature-item {
   display: flex;
   align-items: flex-start;
   gap: 0.75rem;
   color: #475569;
   margin-bottom: 1rem;
   line-height: 1.5;
-  font-size: 1.05rem; /* Büyütüldü */
+  font-size: 1.05rem;
 }
 
-.brand-feature-item:last-child {
+.home-brand-feature-item:last-child {
   margin-bottom: 0;
 }
 
-.brand-button {
+.home-brand-button {
   width: 100%;
   padding: 1rem 1.5rem;
   background: linear-gradient(135deg, #1d6fb8 0%, #2b8df5 100%);
@@ -394,7 +246,7 @@
   border: none;
   border-radius: 12px;
   font-weight: 600;
-  font-size: 1.1rem; /* Büyütüldü */
+  font-size: 1.1rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -404,10 +256,10 @@
   position: relative;
   overflow: hidden;
   text-decoration: none;
-  margin-top: auto; /* Buton en altta */
+  margin-top: auto;
 }
 
-.brand-button::before {
+.home-brand-button::before {
   content: '';
   position: absolute;
   top: 0;
@@ -418,24 +270,24 @@
   transition: left 0.5s;
 }
 
-.brand-button:hover::before {
+.home-brand-button:hover::before {
   left: 100%;
 }
 
-.brand-button:hover {
+.home-brand-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 12px 25px rgba(29, 111, 184, 0.3);
 }
 
 /* ============================= */
-/*   POPÜLER ÜRÜNLER BÖLÜMÜ     */
+/*   POPÜLER ÜRÜNLER BÖLÜMÜ      */
 /* ============================= */
-.products-section {
+.home-products-section {
   padding: 80px 0;
   background: #ffffff;
 }
 
-.products-slider-wrapper {
+.home-products-slider-wrapper {
   position: relative;
   display: flex;
   align-items: center;
@@ -443,22 +295,21 @@
   margin: 40px 0;
 }
 
-.products-slider-container {
+.home-products-slider-container {
   flex: 1;
   overflow: hidden;
 }
 
-.products-slider {
+.home-products-slider {
   width: 100%;
 }
 
-.products-track {
+.home-products-track {
   display: flex;
   transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Slider Okları */
-.slider-arrow {
+.home-slider-arrow {
   width: 60px;
   height: 60px;
   border-radius: 50%;
@@ -475,18 +326,17 @@
   flex-shrink: 0;
 }
 
-.slider-arrow:hover {
+.home-slider-arrow:hover {
   background: #155a96;
   transform: scale(1.1);
   box-shadow: 0 8px 25px rgba(29, 111, 184, 0.5);
 }
 
-.slider-arrow:active {
+.home-slider-arrow:active {
   transform: scale(0.95);
 }
 
-/* Ürün Kartları */
-.product-card {
+.home-product-card {
   background: #ffffff;
   border-radius: 16px;
   overflow: hidden;
@@ -501,16 +351,17 @@
   position: relative;
 }
 
-.products-track .product-card:last-child {
+.home-products-track .home-product-card:last-child {
   margin-right: 0;
 }
 
-.product-card:hover {
+.home-product-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 25px 50px -12px rgba(29, 111, 184, 0.15);
+  border-color: #dbeafe;
 }
 
-.product-image {
+.home-product-image {
   height: 240px;
   background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
   display: flex;
@@ -521,7 +372,7 @@
   padding: 20px;
 }
 
-.product-image img {
+.home-product-image img {
   width: 100%;
   height: 100%;
   object-fit: contain;
@@ -530,51 +381,23 @@
   transition: transform 0.3s ease;
 }
 
-.product-card:hover .product-image img {
+.home-product-card:hover .home-product-image img {
   transform: scale(1.05);
 }
 
-/* Ürün Rozetleri */
+/* ÜRÜN BADGELERİ KALDIRILDI - Temiz görünüm için */
 .home-product-badges {
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  z-index: 3;
+  display: none;
 }
 
-.home-product-badges .badge {
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: white;
-  text-align: center;
-  white-space: nowrap;
-}
-
-.home-product-badges .badge.discount {
-  background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
-}
-
-.home-product-badges .badge.new {
-  background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
-}
-
-.home-product-badges .badge.campaign {
-  background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
-}
-
-.product-content {
+.home-product-content {
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
   flex: 1;
 }
 
-.product-brand {
+.home-product-brand {
   color: #64748b;
   font-size: 0.85rem;
   font-weight: 600;
@@ -583,7 +406,7 @@
   letter-spacing: 0.5px;
 }
 
-.product-title {
+.home-product-title {
   font-size: 1.25rem;
   font-weight: 600;
   color: #1e293b;
@@ -591,25 +414,25 @@
   line-height: 1.4;
 }
 
-.product-pricing {
+.home-product-pricing {
   margin-bottom: 15px;
 }
 
-.original-price-home {
+.home-original-price {
   text-decoration: line-through;
   color: #94a3b8;
   font-size: 0.9rem;
   margin-bottom: 2px;
 }
 
-.product-price {
+.home-product-price {
   color: #1e40af;
   font-size: 1.4rem;
   font-weight: 700;
   margin: 0 0 15px 0;
 }
 
-.product-description {
+.home-product-description {
   color: #64748b;
   font-size: 0.95rem;
   line-height: 1.5;
@@ -622,14 +445,14 @@
   text-overflow: ellipsis;
 }
 
-.product-features {
+.home-product-features {
   list-style: none;
   padding: 0;
   margin-bottom: 1.5rem;
   flex: 1;
 }
 
-.feature-item {
+.home-feature-item {
   display: flex;
   align-items: flex-start;
   gap: 8px;
@@ -639,7 +462,7 @@
   line-height: 1.4;
 }
 
-.feature-icon {
+.home-feature-icon {
   width: 1.125rem;
   height: 1.125rem;
   color: #10b981;
@@ -647,7 +470,7 @@
   margin-top: 2px;
 }
 
-.product-button {
+.home-product-button {
   width: 100%;
   padding: 12px 20px;
   background: linear-gradient(135deg, #1d6fb8 0%, #2b8df5 100%);
@@ -666,32 +489,31 @@
   text-align: center;
 }
 
-.product-button:hover {
+.home-product-button:hover {
   background: linear-gradient(135deg, #155a96 0%, #1d6fb8 100%);
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(29, 111, 184, 0.3);
 }
 
-.button-icon {
+.home-button-icon {
   width: 1.125rem;
   height: 1.125rem;
   transition: transform 0.3s ease;
 }
 
-.product-button:hover .button-icon {
+.home-product-button:hover .home-button-icon {
   transform: translateX(4px);
 }
 
-/* Tüm Ürünleri Gör Butonu */
-.view-all-products {
+.home-view-all-products {
   text-align: center;
   margin-top: 40px;
 }
 
-.view-all-button {
+.home-view-all-button {
   display: inline-block;
   text-align: center;
-  background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+  background: linear-gradient(135deg, #1d6fb8 0%, #2b8df5 100%);
   color: white;
   padding: 14px 32px;
   border-radius: 10px;
@@ -702,18 +524,172 @@
   cursor: pointer;
 }
 
-.view-all-button:hover {
-  background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+.home-view-all-button:hover {
+  background: linear-gradient(135deg, #155a96 0%, #1d6fb8 100%);
   transform: translateY(-3px);
-  box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+  box-shadow: 0 10px 25px rgba(29, 111, 184, 0.3);
 }
 
-/* Ürün Yükleniyor Gösterimi */
-.products-loading {
+.home-products-loading {
   text-align: center;
   padding: 60px 20px;
   color: #64748b;
   font-size: 1.1rem;
+}
+
+/* ============================= */
+/*     WHATSAPP BUTONU           */
+/* ============================= */
+.whatsapp-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  background-color: #25D366; /* WhatsApp yeşili */
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+  z-index: 9999;
+  transition: all 0.3s;
+  animation: pulse 2s infinite;
+}
+
+.whatsapp-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
+}
+
+.whatsapp-button i {
+  color: white;
+  font-size: 2rem;
+}
+
+/* WhatsApp butonu pulsating animasyonu */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(37, 211, 102, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+  }
+}
+
+/* ============================= */
+/*     SEO İÇERİK BÖLÜMÜ         */
+/* ============================= */
+.home-seo-section {
+  padding: 60px 0;
+  background: #ffffff;
+  border-top: 1px solid #f1f5f9;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.home-seo-content {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.home-seo-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 2rem;
+  line-height: 1.4;
+}
+
+.home-seo-text {
+  text-align: left;
+  color: #475569;
+  line-height: 1.8;
+  font-size: 1.1rem;
+}
+
+.home-seo-text p {
+  margin-bottom: 1.5rem;
+  text-align: justify;
+}
+
+.home-seo-text p:last-child {
+  margin-bottom: 0;
+}
+
+/* Font Awesome için */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
+
+/* ============================= */
+/*   RESPONSIVE WHATSAPP BUTONU  */
+/* ============================= */
+@media (max-width: 768px) {
+  .whatsapp-button {
+    width: 55px;
+    height: 55px;
+    bottom: 20px;
+    right: 20px;
+  }
+  
+  .whatsapp-button i {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .whatsapp-button {
+    width: 50px;
+    height: 50px;
+    bottom: 15px;
+    right: 15px;
+  }
+  
+  .whatsapp-button i {
+    font-size: 1.6rem;
+  }
+  
+  .home-seo-section {
+    padding: 40px 0;
+  }
+  
+  .home-seo-title {
+    font-size: 1.5rem;
+  }
+  
+  .home-seo-text {
+    font-size: 1rem;
+    text-align: left;
+  }
+}
+
+/* ============================= */
+/*   PWA UYUMLU ÖZELLİKLER       */
+/* ============================= */
+@media (display-mode: standalone) {
+  .whatsapp-button {
+    bottom: calc(30px + env(safe-area-inset-bottom));
+  }
+}
+
+/* ============================= */
+/*   PWA UYUMLU ÖZELLİKLER       */
+/* ============================= */
+@media (display-mode: standalone) {
+  .home-services-section,
+  .home-brands-section,
+  .home-products-section {
+    padding-top: calc(80px + env(safe-area-inset-top));
+    padding-bottom: calc(80px + env(safe-area-inset-bottom));
+  }
+  
+  .home-product-button,
+  .home-brand-button {
+    min-height: 44px;
+  }
 }
 
 /* ============================= */
@@ -722,110 +698,108 @@
 
 /* Large Desktop (1400px ve üstü) */
 @media (min-width: 1400px) {
-  .services-grid {
+  .home-services-grid {
     max-width: 1300px;
   }
   
-  .brands-grid {
+  .home-brands-grid {
     max-width: 1400px;
+  }
+  
+  .home-section-title {
+    font-size: 2.8rem;
   }
 }
 
 /* Desktop (1024px - 1399px) */
 @media (max-width: 1200px) {
-  /* Neden Biz Bölümü - 3'lü grid */
-  .services-grid {
+  .home-services-grid {
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
     max-width: 1000px;
   }
   
-  .service-card {
+  .home-service-card {
     padding: 2rem 1.5rem;
   }
   
-  /* Güvenilen Markalar - 3'lü grid */
-  .brands-grid {
+  .home-brands-grid {
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
     max-width: 1100px;
   }
   
-  .brand-card {
+  .home-brand-card {
     padding: 2rem;
   }
   
-  .brand-logo {
+  .home-brand-logo {
     width: 80px;
     height: 80px;
   }
   
-  .brand-title {
+  .home-brand-title {
     font-size: 1.7rem;
   }
   
-  /* Ürün Kartları */
-  .product-card {
+  .home-product-card {
     width: calc(33.333% - 16px);
   }
 }
 
 /* Tablet (768px - 1023px) */
 @media (max-width: 1024px) {
-  .hero-title {
-    font-size: 3rem;
+  .home-section-title {
+    font-size: 2.2rem;
   }
   
-  /* Neden Biz Bölümü - 2'li grid */
-  .services-grid {
-    grid-template-columns: repeat(2, 1fr); /* 2 sütun */
+  .home-services-grid {
+    grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
     max-width: 800px;
   }
   
-  .service-card {
+  .home-service-card {
     padding: 2rem;
   }
   
-  .service-icon {
+  .home-service-icon {
     width: 80px;
     height: 80px;
   }
   
-  .service-title {
+  .home-service-title {
     font-size: 1.5rem;
   }
   
-  /* Güvenilen Markalar - 2'li grid */
-  .brands-grid {
-    grid-template-columns: repeat(2, 1fr); /* 2 sütun */
+  .home-brands-grid {
+    grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
     max-width: 900px;
   }
   
-  .brand-card {
+  .home-brand-card {
     padding: 2rem;
   }
   
-  .brand-logo {
+  .home-brand-logo {
     width: 75px;
     height: 75px;
   }
   
-  .brand-title {
+  .home-brand-title {
     font-size: 1.6rem;
   }
   
-  .brand-description {
+  .home-brand-description {
     font-size: 1.05rem;
   }
   
-  /* Ürün Kartları */
-  .product-card {
+  .home-product-card {
     width: calc(50% - 16px);
   }
   
-  .slider-arrow {
+  .home-slider-arrow {
     width: 50px;
     height: 50px;
   }
@@ -833,290 +807,248 @@
 
 /* Küçük Tablet (641px - 767px) */
 @media (max-width: 768px) {
-  .hero-title {
-    font-size: 2.5rem;
-  }
-  
-  .hero-description {
-    font-size: 1.125rem;
-  }
-  
-  .section-title {
+  .home-section-title {
     font-size: 2rem;
   }
   
-  .hero-buttons {
-    flex-direction: column;
-    align-items: center;
+  .home-section-description {
+    font-size: 1rem;
+    padding: 0 1rem;
   }
   
-  .btn-primary, .btn-secondary {
-    width: 100%;
-    max-width: 300px;
-  }
-  
-  .hero-stats {
-    gap: 2rem;
-  }
-  
-  .stat-number {
-    font-size: 2rem;
-  }
-  
-  /* Neden Biz Bölümü - 2'li grid */
-  .services-grid {
+  .home-services-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
   }
   
-  .service-card {
+  .home-service-card {
     padding: 1.75rem 1.5rem;
   }
   
-  .service-icon {
+  .home-service-icon {
     width: 70px;
     height: 70px;
-    font-size: 1.75rem;
+    font-size: 2rem;
   }
   
-  .service-title {
+  .home-service-title {
     font-size: 1.4rem;
   }
   
-  .service-description {
+  .home-service-description {
     font-size: 1rem;
   }
   
-  /* Güvenilen Markalar - 2'li grid */
-  .brands-grid {
+  .home-brands-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
   }
   
-  .brand-card {
+  .home-brand-card {
     padding: 1.75rem;
   }
   
-  .brand-header {
+  .home-brand-header {
     flex-direction: column;
     text-align: center;
     gap: 0.5rem;
   }
   
-  .brand-logo {
+  .home-brand-logo {
     width: 70px;
     height: 70px;
   }
   
-  .brand-title {
+  .home-brand-title {
     font-size: 1.5rem;
   }
   
-  /* Ürün Slider Mobile */
-  .products-slider-wrapper {
+  .home-products-slider-wrapper {
     gap: 1rem;
   }
   
-  .product-card {
+  .home-product-card {
     width: calc(50% - 12px);
   }
   
-  .slider-arrow {
+  .home-slider-arrow {
     width: 45px;
     height: 45px;
   }
   
-  .product-image {
+  .home-product-image {
     height: 200px;
   }
 }
 
 /* Telefon (481px - 640px) */
 @media (max-width: 640px) {
-  /* Neden Biz Bölümü - Tek sütun */
-  .services-grid {
-    grid-template-columns: 1fr; /* Tek sütun */
+  .home-services-grid {
+    grid-template-columns: 1fr;
     max-width: 400px;
     gap: 1.5rem;
   }
   
-  .service-card {
+  .home-service-card {
     padding: 2rem;
   }
   
-  .service-icon {
+  .home-service-icon {
     width: 75px;
     height: 75px;
   }
   
-  .service-title {
+  .home-service-title {
     font-size: 1.5rem;
   }
   
-  /* Güvenilen Markalar - Tek sütun */
-  .brands-grid {
-    grid-template-columns: 1fr; /* Tek sütun */
+  .home-brands-grid {
+    grid-template-columns: 1fr;
     max-width: 400px;
     gap: 1.5rem;
   }
   
-  .brand-card {
+  .home-brand-card {
     padding: 2rem;
   }
   
-  .brand-header {
+  .home-brand-header {
     flex-direction: row;
     text-align: left;
   }
   
-  .brand-logo {
+  .home-brand-logo {
     width: 70px;
     height: 70px;
   }
   
-  .brand-title {
+  .home-brand-title {
     font-size: 1.5rem;
   }
   
-  .brand-description {
+  .home-brand-description {
     text-align: center;
     font-size: 1.05rem;
   }
   
-  .brand-feature-item {
+  .home-brand-feature-item {
     font-size: 1rem;
   }
   
-  /* Ürün Kartları */
-  .product-card {
+  .home-product-card {
     width: calc(50% - 10px);
   }
   
+  /* Badgeler tamamen gizli */
   .home-product-badges {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-  
-  .home-product-badges .badge {
-    font-size: 0.75rem;
-    padding: 4px 8px;
+    display: none;
   }
 }
 
 /* Küçük Telefon (480px ve altı) */
 @media (max-width: 480px) {
-  .hero-section {
-    padding: 80px 0 60px;
+  .home-services-section,
+  .home-brands-section,
+  .home-products-section {
+    padding: 60px 0;
   }
   
-  .hero-title {
-    font-size: 2rem;
-  }
-  
-  .section-title {
+  .home-section-title {
     font-size: 1.75rem;
   }
   
-  .container {
+  .home-container {
     padding: 0 16px;
   }
   
-  .container-full {
+  .home-container-full {
     padding: 0 15px;
   }
   
-  /* Neden Biz Bölümü - Mobil */
-  .services-grid {
+  .home-services-grid {
     gap: 1.25rem;
   }
   
-  .service-card {
+  .home-service-card {
     padding: 1.5rem;
   }
   
-  .service-icon {
+  .home-service-icon {
     width: 65px;
     height: 65px;
     margin-bottom: 1rem;
   }
   
-  .service-title {
+  .home-service-title {
     font-size: 1.3rem;
     margin-bottom: 0.75rem;
   }
   
-  .service-description {
+  .home-service-description {
     font-size: 0.95rem;
   }
   
-  /* Güvenilen Markalar - Mobil */
-  .brands-section {
-    padding: 60px 0;
-  }
-  
-  .brands-grid {
+  .home-brands-grid {
     gap: 1.25rem;
   }
   
-  .brand-card {
+  .home-brand-card {
     padding: 1.5rem;
   }
   
-  .brand-header {
+  .home-brand-header {
     flex-direction: column;
     text-align: center;
   }
   
-  .brand-logo {
+  .home-brand-logo {
     width: 65px;
     height: 65px;
   }
   
-  .brand-title {
+  .home-brand-title {
     font-size: 1.4rem;
   }
   
-  .brand-description {
+  .home-brand-description {
     font-size: 1rem;
     text-align: center;
   }
   
-  .brand-feature-item {
+  .home-brand-feature-item {
     font-size: 0.95rem;
     justify-content: center;
   }
   
-  .brand-button {
+  .home-brand-button {
     padding: 0.875rem 1.25rem;
     font-size: 1rem;
   }
   
-  /* Ürün Slider Mobile */
-  .products-slider-wrapper {
+  .home-products-slider-wrapper {
     gap: 0.75rem;
   }
   
-  .product-card {
+  .home-product-card {
     width: 100%;
     margin-right: 0;
   }
   
-  .slider-arrow {
+  .home-slider-arrow {
     width: 40px;
     height: 40px;
   }
   
-  .product-title {
+  .home-product-title {
     font-size: 1.25rem;
   }
   
-  .product-button {
+  .home-product-button {
     padding: 0.875rem 1.25rem;
     font-size: 0.95rem;
   }
   
-  .view-all-button {
+  .home-view-all-button {
     padding: 12px 24px;
     font-size: 1rem;
   }
@@ -1124,48 +1056,138 @@
 
 /* Çok Küçük Ekranlar (360px ve altı) */
 @media (max-width: 360px) {
-  /* Neden Biz Bölümü */
-  .services-grid {
+  .home-services-grid {
     gap: 1rem;
   }
   
-  .service-card {
+  .home-service-card {
     padding: 1.25rem;
   }
   
-  .service-icon {
+  .home-service-icon {
     width: 60px;
     height: 60px;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
   }
   
-  .service-title {
+  .home-service-title {
     font-size: 1.2rem;
   }
   
-  /* Güvenilen Markalar */
-  .brands-grid {
+  .home-brands-grid {
     gap: 1rem;
   }
   
-  .brand-card {
+  .home-brand-card {
     padding: 1.25rem;
   }
   
-  .brand-logo {
+  .home-brand-logo {
     width: 60px;
     height: 60px;
   }
   
-  .brand-title {
+  .home-brand-title {
     font-size: 1.3rem;
   }
   
-  .brand-description {
+  .home-brand-description {
     font-size: 0.95rem;
   }
   
-  .brand-feature-item {
+  .home-brand-feature-item {
     font-size: 0.9rem;
   }
 }
+
+/* ============================= */
+/*   PRINT STYLES                */
+/* ============================= */
+@media print {
+  .home-services-section,
+  .home-brands-section,
+  .home-products-section {
+    padding: 30px 0 !important;
+  }
+  
+  .home-section-title,
+  .home-service-title,
+  .home-brand-title,
+  .home-product-title {
+    color: black !important;
+    background: none !important;
+    -webkit-text-fill-color: black !important;
+  }
+  
+  .home-brand-button,
+  .home-product-button,
+  .home-slider-arrow,
+  .home-view-all-button {
+    display: none !important;
+  }
+  
+  .home-product-card {
+    break-inside: avoid;
+    box-shadow: none !important;
+    border: 1px solid #ddd !important;
+  }
+  
+  .home-services-grid,
+  .home-brands-grid {
+    display: block !important;
+  }
+  
+  .home-service-card,
+  .home-brand-card {
+    margin-bottom: 20px;
+    page-break-inside: avoid;
+    box-shadow: none !important;
+    border: 1px solid #ddd !important;
+  }
+}
+
+/* SEO Optimizasyonu için ek stiller */
+.homepage h1,
+.homepage h2,
+.homepage h3 {
+  position: relative;
+}
+
+.homepage a:focus {
+  outline: 2px solid #1d6fb8;
+  outline-offset: 2px;
+}
+
+.homepage button:focus {
+  outline: 2px solid #1d6fb8;
+  outline-offset: 2px;
+}
+
+/* Performans için will-change */
+.home-product-card,
+.home-service-card,
+.home-brand-card {
+  will-change: transform;
+}
+
+/* Yumuşak scroll */
+.home-products-track {
+  scroll-behavior: smooth;
+}
+
+/* Lazy loading için */
+.home-product-image img,
+.home-brand-logo-image {
+  opacity: 0;
+  animation: home-fadeIn 0.5s ease forwards;
+}
+
+@keyframes home-fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+

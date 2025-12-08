@@ -1,0 +1,147 @@
+.pwa-prompt-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    animation: fadeIn 0.3s ease;
+  }
+  
+  .pwa-prompt {
+    background-color: white;
+    border-radius: 12px;
+    padding: 24px;
+    max-width: 400px;
+    width: 90%;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.3s ease;
+  }
+  
+  .pwa-prompt-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #64748b;
+    padding: 4px;
+    border-radius: 4px;
+    transition: all 0.2s;
+  }
+  
+  .pwa-prompt-close:hover {
+    background-color: #f1f5f9;
+    color: #475569;
+  }
+  
+  .pwa-prompt-content {
+    text-align: center;
+    padding-top: 8px;
+  }
+  
+  .pwa-prompt-icon {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, #1d6fb8 0%, #2b8df5 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    color: white;
+  }
+  
+  .pwa-prompt-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 12px;
+  }
+  
+  .pwa-prompt-description {
+    color: #64748b;
+    line-height: 1.6;
+    margin-bottom: 24px;
+    font-size: 0.95rem;
+  }
+  
+  .pwa-prompt-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+  }
+  
+  .pwa-prompt-install {
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #1d6fb8 0%, #2b8df5 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    flex: 1;
+  }
+  
+  .pwa-prompt-install:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(29, 111, 184, 0.3);
+  }
+  
+  .pwa-prompt-later {
+    padding: 12px 24px;
+    background-color: #f1f5f9;
+    color: #64748b;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    flex: 1;
+  }
+  
+  .pwa-prompt-later:hover {
+    background-color: #e2e8f0;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideUp {
+    from {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  /* Responsive */
+  @media (max-width: 480px) {
+    .pwa-prompt {
+      padding: 20px;
+    }
+    
+    .pwa-prompt-title {
+      font-size: 1.3rem;
+    }
+    
+    .pwa-prompt-actions {
+      flex-direction: column;
+    }
+  }

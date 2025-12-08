@@ -1,193 +1,339 @@
 /* ============================= */
-/*         HERO SECTION          */
+/*       HERO SECTION            */
 /* ============================= */
 
 .hero-section {
     position: relative;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 85vh; /* NAVBAR ile boşluğu azalt */
+    min-height: 600px;
     overflow: hidden;
     background: #000;
-    margin-left: calc(-50vw + 50%);
-    margin-right: calc(-50vw + 50%);
-    z-index: 1; /* NAVBAR'DAN DÜŞÜK OLMALI */
-}
-
-/* Video - sayfa yenilenir yenilenmez otomatik başlar */
-.hero-video {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    object-fit: cover;
-    transform: translate(-50%, -50%);
-    z-index: 0 !important;
-    filter: brightness(1.35) contrast(1.1);
-    will-change: transform;
-}
-
-/* Gradient Overlay */
-.hero-overlay {
+  }
+  
+  /* ---- VİDEO - ZOOM YOK, NORMAL GÖRÜNTÜ ---- */
+  .video-container {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(
-        135deg,
-        rgba(0, 0, 0, 0.6) 0%,
-        rgba(29, 111, 184, 0.3) 50%,
-        rgba(0, 0, 0, 0.8) 100%
-    );
-    z-index: 2; /* DÜŞÜK Z-INDEX */
-}
-
-/* İçerik — Sol üst konumlandırma */
-.hero-content {
+    z-index: 0;
+  }
+  
+  .hero-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;   /* video tam alanı doldurur, taşma yapmaz */
+    object-position: center; /* video ortalanır */
+ }
+  
+  /* ---- CONTENT - DAHA ÜSTTE ---- */
+  .hero-content {
     position: absolute;
-    top: 110px;          /* Navbar'ın hemen altına */
-    left: 90px;          /* Sol tarafa hizalanır */
-    z-index: 3; /* DÜŞÜK Z-INDEX */
-
-    width: auto;
-    height: auto;
-    max-width: 680px;
-
+    top: 40%; /* DAHA ÜSTTE */
+    left: 80px;
+    transform: translateY(-50%);
+    z-index: 2;
+    color: white;
+    max-width: 650px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-
-    text-align: left;
-    color: white;
-}
-
-/* Başlık */
-.hero-title {
-    font-size: 4rem;
+    gap: 1rem; /* Boşluğu azalt */
+  }
+  
+  /* Title - TEK SATIR MECBUR */
+  .hero-title {
+    font-size: 3.5rem; /* Biraz küçülttük */
     font-weight: 800;
-    margin-bottom: 1.5rem;
-    line-height: 1.05;
-    white-space: nowrap;
-    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-    animation: fadeInUp 0.8s ease-out 0.2s both;
-}
-
-/* Hizmetleri rengi → beyaz */
-.hero-highlight {
-    color: #ffffff !important;
-    background: none !important;
-}
-
-/* Açıklama */
-.hero-description {
-    font-size: 1.3rem;
-    line-height: 1.6;
-    margin-bottom: 2.5rem;
-    max-width: 700px;
+    line-height: 1;
+    margin: 0;
+    
+    /* TEK SATIR - KESİNLİKLE ALT SATIRA İNMEZ */
+    white-space: nowrap !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    display: block !important;
+    
+    /* Font optimizasyonu - kayma yok */
+    font-synthesis: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  
+  /* Description */
+  .hero-description {
+    font-size: 1.2rem;
+    line-height: 1.5;
     opacity: 0.95;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-    animation: fadeInUp 0.8s ease-out 0.4s both;
-}
-
-/* Butonlar */
-.hero-buttons {
+    max-width: 100%;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Butons */
+  .hero-buttons {
     display: flex;
-    gap: 1.5rem;
-    margin-bottom: 3rem;
-}
-
-.btn-primary,
-.btn-secondary {
+    gap: 1rem;
+    margin-bottom: 1rem; /* Stats ile boşluğu azalt */
+  }
+  
+  .hero-btn-primary {
+    background: white;
+    color: #0d5dbb;
+    padding: 12px 28px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    min-height: 46px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .hero-btn-primary:hover {
+    transform: translateY(-2px);
+    background: #eaf4ff;
+  }
+  
+  .hero-btn-secondary {
+    background: rgba(255,255,255,0.15);
+    border: 2px solid rgba(255,255,255,0.4);
+    padding: 12px 28px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: white;
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 16px 32px;
-    border-radius: 12px;
-    font-size: 1.1rem;
-    font-weight: 600;
+    gap: 8px;
+    transition: all 0.3s ease;
+    min-height: 46px;
     cursor: pointer;
-    border: none;
-}
-
-/* Primary Button */
-.btn-primary {
-    background: linear-gradient(135deg, #1d6fb8 0%, #2b8df5 100%);
-    color: white;
-    box-shadow: 0 8px 25px rgba(29, 111, 184, 0.3);
-}
-
-/* Secondary Button */
-.btn-secondary {
-    background: rgba(255, 255, 255, 0.1);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    color: white;
-    backdrop-filter: blur(10px);
-}
-
-/* Stats Bölümü */
-.hero-stats {
+  }
+  
+  .hero-btn-secondary:hover {
+    background: rgba(255,255,255,0.25);
+    border-color: white;
+    transform: translateY(-2px);
+  }
+  
+  .hero-btn-icon {
+    width: 18px;
+    height: 18px;
+  }
+  
+  /* Stats - YAN YANA, SIKI */
+  .hero-stats {
     display: flex;
-    gap: 4rem;
-    animation: fadeInUp 0.8s ease-out 1s both;
-}
-
-.stat-item {
+    justify-content: space-between;
+    gap: 1.5rem;
+    width: 100%;
+  }
+  
+  .hero-stat-item {
     text-align: center;
-    position: relative;
-}
-
-.stat-number {
-    font-size: 2.5rem;
-    font-weight: 800;
-    color: #1d6fb8;
-}
-
-.stat-label {
+    flex: 1;
+  }
+  
+  .hero-stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #7dd3fc;
+    line-height: 1;
+    display: block;
+    margin-bottom: 3px;
+  }
+  
+  .hero-stat-label {
+    color: #d9f0ff;
     opacity: 0.9;
-    font-size: 0.95rem;
-}
-
-/* Scroll Indicator */
-.scroll-indicator {
+    font-size: 0.9rem;
+    display: block;
+    white-space: nowrap;
+  }
+  
+  /* Screen Reader Only - SEO için */
+  .sr-only {
     position: absolute;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    animation: bounce 2s infinite;
-    z-index: 3; /* DÜŞÜK Z-INDEX */
-}
-
-.scroll-arrow {
-    width: 30px;
-    height: 30px;
-    border-right: 2px solid #1d6fb8;
-    border-bottom: 2px solid #1d6fb8;
-    transform: rotate(45deg);
-}
-
-/* Animasyonlar */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  
+  /* ============================= */
+  /*     RESPONSIVE                */
+  /* ============================= */
+  
+  /* Large Desktop */
+  @media (min-width: 1400px) {
+    .hero-section {
+      height: 80vh; /* Daha az boşluk */
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    
+    .hero-content {
+      top: 38%; /* Daha üstte */
+      left: 100px;
     }
-}
-
-@keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {
-        transform: translateY(0) translateX(-50%);
+    
+    .hero-title {
+      font-size: 4rem;
     }
-    40% {
-        transform: translateY(-10px) translateX(-50%);
+  }
+  
+  /* Tablet */
+  @media (max-width: 1024px) {
+    .hero-section {
+      height: 75vh;
     }
-    60% {
-        transform: translateY(-5px) translateX(-50%);
+    
+    .hero-content {
+      left: 50px;
+      top: 38%;
     }
-}
+    
+    .hero-title {
+      font-size: 2.8rem;
+      white-space: nowrap !important; /* Tablet'te de TEK SATIR */
+    }
+    
+    .hero-stats {
+      gap: 1rem;
+    }
+    
+    .hero-stat-number {
+      font-size: 1.8rem;
+    }
+  }
+  
+  /* Mobile */
+  @media (max-width: 768px) {
+    .hero-section {
+      height: 70vh;
+      min-height: 550px;
+    }
+    
+    .hero-content {
+      left: 50%;
+      top: 45%; /* Mobile'de biraz daha ortada */
+      transform: translate(-50%, -50%);
+      text-align: center;
+      align-items: center;
+      max-width: 90%;
+      width: 90%;
+      padding: 0 15px;
+    }
+    
+    /* MOBİLDE TEK SATIR - MECBUR */
+    .hero-title {
+      font-size: 2rem;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      width: 100%;
+      max-width: 100%;
+    }
+    
+    .hero-description {
+      font-size: 1rem;
+      text-align: center;
+    }
+    
+    .hero-buttons {
+      flex-direction: column;
+      width: 100%;
+      max-width: 280px;
+      gap: 0.8rem;
+    }
+    
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      width: 100%;
+      max-width: 300px;
+    }
+    
+    .hero-stat-item {
+      min-width: auto;
+    }
+  }
+  
+  /* Small Mobile */
+  @media (max-width: 480px) {
+    .hero-section {
+      height: 65vh;
+      min-height: 500px;
+    }
+    
+    .hero-content {
+      top: 48%; /* Daha üstte */
+    }
+    
+    /* KÜÇÜK EKRANLARDA TEK SATIR - KESİNLİKLE */
+    .hero-title {
+      font-size: 1.8rem;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+    }
+    
+    .hero-stats {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.8rem;
+    }
+    
+    .hero-stat-number {
+      font-size: 1.6rem;
+    }
+    
+    .hero-stat-label {
+      font-size: 0.8rem;
+    }
+  }
+  
+  /* Çok Küçük Ekranlar (360px ve altı) */
+  @media (max-width: 360px) {
+    .hero-title {
+      font-size: 1.6rem;
+      white-space: nowrap !important; /* KESİNLİKLE TEK SATIR */
+    }
+    
+    .hero-stats {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.6rem;
+    }
+    
+    .hero-stat-number {
+      font-size: 1.4rem;
+    }
+  }
+  
+  /* ============================= */
+  /*     PWA DESTEĞİ               */
+  /* ============================= */
+  @media (display-mode: standalone) {
+    .hero-section {
+      height: calc(85vh - env(safe-area-inset-top));
+      padding-top: env(safe-area-inset-top);
+    }
+  }
+  
+  /* ============================= */
+  /*     VİDEO FALLBACK            */
+  /* ============================= */
+  .hero-video:-webkit-full-screen {
+    object-fit: contain !important;
+  }
+  
+  .hero-video:fullscreen {
+    object-fit: contain !important;
+  }

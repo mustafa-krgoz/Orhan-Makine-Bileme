@@ -59,29 +59,54 @@ const AboutPage = () => {
   // ============================================
   const buildingImages = [
     {
-      src: '/images/joblocations/bina1.png',
+      src: '/images/joblocations/bina4.png',
       alt: 'Orhan Makine Bileme - Satış ve Servis Bölümü',
       title: 'Satış ve Servis Bölümü'
     },
     {
-      src: '/images/joblocations/bina2.png',
-      alt: 'Orhan Makine Bileme - Ürün Showroom',
-      title: 'Ürün Showroom'
-    },
-    {
       src: '/images/joblocations/bina3.png',
-      alt: 'Orhan Makine Bileme - Teknik Servis Atölyesi',
-      title: 'Teknik Servis Atölyesi'
+      alt: 'Orhan Makine Bileme - Satış ve Servis Bölümü-2',
+      title: 'Satış ve Servis Bölümü-2'
     },
     {
-      src: '/images/joblocations/bina4.png',
-      alt: 'Orhan Makine Bileme - Depo ve Lojistik',
-      title: 'Depo ve Lojistik Bölümü'
+      src: '/images/joblocations/bina1.png',
+      alt: 'Orhan Makine- Ofis ve Yönetim-1',
+      title: 'Ofis ve Yönetim-1'
+    },
+    {
+      src: '/images/joblocations/bina2.png',
+      alt: 'Orhan Makine Bileme - Ofis ve Yönetim-2',
+      title: 'Ofis ve Yönetim-2'
     },
     {
       src: '/images/joblocations/bina5.png',
-      alt: 'Orhan Makine Bileme - Ofis ve Yönetim',
-      title: 'Ofis ve Yönetim'
+      alt: 'Orhan Makine Bileme - Ürünler',
+      title: 'Ürünler'
+    },
+    {
+      src: '/images/joblocations/bina6.png',
+      alt: 'Orhan Makine Bileme - Ürünler-2',
+      title: 'Ürünler-2'
+    },
+    {
+      src: '/images/joblocations/bina7.png',
+      alt: 'Orhan Makine Bileme - Ürünler-3',
+      title: 'Ürünler-3'
+    },
+    {
+      src: '/images/joblocations/bina8.png',
+      alt: 'Orhan Makine Bileme - Ürünler-4',
+      title: 'Ürünler-4'
+    },
+    {
+      src: '/images/joblocations/bina9.png',
+      alt: 'Orhan Makine Bileme - Ürünler-5',
+      title: 'Ürünler-5'
+    },
+    {
+      src: '/images/joblocations/bina10.png',
+      alt: 'Orhan Makine Bileme - Ürünler-6',
+      title: 'Ürünler-6'
     }
   ];
 
@@ -429,10 +454,6 @@ const AboutPage = () => {
                   <div className="about-stat">
                     <div className="about-stat-number">25+</div>
                     <div className="about-stat-label">Marka</div>
-                  </div>
-                  <div className="about-stat">
-                    <div className="about-stat-number">110+</div>
-                    <div className="about-stat-label">Yıl Deneyim</div>
                   </div>
                 </div>
               </div>

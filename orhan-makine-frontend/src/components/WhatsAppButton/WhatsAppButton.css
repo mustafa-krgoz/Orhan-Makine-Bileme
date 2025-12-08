@@ -1,0 +1,120 @@
+.whatsapp-button {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background-color: #25D366;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+    z-index: 9999;
+    transition: all 0.3s ease;
+    border: none;
+    outline: none;
+    animation: pulse 2s infinite;
+  }
+  
+  .whatsapp-button:hover {
+    transform: scale(1.1) !important;
+    box-shadow: 0 6px 25px rgba(37, 211, 102, 0.6);
+  }
+  
+  .whatsapp-button:active {
+    transform: scale(0.95) !important;
+  }
+  
+  .whatsapp-icon {
+    color: white;
+    width: 28px;
+    height: 28px;
+  }
+  
+  .whatsapp-tooltip {
+    position: absolute;
+    right: 70px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #25D366;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .whatsapp-button:hover .whatsapp-tooltip {
+    opacity: 1;
+  }
+  
+  .whatsapp-button.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  
+  .whatsapp-button.hidden {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+  }
+  
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+    }
+    70% {
+      box-shadow: 0 0 0 15px rgba(37, 211, 102, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+    }
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .whatsapp-button {
+      width: 55px;
+      height: 55px;
+      bottom: 20px;
+      right: 20px;
+    }
+    
+    .whatsapp-icon {
+      width: 25px;
+      height: 25px;
+    }
+    
+    .whatsapp-tooltip {
+      display: none; /* Mobilde tooltip gösterme */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .whatsapp-button {
+      width: 50px;
+      height: 50px;
+      bottom: 15px;
+      right: 15px;
+    }
+    
+    .whatsapp-icon {
+      width: 22px;
+      height: 22px;
+    }
+  }
+  
+  /* PWA uyumlu */
+  @media (display-mode: standalone) {
+    .whatsapp-button {
+      bottom: calc(30px + env(safe-area-inset-bottom));
+    }
+  }

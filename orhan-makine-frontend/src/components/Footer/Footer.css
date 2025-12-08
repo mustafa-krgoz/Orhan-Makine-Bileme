@@ -159,29 +159,6 @@
   color: #94a3b8;
 }
 
-/* SCROLL TOP */
-.footer-scroll-top-btn {
-  position: fixed;
-  right: 20px;
-  bottom: 20px;
-  background: white;
-  color: #1e3a8a;
-  padding: 10px;
-  border-radius: 50%;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.3);
-  transition: 0.3s ease;
-}
-
-.footer-scroll-top-btn:hover {
-  background: #e2e8f0;
-  transform: scale(1.1);
-}
-
-.footer-scroll-icon {
-  width: 24px;
-  height: 24px;
-}
-
 /* RESPONSIVE */
 @media (max-width: 900px) {
   .footer-grid {
