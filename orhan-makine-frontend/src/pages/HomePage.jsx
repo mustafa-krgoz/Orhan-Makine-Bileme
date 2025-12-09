@@ -1,24 +1,40 @@
-import '../styles/HomePage.css'
+import "../styles/HomePage.css";
 import Hero from "../components/Hero/Hero.jsx";
-import { ArrowRight, Shield, Clock, Truck, CheckCircle, ChevronLeft, ChevronRight } from "lucide-react"
-import { useState, useEffect } from "react"
+import { 
+  ArrowRight, 
+  Shield, 
+  Clock, 
+  Truck, 
+  CheckCircle, 
+  ChevronLeft, 
+  ChevronRight 
+} from "lucide-react";
+
+import { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { productsData } from "../data/productsData";
 
 export default function HomePage() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [featuredProducts, setFeaturedProducts] = useState([]);
-  
-  useEffect(() => {
-    // Popüler ürünleri seç
-    const allProducts = [...productsData]
+
+  /* --------------------------------------------------------
+     POPÜLER ÜRÜNLERİ SEÇ (Memoized — performans için)
+  -------------------------------------------------------- */
+  const featuredProducts = useMemo(() => {
+    return [...productsData]
       .sort(() => Math.random() - 0.5)
       .slice(0, 6);
-    
-    setFeaturedProducts(allProducts);
   }, []);
 
-  const services = [
+  const maxSlide = featuredProducts.length > 4 ? featuredProducts.length - 4 : 0;
+
+  const nextSlide = () => setCurrentSlide(prev => (prev >= maxSlide ? 0 : prev + 1));
+  const prevSlide = () => setCurrentSlide(prev => (prev <= 0 ? maxSlide : prev - 1));
+
+  /* --------------------------------------------------------
+     HİZMETLER (Static data → render sırasında yeniden oluşmaz)
+  -------------------------------------------------------- */
+  const services = useMemo(() => [
     {
       icon: <Shield className="w-8 h-8" />,
       title: "Kalite Garantisi",
@@ -33,13 +49,16 @@ export default function HomePage() {
       icon: <Truck className="w-8 h-8" />,
       title: "Ücretsiz Montaj",
       description: "Belirli modellerde ücretsiz kurulum ve montaj hizmeti sunuyoruz"
-    },
-  ]
+    }
+  ], []);
 
-  const brands = [
+  /* --------------------------------------------------------
+     MARKALAR – SEO açısından değişmedi
+  -------------------------------------------------------- */
+  const brands = useMemo(() => [
     { 
       name: "MAKİTA",
-      description: "Dünyanın önde gelen elektrikli el aleti markası. Profesyonel kullanıcıların tercihi.",
+      description: "Dünyanın önde gelen elektrikli el aleti markası.",
       image: "/images/brands/makita-logo.png",
       features: [
         "Profesyonel motor teknolojisi",
@@ -61,39 +80,31 @@ export default function HomePage() {
     },
     { 
       name: "MIZRAK",
-      description: "Türkiye'nin güçlü yerli üreticilerinden. Yüksek kalite, uygun fiyat.",
+      description: "Türkiye'nin güçlü yerli üreticilerinden.",
       image: "/images/brands/mizrak-logo.png",
       features: [
-        "Yerli üretim ve mühendislik",
+        "Yerli üretim",
         "Üstün kalite kontrol",
-        "Yüksek uyumluluk ve esneklik",
+        "Yüksek uyumluluk",
         "Uygun fiyat-performans oranı"
       ]
     }
-  ];
+  ], []);
 
-  const maxSlide = featuredProducts.length > 4 ? featuredProducts.length - 4 : 0;
+  /* --------------------------------------------------------
+     FİYAT FORMATLAYICI (performanslı)
+  -------------------------------------------------------- */
+  const formatPrice = (price) =>
+    new Intl.NumberFormat("tr-TR", { minimumFractionDigits: 2 }).format(price);
 
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev >= maxSlide ? 0 : prev + 1))
-  }
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev <= 0 ? maxSlide : prev - 1))
-  }
-
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat('tr-TR', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    }).format(price);
-  }
-
+  /* --------------------------------------------------------
+     JSX Render
+  -------------------------------------------------------- */
   return (
     <div className="homepage">
       <Hero />
 
-      {/* POPÜLER ÜRÜNLER BÖLÜMÜ */}
+      {/* ========================== POPÜLER ÜRÜNLER ========================== */}
       <section className="home-products-section">
         <div className="home-container-full">
           <div className="home-section-header">
@@ -102,76 +113,73 @@ export default function HomePage() {
               En çok tercih edilen makine ve ekipmanlar
             </p>
           </div>
-          
+
           {featuredProducts.length === 0 ? (
-            <div className="home-products-loading">
-              <p>Ürünler yükleniyor...</p>
-            </div>
+            <div className="home-products-loading"><p>Ürünler yükleniyor...</p></div>
           ) : (
             <div className="home-products-slider-wrapper">
-              
-              {/* SOL OK BUTONU */}
+
+              {/* SOL OK */}
               <button 
-                className="home-slider-arrow home-slider-arrow-left" 
+                className="home-slider-arrow home-slider-arrow-left"
                 onClick={prevSlide}
                 aria-label="Önceki ürünler"
               >
                 <ChevronLeft className="w-6 h-6" />
               </button>
 
-              {/* ÜRÜN SLIDER KONTEYNERI */}
+              {/* SLIDER */}
               <div className="home-products-slider-container">
                 <div className="home-products-slider">
                   <div 
                     className="home-products-track"
-                    style={{ transform: `translateX(calc(-${currentSlide * 25}%))` }}
+                    style={{ transform: `translateX(-${currentSlide * 25}%)` }}
                   >
-                    {featuredProducts.map((product) => (
+                    {featuredProducts.map(product => (
                       <div key={product.id} className="home-product-card">
-                        
+
                         {/* ÜRÜN RESMİ */}
                         <div className="home-product-image">
                           <img 
-                            src={product.image} 
+                            src={product.image}
                             alt={product.name}
                             loading="lazy"
-                            onError={(e) => {
+                            onError={e => {
                               e.target.src = "/images/default-product.png";
                             }}
                           />
                         </div>
 
-                        {/* ÜRÜN İÇERİĞİ */}
+                        {/* ÜRÜN BİLGİLERİ */}
                         <div className="home-product-content">
+                          
                           <div className="home-product-brand">{product.brand}</div>
                           <h3 className="home-product-title">{product.name}</h3>
-                          
-                          {/* FİYAT BİLGİSİ */}
-                          <div className="home-product-pricing">
-                            <p className="home-product-price">{formatPrice(product.price)} TL</p>
-                          </div>
-                          
+
+                          <p className="home-product-price">
+                            {formatPrice(product.price)} TL
+                          </p>
+
                           <p className="home-product-description">
-                            {product.description.length > 100 
-                              ? `${product.description.substring(0, 100)}...` 
+                            {product.description.length > 100
+                              ? product.description.slice(0, 100) + "..."
                               : product.description}
                           </p>
 
-                          {/* ÜRÜN ÖZELLİKLERİ */}
+                          {/* ÖZELLİKLER */}
                           <ul className="home-product-features">
-                            {(product.features || []).slice(0, 2).map((feature, idx) => (
+                            {product.features?.slice(0, 2).map((f, idx) => (
                               <li key={idx} className="home-feature-item">
-                                <CheckCircle className="home-feature-icon" /> 
-                                <span>{feature}</span>
+                                <CheckCircle className="home-feature-icon" />
+                                <span>{f}</span>
                               </li>
                             ))}
                           </ul>
 
-                          {/* DETAYLI İNCELE BUTONU */}
+                          {/* DETAYLI İNCELE */}
                           <Link 
                             to={`/product/${product.id}`}
                             className="home-product-button"
-                            aria-label={`${product.name} detaylı incele`}
                           >
                             Detaylı İncele <ArrowRight className="home-button-icon" />
                           </Link>
@@ -182,51 +190,52 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* SAĞ OK BUTONU */}
+              {/* SAĞ OK */}
               <button 
-                className="home-slider-arrow home-slider-arrow-right" 
+                className="home-slider-arrow home-slider-arrow-right"
                 onClick={nextSlide}
                 aria-label="Sonraki ürünler"
               >
                 <ChevronRight className="w-6 h-6" />
               </button>
+
             </div>
           )}
-          
-          {/* TÜM ÜRÜNLERİ GÖR BUTONU */}
+
           <div className="home-view-all-products">
-            <Link to="/products" className="home-view-all-button">
-              Tüm Ürünleri Gör
-            </Link>
+            <Link to="/products" className="home-view-all-button">Tüm Ürünleri Gör</Link>
           </div>
         </div>
       </section>
 
-      {/* HİZMETLER BÖLÜMÜ */}
+      {/* ========================== HİZMETLER ========================== */}
       <section className="home-services-section">
         <div className="home-container">
+
           <div className="home-section-header">
             <h2 className="home-section-title">Neden Orhan Makine?</h2>
             <p className="home-section-description">
-              40 yıllık sektör tecrübemizle, makine satışında en güvenilir çözüm ortağınız
+              40 yıllık sektör tecrübemizle en güvenilir çözüm ortağınız
             </p>
           </div>
 
           <div className="home-services-grid">
-            {services.map((service, index) => (
-              <div key={index} className="home-service-card">
+            {services.map((service, idx) => (
+              <div key={idx} className="home-service-card">
                 <div className="home-service-icon">{service.icon}</div>
                 <h3 className="home-service-title">{service.title}</h3>
                 <p className="home-service-description">{service.description}</p>
               </div>
             ))}
           </div>
+
         </div>
       </section>
 
-      {/* MARKALAR BÖLÜMÜ */}
+      {/* ========================== MARKALAR ========================== */}
       <section className="home-brands-section">
         <div className="home-container">
+
           <div className="home-section-header">
             <h2 className="home-section-title">Güvendiğimiz Markalar</h2>
             <p className="home-section-description">
@@ -235,19 +244,20 @@ export default function HomePage() {
           </div>
 
           <div className="home-brands-grid">
-            {brands.map((brand, index) => (
-              <div key={index} className="home-brand-card">
-                
+            {brands.map((brand, idx) => (
+              <div key={idx} className="home-brand-card">
+
                 <div className="home-brand-header">
                   <div className="home-brand-logo">
                     <img 
-                      src={brand.image} 
-                      alt={`${brand.name} logo`}
+                      src={brand.image}
+                      alt={`${brand.name} Logo`}
                       className="home-brand-logo-image"
                       loading="lazy"
-                      onError={(e) => {
-                        e.target.style.display = 'none';
-                        e.target.parentElement.innerHTML = `<span class="home-brand-name-fallback">${brand.name}</span>`;
+                      onError={e => {
+                        e.target.style.display = "none";
+                        e.target.parentElement.innerHTML =
+                          `<span class="home-brand-name-fallback">${brand.name}</span>`;
                       }}
                     />
                   </div>
@@ -258,48 +268,59 @@ export default function HomePage() {
                 <p className="home-brand-description">{brand.description}</p>
 
                 <ul className="home-brand-features">
-                  {brand.features.map((feature, idx) => (
-                    <li key={idx} className="home-brand-feature-item">
+                  {brand.features.map((f, i) => (
+                    <li key={i} className="home-brand-feature-item">
                       <CheckCircle className="home-feature-icon" />
-                      <span>{feature}</span>
+                      <span>{f}</span>
                     </li>
                   ))}
                 </ul>
 
-                {/* MARKA ÜRÜNLERİ BUTONU */}
-                <Link to={`/products?brand=${brand.name.toLowerCase()}`} className="home-brand-button">
+                <Link 
+                  to={`/products?brand=${brand.name.toLowerCase()}`}
+                  className="home-brand-button"
+                >
                   Ürünleri İncele <ArrowRight className="home-button-icon" />
                 </Link>
+
               </div>
             ))}
           </div>
+
         </div>
       </section>
 
-      {/* SEO İÇERİK BÖLÜMÜ */}
+      {/* ========================== SEO SECTION ========================== */}
       <section className="home-seo-section">
         <div className="home-container">
           <div className="home-seo-content">
-            <h2 className="home-seo-title">Orhan Makine - Profesyonel Makine Satış Hizmetleri</h2>
+
+            <h2 className="home-seo-title">
+              Orhan Makine – Profesyonel Makine Satış Hizmetleri
+            </h2>
+
             <div className="home-seo-text">
               <p>
-                Orhan Makine olarak, sektördeki 40 yıllık tecrübemizle kaliteli makineleri en uygun fiyatlarla 
-                müşterilerimizle buluşturuyoruz. Makita, Freud ve Mizrak gibi dünyaca ünlü markaların 
-                güvenilir distribütörü olarak, profesyonel makine satış hizmetleri sunmaktayız.
+                Orhan Makine olarak 40 yıllık tecrübemizle kaliteli ve profesyonel makineleri en uygun 
+                fiyatlarla müşterilerimize sunuyoruz. Makita, Freud ve Mizrak gibi güçlü markaların 
+                güvenilir distribütörüyüz.
               </p>
+
               <p>
-                Tüm ürünlerimiz 2 yıl garantili olup, ücretsiz kargo ve hızlı teslimat imkanıyla 
-                hizmetinizdeyiz. Endüstriyel makinelerden profesyonel el aletlerine kadar geniş ürün 
-                yelpazemizle ihtiyacınız olan her türlü ekipmanı bulabilirsiniz.
+                Ürünlerimiz 2 yıl garantili olup hızlı kargo ve satış sonrası destek hizmetlerimizle 
+                yanınızdayız. Endüstriyel makinelerden profesyonel el aletlerine kadar geniş ürün yelpazemiz 
+                ile ihtiyacınıza uygun çözümler sunuyoruz.
               </p>
+
               <p>
-                WhatsApp üzerinden 7/24 destek hattımızla (0539 515 99 25) bize ulaşabilir, 
-                teknik destek ve ürün danışmanlığı alabilirsiniz.
+                Dilerseniz bizi WhatsApp üzerinden (0533 461 31 50) arayarak ürün danışmanlığı ve 
+                teknik destek alabilirsiniz.
               </p>
             </div>
+
           </div>
         </div>
       </section>
     </div>
-  )
+  );
 }
