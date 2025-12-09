@@ -16,14 +16,14 @@
 
 
 /* ==============================================
-   ANA SAYFA KAPSAYICI (BODY)
+   ANA SAYFA KAPSAYICI (BODY) - SADECE ARKA PLAN DEĞİŞTİRİLDİ
    ============================================== */
 .srvc-page {
     min-height: 100vh;
-    padding: 60px 0; /* Üst/Alt boşluk artırıldı */
-    /* Daha yumuşak bir gradyan ve renk kullanımı */
-    background: linear-gradient(135deg, #1d6fb8 0%, #2b8df5 100%);
-    font-family: 'Poppins', sans-serif; /* Modern, okunaklı bir font */
+    padding: 60px 0;
+    /* ARKA PLAN RENGİ DEĞİŞTİRİLDİ: #5ba3f7 */
+    background: #5ba3f7;
+    font-family: 'Poppins', sans-serif;
     color: var(--text-dark);
     line-height: 1.6;
 }
@@ -34,20 +34,20 @@
    ============================================== */
 .srvc-header {
     text-align: center;
-    margin-bottom: 40px; /* BOŞLUK AZALTILDI (ÖNCE 70px idi) */
+    margin-bottom: 40px;
     padding: 0 24px;
 }
 
 .srvc-main-title {
-    font-size: 3.2rem; /* Daha büyük başlık */
+    font-size: 3.2rem;
     font-weight: 800;
     color: white;
-    text-shadow: 0 3px 6px rgba(0, 0, 0, 0.3); /* Hafif gölge */
+    text-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
     margin-bottom: 10px;
 }
 
 .srvc-main-desc {
-    font-size: 1.35rem; /* Daha büyük açıklama */
+    font-size: 1.35rem;
     color: rgba(255, 255, 255, 0.95);
     max-width: 800px;
     margin: 10px auto 0;
@@ -59,7 +59,7 @@
    HİZMETLER ANA BÖLÜMÜ
    ============================================== */
 .srvc-services-section {
-    max-width: 1300px; /* GENİŞLİK tekrar artırıldı */
+    max-width: 1300px;
     margin: 0 auto;
     padding: 20px 20px;
 }
@@ -67,7 +67,7 @@
 .srvc-services-list {
     display: flex;
     flex-direction: column;
-    gap: 60px; /* Kartlar arası boşluk artırıldı */
+    gap: 60px;
 }
 
 
@@ -75,12 +75,12 @@
    HİZMET KARTLARI
    ============================================== */
 .srvc-service-item {
-    background: var(--bg-light); 
-    border-radius: 20px; /* Daha yuvarlak köşeler */
-    padding: 50px 50px; /* İç boşluk artırıldı */
+    background: var(--bg-light);
+    border-radius: 20px;
+    padding: 50px 50px;
     border: 1px solid #e2e8f0;
     box-shadow: var(--shadow-default);
-    transition: all 0.4s ease-in-out; 
+    transition: all 0.4s ease-in-out;
     transform: translateY(0);
 }
 
@@ -107,29 +107,29 @@
    ============================================== */
 .srvc-service-header {
     display: flex;
-    align-items: center; /* Dikeyde ortalama */
-    gap: 30px; /* Boşluk artırıldı */
+    align-items: center;
+    gap: 30px;
     margin-bottom: 40px;
     padding-bottom: 25px;
-    border-bottom: 2px solid #eef2f8; /* Daha yumuşak ayırıcı */
+    border-bottom: 2px solid #eef2f8;
 }
 
 .srvc-service-icon {
-    width: 70px; /* Boyut büyütüldü */
+    width: 70px;
     height: 70px;
-    background: white; 
+    background: white;
     color: var(--primary-color);
-    border-radius: 50%; /* Daire ikon */
+    border-radius: 50%;
     border: 3px solid var(--primary-color);
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-shrink: 0; /* Küçülmesini engeller */
+    flex-shrink: 0;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .srvc-service-title {
-    font-size: 2rem; 
+    font-size: 2rem;
     font-weight: 800;
     color: var(--text-dark);
     line-height: 1.2;
@@ -147,14 +147,13 @@
    ============================================== */
 .srvc-service-details {
     display: grid;
-    /* İki sütunlu modern grid yapısı */
-    grid-template-columns: repeat(auto-fit, minmax(45%, 1fr)); 
-    gap: 30px; /* Grid içi boşluk */
+    grid-template-columns: repeat(auto-fit, minmax(45%, 1fr));
+    gap: 30px;
 }
 
 .srvc-detail-item {
-    background: #ffffff; /* Beyaz kart içi */
-    border-left: 6px solid var(--primary-color); /* Daha kalın vurgu */
+    background: #ffffff;
+    border-left: 6px solid var(--primary-color);
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
@@ -167,15 +166,14 @@
 }
 
 .srvc-detail-content {
-    color: #374151; /* Daha koyu metin rengi */
+    color: #374151;
     font-size: 1rem;
-    line-height: 1.7; /* Okunabilirliği artırmak için satır yüksekliği */
+    line-height: 1.7;
 }
 
 /* Metin İçi Vurgu (SEO ve Okunabilirlik için) */
 .srvc-detail-content strong {
-    /* Alt başlıkları ve vurgulu kelimeleri belirginleştirir */
-    color: var(--primary-color); 
+    color: var(--primary-color);
     font-weight: 800;
 }
 
@@ -195,7 +193,6 @@
     }
     
     .srvc-service-details {
-        /* 1024px altında gridi bozmadan kartları büyüt */
         grid-template-columns: 1fr;
         gap: 20px;
     }
@@ -221,7 +218,6 @@
     }
     
     .srvc-service-header {
-        /* Mobil görünümde ikon üste, yazı alta */
         flex-direction: column;
         text-align: center;
         align-items: center;
