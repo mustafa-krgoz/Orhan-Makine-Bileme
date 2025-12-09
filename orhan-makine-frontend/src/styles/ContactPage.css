@@ -1,383 +1,496 @@
 /* ============================================= */
-/*                 CONTACT PAGE                  */
+/*            İLETİŞİM SAYFASI STİLLERİ          */
 /* ============================================= */
 
+/* 
+ * Tüm class'lar "contact-" prefix'i ile başlar
+ * Diğer sayfalardan izole edilmiş stil yapısı
+ */
+
+/* Ana sayfa container - Min height ile tam sayfa kaplaması */
 .contact-page {
-    min-height: 100vh;
-    background: #f8fafc;
-    padding-bottom: 50px;
+  min-height: 100vh;
+  background: #f8fafc; /* Açık gri arka plan - modern görünüm */
+  padding-bottom: 50px;
+}
+
+/* Genel container - Max genişlik ve merkezleme */
+.contact-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ============================================= */
+/*              SAYFA BAŞLIĞI (HEADER)           */
+/* ============================================= */
+
+/* Gradient arka planlı header bölümü */
+.contact-header {
+  background: linear-gradient(135deg, #1e3a8a 0%, #60a5fa 100%); /* Mavi gradient */
+  color: white;
+  padding: 70px 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden; /* Taşmaları gizle */
+}
+
+/* Ana başlık */
+.contact-header-title {
+  font-size: 2.7rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+
+/* Alt başlık/açıklama */
+.contact-header-subtitle {
+  font-size: 1.15rem;
+  color: #e2e8f0; /* Açık mavi-beyaz */
+  max-width: 650px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ============================================= */
+/*          ANA İÇERİK BÖLÜMÜ (MAIN CONTENT)     */
+/* ============================================= */
+
+/* Ana içerik wrapper - Artık tek sütun (form kaldırıldı) */
+.contact-main-content {
+  padding: 40px 0;
+}
+
+/* ============================================= */
+/*          İLETİŞİM BİLGİLERİ SECTION           */
+/* ============================================= */
+
+/* İletişim bilgileri bölümü */
+.contact-info-section {
+  width: 100%;
+  max-width: 900px; /* Merkezi pozisyon için max genişlik */
+  margin: 0 auto; /* Ortala */
+}
+
+/* Section başlığı */
+.contact-section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1e293b; /* Koyu gri-mavi */
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+/* Açıklama metni */
+.contact-info-description {
+  color: #64748b; /* Orta ton gri */
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+/* ============================================= */
+/*              WHATSAPP BUTONU                  */
+/* ============================================= */
+
+/* WhatsApp buton wrapper - Üstte dikkat çekmek için */
+.contact-whatsapp-wrapper {
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: center; /* Ortala */
+}
+
+/* WhatsApp ana butonu - Yeşil, büyük ve dikkat çekici */
+.contact-whatsapp-button {
+  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); /* WhatsApp yeşili gradient */
+  color: white;
+  border: none;
+  padding: 20px 40px;
+  border-radius: 16px; /* Yuvarlatılmış köşeler */
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: all 0.3s ease; /* Smooth animasyonlar */
+  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3); /* Yeşil gölge */
+  position: relative;
+  overflow: hidden;
+}
+
+/* WhatsApp butonu hover efekti */
+.contact-whatsapp-button:hover {
+  transform: translateY(-3px) scale(1.02); /* Yukarı hareket ve büyüme */
+  box-shadow: 0 8px 30px rgba(37, 211, 102, 0.4); /* Daha belirgin gölge */
+}
+
+/* WhatsApp butonu active (tıklama) efekti */
+.contact-whatsapp-button:active {
+  transform: translateY(-1px) scale(1); /* Hafif bastırma efekti */
+}
+
+/* WhatsApp ikonu */
+.contact-whatsapp-icon {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0; /* İkon boyutu sabit kalsın */
+}
+
+/* WhatsApp buton metni wrapper */
+.contact-whatsapp-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+/* WhatsApp buton alt metni (small) */
+.contact-whatsapp-text small {
+  font-size: 0.85rem;
+  font-weight: 400;
+  opacity: 0.95;
+}
+
+/* ============================================= */
+/*          İLETİŞİM KARTLARI (INFO CARDS)       */
+/* ============================================= */
+
+/* Bilgi kartlarının grid container'ı - 2 sütun */
+.contact-info-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 eşit sütun */
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+/* Tek bir bilgi kartı - Beyaz arka plan, kenarlık ve gölge */
+.contact-info-card {
+  background: white;
+  border: 1px solid #e2e8f0; /* Açık gri kenarlık */
+  border-radius: 12px; /* Yuvarlatılmış köşeler */
+  transition: all 0.3s ease; /* Smooth hover animasyonu */
+  overflow: hidden; /* İçerik taşmasını önle */
+}
+
+/* Kart hover efekti */
+.contact-info-card:hover {
+  border-color: #1e40af; /* Mavi kenarlık */
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08); /* Hafif gölge */
+  transform: translateY(-2px); /* Yukarı hareket */
+}
+
+/* Kart içindeki link (tıklanabilir kartlar için) */
+.contact-info-card-link {
+  display: flex;
+  gap: 16px;
+  padding: 20px;
+  text-decoration: none; /* Alt çizgi kaldır */
+  color: inherit; /* Renk değişmesin */
+  height: 100%; /* Tam yükseklik */
+}
+
+/* Link olmayan kartların ortalanması için */
+.contact-info-card:not(:has(.contact-info-card-link)) {
+  display: flex;
+  gap: 16px;
+  padding: 20px;
+  align-items: center;
+}
+
+/* İkon wrapper - Arka planlı yuvarlak konteyner */
+.contact-info-icon-wrapper {
+  width: 48px;
+  height: 48px;
+  background: #eef6ff; /* Açık mavi arka plan */
+  border-radius: 12px; /* Yuvarlatılmış köşeler */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1e3a8a; /* Koyu mavi ikon rengi */
+  flex-shrink: 0; /* İkon boyutu sabit */
+}
+
+/* İkon içindeki SVG */
+.contact-info-icon {
+  width: 24px;
+  height: 24px;
+}
+
+/* Kart içerik alanı */
+.contact-info-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Kart başlığı */
+.contact-info-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1e293b; /* Koyu gri-mavi */
+  margin-bottom: 4px;
+}
+
+/* Ana bilgi metni (telefon, mail vs.) */
+.contact-info-main {
+  font-size: 0.95rem;
+  color: #374151; /* Orta koyu gri */
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* Alt bilgi metni (ek açıklama) */
+.contact-info-sub {
+  font-size: 0.85rem;
+  color: #64748b; /* Orta ton gri */
+  line-height: 1.4;
+}
+
+/* ============================================= */
+/*          HARİTA BÖLÜMÜ (MAP SECTION)          */
+/* ============================================= */
+
+/* Harita section wrapper */
+.contact-map-section {
+  margin-top: 40px;
+  width: 100%;
+}
+
+/* Harita başlığı */
+.contact-map-title {
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+/* Google Maps iframe - Responsive ve geniş */
+.contact-map-embed {
+  width: 100%;
+  height: 450px; /* Sabit yükseklik */
+  border: none; /* Varsayılan iframe border'ı kaldır */
+  border-radius: 12px; /* Yuvarlatılmış köşeler */
+  margin-bottom: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Hafif gölge */
+  display: block; /* Inline boşlukları kaldır */
+}
+
+/* Haritada Aç butonu */
+.contact-map-link {
+  display: inline-flex; /* İkon ve metin yan yana */
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: #1e3a8a; /* Koyu mavi */
+  color: white;
+  border-radius: 8px; /* Yuvarlatılmış köşeler */
+  text-decoration: none; /* Alt çizgi kaldır */
+  transition: all 0.25s ease; /* Smooth animasyon */
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+/* Harita linki hover efekti */
+.contact-map-link:hover {
+  background: #1e40af; /* Daha açık mavi */
+  transform: translateY(-2px); /* Yukarı hareket */
+  box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3); /* Mavi gölge */
+}
+
+/* Harita linki active (tıklama) efekti */
+.contact-map-link:active {
+  transform: translateY(0); /* Tıklama sırasında basma efekti */
+}
+
+/* ============================================= */
+/*          RESPONSİVE TASARIM (TABLET)          */
+/* ============================================= */
+
+/* Tablet boyutu - 1024px ve altı */
+@media (max-width: 1024px) {
+  /* Bilgi kartlarını tek sütun yap */
+  .contact-info-cards {
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
   
-  /* Genel container */
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+  /* Harita yüksekliğini azalt */
+  .contact-map-embed {
+    height: 400px;
+  }
+}
+
+/* ============================================= */
+/*          RESPONSİVE TASARIM (MOBİL)           */
+/* ============================================= */
+
+/* Mobil boyutu - 768px ve altı */
+@media (max-width: 768px) {
+  /* Header başlık boyutunu küçült */
+  .contact-header-title {
+    font-size: 2.2rem;
   }
   
-  /* ============================================= */
-  /*                   HEADER                      */
-  /* ============================================= */
+  /* Header alt başlığı küçült */
+  .contact-header-subtitle {
+    font-size: 1rem;
+  }
   
+  /* Ana içerik padding'ini azalt */
+  .contact-main-content {
+    padding: 30px 0;
+  }
+  
+  /* Section başlığını küçült */
+  .contact-section-title {
+    font-size: 1.7rem;
+  }
+  
+  /* WhatsApp butonunu tam genişlik yap */
+  .contact-whatsapp-wrapper {
+    width: 100%;
+  }
+  
+  .contact-whatsapp-button {
+    width: 100%; /* Tam genişlik */
+    justify-content: center; /* İçeriği ortala */
+    padding: 18px 30px;
+  }
+  
+  /* Bilgi kartlarını tek sütun yap */
+  .contact-info-cards {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  /* Harita yüksekliğini azalt */
+  .contact-map-embed {
+    height: 350px;
+  }
+  
+  /* Harita başlığını küçült */
+  .contact-map-title {
+    font-size: 1.4rem;
+  }
+}
+
+/* ============================================= */
+/*          RESPONSİVE TASARIM (KÜÇÜK MOBİL)     */
+/* ============================================= */
+
+/* Küçük mobil boyutu - 480px ve altı */
+@media (max-width: 480px) {
+  /* Header padding'ini azalt */
   .contact-header {
-    background: linear-gradient(135deg,  #1e3a8a 0%, #60a5fa 100%);
-    color: white;
-    padding: 70px 0;
-    text-align: center;
+    padding: 50px 0;
   }
   
-  .contact-header h1 {
-    font-size: 2.7rem;
-    font-weight: 700;
-    margin-bottom: 12px;
+  /* Header başlığını daha da küçült */
+  .contact-header-title {
+    font-size: 1.8rem;
   }
   
-  .contact-header p {
-    font-size: 1.15rem;
-    color: #e2e8f0;
-    max-width: 650px;
-    margin: 0 auto;
+  /* Header alt başlığını küçült */
+  .contact-header-subtitle {
+    font-size: 0.95rem;
   }
   
-  /* ============================================= */
-  /*                    LAYOUT                     */
-  /* ============================================= */
-  
-  .contact-layout {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr; /* Sol taraf daha da geniş */
-    gap: 40px;
-    padding: 40px 0;
+  /* Container padding'ini azalt */
+  .contact-container {
+    padding: 0 16px;
   }
   
-  /* ============================================= */
-  /*               CONTACT INFO LEFT SIDE          */
-  /* ============================================= */
-  
-  .contact-info h2 {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #1e293b;
-    margin-bottom: 12px;
+  /* Section başlığını küçült */
+  .contact-section-title {
+    font-size: 1.5rem;
   }
   
-  /* Açıklama */
-  .info-description {
-    color: #64748b;
-    font-size: 1.1rem;
-    margin-bottom: 30px;
+  /* Açıklama metnini küçült */
+  .contact-info-description {
+    font-size: 1rem;
   }
   
-  /* Bilgi kartlarının listesi */
-  .info-cards {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 sütun yan yana */
-    gap: 16px;
-    margin-bottom: 30px;
+  /* WhatsApp buton boyutunu ayarla */
+  .contact-whatsapp-button {
+    padding: 16px 24px;
+    font-size: 1rem;
+    gap: 12px;
   }
   
-  /* Her bir bilgi kartı */
-  .info-card {
-    display: flex;
-    gap: 16px;
-    padding: 18px;
-    background: white;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    transition: .3s;
+  /* WhatsApp ikonu boyutunu küçült */
+  .contact-whatsapp-icon {
+    width: 24px;
+    height: 24px;
   }
   
-  .info-card:hover {
-    border-color: #1e40af;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.06);
-    transform: translateY(-2px);
+  /* Bilgi kartı padding'ini azalt */
+  .contact-info-card-link {
+    padding: 16px;
   }
   
-  /* Kart ikonları */
-  .info-icon {
+  /* İkon wrapper boyutunu küçült */
+  .contact-info-icon-wrapper {
     width: 44px;
     height: 44px;
-    background: #eef6ff;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #1e3a8a;
-    flex-shrink: 0;
   }
   
-  /* Kart metinleri */
-  .info-content h3 {
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 4px;
+  /* Harita yüksekliğini daha da azalt */
+  .contact-map-embed {
+    height: 300px;
   }
   
-  .info-main {
+  /* Harita başlığını küçült */
+  .contact-map-title {
+    font-size: 1.3rem;
+  }
+  
+  /* Harita butonu boyutunu ayarla */
+  .contact-map-link {
+    padding: 10px 20px;
     font-size: 0.95rem;
-    color: #374151;
-    margin-bottom: 2px;
   }
-  
-  .info-sub {
-    font-size: 0.8rem;
-    color: #64748b;
-  }
-  
-  /* ============================================= */
-  /*                   MAP SECTION                 */
-  /* ============================================= */
-  
-  .map-section {
-    margin-top: 20px;
-    margin-right: -40px; /* Sağa taşma - container dışına çık */
-    padding-right: 40px; /* İç boşluk */
-  }
-  
-  .map-section h3 {
-    font-size: 1.5rem;
-    margin-bottom: 16px;
-    font-weight: 600;
-  }
-  
-  /* GOOGLE HARİTA İFRAME — DAHA BÜYÜK VE GENİŞ */
-  .map-embed {
-    width: calc(100% + 80px); /* Container genişliğinden daha geniş */
-    height: 450px;
-    border: none;
-    border-radius: 12px;
-    margin-bottom: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  }
-  
-  /* Harita linki */
-  .map-link {
-    display: inline-block;
-    padding: 12px 24px;
-    background: #1e3a8a;
-    color: white;
-    border-radius: 8px;
-    text-decoration: none;
-    transition: .25s;
-    font-weight: 500;
-  }
-  
-  .map-link:hover {
-    background: #1e40af;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
-  }
-  
-  /* ============================================= */
-  /*               MESSAGE FORM (RIGHT)            */
-  /* ============================================= */
-  
-  .contact-form-section {
-    background: white;
-    padding: 32px;
-    border-radius: 12px;
-    border: 1px solid #e2e8f0;
-    height: fit-content; /* İçerik kadar yükseklik */
-  }
-  
-  .contact-form-section h2 {
-    font-size: 1.9rem;
-    margin-bottom: 24px;
-    font-weight: 700;
-    color: #1e293b;
-  }
-  
-  .contact-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  /* Form input/textarea */
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .form-group label {
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: #374151;
-  }
-  
-  .form-group input,
-  .form-group textarea {
-    padding: 12px 14px;
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
-    font-size: 1rem;
-    transition: 0.25s;
-    font-family: inherit;
-  }
-  
-  .form-group input:focus,
-  .form-group textarea:focus {
-    outline: none;
-    border-color: #1e3a8a;
-    box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
-  }
-  
-  textarea {
-    resize: vertical;
-    min-height: 120px;
-  }
-  
-  /* ============================================= */
-  /*                  SUBMIT BUTTON                */
-  /* ============================================= */
-  
-  .submit-btn {
-    background: #1e3a8a;
-    color: white;
-    padding: 14px;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.05rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: .25s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-  }
-  
-  .submit-btn:hover:not(.loading) {
-    background: #1e40af;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
-  }
-  
-  .submit-btn.loading {
-    opacity: 0.8;
-    cursor: default;
-  }
-  
-  .spinner {
-    width: 20px;
-    height: 20px;
-    border: 3px solid transparent;
-    border-top-color: white;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-  }
-  
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
-  
-  /* ============================================= */
-  /*          SUCCESS MESSAGE AFTER SUBMIT         */
-  /* ============================================= */
-  
-  .success-message {
-    text-align: center;
-    padding: 40px 20px;
-  }
-  
-  .success-icon {
-    width: 60px;
-    height: 60px;
-    color: #10b981;
-    margin: 0 auto 16px;
-  }
-  
-  .success-message h3 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 8px;
-    color: #1e293b;
-  }
-  
-  .success-message p {
-    color: #64748b;
-    margin-bottom: 20px;
-  }
-  
-  .new-message-btn {
-    margin-top: 14px;
-    background: #1e3a8a;
-    color: white;
-    padding: 12px 24px;
-    border-radius: 8px;
-    cursor: pointer;
-    border: none;
-    font-size: 1rem;
-    font-weight: 500;
-    transition: .25s;
-  }
-  
-  .new-message-btn:hover {
-    background: #1e40af;
-    transform: translateY(-2px);
-  }
-  
-  /* ============================================= */
-  /*                  RESPONSIVE                   */
-  /* ============================================= */
-  
-  @media (max-width: 1024px) {
-    .info-cards {
-      grid-template-columns: 1fr;
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .contact-header h1 {
-      font-size: 2.2rem;
-    }
-    
-    .contact-header p {
-      font-size: 1rem;
-    }
-    
-    .contact-layout {
-      grid-template-columns: 1fr;
-      gap: 40px;
-    }
-  
-    .info-cards {
-      grid-template-columns: 1fr;
-    }
+}
 
-    .map-section {
-      margin-right: 0; /* Mobilde normal genişlik */
-    }
+/* ============================================= */
+/*          ERİŞİLEBİLİRLİK İYİLEŞTİRMELERİ      */
+/* ============================================= */
 
-    .map-embed {
-      width: 100%; /* Mobilde normal genişlik */
-      height: 350px;
-    }
-    
-    .contact-form-section {
-      padding: 24px;
-    }
+/* Focus durumları - Klavye navigasyonu için */
+.contact-whatsapp-button:focus-visible,
+.contact-map-link:focus-visible,
+.contact-info-card-link:focus-visible {
+  outline: 3px solid #60a5fa; /* Mavi outline */
+  outline-offset: 2px;
+}
+
+/* Reduced motion desteği - Animasyon hassasiyeti olanlar için */
+@media (prefers-reduced-motion: reduce) {
+  /* Tüm animasyonları devre dışı bırak */
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Print stilleri - Yazdırma için optimize edilmiş görünüm */
+@media print {
+  .contact-page {
+    background: white; /* Arka plan beyaz */
   }
   
-  @media (max-width: 480px) {
-    .contact-header {
-      padding: 50px 0;
-    }
-    
-    .contact-header h1 {
-      font-size: 1.8rem;
-    }
-    
-    .info-card {
-      padding: 16px;
-    }
-    
-    .map-embed {
-      height: 300px;
-    }
-    
-    .contact-form-section {
-      padding: 20px;
-    }
+  .contact-header {
+    background: white; /* Header arka planı beyaz */
+    color: black; /* Metin siyah */
+    border-bottom: 2px solid #000; /* Alt kenarlık */
   }
+  
+  .contact-whatsapp-button {
+    display: none; /* WhatsApp butonu gizle (yazdırmada gereksiz) */
+  }
+  
+  .contact-map-embed {
+    display: none; /* Haritayı gizle (yazdırılamaz) */
+  }
+}
