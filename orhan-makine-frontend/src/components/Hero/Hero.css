@@ -5,8 +5,8 @@
 .hero-section {
     position: relative;
     width: 100%;
-    height: 85vh; /* NAVBAR ile boşluğu azalt */
-    min-height: 600px;
+    height: 90vh; /* Yükseklik biraz arttırıldı */
+    min-height: 650px; /* Minimum yükseklik arttırıldı */
     overflow: hidden;
     background: #000;
   }
@@ -28,10 +28,10 @@
     object-position: center; /* video ortalanır */
  }
   
-  /* ---- CONTENT - DAHA ÜSTTE ---- */
+  /* ---- CONTENT - DAHA AŞAĞIDA VE MERKEZİ ---- */
   .hero-content {
     position: absolute;
-    top: 40%; /* DAHA ÜSTTE */
+    top: 55%; /* İÇERİK DAHA AŞAĞI KAYDIRILDI */
     left: 80px;
     transform: translateY(-50%);
     z-index: 2;
@@ -39,15 +39,16 @@
     max-width: 650px;
     display: flex;
     flex-direction: column;
-    gap: 1rem; /* Boşluğu azalt */
+    gap: 1.2rem; /* Boşluklar arttırıldı */
+    padding-right: 20px; /* Sağdan boşluk */
   }
   
   /* Title - TEK SATIR MECBUR */
   .hero-title {
-    font-size: 3.5rem; /* Biraz küçülttük */
+    font-size: 3.5rem;
     font-weight: 800;
-    line-height: 1;
-    margin: 0;
+    line-height: 1.1; /* Line-height düzeltildi */
+    margin: 0 0 0.5rem 0; /* Alt boşluk eklendi */
     
     /* TEK SATIR - KESİNLİKLE ALT SATIRA İNMEZ */
     white-space: nowrap !important;
@@ -65,31 +66,31 @@
   /* Description */
   .hero-description {
     font-size: 1.2rem;
-    line-height: 1.5;
+    line-height: 1.6; /* Line-height iyileştirildi */
     opacity: 0.95;
     max-width: 100%;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.8rem; /* Butonlarla boşluk arttırıldı */
   }
   
   /* Butons */
   .hero-buttons {
     display: flex;
     gap: 1rem;
-    margin-bottom: 1rem; /* Stats ile boşluğu azalt */
+    margin-bottom: 1.5rem; /* Stats ile boşluğu arttırıldı */
   }
   
   .hero-btn-primary {
     background: white;
     color: #0d5dbb;
-    padding: 12px 28px;
-    font-size: 1rem;
+    padding: 14px 32px; /* Padding arttırıldı */
+    font-size: 1.05rem; /* Font boyutu arttırıldı */
     font-weight: 600;
     border-radius: 10px;
     text-decoration: none;
     transition: all 0.3s ease;
     border: none;
     cursor: pointer;
-    min-height: 46px;
+    min-height: 50px; /* Yükseklik arttırıldı */
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -103,15 +104,15 @@
   .hero-btn-secondary {
     background: rgba(255,255,255,0.15);
     border: 2px solid rgba(255,255,255,0.4);
-    padding: 12px 28px;
+    padding: 14px 32px; /* Padding arttırıldı */
     border-radius: 10px;
     text-decoration: none;
     color: white;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px; /* Boşluk arttırıldı */
     transition: all 0.3s ease;
-    min-height: 46px;
+    min-height: 50px; /* Yükseklik arttırıldı */
     cursor: pointer;
   }
   
@@ -122,8 +123,8 @@
   }
   
   .hero-btn-icon {
-    width: 18px;
-    height: 18px;
+    width: 20px; /* Boyut arttırıldı */
+    height: 20px;
   }
   
   /* Stats - YAN YANA, SIKI */
@@ -132,28 +133,131 @@
     justify-content: space-between;
     gap: 1.5rem;
     width: 100%;
+    margin-bottom: 1.5rem; /* Banner ile boşluk arttırıldı */
+    padding: 1rem 0; /* Üst ve alt padding eklendi */
   }
   
   .hero-stat-item {
     text-align: center;
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
   
   .hero-stat-number {
-    font-size: 2rem;
+    font-size: 2.2rem; /* Boyut arttırıldı */
     font-weight: 700;
     color: #7dd3fc;
     line-height: 1;
     display: block;
-    margin-bottom: 3px;
+    margin-bottom: 5px; /* Boşluk arttırıldı */
   }
   
   .hero-stat-label {
     color: #d9f0ff;
     opacity: 0.9;
-    font-size: 0.9rem;
+    font-size: 0.95rem; /* Boyut arttırıldı */
     display: block;
     white-space: nowrap;
+  }
+  
+  /* ============================= */
+  /*     ÖDEME SİSTEMİ UYARI BANNER'I */
+  /* ============================= */
+  
+  .payment-alert-banner {
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.15) 0%, rgba(255, 193, 7, 0.08) 100%);
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    border-radius: 12px;
+    padding: 18px 22px; /* Padding arttırıldı */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    margin-top: 0.5rem;
+    transition: all 0.3s ease;
+    animation: fadeInUp 0.5s ease-out;
+  }
+  
+  .payment-alert-banner:hover {
+    border-color: rgba(255, 193, 7, 0.5);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
+  }
+  
+  .payment-alert-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .payment-alert-icon {
+    width: 24px;
+    height: 24px;
+    color: #FFC107;
+    flex-shrink: 0;
+  }
+  
+  .payment-alert-text {
+    flex: 1;
+  }
+  
+  .payment-alert-main {
+    color: #FFC107;
+    font-size: 1.05rem; /* Boyut arttırıldı */
+    font-weight: 600;
+    margin: 0 0 6px 0; /* Boşluk arttırıldı */
+    line-height: 1.4;
+  }
+  
+  .payment-alert-sub {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.95rem; /* Boyut arttırıldı */
+    margin: 0;
+    line-height: 1.4;
+    opacity: 0.9;
+  }
+  
+  .payment-alert-button {
+    background: rgba(255, 193, 7, 0.2);
+    border: 1px solid rgba(255, 193, 7, 0.4);
+    color: #FFC107;
+    padding: 12px 22px; /* Padding arttırıldı */
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem; /* Boyut arttırıldı */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+  
+  .payment-alert-button:hover {
+    background: rgba(255, 193, 7, 0.3);
+    border-color: #FFC107;
+    transform: translateY(-2px);
+    color: #FFD54F;
+  }
+  
+  .payment-alert-button-icon {
+    width: 16px;
+    height: 16px;
+  }
+  
+  /* Banner animasyonu */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
   
   /* Screen Reader Only - SEO için */
@@ -176,82 +280,110 @@
   /* Large Desktop */
   @media (min-width: 1400px) {
     .hero-section {
-      height: 80vh; /* Daha az boşluk */
+      height: 85vh;
     }
     
     .hero-content {
-      top: 38%; /* Daha üstte */
+      top: 50%; /* Orta noktaya yakın */
       left: 100px;
+      max-width: 700px; /* Genişlik arttırıldı */
     }
     
     .hero-title {
       font-size: 4rem;
+    }
+    
+    .hero-description {
+      font-size: 1.3rem;
+    }
+    
+    .payment-alert-banner {
+      padding: 20px 26px;
     }
   }
   
   /* Tablet */
   @media (max-width: 1024px) {
     .hero-section {
-      height: 75vh;
+      height: 80vh;
     }
     
     .hero-content {
       left: 50px;
-      top: 38%;
+      top: 50%; /* Orta noktaya yakın */
+      max-width: 600px;
     }
     
     .hero-title {
       font-size: 2.8rem;
-      white-space: nowrap !important; /* Tablet'te de TEK SATIR */
+      white-space: nowrap !important;
     }
     
     .hero-stats {
-      gap: 1rem;
+      gap: 1.2rem;
     }
     
     .hero-stat-number {
-      font-size: 1.8rem;
+      font-size: 2rem;
+    }
+    
+    .hero-stat-label {
+      font-size: 0.9rem;
+    }
+    
+    .payment-alert-content {
+      gap: 14px;
+    }
+    
+    .payment-alert-button {
+      padding: 10px 18px;
+      font-size: 0.9rem;
     }
   }
   
   /* Mobile */
   @media (max-width: 768px) {
     .hero-section {
-      height: 70vh;
-      min-height: 550px;
+      height: 75vh;
+      min-height: 600px;
     }
     
     .hero-content {
       left: 50%;
-      top: 45%; /* Mobile'de biraz daha ortada */
+      top: 50%; /* Mobile'de orta noktada */
       transform: translate(-50%, -50%);
       text-align: center;
       align-items: center;
       max-width: 90%;
       width: 90%;
       padding: 0 15px;
+      gap: 1rem;
     }
     
     /* MOBİLDE TEK SATIR - MECBUR */
     .hero-title {
-      font-size: 2rem;
+      font-size: 2.2rem;
       white-space: nowrap !important;
       overflow: hidden !important;
       text-overflow: ellipsis !important;
       width: 100%;
       max-width: 100%;
+      margin-bottom: 0.5rem;
     }
     
     .hero-description {
-      font-size: 1rem;
+      font-size: 1.05rem;
       text-align: center;
+      line-height: 1.5;
+      margin-bottom: 0.8rem;
     }
     
     .hero-buttons {
       flex-direction: column;
       width: 100%;
-      max-width: 280px;
+      max-width: 300px;
       gap: 0.8rem;
+      margin-bottom: 1.2rem;
     }
     
     .hero-stats {
@@ -259,61 +391,132 @@
       grid-template-columns: repeat(2, 1fr);
       gap: 1rem;
       width: 100%;
-      max-width: 300px;
+      max-width: 320px;
+      margin-bottom: 1.2rem;
+      padding: 0.5rem 0;
     }
     
     .hero-stat-item {
       min-width: auto;
+    }
+    
+    /* Mobile için banner düzenlemesi */
+    .payment-alert-banner {
+      padding: 16px 18px;
+      margin-top: 0.5rem;
+    }
+    
+    .payment-alert-content {
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      text-align: center;
+    }
+    
+    .payment-alert-button {
+      width: 100%;
+      max-width: 200px;
+      justify-content: center;
+      padding: 12px;
+      font-size: 0.95rem;
+    }
+    
+    .payment-alert-text {
+      text-align: center;
     }
   }
   
   /* Small Mobile */
   @media (max-width: 480px) {
     .hero-section {
-      height: 65vh;
-      min-height: 500px;
+      height: 70vh;
+      min-height: 550px;
     }
     
     .hero-content {
-      top: 48%; /* Daha üstte */
+      top: 50%; /* Orta noktada */
+      gap: 0.8rem;
     }
     
     /* KÜÇÜK EKRANLARDA TEK SATIR - KESİNLİKLE */
     .hero-title {
-      font-size: 1.8rem;
+      font-size: 1.9rem;
       white-space: nowrap !important;
       overflow: hidden !important;
       text-overflow: ellipsis !important;
+      margin-bottom: 0.3rem;
+    }
+    
+    .hero-description {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .hero-buttons {
+      max-width: 280px;
+      gap: 0.7rem;
     }
     
     .hero-stats {
       grid-template-columns: repeat(2, 1fr);
       gap: 0.8rem;
+      max-width: 280px;
     }
     
     .hero-stat-number {
-      font-size: 1.6rem;
+      font-size: 1.7rem;
     }
     
     .hero-stat-label {
-      font-size: 0.8rem;
+      font-size: 0.85rem;
+    }
+    
+    /* Small mobile için banner düzenlemesi */
+    .payment-alert-main {
+      font-size: 1rem;
+    }
+    
+    .payment-alert-sub {
+      font-size: 0.9rem;
     }
   }
   
   /* Çok Küçük Ekranlar (360px ve altı) */
   @media (max-width: 360px) {
+    .hero-section {
+      height: 65vh;
+      min-height: 500px;
+    }
+    
     .hero-title {
-      font-size: 1.6rem;
-      white-space: nowrap !important; /* KESİNLİKLE TEK SATIR */
+      font-size: 1.7rem;
+      white-space: nowrap !important;
     }
     
     .hero-stats {
       grid-template-columns: repeat(2, 1fr);
       gap: 0.6rem;
+      max-width: 260px;
     }
     
     .hero-stat-number {
-      font-size: 1.4rem;
+      font-size: 1.5rem;
+    }
+    
+    .hero-stat-label {
+      font-size: 0.8rem;
+    }
+    
+    .payment-alert-banner {
+      padding: 14px 16px;
+    }
+    
+    .payment-alert-main {
+      font-size: 0.95rem;
+    }
+    
+    .payment-alert-sub {
+      font-size: 0.85rem;
     }
   }
   
@@ -322,7 +525,7 @@
   /* ============================= */
   @media (display-mode: standalone) {
     .hero-section {
-      height: calc(85vh - env(safe-area-inset-top));
+      height: calc(90vh - env(safe-area-inset-top));
       padding-top: env(safe-area-inset-top);
     }
   }

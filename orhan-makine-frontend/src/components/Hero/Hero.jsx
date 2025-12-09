@@ -1,5 +1,5 @@
 import "./Hero.css";
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, AlertTriangle, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useEffect, useRef } from "react";
 
@@ -55,6 +55,11 @@ export default function Hero() {
       </div>
 
       {/* --- CONTENT --- */}
+      {/* 
+        Hero içeriği - Daha aşağı konumlandırıldı
+        top değeri daha düşük yapıldı, translateY kaldırıldı
+        Padding eklenerek içerik daha iyi hizalandı
+      */}
       <div className="hero-content">
         {/* BAŞLIK - TEK SATIR MECBUR */}
         <h1 className="hero-title">
@@ -104,6 +109,35 @@ export default function Hero() {
           <div className="hero-stat-item">
             <span className="hero-stat-number">98%</span>
             <span className="hero-stat-label">Memnuniyet</span>
+          </div>
+        </div>
+
+        {/* === ÖDEME SİSTEMİ UYARI BANNER'I === */}
+        <div 
+          className="payment-alert-banner"
+          role="alert"
+          aria-label="Ödeme sistemi bilgilendirme mesajı"
+        >
+          <div className="payment-alert-content">
+            <AlertTriangle className="payment-alert-icon" />
+            
+            <div className="payment-alert-text">
+              <p className="payment-alert-main">
+                <strong>ÖNEMLİ BİLGİ:</strong> Ürünleri inceledikten sonra bizimle iletişime geçiniz!
+              </p>
+              <p className="payment-alert-sub">
+                Not: Ödeme sayfamız aktif değildir. Satın alma işlemleri için lütfen bizimle iletişime geçin.
+              </p>
+            </div>
+            
+            <Link 
+              to="/contact" 
+              className="payment-alert-button"
+              aria-label="İletişim sayfasına git"
+            >
+              <span>İletişime Geç</span>
+              <ArrowRight className="payment-alert-button-icon" />
+            </Link>
           </div>
         </div>
 
