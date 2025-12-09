@@ -17,8 +17,8 @@ export const productsData = [
         agirlik: "45 kg"
       },
       inStock: true,
-      isNew: true,
-      isCampaign: true,
+      isNew: false,
+      isCampaign: false,
       isSponsored: false,
       // Rating ve reviewCount kaldırıldı - Başlangıçta 0 olacak
       reviews: [], // Yeni: Ürüne ait yorumları tutacak array
@@ -43,8 +43,8 @@ export const productsData = [
       },
       inStock: true,
       isNew: false,
-      isCampaign: true,
-      isSponsored: true,
+      isCampaign: false,
+      isSponsored: false,
       // Rating ve reviewCount kaldırıldı
       reviews: [],
       questions: []
@@ -67,9 +67,9 @@ export const productsData = [
         agirlik: "2.1 kg"
       },
       inStock: true,
-      isNew: true,
+      isNew: false,
       isCampaign: false,
-      isSponsored: true,
+      isSponsored: false,
       // Rating ve reviewCount kaldırıldı
       reviews: [],
       questions: []
@@ -93,7 +93,7 @@ export const productsData = [
       },
       inStock: true,
       isNew: false,
-      isCampaign: true,
+      isCampaign: false,
       isSponsored: false,
       // Rating ve reviewCount kaldırıldı
       reviews: [],
@@ -117,7 +117,7 @@ export const productsData = [
         agirlik: "2.5 kg"
       },
       inStock: false,
-      isNew: true,
+      isNew: false,
       isCampaign: false,
       isSponsored: false,
       // Rating ve reviewCount kaldırıldı
@@ -143,8 +143,8 @@ export const productsData = [
       },
       inStock: true,
       isNew: false,
-      isCampaign: true,
-      isSponsored: true,
+      isCampaign: false,
+      isSponsored: false,
       // Rating ve reviewCount kaldırıldı
       reviews: [],
       questions: []
@@ -167,7 +167,7 @@ export const productsData = [
         agirlik: "1.5 kg"
       },
       inStock: true,
-      isNew: true,
+      isNew: false,
       isCampaign: false,
       isSponsored: false,
       // Rating ve reviewCount kaldırıldı
@@ -193,7 +193,7 @@ export const productsData = [
       },
       inStock: false,
       isNew: false,
-      isCampaign: true,
+      isCampaign: false,
       isSponsored: false,
       // Rating ve reviewCount kaldırıldı
       reviews: [],

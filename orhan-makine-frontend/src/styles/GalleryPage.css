@@ -1,21 +1,25 @@
 /* ============================================
    ORHAN MAKİNE - MODERN ÜRÜN GALERİSİ
-   Güncellenmiş CSS: Görsel iyileştirme, yeni paylaşım sistemi
-   Minimalist, Responsive, SEO & PWA Uyumlu
+   GÜNCELLEMELER:
+   1. Ürün arka plan rengi #5ba3f7 olarak değiştirildi
+   2. Arama kutusu sola doğru uzatıldı
+   3. "Yeni" badge CSS'den kaldırıldı
+   4. Responsive, SEO & PWA uyumlu
    ============================================ */
 
 /* ============================================
-   CSS DEĞİŞKENLERİ - MODERN TEMA
+   CSS DEĞİŞKENLERİ - GÜNCELLENMİŞ TEMA
    ============================================ */
    :root {
-    /* RENK PALETİ - Modern Gradyan */
+    /* ANA RENK PALETİ - Ürün arka planı #5ba3f7 */
+    --gallery-product-bg: #5ba3f7; /* ÜRÜN ARKA PLAN RENGİ DEĞİŞTİRİLDİ */
     --gallery-primary: #2b8df5;
-    --gallery-primary-light: #5ba3f7;      /* Ana tema rengi */
+    --gallery-primary-light: #5ba3f7;
     --gallery-primary-lighter: #8abbf9;
     --gallery-primary-dark: #1d6fb8;
     --gallery-primary-alpha: rgba(91, 163, 247, 0.1);
     
-    /* NÖTR RENKLER - Daha yumuşak tonlar */
+    /* NÖTR RENKLER */
     --gallery-white: #ffffff;
     --gallery-black: #111827;
     --gallery-gray-50: #f9fafb;
@@ -31,13 +35,9 @@
     
     /* SEMANTİK RENKLER */
     --gallery-success: #10b981;
-    --gallery-success-light: #d1fae5;
     --gallery-warning: #f59e0b;
-    --gallery-warning-light: #fef3c7;
     --gallery-info: #3b82f6;
-    --gallery-info-light: #dbeafe;
     --gallery-error: #ef4444;
-    --gallery-error-light: #fee2e2;
     
     /* SOSYAL MEDYA RENKLERİ */
     --whatsapp-green: #25d366;
@@ -45,37 +45,32 @@
     --email-red: #ea4335;
     --copy-gray: #6b7280;
     
-    /* GÖLGELER - Daha yumuşak */
+    /* GÖLGELER */
     --gallery-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
     --gallery-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.05);
     --gallery-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.05), 0 4px 6px rgba(0, 0, 0, 0.03);
     --gallery-shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.06), 0 10px 10px rgba(0, 0, 0, 0.04);
-    --gallery-shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.08);
-    --gallery-shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.02);
     
-    /* BORDER RADIUS - Modern yuvarlaklık */
+    /* BORDER RADIUS */
     --gallery-radius-sm: 6px;
     --gallery-radius-md: 10px;
     --gallery-radius-lg: 14px;
     --gallery-radius-xl: 18px;
-    --gallery-radius-2xl: 24px;
     --gallery-radius-full: 9999px;
     
-    /* TİPOGRAFİ - Modern font stack */
-    --gallery-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    --gallery-font-mono: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+    /* TİPOGRAFİ */
+    --gallery-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     
-    /* TRANSITION - Yumuşak animasyonlar */
+    /* TRANSITION */
     --gallery-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
     --gallery-transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
-    --gallery-transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
     
-    /* CONTAINER - Geniş ekran desteği */
+    /* CONTAINER */
     --gallery-max-width: 1400px;
     --gallery-container-padding: 24px;
     --gallery-grid-gap: 28px;
     
-    /* GRID - Responsive breakpoints */
+    /* GRID */
     --grid-min-width: 280px;
   }
   
@@ -98,7 +93,7 @@
   }
   
   /* ============================================
-     BREADCRUMB - Modern
+     BREADCRUMB
      ============================================ */
   .gallery-breadcrumb {
     background: var(--gallery-white);
@@ -149,7 +144,7 @@
   }
   
   /* ============================================
-     PAGE HEADER - Güncellenmiş (Filtreler Sağda)
+     PAGE HEADER - GÜNCELLENDİ (Arama geniş, filtre dengeli)
      ============================================ */
   .gallery-header {
     background: var(--gallery-white);
@@ -168,7 +163,7 @@
   
   /* Sol taraf: Başlık ve Sayacı */
   .gallery-header-left {
-    flex: 1;
+    flex: 0 0 auto;
     min-width: 0;
   }
   
@@ -181,7 +176,7 @@
     letter-spacing: -0.025em;
   }
   
-  /* Ürün Sayacı - Geliştirilmiş */
+  /* Ürün Sayacı */
   .gallery-counter {
     display: inline-flex;
     align-items: center;
@@ -211,19 +206,21 @@
     margin-left: 4px;
   }
   
-  /* Sağ taraf: Arama ve Filtre */
+  /* Sağ taraf: GENİŞLETİLMİŞ Arama ve Filtre */
   .gallery-header-right {
     display: flex;
-    flex-direction: column;
+    align-items: flex-start;
     gap: 16px;
-    min-width: 300px;
-    max-width: 400px;
+    flex: 1; /* Flex değeri eklendi */
+    min-width: 0;
+    max-width: 800px; /* Maksimum genişlik arttırıldı */
   }
   
-  /* Arama Kutusu - Geliştirilmiş */
+  /* Arama Kutusu - SOLA DOĞRU UZATILDI */
   .gallery-search {
     position: relative;
-    width: 100%;
+    flex: 1; /* Flex değeri eklendi - boş alanı dolduracak */
+    min-width: 0;
   }
   
   .gallery-search svg {
@@ -279,13 +276,13 @@
     color: var(--gallery-gray-700);
   }
   
-  /* Filtre Butonu */
+  /* Filtre Butonu - Arama ile dengeli */
   .gallery-filter-btn {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    padding: 14px 20px;
+    padding: 14px 24px;
     background: var(--gallery-white);
     color: var(--gallery-gray-700);
     border: 2px solid var(--gallery-gray-200);
@@ -294,7 +291,8 @@
     font-weight: 600;
     cursor: pointer;
     transition: var(--gallery-transition);
-    width: 100%;
+    white-space: nowrap;
+    flex-shrink: 0; /* Butonun küçülmesini engelle */
   }
   
   .gallery-filter-btn:hover {
@@ -309,7 +307,7 @@
   }
   
   /* ============================================
-     FİLTRELER PANEL - Geliştirilmiş
+     FİLTRELER PANEL
      ============================================ */
   .gallery-filters-panel {
     max-width: var(--gallery-max-width);
@@ -458,7 +456,7 @@
   }
   
   /* ============================================
-     ANA GALERİ - Geliştirilmiş Grid
+     ANA GALERİ
      ============================================ */
   .gallery-main {
     max-width: var(--gallery-max-width);
@@ -492,7 +490,7 @@
   }
   
   /* ============================================
-     GALERİ KARTI - İyileştirilmiş Görsel
+     GALERİ KARTI - ÜRÜN ARKA PLANI #5ba3f7
      ============================================ */
   .gallery-card {
     background: var(--gallery-white);
@@ -513,32 +511,32 @@
     border-color: var(--gallery-primary-light);
   }
   
-  /* Görsel Alanı - İYİLEŞTİRİLMİŞ (Zoom kaldırıldı) */
+  /* Görsel Alanı - ARKA PLAN RENGİ #5ba3f7 OLARAK DEĞİŞTİRİLDİ */
   .gallery-card-image {
     position: relative;
     height: 240px;
     overflow: hidden;
-    background: var(--gallery-gray-100);
+    background: var(--gallery-product-bg); /* #5ba3f7 - DEĞİŞTİRİLDİ */
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 20px;
   }
   
-  /* GÖRSEL İYİLEŞTİRMESİ - object-fit: contain yerine maksimum boyut kontrolü */
+  /* GÖRSEL - Ürün arka planına uyumlu */
   .gallery-image {
     max-width: 100%;
     max-height: 100%;
     width: auto;
     height: auto;
-    object-fit: contain; /* Zoom efekti kaldırıldı */
+    object-fit: contain;
     display: block;
     transition: var(--gallery-transition-slow);
     transform-origin: center;
   }
   
   .gallery-card:hover .gallery-image {
-    transform: scale(1.02); /* Çok hafif zoom */
+    transform: scale(1.02);
   }
   
   /* Yükleme durumu */
@@ -602,7 +600,7 @@
     color: var(--gallery-white);
   }
   
-  /* PAYLAŞIM MENÜSÜ - YENİ */
+  /* PAYLAŞIM MENÜSÜ */
   .gallery-share-container {
     position: relative;
   }
@@ -686,24 +684,9 @@
   .share-option:nth-child(3):hover { color: var(--email-red); }
   .share-option:nth-child(4):hover { color: var(--copy-gray); }
   
-  /* Yeni Ürün Badge */
-  .gallery-new-badge {
-    position: absolute;
-    top: 16px;
-    left: 16px;
-    padding: 6px 14px;
-    background: var(--gallery-success);
-    color: var(--gallery-white);
-    font-size: 12px;
-    font-weight: 700;
-    border-radius: var(--gallery-radius-full);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    box-shadow: var(--gallery-shadow-md);
-    z-index: 10;
-  }
+  /* YENİ ÜRÜN BADGE KALDIRILDI - CSS'DEN SİLİNDİ */
   
-  /* Bilgi Alanı - Sadeleştirilmiş (Detay butonu KALDIRILDI) */
+  /* Bilgi Alanı */
   .gallery-card-info {
     padding: 20px;
     flex: 1;
@@ -741,8 +724,6 @@
     color: var(--gallery-gray-600);
     margin-top: auto;
   }
-  
-  /* DETAY BUTONU KALDIRILDI */
   
   /* Boş Galeri */
   .gallery-empty {
@@ -795,7 +776,7 @@
   }
   
   /* ============================================
-     LIGHTBOX MODAL - Geliştirilmiş
+     LIGHTBOX MODAL
      ============================================ */
   .gallery-lightbox {
     position: fixed;
@@ -911,11 +892,11 @@
     right: 20px;
   }
   
-  /* Görsel Wrapper - İyileştirilmiş */
+  /* Görsel Wrapper - Ürün arka planı #5ba3f7 */
   .gallery-lightbox-image-wrapper {
     height: 65vh;
     min-height: 450px;
-    background: var(--gallery-gray-100);
+    background: var(--gallery-product-bg); /* #5ba3f7 */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1054,7 +1035,7 @@
   }
   
   /* ============================================
-     GALERİ FOOTER - Geliştirilmiş
+     GALERİ FOOTER - GÜNCELLENDİ (Ürünler sayfası linki)
      ============================================ */
   .gallery-footer {
     background: var(--gallery-white);
@@ -1127,7 +1108,7 @@
   }
   
   /* ============================================
-     RESPONSIVE TASARIM - Geliştirilmiş
+     RESPONSIVE TASARIM - GÜNCELLENDİ
      ============================================ */
   
   /* LAPTOP (1024px ve altı) */
@@ -1146,10 +1127,19 @@
     .gallery-header-right {
       min-width: 100%;
       max-width: 100%;
+      flex-direction: column;
     }
     
     .gallery-title {
       font-size: 2.25rem;
+    }
+    
+    .gallery-search {
+      width: 100%;
+    }
+    
+    .gallery-filter-btn {
+      width: 100%;
     }
     
     .gallery-lightbox-image-wrapper {
@@ -1167,6 +1157,10 @@
     
     .gallery-title {
       font-size: 2rem;
+    }
+    
+    .gallery-header-right {
+      flex-direction: column;
     }
     
     .gallery-grid {
@@ -1243,6 +1237,10 @@
     
     .gallery-counter-number {
       font-size: 1.25rem;
+    }
+    
+    .gallery-header-right {
+      flex-direction: column;
     }
     
     .gallery-card-image {
@@ -1327,7 +1325,7 @@
   }
   
   /* ============================================
-     PWA & ERİŞİLEBİLİRLİK - Geliştirilmiş
+     PWA & ERİŞİLEBİLİRLİK
      ============================================ */
   
   /* Touch Optimizasyonu */
@@ -1351,10 +1349,6 @@
       min-width: 44px;
       min-height: 44px;
     }
-    
-    .gallery-image {
-      pointer-events: auto;
-    }
   }
   
   /* Reduced Motion */
@@ -1376,34 +1370,17 @@
     }
   }
   
-  /* Yüksek Kontrast */
-  @media (prefers-contrast: high) {
-    .gallery-card,
-    .gallery-filters-content,
-    .gallery-lightbox-container,
-    .footer-stat {
-      border-width: 2px;
-      border-color: var(--gallery-black);
-    }
-    
-    .gallery-primary-light {
-      filter: brightness(0.8) contrast(1.2);
-    }
+  /* SEO ve PERFORMANS OPTİMİZASYONU */
+  .gallery-image {
+    content-visibility: auto;
+    contain-intrinsic-size: 400px 300px;
   }
   
-  /* Dark Mode Hazırlığı */
-  @media (prefers-color-scheme: dark) {
+  /* PWA için offline optimizasyonu */
+  @media (display-mode: standalone) {
     .gallery-page {
-      background: #111827;
-      color: #f3f4f6;
-    }
-    
-    .gallery-white {
-      background: #1f2937;
-    }
-    
-    .gallery-gray-100 {
-      background: #374151;
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
     }
   }
   
@@ -1432,59 +1409,10 @@
     
     .gallery-card-image {
       height: 150px;
+      background: #fff !important;
     }
     
     .gallery-image {
       max-height: 120px;
     }
-  }
-  
-  /* ============================================
-     PERFORMANS OPTİMİZASYONU
-     ============================================ */
-  
-  /* Görsel Yükleme Optimizasyonu */
-  .gallery-image {
-    content-visibility: auto;
-    contain-intrinsic-size: 400px 300px;
-  }
-  
-  /* Scroll Performansı */
-  .gallery-grid,
-  .gallery-lightbox-thumbnails {
-    will-change: transform;
-    backface-visibility: hidden;
-  }
-  
-  /* Lightbox Performansı */
-  .gallery-lightbox {
-    will-change: opacity;
-    transform: translateZ(0);
-  }
-  
-  /* Lazy Loading için placeholder */
-  .gallery-image:not([src]) {
-    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-    background-size: 200% 100%;
-    animation: loading 1.5s infinite;
-  }
-  
-  @keyframes loading {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
-  }
-  
-  /* PWA için offline optimizasyonu */
-  @media (display-mode: standalone) {
-    .gallery-page {
-      padding-top: env(safe-area-inset-top);
-      padding-bottom: env(safe-area-inset-bottom);
-    }
-  }
-  
-  /* Touch action optimizasyonu */
-  .gallery-card,
-  .gallery-lightbox-nav,
-  .gallery-filter-btn {
-    touch-action: manipulation;
   }

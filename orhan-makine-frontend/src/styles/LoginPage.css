@@ -1,9 +1,15 @@
 /* ============================================
-   TEMEL AYARLAR VE DEĞİŞKENLER
+   ORHAN MAKİNE - LOGİN SAYFASI
+   Güncellenmiş: Arka plan rengi #5ba3f7
+   Responsive, SEO & PWA uyumlu
    ============================================ */
 
+/* ============================================
+   CSS DEĞİŞKENLERİ - ARKA PLAN #5ba3f7
+   ============================================ */
    :root {
-    /* RENK PALETİ - ORHAN MAKİNE BRAND */
+    /* RENK PALETİ - ARKA PLAN #5ba3f7 */
+    --login-bg-color: #5ba3f7; /* ANA ARKA PLAN RENGİ */
     --login-primary: #1d6fb8;
     --login-secondary: #2b8df5;
     --login-gradient: linear-gradient(135deg, #1d6fb8 0%, #2b8df5 100%);
@@ -44,12 +50,12 @@
   }
   
   /* ============================================
-     SAYFA TEMELİ
+     SAYFA TEMELİ - ARKA PLAN #5ba3f7
      ============================================ */
   
   .login-page {
     min-height: 100vh;
-    background: var(--login-light);
+    background: var(--login-bg-color); /* #5ba3f7 ARKA PLAN */
     font-family: var(--login-font-family);
     line-height: var(--login-line-height);
     color: var(--login-dark);
@@ -61,7 +67,7 @@
     overflow-x: hidden;
   }
   
-  /* Arka plan dekorasyonu */
+  /* Arka plan dekorasyonu - #5ba3f7 üzerine hafif efekti */
   .login-page::before {
     content: '';
     position: absolute;
@@ -70,13 +76,13 @@
     right: 0;
     bottom: 0;
     background: 
-      radial-gradient(circle at 20% 80%, rgba(29, 111, 184, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, rgba(45, 141, 245, 0.1) 0%, transparent 50%);
+      radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.15) 0%, transparent 50%);
     z-index: 0;
   }
   
   /* ============================================
-     LOGIN CONTAINER
+     LOGIN CONTAINER - BEYAZ KART
      ============================================ */
   
   .login-container {
@@ -105,12 +111,12 @@
   }
   
   /* ============================================
-     SOL PANEL - MARKA VE TANITIM
+     SOL PANEL - MARKA VE TANITIM (Gradyan)
      ============================================ */
   
   .login-left-panel {
     flex: 1;
-    background: var(--login-gradient);
+    background: var(--login-gradient); /* Gradyan arka plan */
     color: var(--login-white);
     padding: 60px 40px;
     display: flex;
@@ -120,6 +126,7 @@
     overflow: hidden;
   }
   
+  /* Desen efekti */
   .login-left-panel::before {
     content: '';
     position: absolute;
@@ -128,8 +135,10 @@
     right: 0;
     bottom: 0;
     background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    z-index: 0;
   }
   
+  /* Marka Bölümü */
   .login-brand-section {
     position: relative;
     z-index: 1;
@@ -194,7 +203,7 @@
   }
   
   .login-feature-item svg {
-    color: #ffd700;
+    color: #ffd700; /* Altın sarısı */
     flex-shrink: 0;
   }
   
@@ -220,7 +229,7 @@
   }
   
   /* ============================================
-     SAĞ PANEL - LOGIN FORMLARI
+     SAĞ PANEL - LOGIN FORMLARI (Beyaz)
      ============================================ */
   
   .login-right-panel {
@@ -1043,13 +1052,9 @@
     }
   }
   
-  /* YÜKSEK ÇÖZÜNÜRLÜK (Retina) */
-  @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-    .login-brand-image {
-      image-rendering: -webkit-optimize-contrast;
-      image-rendering: crisp-edges;
-    }
-  }
+  /* ============================================
+     PWA & ERİŞİLEBİLİRLİK
+     ============================================ */
   
   /* TOUCH DEVICES */
   @media (hover: none) and (pointer: coarse) {
@@ -1072,105 +1077,31 @@
     }
   }
   
-  /* ============================================
-     DARK MODE DESTEĞİ
-     ============================================ */
-  
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --login-light: #0f172a;
-      --login-white: #1e293b;
-      --login-dark: #f1f5f9;
-      --login-gray: #94a3b8;
-      --login-border: #334155;
-      --login-surface: #1e293b;
-    }
-    
-    .login-page {
-      background: #0f172a;
+  /* Reduced Motion */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
     }
     
     .login-container {
-      background: #1e293b;
-      color: #e2e8f0;
+      animation: none;
     }
     
-    .login-right-panel {
-      background: #1e293b;
+    .login-spinner {
+      animation: none;
+      border-top-color: transparent;
     }
-    
-    .login-title {
-      color: #f1f5f9;
-    }
-    
-    .login-subtitle {
-      color: #94a3b8;
-    }
-    
-    .login-tab {
-      color: #94a3b8;
-    }
-    
-    .login-form-group label {
-      color: #e2e8f0;
-    }
-    
-    .login-form-group input {
-      background: #334155;
-      border-color: #475569;
-      color: #e2e8f0;
-    }
-    
-    .login-form-group input:focus {
-      border-color: var(--login-primary);
-    }
-    
-    .login-form-group input::placeholder {
-      color: #94a3b8;
-    }
-    
-    .login-alternative-login {
-      background: #334155;
-      color: #e2e8f0;
-      border-color: #475569;
-    }
-    
-    .login-alternative-login:hover {
-      background: rgba(29, 111, 184, 0.1);
-    }
-    
-    .login-forgot-password,
-    .login-login-link,
-    .login-agreement-checkbox a,
-    .login-footer-links a,
-    .login-home-link {
-      color: #60a5fa;
-    }
-    
-    .login-divider {
-      color: #94a3b8;
-    }
-    
-    .login-divider::before,
-    .login-divider::after {
-      border-color: #475569;
-    }
-    
-    .login-footer {
-      border-top-color: #475569;
-    }
-    
-    .login-agreement-checkbox {
-      color: #94a3b8;
-    }
-    
-    .login-verification-info {
-      background: rgba(16, 185, 129, 0.15);
-      border-color: rgba(16, 185, 129, 0.3);
-    }
-    
-    .login-remember-me input[type="checkbox"] {
-      border-color: #475569;
+  }
+  
+  /* PWA için offline optimizasyonu */
+  @media (display-mode: standalone) {
+    .login-page {
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
     }
   }
   
@@ -1235,62 +1166,5 @@
     
     .login-footer-links {
       display: none;
-    }
-  }
-  
-  /* ============================================
-     ERİŞİLEBİLİRLİK İYİLEŞTİRMELERİ
-     ============================================ */
-  
-  @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-    }
-    
-    .login-container {
-      animation: none;
-    }
-    
-    .login-spinner {
-      animation: none;
-      border-top-color: transparent;
-    }
-  }
-  
-  /* High contrast mode */
-  @media (prefers-contrast: high) {
-    :root {
-      --login-primary: #0047ab;
-      --login-secondary: #0056b3;
-      --login-border: #000000;
-    }
-    
-    .login-button,
-    .login-send-code-button,
-    .login-register-button {
-      border: 2px solid #000000;
-    }
-    
-    .login-form-group input {
-      border: 2px solid #000000;
-    }
-    
-    .login-tab-active {
-      border: 2px solid var(--login-primary);
-    }
-  }
-  
-  /* Reduced transparency */
-  @media (prefers-reduced-transparency: reduce) {
-    .login-page::before {
-      opacity: 0.1;
-    }
-    
-    .login-left-panel::before {
-      opacity: 0.05;
     }
   }

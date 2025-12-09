@@ -1,3 +1,9 @@
+// ============================================
+// ORHAN MAKİNE - LOGİN SAYFASI
+// Güncellenmiş: Arka plan rengi #5ba3f7
+// Responsive, SEO & PWA uyumlu
+// ============================================
+
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { 
@@ -39,7 +45,9 @@ const LoginPage = () => {
 
   // SEO için sayfa başlığı
   React.useEffect(() => {
-    document.title = 'Giriş Yap | Orhan Makine- Elazığ';
+    document.title = 'Giriş Yap | Orhan Makine Bileme - Elazığ';
+    
+    // Meta açıklama
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute('content', 
@@ -47,16 +55,24 @@ const LoginPage = () => {
       );
     }
     
-    // Canonical link için
-    const canonicalLink = document.querySelector("link[rel='canonical']");
-    if (canonicalLink) {
-      canonicalLink.setAttribute('href', window.location.href);
-    } else {
-      const link = document.createElement('link');
-      link.rel = 'canonical';
-      link.href = window.location.href;
-      document.head.appendChild(link);
+    // Canonical URL
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) {
+      canonical.href = window.location.href;
     }
+    
+    // PWA için viewport
+    const viewportMeta = document.createElement('meta');
+    viewportMeta.name = 'viewport';
+    viewportMeta.content = 'width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover';
+    document.head.appendChild(viewportMeta);
+    
+    return () => {
+      // Cleanup
+      if (document.head.contains(viewportMeta)) {
+        document.head.removeChild(viewportMeta);
+      }
+    };
   }, []);
 
   // Doğrulama kodu input'larını yönetme
@@ -95,10 +111,8 @@ const LoginPage = () => {
     
     // Simüle edilmiş API çağrısı
     setTimeout(() => {
-      console.log('E-posta girişi:', emailForm);
       setIsLoading(false);
-      // Başarılı giriş sonrası yönlendirme
-      navigate('/dashboard');
+      navigate('/');
     }, 1500);
   };
 
@@ -118,7 +132,6 @@ const LoginPage = () => {
       setVerificationSent(true);
       setIsLoading(false);
       startCountdown();
-      alert(`Doğrulama kodu ${phoneForm.phone} numarasına gönderildi.`);
     }, 1000);
   };
 
@@ -136,9 +149,8 @@ const LoginPage = () => {
     
     // Simüle edilmiş doğrulama
     setTimeout(() => {
-      console.log('Telefon girişi:', phoneForm, 'Kod:', code);
       setIsLoading(false);
-      navigate('/dashboard');
+      navigate('/');
     }, 1500);
   };
 
@@ -167,7 +179,6 @@ const LoginPage = () => {
     
     // Simüle edilmiş kayıt işlemi
     setTimeout(() => {
-      console.log('Kayıt işlemi:', registerForm);
       setIsLoading(false);
       alert('Kaydınız başarıyla oluşturuldu. Giriş yapabilirsiniz.');
       setActiveTab('email');
@@ -229,37 +240,21 @@ const LoginPage = () => {
 
   return (
     <div className="login-page">
-  {/* SEO için schema markup */}
-  <script type="application/ld+json">
-    {JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "WebPage",
-      "name": "Orhan Makine Giriş Sayfası",
-      "description": "Müşteri girişi ve yeni kayıt sayfası",
-      "publisher": {
-        "@type": "Organization",
-        "name": "Orhan Makine Bileme",
-        "url": window.location.origin,
-        "logo": `${window.location.origin}/images/logo.png` // ✔ DÜZELTİLDİ
-      }
-    })}
-  </script>
-
-  {/* Login Container */}
-  <div className="login-container">
-    
-    {/* Sol Panel - Marka ve Tanıtım */}
-    <div className="login-left-panel">
-      <div className="login-brand-section">
-        <div className="login-brand-logo">
-          <img 
-            src="/images/logo.png"  // ✔ DOĞRU IMAGE PATH
-            alt="Orhan Makine Logo" 
-            className="login-brand-image"
-            width="120"
-            height="120"
-            loading="eager"
-          />
+      {/* Login Container */}
+      <div className="login-container">
+        
+        {/* Sol Panel - Marka ve Tanıtım */}
+        <div className="login-left-panel">
+          <div className="login-brand-section">
+            <div className="login-brand-logo">
+              <img 
+                src="/images/logo.png"
+                alt="Orhan Makine Logo" 
+                className="login-brand-image"
+                width="120"
+                height="120"
+                loading="eager"
+              />
               <span className="login-brand-name">Orhan Makine</span>
             </div>
             <h1 className="login-brand-title">Profesyonel Çözüm Ortaklığı</h1>
@@ -313,7 +308,7 @@ const LoginPage = () => {
               aria-label="E-posta ile giriş"
               aria-current={activeTab === 'email' ? 'page' : undefined}
             >
-              <Mail size={20} aria-hidden="true" />
+              <Mail size={20} />
               <span>E-posta ile Giriş</span>
             </button>
             <button 
@@ -322,7 +317,7 @@ const LoginPage = () => {
               aria-label="Telefon ile giriş"
               aria-current={activeTab === 'phone' ? 'page' : undefined}
             >
-              <Phone size={20} aria-hidden="true" />
+              <Phone size={20} />
               <span>Telefon ile Giriş</span>
             </button>
             <button 
@@ -331,7 +326,7 @@ const LoginPage = () => {
               aria-label="Yeni kayıt oluştur"
               aria-current={activeTab === 'register' ? 'page' : undefined}
             >
-              <User size={20} aria-hidden="true" />
+              <User size={20} />
               <span>Yeni Kayıt</span>
             </button>
           </nav>
@@ -344,7 +339,7 @@ const LoginPage = () => {
               <form className="login-form" onSubmit={handleEmailLogin} noValidate>
                 <div className="login-form-group">
                   <label htmlFor="login-email">
-                    <Mail size={18} aria-hidden="true" />
+                    <Mail size={18} />
                     <span>E-posta Adresi</span>
                   </label>
                   <input
@@ -364,7 +359,7 @@ const LoginPage = () => {
 
                 <div className="login-form-group">
                   <label htmlFor="login-password">
-                    <Lock size={18} aria-hidden="true" />
+                    <Lock size={18} />
                     <span>Şifre</span>
                   </label>
                   <div className="login-password-input-wrapper">
@@ -389,7 +384,7 @@ const LoginPage = () => {
                       aria-label={showPassword ? "Şifreyi gizle" : "Şifreyi göster"}
                       aria-pressed={showPassword}
                     >
-                      {showPassword ? <EyeOff size={20} aria-hidden="true" /> : <Eye size={20} aria-hidden="true" />}
+                      {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                     </button>
                   </div>
                   <div className="login-form-options">
@@ -410,10 +405,10 @@ const LoginPage = () => {
                   aria-label={isLoading ? "Giriş yapılıyor..." : "Giriş yap"}
                 >
                   {isLoading ? (
-                    <div className="login-spinner" aria-hidden="true"></div>
+                    <div className="login-spinner"></div>
                   ) : (
                     <>
-                      <LogIn size={20} aria-hidden="true" />
+                      <LogIn size={20} />
                       <span>Giriş Yap</span>
                     </>
                   )}
@@ -429,7 +424,7 @@ const LoginPage = () => {
                   onClick={() => setActiveTab('phone')}
                   aria-label="Telefon ile giriş yap"
                 >
-                  <Smartphone size={20} aria-hidden="true" />
+                  <Smartphone size={20} />
                   <span>Telefon ile Giriş Yap</span>
                 </button>
               </form>
@@ -442,7 +437,7 @@ const LoginPage = () => {
                   <>
                     <div className="login-form-group">
                       <label htmlFor="login-phone">
-                        <Phone size={18} aria-hidden="true" />
+                        <Phone size={18} />
                         <span>Telefon Numarası</span>
                       </label>
                       <input
@@ -468,12 +463,12 @@ const LoginPage = () => {
                       aria-label={countdown > 0 ? `${countdown} saniye sonra tekrar gönderilebilir` : "Doğrulama kodu gönder"}
                     >
                       {isLoading ? (
-                        <div className="login-spinner" aria-hidden="true"></div>
+                        <div className="login-spinner"></div>
                       ) : countdown > 0 ? (
                         `${countdown} saniye`
                       ) : (
                         <>
-                          <MessageSquare size={20} aria-hidden="true" />
+                          <MessageSquare size={20} />
                           <span>Doğrulama Kodu Gönder</span>
                         </>
                       )}
@@ -482,7 +477,7 @@ const LoginPage = () => {
                 ) : (
                   <>
                     <div className="login-verification-info">
-                      <Shield size={24} aria-hidden="true" />
+                      <Shield size={24} />
                       <p>
                         Doğrulama kodu <strong>{phoneForm.phone}</strong> 
                         numarasına gönderildi.
@@ -539,10 +534,10 @@ const LoginPage = () => {
                       aria-label={isLoading ? "Doğrulanıyor..." : "Doğrula ve giriş yap"}
                     >
                       {isLoading ? (
-                        <div className="login-spinner" aria-hidden="true"></div>
+                        <div className="login-spinner"></div>
                       ) : (
                         <>
-                          <Key size={20} aria-hidden="true" />
+                          <Key size={20} />
                           <span>Doğrula ve Giriş Yap</span>
                         </>
                       )}
@@ -570,7 +565,7 @@ const LoginPage = () => {
                 <div className="login-form-row">
                   <div className="login-form-group">
                     <label htmlFor="register-name">
-                      <User size={18} aria-hidden="true" />
+                      <User size={18} />
                       <span>Ad</span>
                     </label>
                     <input
@@ -590,7 +585,7 @@ const LoginPage = () => {
 
                   <div className="login-form-group">
                     <label htmlFor="register-surname">
-                      <User size={18} aria-hidden="true" />
+                      <User size={18} />
                       <span>Soyad</span>
                     </label>
                     <input
@@ -611,7 +606,7 @@ const LoginPage = () => {
 
                 <div className="login-form-group">
                   <label htmlFor="register-phone">
-                    <Phone size={18} aria-hidden="true" />
+                    <Phone size={18} />
                     <span>Telefon Numarası</span>
                   </label>
                   <input
@@ -631,7 +626,7 @@ const LoginPage = () => {
 
                 <div className="login-form-group">
                   <label htmlFor="register-email">
-                    <Mail size={18} aria-hidden="true" />
+                    <Mail size={18} />
                     <span>E-posta Adresi</span>
                   </label>
                   <input
@@ -652,7 +647,7 @@ const LoginPage = () => {
                 <div className="login-form-row">
                   <div className="login-form-group">
                     <label htmlFor="register-password">
-                      <Lock size={18} aria-hidden="true" />
+                      <Lock size={18} />
                       <span>Şifre</span>
                     </label>
                     <div className="login-password-input-wrapper">
@@ -677,14 +672,14 @@ const LoginPage = () => {
                         aria-label={showPassword ? "Şifreyi gizle" : "Şifreyi göster"}
                         aria-pressed={showPassword}
                       >
-                        {showPassword ? <EyeOff size={20} aria-hidden="true" /> : <Eye size={20} aria-hidden="true" />}
+                        {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                       </button>
                     </div>
                   </div>
 
                   <div className="login-form-group">
                     <label htmlFor="register-confirm-password">
-                      <Lock size={18} aria-hidden="true" />
+                      <Lock size={18} />
                       <span>Şifre Tekrar</span>
                     </label>
                     <input
@@ -725,10 +720,10 @@ const LoginPage = () => {
                   aria-label={isLoading ? "Hesap oluşturuluyor..." : "Hesap oluştur"}
                 >
                   {isLoading ? (
-                    <div className="login-spinner" aria-hidden="true"></div>
+                    <div className="login-spinner"></div>
                   ) : (
                     <>
-                      <User size={20} aria-hidden="true" />
+                      <User size={20} />
                       <span>Hesap Oluştur</span>
                     </>
                   )}
@@ -752,14 +747,14 @@ const LoginPage = () => {
           {/* Footer Links */}
           <footer className="login-footer">
             <Link to="/" className="login-home-link">
-              <ArrowRight size={16} aria-hidden="true" />
+              <ArrowRight size={16} />
               <span>Ana Sayfaya Dön</span>
             </Link>
             <div className="login-footer-links">
               <Link to="/help">Yardım</Link>
-              <span aria-hidden="true">•</span>
+              <span>•</span>
               <Link to="/contact">İletişim</Link>
-              <span aria-hidden="true">•</span>
+              <span>•</span>
               <Link to="/privacy">Gizlilik</Link>
             </div>
           </footer>

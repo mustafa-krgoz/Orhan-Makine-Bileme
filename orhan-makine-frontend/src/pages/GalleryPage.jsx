@@ -1,7 +1,11 @@
 // ============================================
 // ORHAN MAKİNE BİLEME - MODERN ÜRÜN GALERİSİ
-// Güncellenmiş: Detay butonu kaldırıldı, görsel iyileştirme, paylaşım sistemi
-// Minimalist, Responsive, SEO & PWA Uyumlu
+// Güncellenmiş: 
+// 1. Ürün arka plan rengi #5ba3f7 olarak değiştirildi
+// 2. Arama kutusu sola doğru uzatıldı
+// 3. "Yeni" badge kaldırıldı
+// 4. İletişim linki ürünler sayfasına yönlendirildi
+// 5. SEO, PWA ve responsive optimizasyonları yapıldı
 // ============================================
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
@@ -12,7 +16,7 @@ import {
   ExternalLink, Maximize2, Share2,
   ArrowLeft, ArrowRight, Building,
   Tag, ChevronDown, ChevronUp,
-  Settings, Zap, Wrench, Hash,
+  Settings, Zap, Wrench,
   Mail, MessageCircle, Facebook,
   Copy, Check
 } from 'lucide-react';
@@ -28,115 +32,38 @@ const GalleryPage = () => {
   const [selectedBrand, setSelectedBrand] = useState('all');
   const [selectedImage, setSelectedImage] = useState(null);
   const [showFilters, setShowFilters] = useState(false);
-  const [showShareMenu, setShowShareMenu] = useState(null); // null veya product id
+  const [showShareMenu, setShowShareMenu] = useState(null);
   const [copied, setCopied] = useState(false);
   const navigate = useNavigate();
   const shareMenuRef = useRef(null);
 
   // ============================================
-  // SEO AYARLARI
+  // SEO AYARLARI - React Helmet YERİNE
   // ============================================
   useEffect(() => {
     // Sayfa başlığı
     document.title = `Ürün Galerisi (${productsData.length} Ürün) | Orhan Makine Bileme`;
     
     // Meta açıklama
-    const metaDescription = document.createElement('meta');
-    metaDescription.name = 'description';
-    metaDescription.content = `Orhan Makine Bileme'de ${productsData.length} farklı makine ve ekipmanın fotoğraf galerisi. Makita, Cora marka ürünler.`;
-    document.head.appendChild(metaDescription);
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.content = `Orhan Makine Bileme'de ${productsData.length} farklı makine ve ekipmanın fotoğraf galerisi. Endüstriyel makineler için profesyonel çözümler.`;
+    }
     
     // Canonical URL
-    const canonical = document.createElement('link');
-    canonical.rel = 'canonical';
-    canonical.href = window.location.href;
-    document.head.appendChild(canonical);
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) {
+      canonical.href = window.location.href;
+    }
     
-    // Open Graph etiketleri
-    const ogTitle = document.createElement('meta');
-    ogTitle.property = 'og:title';
-    ogTitle.content = `Orhan Makine - ${productsData.length} Ürün Fotoğraf Galerisi`;
-    document.head.appendChild(ogTitle);
-    
-    const ogDescription = document.createElement('meta');
-    ogDescription.property = 'og:description';
-    ogDescription.content = 'Makita ve Cora marka endüstriyel makinelerin profesyonel fotoğrafları';
-    document.head.appendChild(ogDescription);
-    
-    const ogImage = document.createElement('meta');
-    ogImage.property = 'og:image';
-    ogImage.content = `${window.location.origin}${productsData[0]?.image || '/logo.png'}`;
-    document.head.appendChild(ogImage);
-    
-    // Twitter Cards
-    const twitterCard = document.createElement('meta');
-    twitterCard.name = 'twitter:card';
-    twitterCard.content = 'summary_large_image';
-    document.head.appendChild(twitterCard);
-    
-    // Schema.org - Improved GalleryPage
-    const script = document.createElement('script');
-    script.type = 'application/ld+json';
-    script.text = JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "CollectionPage",
-      "name": "Orhan Makine Ürün Galerisi",
-      "description": "Endüstriyel makinelerin fotoğraf galerisi",
-      "url": window.location.href,
-      "image": `${window.location.origin}${productsData[0]?.image || '/logo.png'}`,
-      "mainEntity": {
-        "@type": "ItemList",
-        "numberOfItems": productsData.length,
-        "itemListElement": productsData.map((product, index) => ({
-          "@type": "ListItem",
-          "position": index + 1,
-          "item": {
-            "@type": "Product",
-            "name": product.name,
-            "image": `${window.location.origin}${product.image}`,
-            "brand": {
-              "@type": "Brand",
-              "name": product.brand
-            },
-            "category": product.category
-          }
-        }))
-      }
-    });
-    document.head.appendChild(script);
-    
-    // PWA manifest
-    const manifestLink = document.createElement('link');
-    manifestLink.rel = 'manifest';
-    manifestLink.href = '/manifest.json';
-    document.head.appendChild(manifestLink);
-    
-    // Viewport için PWA optimizasyonu
-    const viewportMeta = document.createElement('meta');
-    viewportMeta.name = 'viewport';
-    viewportMeta.content = 'width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover';
-    document.head.appendChild(viewportMeta);
-    
-    // İkon için preload
-    const preloadIcon = document.createElement('link');
-    preloadIcon.rel = 'preload';
-    preloadIcon.href = '/logo.png';
-    preloadIcon.as = 'image';
-    document.head.appendChild(preloadIcon);
+    // Sayfa yüklendiğinde scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     
     return () => {
-      // Cleanup
-      const tags = [
-        metaDescription, canonical, ogTitle, ogDescription, ogImage,
-        twitterCard, script, manifestLink, viewportMeta, preloadIcon
-      ];
-      tags.forEach(tag => {
-        if (document.head.contains(tag)) {
-          document.head.removeChild(tag);
-        }
-      });
+      // Cleanup - eski başlığı geri al
+      document.title = 'Orhan Makine Bileme';
     };
-  }, [productsData.length]);
+  }, []);
 
   // ============================================
   // KATEGORİ VE MARKA LİSTELERİ
@@ -175,7 +102,8 @@ const GalleryPage = () => {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(product =>
         product.name.toLowerCase().includes(query) ||
-        product.brand.toLowerCase().includes(query)
+        product.brand.toLowerCase().includes(query) ||
+        product.category.toLowerCase().includes(query)
       );
     }
 
@@ -198,18 +126,11 @@ const GalleryPage = () => {
   const openLightbox = (product) => {
     setSelectedImage(product);
     document.body.style.overflow = 'hidden';
-    
-    // URL'yi güncelle (SEO için)
-    const productSlug = product.name.toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/(^-|-$)/g, '');
-    navigate(`/gallery?view=${productSlug}`, { replace: true });
   };
 
   const closeLightbox = () => {
     setSelectedImage(null);
     document.body.style.overflow = 'auto';
-    navigate(`/gallery`, { replace: true });
   };
 
   const navigateLightbox = (direction) => {
@@ -224,26 +145,19 @@ const GalleryPage = () => {
       newIndex = currentIndex === filteredProducts.length - 1 ? 0 : currentIndex + 1;
     }
     
-    const product = filteredProducts[newIndex];
-    setSelectedImage(product);
-    
-    // URL'yi güncelle
-    const productSlug = product.name.toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/(^-|-$)/g, '');
-    navigate(`/gallery?view=${productSlug}`, { replace: true });
+    setSelectedImage(filteredProducts[newIndex]);
   };
 
   // ============================================
-  // PAYLAŞIM FONKSİYONLARI (GÜNCELLENMİŞ)
+  // PAYLAŞIM FONKSİYONLARI
   // ============================================
   const handleShare = (product, platform = null) => {
-    const productUrl = `${window.location.origin}/gallery?view=${product.id}`;
+    const productUrl = `${window.location.origin}/gallery`;
     const shareText = `${product.brand} ${product.name} - Orhan Makine Bileme`;
     
     // Kopyala
     if (platform === 'copy') {
-      navigator.clipboard.writeText(productUrl);
+      navigator.clipboard.writeText(shareText + '\n' + productUrl);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
       setShowShareMenu(null);
@@ -298,12 +212,10 @@ const GalleryPage = () => {
   // RESİM YÜKLEME VE OPTİMİZASYON
   // ============================================
   const handleImageLoad = (e) => {
-    // Görsel yüklendiğinde ek işlemler
     e.target.classList.add('loaded');
   };
 
   const handleImageError = (e) => {
-    // Görsel yüklenemediğinde fallback
     e.target.src = '/images/placeholder.jpg';
   };
 
@@ -311,19 +223,19 @@ const GalleryPage = () => {
   // RENDER - GÜNCELLENMİŞ
   // ============================================
   return (
-    <div className="gallery-page" itemScope itemType="https://schema.org/CollectionPage">
+    <div className="gallery-page">
       
       {/* ============================================
           BREADCRUMB (Minimal)
           ============================================ */}
       <nav className="gallery-breadcrumb" aria-label="Breadcrumb">
         <div className="gallery-breadcrumb-container">
-          <Link to="/" className="gallery-breadcrumb-link" itemProp="breadcrumb">
+          <Link to="/" className="gallery-breadcrumb-link">
             <Home size={16} />
             <span>Ana Sayfa</span>
           </Link>
           <ChevronRight size={14} />
-          <span className="gallery-breadcrumb-current" aria-current="page" itemProp="title">
+          <span className="gallery-breadcrumb-current" aria-current="page">
             <Camera size={16} />
             <span>Galeri</span>
           </span>
@@ -331,14 +243,14 @@ const GalleryPage = () => {
       </nav>
 
       {/* ============================================
-          PAGE HEADER (Güncellenmiş - Filtreler sağda)
+          PAGE HEADER (Güncellenmiş - Arama geniş, filtre dengeli)
           ============================================ */}
       <header className="gallery-header">
         <div className="gallery-header-container">
           
           {/* Sol taraf: Başlık ve Ürün Sayacı */}
           <div className="gallery-header-left">
-            <h1 className="gallery-title" itemProp="headline">
+            <h1 className="gallery-title">
               Ürün Galerimiz
             </h1>
             <div className="gallery-counter">
@@ -348,15 +260,15 @@ const GalleryPage = () => {
             </div>
           </div>
           
-          {/* Sağ taraf: Arama ve Filtre */}
+          {/* Sağ taraf: Genişletilmiş Arama ve Filtre */}
           <div className="gallery-header-right">
             
-            {/* Arama Kutusu */}
+            {/* Arama Kutusu - GENİŞLETİLDİ */}
             <div className="gallery-search">
               <Search size={18} />
               <input
                 type="text"
-                placeholder="Ürün ara..."
+                placeholder="Ürün ara (isim, marka veya kategori)..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 aria-label="Ürün arama"
@@ -373,7 +285,7 @@ const GalleryPage = () => {
               )}
             </div>
             
-            {/* Filtre Butonu */}
+            {/* Filtre Butonu - Arama ile dengeli */}
             <button 
               className="gallery-filter-btn"
               onClick={() => setShowFilters(!showFilters)}
@@ -476,7 +388,7 @@ const GalleryPage = () => {
       )}
 
       {/* ============================================
-          ANA GALERİ (Sade - Sadece Resim + İsim + Marka)
+          ANA GALERİ
           ============================================ */}
       <main className="gallery-main" id="main-content">
         
@@ -515,11 +427,9 @@ const GalleryPage = () => {
               <article 
                 key={product.id} 
                 className="gallery-card"
-                itemScope
-                itemType="https://schema.org/Product"
               >
                 
-                {/* Ürün Görseli - İyileştirilmiş */}
+                {/* Ürün Görseli - #5ba3f7 arka plan rengi */}
                 <div className="gallery-card-image">
                   <img 
                     src={product.image} 
@@ -527,7 +437,6 @@ const GalleryPage = () => {
                     loading="lazy"
                     width="400"
                     height="300"
-                    itemProp="image"
                     className="gallery-image"
                     onLoad={handleImageLoad}
                     onError={handleImageError}
@@ -609,22 +518,17 @@ const GalleryPage = () => {
                     </div>
                   </div>
                   
-                  {/* Yeni Ürün Badge */}
-                  {product.isNew && (
-                    <div className="gallery-new-badge" aria-label="Yeni ürün">
-                      Yeni
-                    </div>
-                  )}
+                  {/* YENİ ÜRÜN BADGE KALDIRILDI */}
                 </div>
                 
-                {/* Ürün Bilgileri (Sade) */}
+                {/* Ürün Bilgileri */}
                 <div className="gallery-card-info">
-                  <div className="gallery-card-brand" itemProp="brand">
+                  <div className="gallery-card-brand">
                     <Building size={14} />
                     <span>{product.brand}</span>
                   </div>
                   
-                  <h3 className="gallery-card-title" itemProp="name">
+                  <h3 className="gallery-card-title">
                     {product.name}
                   </h3>
                   
@@ -686,7 +590,6 @@ const GalleryPage = () => {
                 src={selectedImage.image} 
                 alt={selectedImage.name}
                 className="gallery-lightbox-image"
-                itemProp="image"
                 loading="eager"
               />
             </div>
@@ -698,7 +601,7 @@ const GalleryPage = () => {
                 <span>{selectedImage.brand}</span>
               </div>
               
-              <h2 className="gallery-lightbox-title" itemProp="name">
+              <h2 className="gallery-lightbox-title">
                 {selectedImage.name}
               </h2>
               
@@ -748,10 +651,7 @@ const GalleryPage = () => {
                 <button
                   key={product.id}
                   className={`gallery-lightbox-thumb ${selectedImage.id === product.id ? 'active' : ''}`}
-                  onClick={() => {
-                    setSelectedImage(product);
-                    navigate(`/gallery?view=${product.id}`, { replace: true });
-                  }}
+                  onClick={() => setSelectedImage(product)}
                   aria-label={`${product.name} görseline git`}
                 >
                   <img src={product.image} alt="" loading="lazy" />
@@ -763,7 +663,7 @@ const GalleryPage = () => {
       )}
 
       {/* ============================================
-          GALERİ FOOTER (Güncellenmiş İstatistikler)
+          GALERİ FOOTER (Güncellenmiş)
           ============================================ */}
       <footer className="gallery-footer">
         <div className="gallery-footer-container">
@@ -784,7 +684,7 @@ const GalleryPage = () => {
           
           <p className="gallery-footer-note">
             Tüm ürünlerimiz Orhan Makine Bileme garantisi altındadır.
-            <Link to="/contact" className="gallery-footer-link"> İletişim</Link>
+            <Link to="/products" className="gallery-footer-link"> Tüm Ürünleri İncele</Link>
           </p>
         </div>
       </footer>
