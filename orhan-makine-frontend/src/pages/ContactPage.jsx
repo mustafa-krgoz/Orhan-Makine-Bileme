@@ -22,9 +22,9 @@ const ContactPage = () => {
     {
       icon: <Phone className="contact-info-icon" />,
       title: "Telefon",
-      content: "0539 515 99 25",
+      content: "0533 461 31 50",
       subtitle: "Hemen arayın",
-      link: "tel:+905395159925",
+      link: "tel:+905334613150",
       ariaLabel: "Telefon ile arayın"
     },
     {

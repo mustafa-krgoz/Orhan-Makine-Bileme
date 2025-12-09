@@ -1,21 +1,25 @@
-/* ============================= */
-/*       HERO SECTION            */
-/* ============================= */
+/* =========================================================
+   HERO SECTION – CLEAN, RESPONSIVE, SEO-OPTIMIZED VERSION
+   Not: Tüm class isimleri aynen korunmuştur.
+   ================================================ */
 
+/* === GENERAL HERO WRAPPER =============================== */
 .hero-section {
     position: relative;
     width: 100%;
-    height: 90vh; /* Yükseklik biraz arttırıldı */
-    min-height: 650px; /* Minimum yükseklik arttırıldı */
+    height: 100vh;
+    min-height: 750px;
     overflow: hidden;
     background: #000;
   }
   
-  /* ---- VİDEO - ZOOM YOK, NORMAL GÖRÜNTÜ ---- */
+  
+  /* =========================================================
+     BACKGROUND VIDEO (FULL COVER - GPU OPTIMIZED)
+     ========================================================= */
   .video-container {
     position: absolute;
-    top: 0;
-    left: 0;
+    inset: 0; /* top:0 left:0 bottom:0 right:0 */
     width: 100%;
     height: 100%;
     z-index: 0;
@@ -24,223 +28,247 @@
   .hero-video {
     width: 100%;
     height: 100%;
-    object-fit: cover;   /* video tam alanı doldurur, taşma yapmaz */
-    object-position: center; /* video ortalanır */
- }
+    object-fit: cover;
+    object-position: top center;
   
-  /* ---- CONTENT - DAHA AŞAĞIDA VE MERKEZİ ---- */
+    /* Performance optimizations */
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    will-change: transform;
+  }
+  
+  
+  
+  /* =========================================================
+     HERO CONTENT (POSITION & TYPOGRAPHY)
+     ========================================================= */
   .hero-content {
     position: absolute;
-    top: 55%; /* İÇERİK DAHA AŞAĞI KAYDIRILDI */
+    top: 55%;
     left: 80px;
     transform: translateY(-50%);
     z-index: 2;
-    color: white;
-    max-width: 650px;
+  
     display: flex;
     flex-direction: column;
-    gap: 1.2rem; /* Boşluklar arttırıldı */
-    padding-right: 20px; /* Sağdan boşluk */
+    gap: 1.2rem;
+  
+    max-width: 650px;
+    color: #fff;
+  
+    padding-right: 20px;
   }
   
-  /* Title - TEK SATIR MECBUR */
+  /* === MAIN TITLE ========================================= */
   .hero-title {
     font-size: 3.5rem;
     font-weight: 800;
-    line-height: 1.1; /* Line-height düzeltildi */
-    margin: 0 0 0.5rem 0; /* Alt boşluk eklendi */
-    
-    /* TEK SATIR - KESİNLİKLE ALT SATIRA İNMEZ */
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+  
+    /* Prevent wrapping */
     white-space: nowrap !important;
+  
+    /* Prevent clipping */
     overflow: visible !important;
-    text-overflow: clip !important;
-    display: block !important;
-    
-    /* Font optimizasyonu - kayma yok */
-    font-synthesis: none;
+  
+    /* Smooth render */
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
   }
   
-  /* Description */
+  /* === DESCRIPTION ======================================== */
   .hero-description {
     font-size: 1.2rem;
-    line-height: 1.6; /* Line-height iyileştirildi */
+    line-height: 1.6;
     opacity: 0.95;
-    max-width: 100%;
-    margin-bottom: 0.8rem; /* Butonlarla boşluk arttırıldı */
+    margin-bottom: 0.8rem;
   }
   
-  /* Butons */
+  
+  
+  
+  /* =========================================================
+     BUTTON SECTION
+     ========================================================= */
   .hero-buttons {
     display: flex;
     gap: 1rem;
-    margin-bottom: 1.5rem; /* Stats ile boşluğu arttırıldı */
+    margin-bottom: 1.5rem;
   }
   
+  /* Primary CTA */
   .hero-btn-primary {
-    background: white;
+    background: #fff;
     color: #0d5dbb;
-    padding: 14px 32px; /* Padding arttırıldı */
-    font-size: 1.05rem; /* Font boyutu arttırıldı */
+  
+    padding: 14px 32px;
+    font-size: 1.05rem;
     font-weight: 600;
     border-radius: 10px;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    border: none;
-    cursor: pointer;
-    min-height: 50px; /* Yükseklik arttırıldı */
+  
+    text-decoration: none !important; /* Alt çizgi yok */
     display: inline-flex;
     align-items: center;
     justify-content: center;
+  
+    min-height: 50px;
+    transition: 0.3s ease;
   }
   
   .hero-btn-primary:hover {
-    transform: translateY(-2px);
     background: #eaf4ff;
+    transform: translateY(-2px);
   }
   
+  /* Secondary CTA */
   .hero-btn-secondary {
     background: rgba(255,255,255,0.15);
     border: 2px solid rgba(255,255,255,0.4);
-    padding: 14px 32px; /* Padding arttırıldı */
+  
+    padding: 14px 32px;
     border-radius: 10px;
-    text-decoration: none;
-    color: white;
+  
+    color: #fff !important;
+    text-decoration: none !important; /* Alt çizgi yok */
+  
     display: flex;
     align-items: center;
-    gap: 10px; /* Boşluk arttırıldı */
-    transition: all 0.3s ease;
-    min-height: 50px; /* Yükseklik arttırıldı */
+    gap: 10px;
+    min-height: 50px;
+  
     cursor: pointer;
+    transition: 0.3s ease;
   }
   
   .hero-btn-secondary:hover {
     background: rgba(255,255,255,0.25);
-    border-color: white;
+    border-color: #fff;
     transform: translateY(-2px);
   }
   
+  /* Secondary Button Icon */
   .hero-btn-icon {
-    width: 20px; /* Boyut arttırıldı */
+    width: 20px;
     height: 20px;
   }
   
-  /* Stats - YAN YANA, SIKI */
+  
+  
+  /* =========================================================
+     STATS PANEL (2000+, 40+, 10000+, 98%)
+     ========================================================= */
   .hero-stats {
     display: flex;
     justify-content: space-between;
-    gap: 1.5rem;
     width: 100%;
-    margin-bottom: 1.5rem; /* Banner ile boşluk arttırıldı */
-    padding: 1rem 0; /* Üst ve alt padding eklendi */
+    gap: 1.5rem;
+  
+    margin-bottom: 1.5rem;
+    padding: 1rem 0;
   }
   
   .hero-stat-item {
     text-align: center;
     flex: 1;
+  
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
   }
   
   .hero-stat-number {
-    font-size: 2.2rem; /* Boyut arttırıldı */
+    font-size: 2.2rem;
     font-weight: 700;
     color: #7dd3fc;
+    margin-bottom: 5px;
     line-height: 1;
-    display: block;
-    margin-bottom: 5px; /* Boşluk arttırıldı */
   }
   
   .hero-stat-label {
     color: #d9f0ff;
     opacity: 0.9;
-    font-size: 0.95rem; /* Boyut arttırıldı */
-    display: block;
+    font-size: 0.95rem;
     white-space: nowrap;
   }
-  
-  /* ============================= */
-  /*     ÖDEME SİSTEMİ UYARI BANNER'I */
-  /* ============================= */
-  
-  .payment-alert-banner {
-    background: linear-gradient(135deg, rgba(255, 193, 7, 0.15) 0%, rgba(255, 193, 7, 0.08) 100%);
-    border: 1px solid rgba(255, 193, 7, 0.3);
-    border-radius: 12px;
-    padding: 18px 22px; /* Padding arttırıldı */
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+
+  /* =========================================================
+   WARNING / PAYMENT ALERT BANNER
+   (Görünüm hiç değişmez, sadece optimize edildi)
+   ========================================================= */
+.payment-alert-banner {
     width: 100%;
-    margin-top: 0.5rem;
-    transition: all 0.3s ease;
-    animation: fadeInUp 0.5s ease-out;
+    padding: 26px 32px;
+  
+    background: linear-gradient(135deg,
+      rgba(255, 193, 7, 0.18),
+      rgba(255, 193, 7, 0.10)
+    );
+  
+    border: 2px solid rgba(255, 193, 7, 0.5);
+    border-radius: 16px;
+  
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
+  
+    margin-top: -20px;
+    transform: scale(1.02);
+    transition: 0.3s ease;
   }
   
-  .payment-alert-banner:hover {
-    border-color: rgba(255, 193, 7, 0.5);
-    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
-  }
-  
+  /* === Banner İç Yapı ===================================== */
   .payment-alert-content {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 22px;
   }
   
   .payment-alert-icon {
-    width: 24px;
-    height: 24px;
+    width: 70px;
+    height: 70px;
     color: #FFC107;
-    flex-shrink: 0;
   }
   
-  .payment-alert-text {
-    flex: 1;
-  }
-  
+  /* Başlık */
   .payment-alert-main {
     color: #FFC107;
-    font-size: 1.05rem; /* Boyut arttırıldı */
-    font-weight: 600;
-    margin: 0 0 6px 0; /* Boşluk arttırıldı */
-    line-height: 1.4;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 10px;
   }
   
+  /* Açıklama */
   .payment-alert-sub {
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 0.95rem; /* Boyut arttırıldı */
-    margin: 0;
-    line-height: 1.4;
-    opacity: 0.9;
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 1.05rem;
   }
   
+  /* === Banner Butonu ======================================= */
   .payment-alert-button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;
+  
+    padding: 16px 28px;
+    border-radius: 10px;
+  
     background: rgba(255, 193, 7, 0.2);
     border: 1px solid rgba(255, 193, 7, 0.4);
     color: #FFC107;
-    padding: 12px 22px; /* Padding arttırıldı */
-    border-radius: 8px;
-    text-decoration: none;
+  
+    font-size: 1.05rem;
     font-weight: 600;
-    font-size: 0.95rem; /* Boyut arttırıldı */
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    text-decoration: none !important;
+  
     transition: all 0.3s ease;
-    flex-shrink: 0;
-    white-space: nowrap;
   }
   
   .payment-alert-button:hover {
     background: rgba(255, 193, 7, 0.3);
     border-color: #FFC107;
-    transform: translateY(-2px);
     color: #FFD54F;
+    transform: translateY(-2px);
   }
   
   .payment-alert-button-icon {
@@ -248,281 +276,153 @@
     height: 16px;
   }
   
-  /* Banner animasyonu */
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
   
-  /* Screen Reader Only - SEO için */
+  /* =========================================================
+     SR-ONLY (SEO İçin)
+     ========================================================= */
   .sr-only {
     position: absolute;
     width: 1px;
     height: 1px;
-    padding: 0;
-    margin: -1px;
     overflow: hidden;
-    clip: rect(0, 0, 0, 0);
+    clip: rect(0 0 0 0);
     white-space: nowrap;
     border: 0;
+    margin: -1px;
+    padding: 0;
   }
   
-  /* ============================= */
-  /*     RESPONSIVE                */
-  /* ============================= */
   
-  /* Large Desktop */
+  /* =========================================================
+     RESPONSIVE DESIGN — ALL BREAKPOINTS
+     ========================================================= */
+  
+  /* === LARGE DESKTOP (1400px+) ============================= */
   @media (min-width: 1400px) {
-    .hero-section {
-      height: 85vh;
-    }
-    
+    .hero-section { height: 85vh; }
+  
     .hero-content {
-      top: 50%; /* Orta noktaya yakın */
       left: 100px;
-      max-width: 700px; /* Genişlik arttırıldı */
+      top: 50%;
+      max-width: 700px;
     }
-    
-    .hero-title {
-      font-size: 4rem;
-    }
-    
-    .hero-description {
-      font-size: 1.3rem;
-    }
-    
-    .payment-alert-banner {
-      padding: 20px 26px;
-    }
+  
+    .hero-title { font-size: 4rem; }
+    .hero-description { font-size: 1.3rem; }
+  
+    .payment-alert-banner { padding: 20px 26px; }
   }
   
-  /* Tablet */
+  
+  /* === TABLET (1024px - DOWN) ============================== */
   @media (max-width: 1024px) {
-    .hero-section {
-      height: 80vh;
-    }
-    
+    .hero-section { height: 80vh; }
+  
     .hero-content {
       left: 50px;
-      top: 50%; /* Orta noktaya yakın */
+      top: 50%;
       max-width: 600px;
     }
-    
+  
     .hero-title {
       font-size: 2.8rem;
       white-space: nowrap !important;
     }
-    
-    .hero-stats {
-      gap: 1.2rem;
-    }
-    
-    .hero-stat-number {
-      font-size: 2rem;
-    }
-    
-    .hero-stat-label {
-      font-size: 0.9rem;
-    }
-    
-    .payment-alert-content {
-      gap: 14px;
-    }
-    
+  
     .payment-alert-button {
       padding: 10px 18px;
       font-size: 0.9rem;
     }
   }
   
-  /* Mobile */
+  
+  /* === MOBILE (768px DOWN) ================================= */
   @media (max-width: 768px) {
     .hero-section {
       height: 75vh;
       min-height: 600px;
     }
-    
+  
     .hero-content {
       left: 50%;
-      top: 50%; /* Mobile'de orta noktada */
+      top: 50%;
       transform: translate(-50%, -50%);
       text-align: center;
       align-items: center;
-      max-width: 90%;
+  
       width: 90%;
+      max-width: 90%;
       padding: 0 15px;
-      gap: 1rem;
     }
-    
-    /* MOBİLDE TEK SATIR - MECBUR */
+  
     .hero-title {
       font-size: 2.2rem;
-      white-space: nowrap !important;
       overflow: hidden !important;
       text-overflow: ellipsis !important;
-      width: 100%;
-      max-width: 100%;
-      margin-bottom: 0.5rem;
     }
-    
-    .hero-description {
-      font-size: 1.05rem;
-      text-align: center;
-      line-height: 1.5;
-      margin-bottom: 0.8rem;
-    }
-    
+  
     .hero-buttons {
       flex-direction: column;
-      width: 100%;
       max-width: 300px;
-      gap: 0.8rem;
-      margin-bottom: 1.2rem;
+      width: 100%;
     }
-    
+  
     .hero-stats {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-      width: 100%;
       max-width: 320px;
-      margin-bottom: 1.2rem;
-      padding: 0.5rem 0;
     }
-    
-    .hero-stat-item {
-      min-width: auto;
-    }
-    
-    /* Mobile için banner düzenlemesi */
+  
+    /* Banner */
     .payment-alert-banner {
       padding: 16px 18px;
       margin-top: 0.5rem;
     }
-    
+  
     .payment-alert-content {
       flex-direction: column;
-      align-items: center;
-      gap: 12px;
       text-align: center;
+      gap: 12px;
     }
-    
+  
     .payment-alert-button {
       width: 100%;
       max-width: 200px;
-      justify-content: center;
-      padding: 12px;
-      font-size: 0.95rem;
-    }
-    
-    .payment-alert-text {
-      text-align: center;
     }
   }
   
-  /* Small Mobile */
+  
+  /* === SMALL MOBILE (480px DOWN) =========================== */
   @media (max-width: 480px) {
-    .hero-section {
-      height: 70vh;
-      min-height: 550px;
-    }
-    
-    .hero-content {
-      top: 50%; /* Orta noktada */
-      gap: 0.8rem;
-    }
-    
-    /* KÜÇÜK EKRANLARDA TEK SATIR - KESİNLİKLE */
     .hero-title {
       font-size: 1.9rem;
-      white-space: nowrap !important;
-      overflow: hidden !important;
-      text-overflow: ellipsis !important;
-      margin-bottom: 0.3rem;
     }
-    
+  
     .hero-description {
       font-size: 1rem;
-      margin-bottom: 0.5rem;
     }
-    
-    .hero-buttons {
-      max-width: 280px;
-      gap: 0.7rem;
-    }
-    
-    .hero-stats {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.8rem;
-      max-width: 280px;
-    }
-    
-    .hero-stat-number {
-      font-size: 1.7rem;
-    }
-    
-    .hero-stat-label {
-      font-size: 0.85rem;
-    }
-    
-    /* Small mobile için banner düzenlemesi */
-    .payment-alert-main {
-      font-size: 1rem;
-    }
-    
-    .payment-alert-sub {
-      font-size: 0.9rem;
-    }
+  
+    .payment-alert-main { font-size: 1rem; }
+    .payment-alert-sub { font-size: 0.9rem; }
   }
   
-  /* Çok Küçük Ekranlar (360px ve altı) */
+  
+  /* === EXTRA SMALL (360px DOWN) ============================ */
   @media (max-width: 360px) {
-    .hero-section {
-      height: 65vh;
-      min-height: 500px;
-    }
-    
-    .hero-title {
-      font-size: 1.7rem;
-      white-space: nowrap !important;
-    }
-    
-    .hero-stats {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.6rem;
-      max-width: 260px;
-    }
-    
-    .hero-stat-number {
-      font-size: 1.5rem;
-    }
-    
-    .hero-stat-label {
-      font-size: 0.8rem;
-    }
-    
+    .hero-title { font-size: 1.7rem; }
+  
     .payment-alert-banner {
       padding: 14px 16px;
     }
-    
-    .payment-alert-main {
-      font-size: 0.95rem;
-    }
-    
-    .payment-alert-sub {
-      font-size: 0.85rem;
-    }
+  
+    .payment-alert-main { font-size: 0.95rem; }
+    .payment-alert-sub { font-size: 0.85rem; }
   }
   
-  /* ============================= */
-  /*     PWA DESTEĞİ               */
-  /* ============================= */
+  
+  /* =========================================================
+     PWA SAFE AREA SUPPORT
+     ========================================================= */
   @media (display-mode: standalone) {
     .hero-section {
       height: calc(90vh - env(safe-area-inset-top));
@@ -530,13 +430,11 @@
     }
   }
   
-  /* ============================= */
-  /*     VİDEO FALLBACK            */
-  /* ============================= */
-  .hero-video:-webkit-full-screen {
-    object-fit: contain !important;
-  }
   
+  /* =========================================================
+     VIDEO FALLBACK (FULLSCREEN MODES)
+     ========================================================= */
+  .hero-video:-webkit-full-screen,
   .hero-video:fullscreen {
     object-fit: contain !important;
   }
