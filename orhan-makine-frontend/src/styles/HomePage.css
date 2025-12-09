@@ -293,49 +293,63 @@
   margin-bottom: 1rem;
 }
 
-/* Marka butonu */
-.home-brand-button {
-  padding: 1rem 1.5rem;
-  background: linear-gradient(135deg, #1d6fb8, #2b8df5);
-  color: #ffffff;
-
-  border-radius: 12px;
-  font-weight: 600;
-  font-size: 1.1rem;
-
+/* Wrapper → Butonu ortalar ve aşağı boşluk verir */
+.home-brand-button-wrapper {
+  width: 100%;
   display: flex;
+  justify-content: center;   /* YATAYDA ORTALA */
   align-items: center;
-  justify-content: center;
+  margin-top: 2.5rem;        /* Kartlardan aşağı boşluk */
+  margin-bottom: 1rem;
+
+  /* Hafif sağa kaydırma isterim dediğin için */
+  transform: translateX(10px);
+}
+
+/* Butonun kendi stili (önceden oluşturduğum paket dahil) */
+.home-brand-bottom-button {
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #1d6fb8, #2b8df5);
+  color: white;
+
+  border-radius: 14px;
+  font-weight: 600;
+  font-size: 1.15rem;
+
+  display: inline-flex;
+  align-items: center;
   gap: 0.75rem;
 
   text-decoration: none;
+  cursor: pointer;
   transition: all 0.3s ease;
 
-  margin-top: auto;        /* Kartın dibine yasla */
   position: relative;
   overflow: hidden;
+
+  box-shadow: 0 8px 22px rgba(29, 111, 184, 0.28);
+}
+
+/* Hover */
+.home-brand-bottom-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 28px rgba(29, 111, 184, 0.40);
 }
 
 /* Yansıma efekti */
-.home-brand-button::before {
+.home-brand-bottom-button::before {
   content: "";
   position: absolute;
   top: 0;
-  left: -100%;
-  width: 100%;
+  left: -120%;
+  width: 120%;
   height: 100%;
-
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
-  transition: left 0.5s;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.28), transparent);
+  transition: left 0.6s ease;
 }
 
-.home-brand-button:hover::before {
+.home-brand-bottom-button:hover::before {
   left: 100%;
-}
-
-.home-brand-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 25px rgba(29, 111, 184, 0.3);
 }
 /* =========================================================
    POPÜLER ÜRÜNLER SEKSİYONU

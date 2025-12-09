@@ -2,8 +2,7 @@
 // HAKKIMIZDA SAYFASI - ORHAN MAKİNE BİLEME
 // Modern, Responsive ve SEO Uyumlu Tasarım
 // ============================================
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import { 
   Factory, Target, Eye, Award, Users, Clock,
@@ -51,8 +50,24 @@ const AboutPage = () => {
   // ============================================
   // STATE YÖNETİMİ
   // ============================================
-  const [activeSection, setActiveSection] = useState('about');
+  const [activeSection, setActiveSection] = useState("about");
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // ============================================
+  // MARKALARIMIZ — yönlendirme (#brands)
+  // ============================================
+  useEffect(() => {
+    if (window.location.hash === "#brands") {
+      setActiveSection("brands");
+
+      setTimeout(() => {
+        const target = document.getElementById("brands");
+        if (target) {
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 300);
+    }
+  }, []);
 
   // ============================================
   // BİNA GÖRSELLERİ

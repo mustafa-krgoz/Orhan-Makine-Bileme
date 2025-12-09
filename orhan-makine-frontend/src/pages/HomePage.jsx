@@ -38,17 +38,17 @@ export default function HomePage() {
     {
       icon: <Shield className="w-8 h-8" />,
       title: "Kalite Garantisi",
-      description: "Tüm makinelerimizde 2 yıl garantili ve kalite standartlarında hizmet"
+      description: "Ürünlerimiz, yüksek kalite standartlarına uygun olarak titiz denetimlerden geçirilerek müşterilerimize ulaştırılır."
     },
     {
       icon: <Clock className="w-8 h-8" />,
       title: "Hızlı Teslimat",
-      description: "Stoktan aynı gün teslimat ile üretiminizin aksamamasını sağlıyoruz"
+      description: "Siparişlerinizi hızlı, güvenli ve zamanında teslim ediyoruz."
     },
     {
       icon: <Truck className="w-8 h-8" />,
-      title: "Ücretsiz Montaj",
-      description: "Belirli modellerde ücretsiz kurulum ve montaj hizmeti sunuyoruz"
+      title: "Belirli Fiyat Üstüne Ücretsiz Kargo",
+      description: "Belirlenen tutarın üzerindeki tüm siparişlerde ücretsiz kargo avantajı sağlıyoruz."
     }
   ], []);
 
@@ -237,7 +237,7 @@ export default function HomePage() {
         <div className="home-container">
 
           <div className="home-section-header">
-            <h2 className="home-section-title">Güvendiğimiz Markalar</h2>
+            <h2 className="home-section-title">Popüler Markalarımız</h2>
             <p className="home-section-description">
               Dünyaca ünlü kaliteli markaları sizlerle buluşturuyoruz
             </p>
@@ -276,20 +276,23 @@ export default function HomePage() {
                   ))}
                 </ul>
 
-                <Link 
-                  to={`/products?brand=${brand.name.toLowerCase()}`}
-                  className="home-brand-button"
-                >
-                  Ürünleri İncele <ArrowRight className="home-button-icon" />
-                </Link>
-
               </div>
             ))}
           </div>
 
+          {/* TEK BUTON – TÜM MARKALARA GÖTÜRÜR */}
+          <div className="home-brand-button-wrapper">
+            <Link 
+              to="/about#brands"
+              className="home-brand-bottom-button"
+            >
+              Tüm Markaları Gör
+              <ArrowRight className="home-button-icon" />
+            </Link>
+          </div>
+
         </div>
       </section>
-
       {/* ========================== SEO SECTION ========================== */}
       <section className="home-seo-section">
         <div className="home-container">
@@ -300,23 +303,24 @@ export default function HomePage() {
             </h2>
 
             <div className="home-seo-text">
-              <p>
-                Orhan Makine olarak 40 yıllık tecrübemizle kaliteli ve profesyonel makineleri en uygun 
-                fiyatlarla müşterilerimize sunuyoruz. Makita, Freud ve Mizrak gibi güçlü markaların 
-                güvenilir distribütörüyüz.
-              </p>
+                <p>
+                  Orhan Makine olarak 40 yıla dayanan sektör deneyimimizle, yüksek kalite standartlarına sahip 
+                  profesyonel makineleri müşterilerimize güvenilir bir hizmet anlayışıyla sunuyoruz. Freud, 
+                  Makita ve Mızrak gibi alanında lider markaların resmi distribütörlüğünü yaparak çözüm odaklı 
+                  bir hizmet yaklaşımı benimsiyoruz.
+                </p>
 
-              <p>
-                Ürünlerimiz 2 yıl garantili olup hızlı kargo ve satış sonrası destek hizmetlerimizle 
-                yanınızdayız. Endüstriyel makinelerden profesyonel el aletlerine kadar geniş ürün yelpazemiz 
-                ile ihtiyacınıza uygun çözümler sunuyoruz.
-              </p>
+                <p>
+                  Geniş ürün yelpazemiz; endüstriyel makinelerden profesyonel el aletlerine kadar farklı 
+                  ihtiyaçlara yönelik çözümler sunmaktadır. Müşteri memnuniyetini esas alarak satış sürecinden 
+                  teknik desteğe kadar tüm aşamalarda yanınızdayız.
+                </p>
 
-              <p>
-                Dilerseniz bizi WhatsApp üzerinden (0533 461 31 50) arayarak ürün danışmanlığı ve 
-                teknik destek alabilirsiniz.
-              </p>
-            </div>
+                <p>
+                  Ürün danışmanlığı veya teknik destek almak isterseniz WhatsApp üzerinden 
+                  <strong> 0533 461 31 50 </strong> numaramızdan bize kolayca ulaşabilirsiniz.
+                </p>
+              </div>
 
           </div>
         </div>
