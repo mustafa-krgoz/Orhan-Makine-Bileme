@@ -58,7 +58,8 @@ const ProductsPage = () => {
     if (searchTerm) {
       result = result.filter(product => 
         product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.description.toLowerCase().includes(searchTerm.toLowerCase())
+        product.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.productCode.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
@@ -302,6 +303,13 @@ const ProductsPage = () => {
                 <div className="product-info">
                   <div className="product-brand">{product.brand}</div>
                   <h3 className="product-name">{product.name}</h3>
+                  
+                  {/* ✅ ÜRÜN KODU EKLENDİ */}
+                  <div className="product-code">
+                    <span className="product-code-label">Ürün Kodu:</span>
+                    <span className="product-code-value">{product.productCode}</span>
+                  </div>
+                  
                   <div className="product-description">{product.description}</div>
 
                   <div className="product-pricing">
