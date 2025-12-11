@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import '../styles/ProductsPage.css';
 import { productsData } from "../data/productsData";
 import { useFavorites } from "../context/FavoritesContext"; // ✅ Context import
+import { useCart } from "../context/CartContext";
 
 const ProductsPage = () => {
   const [products, setProducts] = useState(productsData);
@@ -18,6 +19,7 @@ const ProductsPage = () => {
   });
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOption, setSortOption] = useState('recommended');
+  const { addToCart } = useCart();
 
   // ✅ FAVORİLER CONTEXT'TEN GELİYOR - TÜM DEĞERLERİ AL
   const { isFavorite, toggleFavorite } = useFavorites();
@@ -320,9 +322,10 @@ const ProductsPage = () => {
                   </div>
 
                   <div className="product-actions">
-                    <button 
-                      className="add-to-cart-btn" 
+                    <button
+                      className="add-to-cart-btn"
                       disabled={!product.inStock}
+                      onClick={() => addToCart(product, 1)}   // ← sepete ekle
                     >
                       {product.inStock ? 'SEPETE EKLE' : 'STOKTA YOK'}
                     </button>

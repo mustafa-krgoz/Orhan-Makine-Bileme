@@ -11,7 +11,7 @@ export const productsData = [
     brand: "CORA",
     price: 7900,
     originalPrice: 8500,
-    showDiscount: true, // indirim badge'i gösterilsin mi?
+     
     image: "/images/products/CORA-KOMPRESOR-2.5HP-100L.png",
     description: "Yüksek performanslı, sessiz ve enerji tasarruflu kompresör.",
     features: [
