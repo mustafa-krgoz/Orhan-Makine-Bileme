@@ -1,140 +1,150 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import '../styles/ProductsPage.css';
+// ==========================================================
+// PRODUCTS PAGE — MODERN, SEO-PWA UYUMLU, CLEAN CODE
+// ==========================================================
+
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import "../styles/ProductsPage.css";
 import { productsData } from "../data/productsData";
-import { useFavorites } from "../context/FavoritesContext"; // ✅ Context import
+import { useFavorites } from "../context/FavoritesContext";
 import { useCart } from "../context/CartContext";
 
 const ProductsPage = () => {
-  const [products, setProducts] = useState(productsData);
+  // ----------------------------------------------------------
+  // STATE YÖNETİMİ
+  // ----------------------------------------------------------
+  const [products] = useState(productsData);
   const [filteredProducts, setFilteredProducts] = useState(productsData);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [showOnlyInStock, setShowOnlyInStock] = useState(false);
+  const [imageErrors, setImageErrors] = useState({});
+
   const [filters, setFilters] = useState({
     campaign: false,
     sponsored: false,
     new: false,
-    discounted: false
+    discounted: false,
   });
-  const [searchTerm, setSearchTerm] = useState('');
-  const [sortOption, setSortOption] = useState('recommended');
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortOption, setSortOption] = useState("recommended");
+
+  // FAVORİLER & SEPET CONTEXT
+  const { isFavorite, toggleFavorite } = useFavorites();
   const { addToCart } = useCart();
 
-  // ✅ FAVORİLER CONTEXT'TEN GELİYOR - TÜM DEĞERLERİ AL
-  const { isFavorite, toggleFavorite } = useFavorites();
+  // Tüm kategoriler
+  const categories = [...new Set(products.map((p) => p.category))];
 
-  const [imageErrors, setImageErrors] = useState({});
+  // Tüm markalar
+  const brands = [...new Set(products.map((p) => p.brand))];
 
-  const categories = [...new Set(products.map(product => product.category))];
-  const brands = [...new Set(products.map(product => product.brand))];
+  // ----------------------------------------------------------
+  // 🟦 İNDİRİM GÖSTERİM MANTIĞI — showDiscount destekli
+  // ----------------------------------------------------------
+  const shouldShowDiscount = (product) => {
+    if (!product.showDiscount) return false;
+    return product.originalPrice > product.price;
+  };
 
+  // ----------------------------------------------------------
+  // FİLTRELEME VE SIRALAMA
+  // ----------------------------------------------------------
   useEffect(() => {
     let result = products;
 
     if (showOnlyInStock) {
-      result = result.filter(product => product.inStock);
+      result = result.filter((p) => p.inStock);
     }
 
     if (selectedCategories.length > 0) {
-      result = result.filter(product => selectedCategories.includes(product.category));
+      result = result.filter((p) => selectedCategories.includes(p.category));
     }
 
     if (selectedBrands.length > 0) {
-      result = result.filter(product => selectedBrands.includes(product.brand));
+      result = result.filter((p) => selectedBrands.includes(p.brand));
     }
 
-    if (filters.campaign) {
-      result = result.filter(product => product.isCampaign);
-    }
-    if (filters.sponsored) {
-      result = result.filter(product => product.isSponsored);
-    }
-    if (filters.new) {
-      result = result.filter(product => product.isNew);
-    }
-    if (filters.discounted) {
-      result = result.filter(product => product.price < product.originalPrice);
-    }
+    if (filters.campaign) result = result.filter((p) => p.isCampaign);
+    if (filters.sponsored) result = result.filter((p) => p.isSponsored);
+    if (filters.new) result = result.filter((p) => p.isNew);
+    if (filters.discounted)
+      result = result.filter((p) => shouldShowDiscount(p));
 
     if (searchTerm) {
-      result = result.filter(product => 
-        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.productCode.toLowerCase().includes(searchTerm.toLowerCase())
+      const term = searchTerm.toLowerCase();
+      result = result.filter(
+        (p) =>
+          p.name.toLowerCase().includes(term) ||
+          p.description.toLowerCase().includes(term) ||
+          p.productCode.toLowerCase().includes(term)
       );
     }
 
+    // Sıralama
     switch (sortOption) {
-      case 'price-low':
+      case "price-low":
         result = [...result].sort((a, b) => a.price - b.price);
         break;
-      case 'price-high':
+      case "price-high":
         result = [...result].sort((a, b) => b.price - a.price);
         break;
-      case 'name':
+      case "name":
         result = [...result].sort((a, b) => a.name.localeCompare(b.name));
         break;
-      case 'rating':
-        result = [...result].sort((a, b) => b.rating - a.rating);
+      case "rating":
+        result = [...result].sort((a, b) => (b.rating || 0) - (a.rating || 0));
         break;
       default:
         break;
     }
 
     setFilteredProducts(result);
-  }, [selectedCategories, selectedBrands, showOnlyInStock, filters, searchTerm, sortOption, products]);
+  }, [
+    selectedCategories,
+    selectedBrands,
+    showOnlyInStock,
+    filters,
+    searchTerm,
+    sortOption,
+    products,
+  ]);
 
-  const handleImageError = (productId) => {
-    setImageErrors(prev => ({
-      ...prev,
-      [productId]: true
-    }));
-  };
+  // ----------------------------------------------------------
+  // YARDIMCI FONKSİYONLAR
+  // ----------------------------------------------------------
+  const handleImageError = (id) =>
+    setImageErrors((prev) => ({ ...prev, [id]: true }));
 
-  const getDefaultImage = () => "/images/default-product.png";
-
-  const toggleCategory = (category) => {
-    setSelectedCategories(prev => 
-      prev.includes(category) 
-        ? prev.filter(c => c !== category)
-        : [...prev, category]
-    );
-  };
-
-  const toggleBrand = (brand) => {
-    setSelectedBrands(prev => 
-      prev.includes(brand) 
-        ? prev.filter(b => b !== brand)
-        : [...prev, brand]
-    );
-  };
-
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat('tr-TR', {
+  const formatPrice = (price) =>
+    new Intl.NumberFormat("tr-TR", {
       minimumFractionDigits: 2,
-      maximumFractionDigits: 2
+      maximumFractionDigits: 2,
     }).format(price);
-  };
 
-  const calculateDiscount = (original, current) => {
-    return Math.round(((original - current) / original) * 100);
-  };
+  const calculateDiscount = (original, current) =>
+    Math.round(((original - current) / original) * 100);
 
+  // ----------------------------------------------------------
+  // RENDER
+  // ----------------------------------------------------------
   return (
     <div className="products-page">
       <div className="products-container">
         
-        {/* SOL SİDEBAR */}
+        {/* ------------------------------------------------------
+            SOL SİDEBAR — TÜM FİLTRELER
+        ------------------------------------------------------ */}
         <div className="products-sidebar">
-          
+
+          {/* Stok Durumu */}
           <div className="filter-group">
             <h3>Stok Durumu</h3>
             <div className="radio-options">
               <label className="radio-item">
                 <input
                   type="radio"
-                  name="stock"
                   checked={!showOnlyInStock}
                   onChange={() => setShowOnlyInStock(false)}
                 />
@@ -145,42 +155,55 @@ const ProductsPage = () => {
               <label className="radio-item">
                 <input
                   type="radio"
-                  name="stock"
                   checked={showOnlyInStock}
                   onChange={() => setShowOnlyInStock(true)}
                 />
                 <span className="radio-mark"></span>
-                Stoktakiler ({products.filter(p => p.inStock).length})
+                Stoktakiler ({products.filter((p) => p.inStock).length})
               </label>
             </div>
           </div>
 
+          {/* Ürün Grupları */}
           <div className="filter-group">
             <h3>Ürün Grupları</h3>
             <div className="category-list">
-              {categories.map(category => (
-                <label key={category} className="checkbox-item">
+              {categories.map((cat) => (
+                <label key={cat} className="checkbox-item">
                   <input
                     type="checkbox"
-                    checked={selectedCategories.includes(category)}
-                    onChange={() => toggleCategory(category)}
+                    checked={selectedCategories.includes(cat)}
+                    onChange={() =>
+                      setSelectedCategories((prev) =>
+                        prev.includes(cat)
+                          ? prev.filter((c) => c !== cat)
+                          : [...prev, cat]
+                      )
+                    }
                   />
                   <span className="checkmark"></span>
-                  {category}
+                  {cat}
                 </label>
               ))}
             </div>
           </div>
 
+          {/* Marka */}
           <div className="filter-group">
             <h3>Marka</h3>
             <div className="brand-list">
-              {brands.map(brand => (
+              {brands.map((brand) => (
                 <label key={brand} className="checkbox-item">
                   <input
                     type="checkbox"
                     checked={selectedBrands.includes(brand)}
-                    onChange={() => toggleBrand(brand)}
+                    onChange={() =>
+                      setSelectedBrands((prev) =>
+                        prev.includes(brand)
+                          ? prev.filter((b) => b !== brand)
+                          : [...prev, brand]
+                      )
+                    }
                   />
                   <span className="checkmark"></span>
                   {brand}
@@ -189,51 +212,63 @@ const ProductsPage = () => {
             </div>
           </div>
 
+          {/* Filtre Seçenekleri */}
           <div className="filter-group">
-            <h3>Filtre Seçenekleri</h3>
-            <div className="filter-options">
-              <label className="checkbox-item">
-                <input
-                  type="checkbox"
-                  checked={filters.campaign}
-                  onChange={(e) => setFilters(prev => ({...prev, campaign: e.target.checked}))}
-                />
-                <span className="checkmark"></span>
-                Kampanyalı Ürünler
-              </label>
+            <h3>Filtreler</h3>
 
-              <label className="checkbox-item">
-                <input
-                  type="checkbox"
-                  checked={filters.sponsored}
-                  onChange={(e) => setFilters(prev => ({...prev, sponsored: e.target.checked}))}
-                />
-                <span className="checkmark"></span>
-                Sponsor Ürünler
-              </label>
+            <label className="checkbox-item">
+              <input
+                type="checkbox"
+                checked={filters.campaign}
+                onChange={(e) =>
+                  setFilters((prev) => ({ ...prev, campaign: e.target.checked }))
+                }
+              />
+              <span className="checkmark"></span>
+              Kampanyalı Ürünler
+            </label>
 
-              <label className="checkbox-item">
-                <input
-                  type="checkbox"
-                  checked={filters.new}
-                  onChange={(e) => setFilters(prev => ({...prev, new: e.target.checked}))}
-                />
-                <span className="checkmark"></span>
-                Yeni Ürünler
-              </label>
+            <label className="checkbox-item">
+              <input
+                type="checkbox"
+                checked={filters.sponsored}
+                onChange={(e) =>
+                  setFilters((prev) => ({ ...prev, sponsored: e.target.checked }))
+                }
+              />
+              <span className="checkmark"></span>
+              Sponsor Ürünler
+            </label>
 
-              <label className="checkbox-item">
-                <input
-                  type="checkbox"
-                  checked={filters.discounted}
-                  onChange={(e) => setFilters(prev => ({...prev, discounted: e.target.checked}))}
-                />
-                <span className="checkmark"></span>
-                İndirimli Ürünler
-              </label>
-            </div>
+            <label className="checkbox-item">
+              <input
+                type="checkbox"
+                checked={filters.new}
+                onChange={(e) =>
+                  setFilters((prev) => ({ ...prev, new: e.target.checked }))
+                }
+              />
+              <span className="checkmark"></span>
+              Yeni Ürünler
+            </label>
+
+            <label className="checkbox-item">
+              <input
+                type="checkbox"
+                checked={filters.discounted}
+                onChange={(e) =>
+                  setFilters((prev) => ({
+                    ...prev,
+                    discounted: e.target.checked,
+                  }))
+                }
+              />
+              <span className="checkmark"></span>
+              İndirimli Ürünler
+            </label>
           </div>
 
+          {/* Hızlı Arama */}
           <div className="filter-group">
             <h3>Hızlı Arama</h3>
             <div className="search-box">
@@ -249,88 +284,126 @@ const ProductsPage = () => {
           </div>
         </div>
 
-        {/* SAĞ ÜRÜN LİSTE ALANI */}
+        {/* ------------------------------------------------------
+            SAĞ ÜRÜN LİSTESİ
+        ------------------------------------------------------ */}
         <div className="products-content">
 
+          {/* Üst Bilgi */}
           <div className="products-header">
-            <span className="products-count">Toplam {filteredProducts.length} ürün</span>
+            <span className="products-count">
+              Toplam {filteredProducts.length} ürün
+            </span>
+
             <div className="sort-options">
-              <label>Sıralama:</label>
-              <select 
-                value={sortOption} 
+              <label>Sırala:</label>
+              <select
+                value={sortOption}
                 onChange={(e) => setSortOption(e.target.value)}
                 className="sort-select"
               >
-                <option value="recommended">Önerilen Sıralama</option>
-                <option value="price-low">Fiyat (Düşük → Yüksek)</option>
-                <option value="price-high">Fiyat (Yüksek → Düşük)</option>
-                <option value="name">İsim (A → Z)</option>
+                <option value="recommended">Önerilen</option>
+                <option value="price-low">Fiyat (Artan)</option>
+                <option value="price-high">Fiyat (Azalan)</option>
+                <option value="name">İsim (A→Z)</option>
                 <option value="rating">Değerlendirme</option>
               </select>
             </div>
           </div>
 
+          {/* Ürün Grid */}
           <div className="products-grid">
-            {filteredProducts.map(product => (
+            {filteredProducts.map((product) => (
               <div key={product.id} className="product-card">
-
+                
+                {/* ÜRÜN GÖRSELİ */}
                 <div className="product-image">
-                  <img 
-                    src={imageErrors[product.id] ? getDefaultImage() : product.image}
-                    alt={product.name}
+                  <img
+                    src={
+                      imageErrors[product.id]
+                        ? "/images/default-product.png"
+                        : product.image
+                    }
+                    alt={`${product.brand} ${product.name}`}
                     onError={() => handleImageError(product.id)}
                     loading="lazy"
                   />
 
+                  {/* BADGE ALANI */}
                   <div className="product-badges">
-                    {product.price < product.originalPrice && (
+
+                    {/* İNDİRİM BADGE — showDiscount destekli */}
+                    {shouldShowDiscount(product) && (
                       <span className="badge discount">
-                        %{calculateDiscount(product.originalPrice, product.price)}
+                        %{calculateDiscount(
+                          product.originalPrice,
+                          product.price
+                        )}
                       </span>
                     )}
+
                     {product.isNew && <span className="badge new">YENİ</span>}
-                    {product.isCampaign && <span className="badge campaign">KAMPANYA</span>}
+                    {product.isCampaign && (
+                      <span className="badge campaign">KAMPANYA</span>
+                    )}
                   </div>
 
-                  {/* ✅ FAVORİ BUTONU - isFavorite fonksiyonunu kullanıyoruz */}
-                  <button 
-                    className={`favorite-btn ${isFavorite(product.id) ? 'active' : ''}`}
+                  {/* FAVORİ BUTONU */}
+                  <button
+                    className={`favorite-btn ${
+                      isFavorite(product.id) ? "active" : ""
+                    }`}
                     onClick={() => toggleFavorite(product.id)}
-                    aria-label={isFavorite(product.id) ? "Favorilerden çıkar" : "Favorilere ekle"}
                   >
-                    {isFavorite(product.id) ? '❤️' : '🤍'}
+                    {isFavorite(product.id) ? "❤️" : "🤍"}
                   </button>
                 </div>
 
+                {/* ÜRÜN BİLGİLERİ */}
                 <div className="product-info">
                   <div className="product-brand">{product.brand}</div>
+
                   <h3 className="product-name">{product.name}</h3>
-                  
-                  {/* ✅ ÜRÜN KODU EKLENDİ */}
+
+                  {/* ÜRÜN KODU — modern görünüm */}
                   <div className="product-code">
                     <span className="product-code-label">Ürün Kodu:</span>
-                    <span className="product-code-value">{product.productCode}</span>
+                    <span className="product-code-value">
+                      {product.productCode !== "-" ? product.productCode : "—"}
+                    </span>
                   </div>
-                  
-                  <div className="product-description">{product.description}</div>
 
+                  <div className="product-description">
+                    {product.description}
+                  </div>
+
+                  {/* FİYAT ALANI — showDiscount uyumlu */}
                   <div className="product-pricing">
-                    {product.price < product.originalPrice && (
-                      <div className="original-price">{formatPrice(product.originalPrice)} TL</div>
+                    {shouldShowDiscount(product) && (
+                      <div className="original-price">
+                        {formatPrice(product.originalPrice)} TL
+                      </div>
                     )}
-                    <div className="current-price">{formatPrice(product.price)} TL</div>
+
+                    <div className="current-price">
+                      {formatPrice(product.price)} TL
+                    </div>
                   </div>
 
+                  {/* BUTONLAR */}
                   <div className="product-actions">
                     <button
                       className="add-to-cart-btn"
                       disabled={!product.inStock}
-                      onClick={() => addToCart(product, 1)}   // ← sepete ekle
+                      onClick={() => addToCart(product, 1)}
                     >
-                      {product.inStock ? 'SEPETE EKLE' : 'STOKTA YOK'}
+                      {product.inStock ? "SEPETE EKLE" : "STOKTA YOK"}
                     </button>
 
-                    <Link to={`/product/${product.id}`} className="view-details-btn">
+                    <Link
+                      to={`/product/${product.id}`}
+                      className="view-details-btn"
+                    >
                       Detaylı İncele
                     </Link>
                   </div>
@@ -339,10 +412,11 @@ const ProductsPage = () => {
             ))}
           </div>
 
+          {/* ÜRÜN YOKSA */}
           {filteredProducts.length === 0 && (
             <div className="no-products">
               <h3>Ürün bulunamadı</h3>
-              <p>Lütfen filtrelerinizi değiştirip tekrar deneyin.</p>
+              <p>Filtreleri değiştirip tekrar deneyin.</p>
             </div>
           )}
         </div>

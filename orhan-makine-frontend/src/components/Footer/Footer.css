@@ -1,14 +1,14 @@
 /* ================================ */
-/*           FOOTER WRAPPER         */
+/*          FOOTER BASE             */
 /* ================================ */
 
 .footer {
   background: #0f172a;
   color: #cbd5e1;
   position: relative;
+  width: 100%;
 }
 
-/* MAIN */
 .footer-main {
   padding: 60px 0 40px;
 }
@@ -19,14 +19,24 @@
   margin: auto;
 }
 
-/* GRID */
+/* ================================ */
+/*             GRID                 */
+/* ================================ */
+
 .footer-grid {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1.5fr;
   gap: 3rem;
 }
 
-/* LOGO */
+.footer-col {
+  min-width: 0;
+}
+
+/* ================================ */
+/*          LOGO + COMPANY          */
+/* ================================ */
+
 .footer-company-info .footer-logo {
   display: flex;
   align-items: center;
@@ -38,6 +48,7 @@
   width: 55px;
   height: 55px;
   object-fit: contain;
+  user-select: none;
 }
 
 .footer-logo-text h3 {
@@ -56,7 +67,10 @@
   margin-bottom: 20px;
 }
 
-/* SOCIALS */
+/* ================================ */
+/*           SOCIAL ICONS           */
+/* ================================ */
+
 .footer-social-links {
   display: flex;
   gap: 12px;
@@ -87,7 +101,10 @@
   height: 20px;
 }
 
-/* TITLES */
+/* ================================ */
+/*            TITLES                */
+/* ================================ */
+
 .footer-title {
   color: white;
   font-weight: 600;
@@ -105,7 +122,10 @@
   left: 0;
 }
 
-/* LINKS */
+/* ================================ */
+/*            LINKS                 */
+/* ================================ */
+
 .footer-links li {
   margin-bottom: 12px;
 }
@@ -121,7 +141,10 @@
   padding-left: 10px;
 }
 
-/* CONTACT */
+/* ================================ */
+/*            CONTACT               */
+/* ================================ */
+
 .footer-contact-items {
   display: flex;
   flex-direction: column;
@@ -151,23 +174,54 @@
   color: #94a3b8;
 }
 
-/* COPYRIGHT */
+/* ================================ */
+/*          COPYRIGHT               */
+/* ================================ */
+
+/* COPYRIGHT + DEV SIGNATURE aynı satır için */
 .footer-copyright {
-  margin-top: 3rem;
+  margin-top: 1.5rem;
   text-align: center;
   font-size: 0.9rem;
   color: #94a3b8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px; /* çok az boşluk */
+  flex-wrap: wrap; /* mobilde alt satıra iner, bozulmaz */
 }
 
-/* RESPONSIVE */
+/* Dikey çizgi */
+.footer-divider {
+  color: #64748b;
+}
+
+/* Developer link */
+.footer-dev {
+  color: #94a3b8;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.25s ease;
+}
+
+.footer-dev:hover {
+  color: #ffffff;
+}
+
+/* ================================ */
+/*           RESPONSIVE             */
+/* ================================ */
+
 @media (max-width: 900px) {
   .footer-grid {
     grid-template-columns: 1fr 1fr;
+    gap: 2rem;
   }
 }
 
 @media (max-width: 600px) {
   .footer-grid {
     grid-template-columns: 1fr;
+    gap: 2rem;
   }
 }

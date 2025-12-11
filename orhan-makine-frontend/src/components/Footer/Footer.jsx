@@ -1,25 +1,11 @@
-import { 
-  Phone, 
-  Mail, 
-  MapPin, 
-  Clock, 
-  Instagram,
-  Linkedin,
-  ArrowUp
-} from "lucide-react";
-
+import { Phone, Mail, MapPin, Clock, Instagram, Linkedin } from "lucide-react";
 import { Link } from "react-router-dom";
 import { productsData } from "../../data/productsData";
 import "./Footer.css";
 
 export default function Footer() {
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
-  // Yukarı çık
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  // Rastgele 6 ürün seç
   const footerProducts = [...productsData]
     .sort(() => Math.random() - 0.5)
     .slice(0, 6);
@@ -30,7 +16,7 @@ export default function Footer() {
     { name: "Hizmetlerimiz", href: "/services" },
     { name: "Hakkımızda", href: "/about" },
     { name: "Galeri", href: "/gallery" },
-    { name: "İletişim", href: "/contact" }
+    { name: "İletişim", href: "/contact" },
   ];
 
   const socialLinks = [
@@ -38,33 +24,33 @@ export default function Footer() {
     { icon: Linkedin, href: "https://linkedin.com", name: "LinkedIn" },
     {
       icon: () => (
-        <img 
+        <img
           src="https://cdn-icons-png.flaticon.com/512/733/733585.png"
           className="footer-social-icon invert"
           alt="WhatsApp"
+          loading="lazy"
         />
       ),
       href: "https://wa.me/905395159925",
-      name: "WhatsApp"
-    }
+      name: "WhatsApp",
+    },
   ];
 
   return (
-    <footer className="footer">
-
+    <footer className="footer" role="contentinfo">
       <div className="footer-main">
         <div className="footer-container">
           <div className="footer-grid">
 
-            {/* LOGO */}
-            <div className="footer-col footer-company-info">
+            {/* LOGO + AÇIKLAMA */}
+            <section className="footer-col footer-company-info">
               <div className="footer-logo">
-                <img 
+                <img
                   src="/images/logo.png"
                   alt="Orhan Makine Logo"
                   className="footer-logo-img"
+                  loading="lazy"
                 />
-
                 <div className="footer-logo-text">
                   <h3>ORHAN MAKİNE</h3>
                   <p>Bileme & Kesici Takım</p>
@@ -72,14 +58,15 @@ export default function Footer() {
               </div>
 
               <p className="footer-company-description">
-                40 yılı aşkın deneyim ile endüstriyel kesici takım bileme ve bakım hizmetlerinde profesyonel çözümler sunuyoruz.
+                40 yılı aşkın deneyim ile endüstriyel kesici takım bileme ve bakım hizmetlerinde
+                profesyonel çözümler sunuyoruz.
               </p>
 
               <div className="footer-social-links">
                 {socialLinks.map((s, i) => {
                   const Icon = s.icon;
                   return (
-                    <a 
+                    <a
                       key={i}
                       href={s.href}
                       target="_blank"
@@ -92,10 +79,10 @@ export default function Footer() {
                   );
                 })}
               </div>
-            </div>
+            </section>
 
-            {/* Hızlı linkler */}
-            <div className="footer-col">
+            {/* HIZLI LİNKLER */}
+            <nav className="footer-col" aria-label="Hızlı Linkler">
               <h4 className="footer-title">Hızlı Linkler</h4>
               <ul className="footer-links">
                 {quickLinks.map((link, idx) => (
@@ -104,49 +91,48 @@ export default function Footer() {
                   </li>
                 ))}
               </ul>
-            </div>
+            </nav>
 
-            {/* Ürünler - Artık productsData’dan geliyor */}
-            <div className="footer-col">
+            {/* ÜRÜNLER (SEO-friendly) */}
+            <nav className="footer-col" aria-label="Popüler Ürünler">
               <h4 className="footer-title">Ürünler</h4>
               <ul className="footer-links">
                 {footerProducts.map((item) => (
                   <li key={item.id}>
-                    <Link 
-                      to={`/product/${item.id}`}
-                      className="footer-link"
-                    >
+                    <Link to={`/product/${item.id}`} className="footer-link">
                       {item.name}
                     </Link>
                   </li>
                 ))}
               </ul>
-            </div>
+            </nav>
 
             {/* İLETİŞİM */}
-            <div className="footer-col">
+            <section className="footer-col">
               <h4 className="footer-title">İletişim</h4>
               <div className="footer-contact-items">
 
                 <div className="footer-contact-item">
                   <MapPin className="footer-contact-icon" />
-                  <div>
-                    <p>Orhan Makine Sanayi Sitesi</p>
-                    <p className="footer-contact-detail">Sürsürü Mah., Elazığ</p>
-                  </div>
+                  <address>
+                    <p>Orhan Makine Bileme</p>
+                    <p className="footer-contact-detail">
+                      Sanayi Mahallesi Sanayi Sitesi 24. Sokak No:7
+                    </p>
+                  </address>
                 </div>
 
                 <div className="footer-contact-item">
                   <Phone className="footer-contact-icon" />
-                  <a href="tel:+905395159925" className="footer-contact-link">
-                    +90 539 515 99 25
+                  <a href="tel:+905334613150" className="footer-contact-link">
+                    +90 533 461 31 50
                   </a>
                 </div>
 
                 <div className="footer-contact-item">
                   <Mail className="footer-contact-icon" />
-                  <a href="mailto:info@orhanmakine.com" className="footer-contact-link">
-                    info@orhanmakine.com
+                  <a href="mailto:info@orhanmakine.com.tr" className="footer-contact-link">
+                    info@orhanmakine.com.tr
                   </a>
                 </div>
 
@@ -159,14 +145,22 @@ export default function Footer() {
                 </div>
 
               </div>
-            </div>
+            </section>
 
           </div>
 
           <div className="footer-copyright">
             © 2024 Orhan Makine Bileme Hizmetleri — Tüm hakları saklıdır.
+            <span className="footer-divider"> | </span>
+            <a 
+              href="https://www.linkedin.com/in/halit-mustafa-karagoz"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="footer-dev"
+            >
+              Developed by Halit Mustafa Karagöz
+            </a>
           </div>
-
         </div>
       </div>
     </footer>
