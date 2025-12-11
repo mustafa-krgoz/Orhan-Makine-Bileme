@@ -50,6 +50,16 @@ const ProductDetailPage = () => {
 
   const product = productsData.find((p) => p.id === Number(id));
 
+  const [zoomPosition, setZoomPosition] = useState({ x: 50, y: 50 });
+
+  const handleZoomMove = (e) => {
+    const rect = e.target.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+  
+    setZoomPosition({ x, y });
+  };
+
   // URL hash kontrolü - Yorumlar ve Soru&Cevap için
   useEffect(() => {
     if (location.hash === '#reviews') {
@@ -295,14 +305,19 @@ const ProductDetailPage = () => {
                   className="main-image-container"
                   onMouseEnter={() => setIsHoveringImage(true)}
                   onMouseLeave={() => setIsHoveringImage(false)}
+                  onMouseMove={handleZoomMove}   // ⭐ YENİ EKLENDİ
                 >
                   <img 
                     src={images[selectedImage]}
                     alt={product.name}
                     className={`main-image ${isHoveringImage ? 'zoom-active' : ''}`}
                     loading="lazy"
+                    style={{
+                      '--zoom-x': `${zoomPosition.x}%`,
+                      '--zoom-y': `${zoomPosition.y}%`,
+                    }}
                   />
-                  
+                                    m
                   {isHoveringImage && (
                     <div className="zoom-overlay">
                       <div className="zoom-text">
@@ -509,14 +524,14 @@ const ProductDetailPage = () => {
                   <FaPhone className="option-icon" />
                   <div>
                     <span>Telefon</span>
-                    <small>+90 (500) 123 45 67</small>
+                    <small>+90 (533) 461 31 50</small>
                   </div>
                 </a>
                 <a href="mailto:info@orhanmakine.com" className="contact-option">
                   <FaEnvelope className="option-icon" />
                   <div>
                     <span>E-posta</span>
-                    <small>info@orhanmakine.com</small>
+                    <small>info@orhanmakine.com.tr</small>
                   </div>
                 </a>
               </div>
