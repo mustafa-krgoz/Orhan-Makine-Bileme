@@ -1,150 +1,167 @@
 // src/pages/ServicesPage.jsx
-import React from 'react';
-import { 
-  Wrench, Cpu, Drill, Package,
-  Settings
+import React from "react";
+import {
+  Wrench,
+  Package,
+  Hammer,
+  ClipboardList
 } from "lucide-react";
-import '../styles/ServicesPage.css';
+import "../styles/ServicesPage.css";
 
 const ServicesPage = () => {
 
-  // HİZMETLER LİSTESİ (VURGULU METİNLERLE AÇIK)
-  // NOT: İkinci "bileme" nesnesi kaldırılmış ve alt başlıklar otomatik bold yapılacak şekilde düzenlenmiştir.
+  /* ============================================================
+     HİZMET VERİLERİ – SEO UYUMLU, CLEAN CODE, GERÇEK İŞ MODELİNLE 
+     %100 UYUMLU YENİLEME
+  ============================================================ */
+
   const services = [
+    /* ============================================================
+       1) Endüstriyel Kesici Takım Bileme Hizmetleri
+    ============================================================ */
     {
-      id: 'bileme',
+      id: "bileme",
       icon: <Wrench size={32} />,
-      title: 'Endüstriyel Kesici Takım Bileme Hizmetleri',
-      description: '**Mobilya** ve **endüstriyel üretime** yönelik hassas bileme çözümleri',
+      title: "Endüstriyel Kesici Takım Bileme Hizmetleri",
+      description:
+        "Mobilya ve endüstriyel üretim sektörlerine yönelik hassas bileme çözümleri.",
       details: [
-        "CNC Router Bıçak Bileme: Mobilya sektöründe kullanılan CNC router bıçakları, zamanla keskinliğini kaybederek hem üretim hızını düşürür hem de malzeme yüzeyinde yanma, çapaklanma ve deformasyon oluşturur. Firmamız, CNC router uçlarını **özel bileme makinelerinde orijinal açılarına göre** yeniden biliyor, bıçağın kesme hassasiyetini ve **ömrünü maksimum seviyeye** çıkarıyor. **MDF, sunta, masif, alüminyum** ve kompozit malzemelerde **yüksek performans** sağlayan bileme işlemi ile üretim kalitesini artırıyoruz.",
-        "Şerit Testere Bileme: Ahşap ve metal kesiminde kullanılan şerit testereler, düzenli bileme yapılmadığında diş yapısını kaybeder, kesim sırasında sapma yapmaya başlar ve makineye ekstra yük bindirir. Şerit testerenizi hem diş formuna hem de kesim türüne göre özel açılandırma ile biliyoruz. İnce ve kalın dişli seçeneklerde profesyonel bileme uygulayarak bıçağın düzgün kesim yapmasını sağlıyoruz.",
-        "Freze Bıçakları: Kapı, mobilya ve özel profil üretiminde kullanılan freze bıçakları zamanla köreldiğinde profil bozulur ve işçilik hataları meydana gelir. Freze bıçaklarını orijinal profil açılarına sadık kalarak biliyor, kenar keskinliğini ilk günkü haline getiriyoruz. Pah kırma, oluk açma, profil çıkarma ve özel şekilli freze bıçakları için CNC kontrollü bileme yapmaktayız.",
-        "Daire Testere Bileme: 200 mm’den 500 mm’ye kadar olan tüm daire testere çeşitlerini (karbür uçlu, HSS çelik, elmas kaplı) özel taşlama makinelerinde hassas olarak biliyoruz. Kesim sırasında yanma, çapaklanma, ses artışı veya zorlanma gibi sorunları gideriyor, bıçağın hem ömrünü hem de performansını artırıyoruz.",
-        "Kalem Uçları Bileme: CNC router kalem uçları, özellikle yoğun üretim yapan firmalarda hızla körelir. Yüksek devirde bileme yapılarak ilk günkü keskinliğine kavuşmasını sağlıyoruz. Farklı çaplarda ve farklı boylarda tüm kalem uçlarını profesyonel ekipmanlarla biliyoruz.",
-        "Özel Profil Bıçakları: Özel üretim, kişiye özel veya firma bazlı tasarlanmış profil bıçaklarının da bileyerek yeniden kullanılabilir hale getiriyoruz. Profil bozulmadan, orijinal form korunarak özel açılandırma ile bileme yapılır."
+        "Demir Testere Bileme: Demir kesim testere ve bıçaklarını hassas taşlama teknikleriyle biliyor; çapaklanma, yanma ve zorlanma sorunlarını gideriyoruz.",
+        "Cam Testere Bileme: Cam kesimine uygun özel açılandırma ile mikron seviyesinde hassasiyet sağlayarak temiz ve risksiz kesim elde ediyoruz.",
+        "Alüminyum Testere Bileme: Alüminyum kesiminde oluşan çapak ve yüzey bozukluklarını gidererek hızlı ve pürüzsüz kesim performansı sunuyoruz.",
+        "Düz Testere Bileme: Ahşap, metal ve plastik kesiminde kullanılan düz testereleri profesyonel makinelerle hassas şekilde biliyoruz.",
+        "Freze Bıçakları Bileme: Profil açıları korunarak CNC kontrollü bileme yapılır, keskinlik ve işleme kalitesi artırılır.",
+        "Kalem Uçları Bileme: CNC router kalem uçlarını yüksek devirde ilk günkü keskinliğine kavuşturuyoruz.",
+        "2’li, 3’lü, 4’lü Kalem Bıçağı Bileme: Çoklu bıçaklarda yüzey bozukluklarını ve tırtıklanmayı gidererek yüksek performans sağlıyoruz.",
+        "CLC Kalem Bıçak Bileme: Orijinal form bozulmadan mikron seviyesinde yüzey yenileme yapılır.",
+        "Jilet Bıçağı Bileme: Endüstriyel jilet bıçaklarının keskinliğini geri kazandırır, temiz ve hızlı kesim elde edilir.",
+        "Planya Bıçağı Bileme: Pürüzsüz yüzey için doğru ağız açıları korunarak hassas taşlama yapılır.",
+        "Buat Açacağı Bileme: Çapaksız ve düzgün delik açımı için özel açılandırma ile bileme yapılır.",
+        "Matbaa Bıçağı Bileme: Kağıt yırtılmasını önleyen mikron hassasiyetinde taşlama.",
+        "Kırma Bıçağı Bileme: Granül ve geri dönüşüm makineleri için enerji tüketimini azaltan yüksek keskinlik.",
+        "Kanal Bıçağı Ayarı: Kanal ölçüsüne uygun profil ayarı ve hassas bileme yapılır.",
+        "Diş Tamiri: Kırılmış veya aşınmış testere dişleri eşit açı ve boyda yenilenir.",
+        "Kaynak: Kopmuş testerelerin kaynak ve yüzey tesviyeleri yapılır, güvenli kullanım sağlanır."
       ]
     },
+
+    /* ============================================================
+       2) Profesyonel Makine Satışı (Kurulum Yok, Doğru Model)
+    ============================================================ */
     {
-      id: 'cnc',
-      icon: <Cpu size={32} />,
-      title: 'Yüksek Hassasiyetli CNC Makine Satışı ve Kurulum',
-      description: '**Endüstriyel CNC router** makineleri satış, kurulum ve **otomasyon desteği**',
+      id: "makine-satis",
+      icon: <Hammer size={32} />,
+      title: "Profesyonel Makine Satışı",
+      description:
+        "Mızrak, Freud, Farabi, Konig, Oscar ve diğer profesyonel markaların makine satış hizmetleri.",
       details: [
-        "CNC Router Makineleri: Ahşap, MDF, sunta, kompozit ve alüminyum işleme için **yüksek hassasiyetli** CNC router modellerinin satışını yapıyoruz. Hem küçük işletmeler hem de **büyük üretim tesisleri** için uygun alternatifler sunulmaktadır.",
-        "Kesim ve İşleme Merkezleri: **Otomatik yükleme ve boşaltma** özelliğine sahip, **yüksek hızda panel kesim** ve frezeleme yapılabilen makine modelleri kurulumu yapılmaktadır.",
-        "Otomasyon Sistemleri: Üretim hatlarına özel otomatik konveyör, vakumlu yükleme, robot kol entegrasyonu gibi **ileri seviye otomasyon çözümleri** sunuyoruz.",
-        "CAD/CAM Eğitim ve Kurulum: CNC makine kullanımına yeni başlayan işletmelere **CAD/CAM yazılım kurulumu**, takım yolu oluşturma eğitimi ve **üretim optimizasyonu desteği** veriyoruz.",
-        "Teknik Servis ve Kalibrasyon: Makinenizin **uzun ömürlü** çalışabilmesi için **düzenli bakım, hassasiyet ayarı**, spindle değişimi, lineer ray kontrolü gibi hizmetler sunuyoruz.",
-        "Yedek Parça Temini: Step motor, servo motor, spindle motor, sürücüler, kontrol kartları ve tüm CNC makine bileşenlerini **orijinal olarak** sağlıyoruz."
+        "Yatar Daire Satışı: Standart ve çizicili yatar daire modelleri.",
+        "Sunta Kesme Makineleri: Hassas kesim kabiliyetine sahip profesyonel makineler.",
+        "Kenar Bantlama Makineleri: Mızrak uyumlu endüstriyel bantlama çözümleri.",
+        "CNC Makine Satışı: Ahşap ve panel işleme için yüksek performanslı CNC makineleri.",
+        "Kapı Kasa Çekme & Ebatlama Makineleri: Kapı üretiminde kullanılan özel amaçlı makineler.",
+        "Köşe Yuvarlama Ünitesi: Kenar bantlama sonrası temiz köşe bitirme.",
+        "Pres Makineleri: Panel pres ve laminasyon uygulamaları için güçlü modeller.",
+        "Toz Emme Sistemleri: Atölye temizliği ve performansı artıran toz emme makineleri.",
+        "Transpalet Satışı: Dayanıklı ve ağır yüklerde kullanım için transpalet çeşitleri."
       ]
     },
+
+    /* ============================================================
+       3) Elektrikli El Aletleri ve Hırdavat Satışı
+    ============================================================ */
     {
-      id: 'testere',
-      icon: <Settings size={32} />,
-      title: 'Profesyonel Testere Makineleri Satış ve Destek',
-      description: 'Panel, şerit ve daire testere makinelerinde **anahtar teslim** profesyonel çözümler',
-      details: [
-        "Panel Kesim Testereleri: Sunta, MDF, laminat ve kapak üretimi için kullanılan **yüksek hassasiyetli panel kesim** makinelerinin satışını yapıyoruz. **Dijital ve lazer destekli** ölçüm sistemleri sayesinde **kesim hatası minimuma** iner.",
-        "Daire Testereler: **250 mm – 500 mm** çap aralığında **endüstriyel güçte** daire testere makineleri sunuyoruz. Alüminyum ve ahşap kesim için **ayrı motor ve soğutma seçenekleri** bulunmaktadır.",
-        "Şerit Testereler: Hem metal hem de ahşap kesim için **güçlü şerit testere** makineleri satıyoruz. Kesim sırasında **sapma yapmayan, titreşim önleyici** yapıya sahip seçenekler mevcuttur.",
-        "Alüminyum Profil Testereleri: **Soğutma sıvısı destekli** alüminyum kesim makineleri, **profesyonel işçilik** isteyen firmalar için uygundur. **Yüksek hızda kesim performansı** sağlar.",
-        "CNC Kontrollü Testere Makineleri: **Programlanabilir kesim** makineleri ile **seri üretim** yapan firmalar için **verimlilik** sağlayan CNC destekli sistemler sunuyoruz.",
-        "Yedek Parça ve Bıçak Çeşitleri: Testere makineleri için tüm motor, bıçak, taş, fren, kayış ve **elektronik yedek parçaları** tedarik ediyoruz."
-      ]
-    },
-    {
-      id: 'hirdavat',
+      id: "el-aletleri",
       icon: <Package size={32} />,
-      title: 'Geniş Kapsamlı Hırdavat ve Sarf Malzemeleri',
-      description: 'Mobilya ve inşaat sektörlerinin tüm **sarf ve bağlantı** ihtiyaçları **tek adreste**',
+      title: "Elektrikli El Aletleri ve Hırdavat Satışı",
+      description:
+        "Makita, Knipex, Euromax, HAIS, CORA ve diğer profesyonel markaların satış noktası.",
       details: [
-        "Matkap Uçları: Ahşap, metal, beton ve mermer için **profesyonel matkap uçları**. HSS, karbür uçlu, elmas kaplı ve **SDS sistem** matkap uçlarının satışını yapıyoruz.",
-        "Vida Çeşitleri: Mobilya montajında kullanılan **sunta vidası, krom vida, alçıpan vidası**, trapez vida gibi tüm çeşitler **stoklarımızdadır**.",
-        "Dübeller: Plastik dübel, çelik dübel, **ağır yük dübeli** ve sıva altı montaj dübelleri mevcuttur.",
-        "Menteşe & Ray Sistemleri: Dolap, çekmece ve mutfak sistemleri için tüm bağlantı elemanları ve ray sistemleri satıyoruz. **Tam açılım ray, teleskopik ray, frenli ray** çeşitleri mevcuttur.",
-        "Zımpara Ürünleri: **Makine uyumlu bant zımparalar**, el zımparaları ve su zımparaları. Tüm kum değerlerinde **geniş stok** bulunmaktadır.",
-        "Kesici Takımlar: **Freze bıçakları, router uçları, karbür kesiciler**, HSS takımlar ve **profesyonel kesici diskler** çeşitli ölçülerde satılmaktadır."
+        "Makita Elektrikli Aletler: Matkap, taşlama, dekupaj, kırıcı-delici ve profesyonel ürünler.",
+        "Freud – Farabi – Konig – Oscar Testere Bıçakları: Ahşap, alüminyum ve metal kesimi için seçenekler.",
+        "Knipex El Aletleri: Pense, keski, kargaburun ve profesyonel el aletleri.",
+        "Matkap ve Freze Uçları: CNC ve manuel makineler için geniş ürün seçeneği.",
+        "Vida & Bağlantı Sistemleri: Sunta vidası, alçıpan vidası ve mobilya bağlantı elemanları.",
+        "Zımpara Ürünleri: Bant zımpara, disk zımpara ve su zımparaları.",
+        "Toz Emme Hortum ve Adaptörleri: Makinelere uyumlu sarf malzemeleri."
       ]
     },
+
+    /* ============================================================
+       4) Teknik Danışmanlık & Ürün Bilgilendirme
+    ============================================================ */
     {
-      id: 'servis',
-      icon: <Wrench size={32} />,
-      title: 'Yetkili Teknik Servis, Kurulum ve Bakım',
-      description: 'Makine **kurulum**, arıza tespiti, **kalibrasyon** ve **periyodik bakım** hizmetleri',
+      id: "danismanlik",
+      icon: <ClipboardList size={32} />,
+      title: "Teknik Danışmanlık ve Ürün Bilgilendirme",
+      description:
+        "Makine, testere bıçakları ve elektrikli el aletleri için profesyonel seçim desteği.",
       details: [
-        "Makine Kurulumu: Satın aldığınız CNC, testere veya elektrikli el aletlerinin kurulumunu **uzman ekibimiz** gerçekleştirir. Elektrik bağlantıları, **kalibrasyon** ve çalışma testleri yapılır.",
-        "Periyodik Bakım: Makinelerin daha **uzun ömürlü ve verimli** çalışması için yağlama, temizleme, **hassasiyet kontrolü**, rulman ve kayış değişimi gibi **profesyonel bakım** hizmeti sunuyoruz.",
-        "Arıza Onarımı: **Elektriksel arızalar, mekanik arızalar**, motor yanması, kart arızaları ve sensör sorunlarını **hızlıca tespit edip tamir** ediyoruz.",
-        "Yedek Parça Temini: Tüm makine marka ve modelleri için **orijinal yedek parçaların** teminini sağlıyoruz.",
-        "Operatör Eğitimi: Makineyi yeni kullanmaya başlayan personeliniz için **kullanım, güvenlik ve bakım eğitimleri** veriyoruz.",
-        "Garanti ve Satış Sonrası Destek: Tüm makineler için **garanti süreçlerinin takibi** yapılır ve garanti kapsamındaki arızalar **ücretsiz** olarak giderilir."
+        "Makine Seçimi Danışmanlığı: Üretim türü, kapasite ve bütçeye göre doğru makine yönlendirme.",
+        "Testere Bıçak Seçimi: Ahşap, MDF, suntalem, alüminyum ve metal için doğru bıçak önerileri.",
+        "Elektrikli Alet Karşılaştırma: Makita modellerinin performans değerlendirmeleri.",
+        "Arızaya Yönlendirme & Tespit: Sorunlu makine için gerekli yol gösterme.",
+        "Atölye Ekipmanı Önerileri: Üretim süreçlerini hızlandıran ekipman tavsiyeleri.",
+        "Yedek Parça Uyumluluk Bilgisi: Hangi parçanın hangi modele uyduğu hakkında destek."
       ]
     }
   ];
-  
-  // Metinleri işleyen ve alt başlıkları bold yapan yardımcı fonksiyon
-  const renderDetailContent = (detail) => {
-    // 1. Ana vurguları (**) bold yap (önceki istekten kalan)
-    let processedDetail = detail.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-    
-    // 2. İlk cümleyi (alt başlığı) bold yap. (İlk iki nokta üst üste işaretine kadar olan kısım)
-    const parts = processedDetail.split(':');
-    if (parts.length > 1) {
-      // Başlık kısmını <strong> ile sar
-      processedDetail = `<strong>${parts[0].trim()}:</strong> ${parts.slice(1).join(':').trim()}`;
-    }
-    
-    return processedDetail;
-  };
 
+  /* ============================================================
+     ALT BAŞLIKLARI OTO-BOLD YAPAN FONKSİYON
+  ============================================================ */
+  const renderDetail = (text) => {
+    const parts = text.split(":");
+    if (parts.length > 1) {
+      return `<strong>${parts[0]}:</strong> ${parts.slice(1).join(":")}`;
+    }
+    return text;
+  };
 
   return (
     <div className="srvc-page">
 
-      {/* SEO için ana başlık ve açıklama bölümü */}
-      <div className="srvc-header">
-        <h1 className="srvc-main-title">Orhan Makine Bileme & Satış Hizmetleri</h1>
+      {/* ======= SEO BAŞLIK ======= */}
+      <header className="srvc-header">
+        <h1 className="srvc-main-title">Orhan Makine – Hizmetlerimiz</h1>
         <p className="srvc-main-desc">
-          40 yıllık tecrübemizle mobilya ve endüstriyel üretime yönelik en güvenilir çözümlerimiz.
+          40 yılı aşkın tecrübemizle bileme, makine satışı, elektrikli alet tedariki ve teknik danışmanlık hizmetleri sunuyoruz.
         </p>
-      </div>
+      </header>
 
-      {/* HİZMETLER LİSTESİ ANA KONTEYNERİ */}
-      <div className="srvc-services-section">
+      {/* ======= HİZMET KARTLARI ======= */}
+      <section className="srvc-services-section">
         <div className="srvc-services-list">
-          {/* Sadece benzersiz ID'ye sahip hizmetleri render et (Tekrar edenleri engeller) */}
-          {[...new Map(services.map(item => [item.id, item])).values()].map((service) => (
-            <div key={service.id} className="srvc-service-item">
 
-              {/* Kart Üst Başlık ve İkon */}
+          {services.map((service) => (
+            <article key={service.id} className="srvc-service-item">
+
               <div className="srvc-service-header">
                 <div className="srvc-service-icon">{service.icon}</div>
+
                 <div>
                   <h2 className="srvc-service-title">{service.title}</h2>
-                  <p className="srvc-service-subtitle" 
-                     dangerouslySetInnerHTML={{ __html: service.description.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }}
-                  />
+                  <p className="srvc-service-subtitle">
+                    {service.description}
+                  </p>
                 </div>
               </div>
 
-              {/* Maddeli Detaylar Bölümü */}
               <div className="srvc-service-details">
-                {service.details.map((detail, idx) => (
-                  <div key={idx} className="srvc-detail-item">
-                    {/* Detay içeriğini, alt başlıklar bold yapılacak şekilde render et */}
-                    <div 
-                      className="srvc-detail-content"
-                      dangerouslySetInnerHTML={{ __html: renderDetailContent(detail) }}
-                    />
-                  </div>
+                {service.details.map((d, i) => (
+                  <p
+                    key={i}
+                    className="srvc-detail-item"
+                    dangerouslySetInnerHTML={{ __html: renderDetail(d) }}
+                  />
                 ))}
               </div>
 
-            </div>
+            </article>
           ))}
+
         </div>
-      </div>
+      </section>
 
     </div>
   );

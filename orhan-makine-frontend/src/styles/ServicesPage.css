@@ -1,123 +1,125 @@
-/* src/styles/ServicesPage.css */
-
-/* ==============================================
-   CSS DEĞİŞKENLERİ
-   ============================================== */
-   :root {
-    --primary-color: #1d6fb8; /* Ana Mavi */
-    --secondary-color: #2b8df5; /* Açık Mavi */
-    --accent-color: #dc2626; /* Kırmızı Vurgu (Opsiyonel) */
+/* ============================================================
+   ROOT VARIABLES – OPTIMIZED & PWA FRIENDLY
+============================================================ */
+:root {
+    --primary-color: #1d6fb8;
+    --secondary-color: #2b8df5;
+    --accent-color: #dc2626;
+  
     --text-dark: #1e293b;
     --text-gray: #64748b;
+  
     --bg-light: #f8fafc;
+  
     --shadow-default: 0 4px 18px rgba(0, 0, 0, 0.08);
     --shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.15);
-}
-
-
-/* ==============================================
-   ANA SAYFA KAPSAYICI (BODY) - SADECE ARKA PLAN DEĞİŞTİRİLDİ
-   ============================================== */
-.srvc-page {
+  }
+  
+  /* PWA uyumlu: cihaz kontrastına duyarlı */
+  @media (prefers-contrast: more) {
+    :root {
+      --shadow-default: none;
+      --shadow-hover: none;
+    }
+  }
+  
+  /* ============================================================
+     PAGE WRAPPER
+  ============================================================ */
+  .srvc-page {
     min-height: 100vh;
     padding: 60px 0;
-    /* ARKA PLAN RENGİ DEĞİŞTİRİLDİ: #5ba3f7 */
-    background: #5ba3f7;
-    font-family: 'Poppins', sans-serif;
+    background: #5ba3f7; /* Aynı renk – değişmedi */
+    font-family: "Poppins", sans-serif;
     color: var(--text-dark);
     line-height: 1.6;
-}
-
-
-/* ==============================================
-   HİZMETLER BAŞLIK (ANA BOŞLUK AYARI BURADA)
-   ============================================== */
-.srvc-header {
+    will-change: opacity;
+  }
+  
+  /* ============================================================
+     HEADER
+  ============================================================ */
+  .srvc-header {
     text-align: center;
     margin-bottom: 40px;
     padding: 0 24px;
-}
-
-.srvc-main-title {
+  }
+  
+  .srvc-main-title {
     font-size: 3.2rem;
     font-weight: 800;
-    color: white;
+    color: #fff;
     text-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
     margin-bottom: 10px;
-}
-
-.srvc-main-desc {
+  }
+  
+  .srvc-main-desc {
     font-size: 1.35rem;
     color: rgba(255, 255, 255, 0.95);
     max-width: 800px;
     margin: 10px auto 0;
-    font-weight: 400;
-}
-
-
-/* ==============================================
-   HİZMETLER ANA BÖLÜMÜ
-   ============================================== */
-.srvc-services-section {
+  }
+  
+  /* ============================================================
+     SERVICES CONTAINER
+  ============================================================ */
+  .srvc-services-section {
     max-width: 1300px;
     margin: 0 auto;
-    padding: 20px 20px;
-}
-
-.srvc-services-list {
+    padding: 20px;
+  }
+  
+  .srvc-services-list {
     display: flex;
     flex-direction: column;
     gap: 60px;
-}
-
-
-/* ==============================================
-   HİZMET KARTLARI
-   ============================================== */
-.srvc-service-item {
+  }
+  
+  /* ============================================================
+     SERVICE CARD
+  ============================================================ */
+  .srvc-service-item {
     background: var(--bg-light);
     border-radius: 20px;
-    padding: 50px 50px;
+    padding: 50px;
     border: 1px solid #e2e8f0;
     box-shadow: var(--shadow-default);
-    transition: all 0.4s ease-in-out;
-    transform: translateY(0);
-}
-
-.srvc-service-item:hover {
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+  
+  .srvc-service-item:hover {
     box-shadow: var(--shadow-hover);
     transform: translateY(-5px);
-}
-
-/* Fade animasyonu (Gecikmeli yükleme hissi verir) */
-@keyframes fadeUp {
+  }
+  
+  /* Fade animation – unchanged */
+  @keyframes fadeUp {
     from {
-        opacity: 0;
-        transform: translateY(30px);
+      opacity: 0;
+      transform: translateY(30px);
     }
     to {
-        opacity: 1;
-        transform: translateY(0);
+      opacity: 1;
+      transform: translateY(0);
     }
-}
-
-
-/* ==============================================
-   HİZMET KARTI BAŞLIK
-   ============================================== */
-.srvc-service-header {
+  }
+  
+  /* ============================================================
+     CARD HEADER
+  ============================================================ */
+  .srvc-service-header {
     display: flex;
     align-items: center;
     gap: 30px;
     margin-bottom: 40px;
     padding-bottom: 25px;
     border-bottom: 2px solid #eef2f8;
-}
-
-.srvc-service-icon {
+  }
+  
+  .srvc-service-icon {
     width: 70px;
     height: 70px;
-    background: white;
+    background: #fff;
     color: var(--primary-color);
     border-radius: 50%;
     border: 3px solid var(--primary-color);
@@ -126,150 +128,119 @@
     align-items: center;
     flex-shrink: 0;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.srvc-service-title {
+  }
+  
+  .srvc-service-title {
     font-size: 2rem;
     font-weight: 800;
     color: var(--text-dark);
-    line-height: 1.2;
-}
-
-.srvc-service-subtitle {
+  }
+  
+  .srvc-service-subtitle {
     font-size: 1.2rem;
     color: var(--text-gray);
     margin-top: 5px;
-}
-
-
-/* ==============================================
-   HİZMET DETAY MADDELERİ
-   ============================================== */
-.srvc-service-details {
+  }
+  
+  /* ============================================================
+     DETAILS GRID
+  ============================================================ */
+  .srvc-service-details {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(45%, 1fr));
     gap: 30px;
-}
-
-.srvc-detail-item {
-    background: #ffffff;
+  }
+  
+  .srvc-detail-item {
+    background: #fff;
     border-left: 6px solid var(--primary-color);
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    transition: all 0.3s ease;
-}
-
-.srvc-detail-item:hover {
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .srvc-detail-item:hover {
     border-left-color: var(--secondary-color);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.srvc-detail-content {
+  }
+  
+  .srvc-detail-content {
     color: #374151;
     font-size: 1rem;
     line-height: 1.7;
-}
-
-/* Metin İçi Vurgu (SEO ve Okunabilirlik için) */
-.srvc-detail-content strong {
+  }
+  
+  .srvc-detail-content strong {
     color: var(--primary-color);
     font-weight: 800;
-}
-
-
-/* ==============================================
-   RESPONSIVE TASARIM
-   ============================================== */
-
-/* Tablet (≤ 1024px) */
-@media (max-width: 1024px) {
+  }
+  
+  /* ============================================================
+     RESPONSIVE
+  ============================================================ */
+  @media (max-width: 1024px) {
     .srvc-main-title {
-        font-size: 2.8rem;
+      font-size: 2.8rem;
     }
-
     .srvc-service-item {
-        padding: 40px 30px;
+      padding: 40px 30px;
     }
-    
     .srvc-service-details {
-        grid-template-columns: 1fr;
-        gap: 20px;
+      grid-template-columns: 1fr;
     }
-    
     .srvc-service-title {
-        font-size: 1.7rem;
+      font-size: 1.7rem;
     }
-}
-
-/* Orta Mobil (≤ 768px) */
-@media (max-width: 768px) {
+  }
+  
+  @media (max-width: 768px) {
     .srvc-main-title {
-        font-size: 2.4rem;
+      font-size: 2.4rem;
     }
-    
     .srvc-main-desc {
-        font-size: 1.1rem;
+      font-size: 1.1rem;
     }
-
     .srvc-service-item {
-        padding: 30px 20px;
-        border-radius: 16px;
+      padding: 30px 20px;
     }
-    
     .srvc-service-header {
-        flex-direction: column;
-        text-align: center;
-        align-items: center;
-        gap: 15px;
+      flex-direction: column;
+      gap: 15px;
+      text-align: center;
     }
-    
     .srvc-service-icon {
-        width: 60px;
-        height: 60px;
+      width: 60px;
+      height: 60px;
     }
-
     .srvc-service-title {
-        font-size: 1.5rem;
+      font-size: 1.5rem;
     }
-    
-    .srvc-service-subtitle {
-        font-size: 1rem;
-    }
-
     .srvc-detail-content {
-        font-size: 0.95rem;
+      font-size: 0.95rem;
     }
-}
-
-/* Küçük Mobil (≤ 480px) */
-@media (max-width: 480px) {
+  }
+  
+  @media (max-width: 480px) {
     .srvc-page {
-        padding: 40px 0;
+      padding: 40px 0;
     }
-    
     .srvc-main-title {
-        font-size: 2rem;
+      font-size: 2rem;
     }
-    
     .srvc-services-section {
-        padding: 10px;
+      padding: 10px;
     }
-
     .srvc-service-item {
-        padding: 24px 15px;
-        border-radius: 12px;
+      padding: 24px 15px;
     }
-    
     .srvc-services-list {
-        gap: 40px;
+      gap: 40px;
     }
-    
     .srvc-service-title {
-        font-size: 1.3rem;
+      font-size: 1.3rem;
     }
-    
     .srvc-detail-item {
-        padding: 15px;
+      padding: 15px;
     }
-}
+  }

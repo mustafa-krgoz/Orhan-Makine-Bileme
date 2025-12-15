@@ -1,7 +1,9 @@
 // ============================================
 // HAKKIMIZDA SAYFASI - ORHAN MAKİNE BİLEME
-// Modern, Responsive ve SEO Uyumlu Tasarım
+// Güncellenmiş Sürüm: Çözümler ve Sektörler kaldırıldı
+// SEO, PWA, Responsive ve Performans Optimizasyonlu
 // ============================================
+
 import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import { 
@@ -17,14 +19,14 @@ import {
 import { brandsData, brandCategories } from '../data/brandsData';
 import '../styles/AboutPage.css';
 
-// TreePine özel ikonu
+// TreePine özel ikonu - marka kategorileri için
 const TreePine = (props) => (
   <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
     <path d="M13 16L12 21M11 16L12 21M12 16V21M9 8L7 13M15 8L17 13M12 3L9 8H15L12 3Z" />
   </svg>
 );
 
-// İkon mapping fonksiyonu
+// İkon mapping fonksiyonu - markalar için uygun ikonlar
 const getIconComponent = (iconName, size = 24) => {
   const iconMap = {
     'Wrench': <Wrench size={size} />,
@@ -54,7 +56,7 @@ const AboutPage = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   // ============================================
-  // MARKALARIMIZ — yönlendirme (#brands)
+  // MARKALARIMIZ — yönlendirme (#brands) için hash kontrolü
   // ============================================
   useEffect(() => {
     if (window.location.hash === "#brands") {
@@ -70,63 +72,65 @@ const AboutPage = () => {
   }, []);
 
   // ============================================
-  // BİNA GÖRSELLERİ
+  // BİNA GÖRSELLERİ - Firma görselleri galerisi
+  // SEO: Her görsel için açıklayıcı alt text ve title
   // ============================================
   const buildingImages = [
     {
       src: '/images/joblocations/bina4.png',
-      alt: 'Orhan Makine Bileme - Satış ve Servis Bölümü',
+      alt: 'Orhan Makine Bileme Satış ve Servis Bölümü görseli',
       title: 'Satış ve Servis Bölümü'
     },
     {
       src: '/images/joblocations/bina3.png',
-      alt: 'Orhan Makine Bileme - Satış ve Servis Bölümü-2',
-      title: 'Satış ve Servis Bölümü-2'
+      alt: 'Orhan Makine Bileme satış bölümü ikinci görsel',
+      title: 'Satış Bölümü'
     },
     {
       src: '/images/joblocations/bina1.png',
-      alt: 'Orhan Makine- Ofis ve Yönetim-1',
-      title: 'Ofis ve Yönetim-1'
+      alt: 'Orhan Makine ofis ve yönetim birimi',
+      title: 'Ofis ve Yönetim'
     },
     {
       src: '/images/joblocations/bina2.png',
-      alt: 'Orhan Makine Bileme - Ofis ve Yönetim-2',
-      title: 'Ofis ve Yönetim-2'
+      alt: 'Orhan Makine yönetim ofisi ikinci görsel',
+      title: 'Yönetim Ofisi'
     },
     {
       src: '/images/joblocations/bina5.png',
-      alt: 'Orhan Makine Bileme - Ürünler',
-      title: 'Ürünler'
+      alt: 'Orhan Makine ürün stok alanı',
+      title: 'Ürün Stok Alanı'
     },
     {
       src: '/images/joblocations/bina6.png',
-      alt: 'Orhan Makine Bileme - Ürünler-2',
-      title: 'Ürünler-2'
+      alt: 'Orhan Makine makine sergi alanı',
+      title: 'Makine Sergi Alanı'
     },
     {
       src: '/images/joblocations/bina7.png',
-      alt: 'Orhan Makine Bileme - Ürünler-3',
-      title: 'Ürünler-3'
+      alt: 'Orhan Makine teknik ekipman stok alanı',
+      title: 'Teknik Ekipman Stoku'
     },
     {
       src: '/images/joblocations/bina8.png',
-      alt: 'Orhan Makine Bileme - Ürünler-4',
-      title: 'Ürünler-4'
+      alt: 'Orhan Makine ürün depoları',
+      title: 'Ürün Depoları'
     },
     {
       src: '/images/joblocations/bina9.png',
-      alt: 'Orhan Makine Bileme - Ürünler-5',
-      title: 'Ürünler-5'
+      alt: 'Orhan Makine yedek parça stok alanı',
+      title: 'Yedek Parça Stoku'
     },
     {
       src: '/images/joblocations/bina10.png',
-      alt: 'Orhan Makine Bileme - Ürünler-6',
-      title: 'Ürünler-6'
+      alt: 'Orhan Makine genel görünüm',
+      title: 'Firma Genel Görünüm'
     }
   ];
 
   // ============================================
   // GÖRSEL GALERİ FONKSİYONLARI
+  // Accessibility: Klavye navigasyonu için button elementleri
   // ============================================
   const handlePrevImage = () => {
     setCurrentImageIndex((prev) => 
@@ -142,30 +146,60 @@ const AboutPage = () => {
 
   // ============================================
   // SEO VE META AYARLARI
+  // Performance: useEffect ile dinamik title ve meta tag güncellemesi
+  // SEO: JSON-LD structured data eklenmesi
   // ============================================
   React.useEffect(() => {
-    // Sayfa başlığı
-    document.title = 'Hakkımızda | Orhan Makine Bileme - 40 Yıllık Tecrübe';
+    // Sayfa başlığı - SEO için optimize edilmiş
+    document.title = 'Orhan Makine Hakkımızda | 40 Yıllık Makine Bileme Tecrübesi';
     
-    // Meta açıklama
+    // Meta açıklama - SEO için optimize edilmiş
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute('content', 
-        'Orhan Makine Bileme - 40 yılı aşkın tecrübemizle mobilya ve endüstriyel sektöre kaliteli makine satışı ve teknik destek hizmetleri sunuyoruz.'
+        'Orhan Makine Bileme - 40 yılı aşkın tecrübemizle mobilya ve endüstriyel sektöre kaliteli makine satışı, bileme hizmeti ve teknik destek. Elazığ merkezli makine distribütörü.'
       );
     }
     
-    // Structured Data (JSON-LD)
+    // PWA: Viewport meta tag kontrolü
+    let viewportMeta = document.querySelector('meta[name="viewport"]');
+    if (!viewportMeta) {
+      viewportMeta = document.createElement('meta');
+      viewportMeta.name = 'viewport';
+      viewportMeta.content = 'width=device-width, initial-scale=1, maximum-scale=5';
+      document.head.appendChild(viewportMeta);
+    }
+    
+    // SEO: Canonical link kontrolü
+    let canonicalLink = document.querySelector('link[rel="canonical"]');
+    if (!canonicalLink) {
+      canonicalLink = document.createElement('link');
+      canonicalLink.rel = 'canonical';
+      canonicalLink.href = window.location.href;
+      document.head.appendChild(canonicalLink);
+    }
+    
+    // PWA: Manifest link kontrolü
+    let manifestLink = document.querySelector('link[rel="manifest"]');
+    if (!manifestLink) {
+      manifestLink = document.createElement('link');
+      manifestLink.rel = 'manifest';
+      manifestLink.href = '/manifest.json';
+      document.head.appendChild(manifestLink);
+    }
+    
+    // SEO: Structured Data (JSON-LD) - Schema.org markup
     const script = document.createElement('script');
     script.type = 'application/ld+json';
     script.text = JSON.stringify({
       "@context": "https://schema.org",
       "@type": "AboutPage",
-      "name": "Orhan Makine Bileme Hakkımızda",
-      "description": "40 yıllık tecrübe ile mobilya sektörüne makine satışı ve teknik destek",
-      "publisher": {
+      "name": "Orhan Makine Hakkımızda",
+      "description": "40 yıllık tecrübe ile mobilya ve endüstriyel sektöre makine satışı, bileme hizmeti ve teknik destek",
+      "mainEntity": {
         "@type": "Organization",
         "name": "Orhan Makine Bileme",
+        "alternateName": "Orhan Makine",
         "url": window.location.origin,
         "logo": `${window.location.origin}/logo.png`,
         "foundingDate": "1980",
@@ -177,40 +211,41 @@ const AboutPage = () => {
           "@type": "PostalAddress",
           "addressLocality": "Elazığ",
           "addressRegion": "Elazığ",
-          "addressCountry": "TR"
+          "addressCountry": "TR",
+          "streetAddress": "Merkez, Elazığ"
         },
-        "employee": [
-          {
-            "@type": "Person",
-            "name": "Mehmet Özcan Orhan",
-            "jobTitle": "Sahip"
-          },
-          {
-            "@type": "Person",
-            "name": "Hasan Esen",
-            "jobTitle": "Satış Uzmanı"
-          },
-          {
-            "@type": "Person",
-            "name": "Halit Mustafa Karagöz",
-            "jobTitle": "Yazılım Mühendisi"
-          },
-          {
-            "@type": "Person",
-            "name": "Ercan Orhan",
-            "jobTitle": "Makine Mühendisxi"
-          },
-          {
-            "@type": "Person",
-            "name": "Alparslan Ayyıldız",
-            "jobTitle": "Makine Mühendisi"
-          }
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+90-424-123-4567",
+          "contactType": "Customer Service",
+          "areaServed": "TR",
+          "availableLanguage": ["Turkish"]
+        },
+        "sameAs": [
+          "https://www.facebook.com/orhanmakine",
+          "https://www.instagram.com/orhanmakine",
+          "https://twitter.com/orhanmakine"
         ]
       }
     });
     document.head.appendChild(script);
 
+    // Performance: Preload önemli görseller
+    const preloadImages = [
+      '/images/joblocations/orhan-makine-bina.png',
+      buildingImages[0].src
+    ];
+    
+    preloadImages.forEach(src => {
+      const link = document.createElement('link');
+      link.rel = 'preload';
+      link.as = 'image';
+      link.href = src;
+      document.head.appendChild(link);
+    });
+
     return () => {
+      // Cleanup: Component unmount olduğunda script'i temizle
       if (document.head.contains(script)) {
         document.head.removeChild(script);
       }
@@ -218,57 +253,8 @@ const AboutPage = () => {
   }, []);
 
   // ============================================
-  // ÇÖZÜMLER VERİLERİ
-  // ============================================
-  const solutions = [
-    {
-      icon: <Settings size={24} />,
-      title: 'CNC Makineler',
-      description: 'Panel işleme, router ve kesim makineleri'
-    },
-    {
-      icon: <Wrench size={24} />,
-      title: 'Testere Bileme',
-      description: 'Freud, Farabi marka testerelerin bakım ve bileme hizmetleri'
-    },
-    {
-      icon: <Zap size={24} />,
-      title: 'Toz Emme Sistemleri',
-      description: 'Endüstriyel toz emme ve filtreleme sistemleri'
-    },
-    {
-      icon: <Package size={24} />,
-      title: 'Yedek Parça',
-      description: 'Orijinal yedek parça ve aksesuar temini'
-    },
-    {
-      icon: <ShieldCheck size={24} />,
-      title: 'Teknik Servis',
-      description: 'Uzman teknik destek ve bakım hizmetleri'
-    },
-    {
-      icon: <Globe size={24} />,
-      title: 'Danışmanlık',
-      description: 'Sektörel danışmanlık ve çözüm önerileri'
-    }
-  ];
-
-  // ============================================
-  // SEKTÖRLER LİSTESİ
-  // ============================================
-  const industries = [
-    'Mobilya Üretimi',
-    'Ahşap İşleme',
-    'Kapı-Pencere Üretimi',
-    'Parke Üretimi',
-    'Laminasyon',
-    'PVC İşleme',
-    'Alüminyum Doğrama',
-    'Endüstriyel Üretim'
-  ];
-
-  // ============================================
-  // EKİP ÜYELERİ
+  // EKİP ÜYELERİ - Personel bilgileri
+  // SEO: Her personel için açıklayıcı alt text
   // ============================================
   const teamMembers = [
     {
@@ -279,7 +265,8 @@ const AboutPage = () => {
       age: 49,
       experience: '32+ yıl',
       description: '40 yılı aşkın sektör tecrübesi ile firmanın kurucusu ve yöneticisi. Mobilya makinaları konusunda uzman.',
-      image: '/images/team/mehmet-ozcan-orhan.png'
+      image: '/images/team/mehmet-ozcan-orhan.png',
+      alt: 'Mehmet Özcan Orhan - Orhan Makine Kurucusu'
     },
     {
       id: 2,
@@ -289,7 +276,8 @@ const AboutPage = () => {
       age: 50,
       experience: '20+ yıl',
       description: 'Satış ve müşteri ilişkileri konusunda uzman. Teknik ürün bilgisi ile müşterilere en uygun çözümleri sunar.',
-      image: '/images/team/hasan-esen.png'
+      image: '/images/team/hasan-esen.png',
+      alt: 'Hasan Esen - Orhan Makine Satış Müdürü'
     },
     {
       id: 3,
@@ -299,7 +287,8 @@ const AboutPage = () => {
       age: 24,
       experience: '3+ yıl',
       description: 'Dijital dönüşüm ve yazılım çözümlerinden sorumlu. E-ticaret ve ERP sistemleri uzmanı.',
-      image: '/images/team/halit-mustafa-karagoz.png'
+      image: '/images/team/halit-mustafa-karagoz.png',
+      alt: 'Halit Mustafa Karagöz - Orhan Makine Teknoloji Direktörü'
     },
     {
       id: 4,
@@ -309,7 +298,8 @@ const AboutPage = () => {
       age: 38,
       experience: '15+ yıl',
       description: 'Makine bakım, onarım ve teknik servis konularında uzman. CNC makinalarında uzmanlaşmıştır.',
-      image: '/images/team/ercan-orhan.png'
+      image: '/images/team/ercan-orhan.png',
+      alt: 'Ercan Orhan - Orhan Makine Teknik Servis Müdürü'
     },
     {
       id: 5,
@@ -319,52 +309,73 @@ const AboutPage = () => {
       age: 29,
       experience: '7+ yıl',
       description: 'Ürün geliştirme ve kalite kontrol sorumlusu. Yeni teknolojilerin takibi ve uygulanmasından sorumlu.',
-      image: '/images/team/ugur.png'
+      image: '/images/team/ugur.png',
+      alt: 'Alparslan Ayyıldız - Orhan Makine Ürün Uzmanı'
     }
   ];
 
   // ============================================
-  // RENDER
+  // NAVIGASYON BUTONLARI - Hızlı erişim menüsü
+  // Accessibility: aria-label eklenmiş, klavye navigasyonu uyumlu
+  // ============================================
+  const navButtons = [
+    { id: 'about', label: 'Hakkımızda', icon: <Factory size={20} /> },
+    { id: 'mission', label: 'Misyon & Vizyon', icon: <Target size={20} /> },
+    { id: 'team', label: 'Ekibimiz', icon: <Users size={20} /> },
+    { id: 'brands', label: 'Markalarımız', icon: <Award size={20} /> },
+  ];
+
+  // ============================================
+  // RENDER FONKSİYONU
+  // Performance: React.memo kullanılabilir component'ler
   // ============================================
   return (
-    <div className="about-page">
+    <div className="about-page" itemScope itemType="https://schema.org/AboutPage">
       {/* ============================================
           HERO SECTION - Ana Banner
+          SEO: H1 başlık, açıklayıcı alt text'ler
+          Performance: Eager loading for LCP image
           ============================================ */}
-      <section className="about-hero">
+      <section className="about-hero" role="banner" aria-label="Orhan Makine tanıtım bannerı">
         <div className="about-hero-content">
           <div className="about-hero-text">
-            {/* Breadcrumb Navigasyonu */}
-            <div className="about-breadcrumb">
-              <Link to="/" className="about-breadcrumb-link">Ana Sayfa</Link>
-              <ChevronRight size={16} />
-              <span className="about-breadcrumb-current">Hakkımızda</span>
-            </div>
+            {/* Breadcrumb Navigasyonu - SEO için önemli */}
+            <nav className="about-breadcrumb" aria-label="breadcrumb">
+              <Link to="/" className="about-breadcrumb-link" aria-label="Ana sayfaya git">
+                Ana Sayfa
+              </Link>
+              <ChevronRight size={16} aria-hidden="true" />
+              <span className="about-breadcrumb-current" aria-current="page">
+                Hakkımızda
+              </span>
+            </nav>
             
-            {/* Ana Başlık */}
-            <h1 className="about-hero-title">
+            {/* Ana Başlık - H1 tag SEO için kritik */}
+            <h1 className="about-hero-title" itemProp="headline">
               40 Yılı Aşkın Tecrübe ile Mobilya Sektöründe
             </h1>
             
-            {/* Açıklama */}
-            <p className="about-hero-description">
+            {/* Açıklama - Ana sayfa açıklaması */}
+            <p className="about-hero-description" itemProp="description">
               1980'den bu yana mobilya ve endüstriyel sektöre kaliteli makine satışı, 
-              teknik destek ve çözüm ortaklığı sunuyoruz.
+              teknik destek, makine bileme hizmeti ve çözüm ortaklığı sunuyoruz.
+              Elazığ merkezli, Türkiye'nin güvenilir makine tedarikçisi.
             </p>
           </div>
           
-          {/* Hero Görseli */}
+          {/* Hero Görseli - LCP için eager loading */}
           <div className="about-hero-image-container">
             <img 
               src="/images/joblocations/orhan-makine-bina.png" 
-              alt="Orhan Makine Bileme İşyeri - Elazığ"
+              alt="Orhan Makine Bileme işyeri binası - Elazığ merkez"
               className="about-hero-image"
               loading="eager"
               width="800"
               height="600"
+              itemProp="image"
             />
-            <div className="about-hero-badge">
-              <Clock size={20} />
+            <div className="about-hero-badge" aria-label="1980'den beri hizmet veriyoruz">
+              <Clock size={20} aria-hidden="true" />
               <span>1980'den Beri</span>
             </div>
           </div>
@@ -373,267 +384,325 @@ const AboutPage = () => {
 
       {/* ============================================
           QUICK NAVIGATION - Hızlı Erişim Menüsü
+          Accessibility: ARIA labels, keyboard navigation
           ============================================ */}
-      <nav className="about-quick-nav" aria-label="Sayfa içi navigasyon">
+      <nav className="about-quick-nav" aria-label="Sayfa içi navigasyon menüsü">
         <div className="about-quick-nav-container">
-          <button 
-            className={`about-nav-button ${activeSection === 'about' ? 'about-nav-active' : ''}`}
-            onClick={() => setActiveSection('about')}
-            aria-label="Hakkımızda bölümüne git"
-          >
-            <Factory size={20} />
-            <span>Hakkımızda</span>
-          </button>
-          <button 
-            className={`about-nav-button ${activeSection === 'mission' ? 'about-nav-active' : ''}`}
-            onClick={() => setActiveSection('mission')}
-            aria-label="Misyon ve vizyon bölümüne git"
-          >
-            <Target size={20} />
-            <span>Misyon & Vizyon</span>
-          </button>
-          <button 
-            className={`about-nav-button ${activeSection === 'team' ? 'about-nav-active' : ''}`}
-            onClick={() => setActiveSection('team')}
-            aria-label="Ekibimiz bölümüne git"
-          >
-            <Users size={20} />
-            <span>Ekibimiz</span>
-          </button>
-          <button 
-            className={`about-nav-button ${activeSection === 'solutions' ? 'about-nav-active' : ''}`}
-            onClick={() => setActiveSection('solutions')}
-            aria-label="Çözümler bölümüne git"
-          >
-            <Wrench size={20} />
-            <span>Çözümlerimiz</span>
-          </button>
-          <button 
-            className={`about-nav-button ${activeSection === 'brands' ? 'about-nav-active' : ''}`}
-            onClick={() => setActiveSection('brands')}
-            aria-label="Markalarımız bölümüne git"
-          >
-            <Award size={20} />
-            <span>Markalarımız</span>
-          </button>
+          {navButtons.map((button) => (
+            <button 
+              key={button.id}
+              className={`about-nav-button ${activeSection === button.id ? 'about-nav-active' : ''}`}
+              onClick={() => setActiveSection(button.id)}
+              aria-label={`${button.label} bölümüne git`}
+              aria-current={activeSection === button.id ? 'page' : undefined}
+            >
+              {button.icon}
+              <span>{button.label}</span>
+            </button>
+          ))}
         </div>
       </nav>
 
       {/* ============================================
           MAIN CONTENT - Ana İçerik
+          Semantik HTML: main tag, section'lar
           ============================================ */}
-      <main className="about-main-content">
+      <main className="about-main-content" id="main-content">
         
         {/* ============================================
             HAKKIMIZDA BÖLÜMÜ
+            SEO: H2 başlık, structured data uyumlu
             ============================================ */}
         <section 
           id="about" 
           className={`about-section ${activeSection === 'about' ? 'about-section-active' : ''}`}
           aria-labelledby="about-heading"
+          itemScope
+          itemType="https://schema.org/Organization"
         >
           {/* Bölüm Başlığı */}
-          <div className="about-section-header">
-            <Factory size={32} className="about-section-icon" />
-            <h2 id="about-heading" className="about-section-title">Hakkımızda</h2>
-            <p className="about-section-subtitle">40 Yıllık Güven ve Tecrübe</p>
-          </div>
+          <header className="about-section-header">
+            <Factory size={32} className="about-section-icon" aria-hidden="true" />
+            <h2 id="about-heading" className="about-section-title" itemProp="name">
+              Hakkımızda
+            </h2>
+            <p className="about-section-subtitle">
+              40 Yıllık Güven ve Tecrübe
+            </p>
+          </header>
           
           <div className="about-section-content">
             {/* Hikaye ve İstatistikler */}
-            <div className="about-story">
+            <article className="about-story">
               <div className="about-story-text">
-                <h3 className="about-story-title">Orhan Makine Bileme'nin Hikayesi</h3>
-                <p className="about-story-paragraph">
+                <h3 className="about-story-title">
+                  Orhan Makine Bileme'nin Hikayesi
+                </h3>
+                <p className="about-story-paragraph" itemProp="description">
                   1980 yılında Elazığ'da küçük bir atölye olarak başlayan yolculuğumuz, 
                   bugün mobilya ve endüstriyel sektörün önde gelen makine tedarikçilerinden 
-                  biri olmamızı sağladı.
+                  biri olmamızı sağladı. Kuruluş amacımız, sektörün ihtiyaç duyduğu 
+                  kaliteli makine ve ekipmanları uygun fiyatlarla sunmaktı.
                 </p>
                 <p className="about-story-paragraph">
-                  Kuruluşumuzdan bu yana, sektörün ihtiyaçlarını anlayarak Freud, Farabi, 
-                  Mızrak gibi dünyaca ünlü markaların Türkiye distribütörlüğünü üstlendik. 
-                  Sadece makine satışı değil, aynı zamanda teknik destek, bakım ve 
-                  danışmanlık hizmetleriyle müşterilerimizin yanındayız.
+                  Yıllar içinde Freud, Farabi, Makita, Mızrak gibi dünyaca ünlü markaların 
+                  Doğu Anadolu Bölgesi distribütörlüğünü üstlendik. Uzmanlaştığımız makine 
+                  bileme hizmeti ile yüzlerce işletmenin kesim kalitesini artırdık.
                 </p>
                 
-                {/* İstatistikler */}
-                <div className="about-stats">
+                {/* İstatistikler - Görsel veri sunumu */}
+                <div className="about-stats" role="region" aria-label="Firma istatistikleri">
                   <div className="about-stat">
-                    <div className="about-stat-number">40+</div>
-                    <div className="about-stat-label">Yıllık Tecrübe</div>
+                    <div className="about-stat-number" aria-label="40 yıldan fazla tecrübe">
+                      40+
+                    </div>
+                    <div className="about-stat-label">
+                      Yıllık Tecrübe
+                    </div>
                   </div>
                   <div className="about-stat">
-                    <div className="about-stat-number">5000+</div>
-                    <div className="about-stat-label">Mutlu Müşteri</div>
+                    <div className="about-stat-number" aria-label="5000'den fazla mutlu müşteri">
+                      5000+
+                    </div>
+                    <div className="about-stat-label">
+                      Mutlu Müşteri
+                    </div>
                   </div>
                   <div className="about-stat">
-                    <div className="about-stat-number">25+</div>
-                    <div className="about-stat-label">Marka</div>
+                    <div className="about-stat-number" aria-label="25'ten fazla marka">
+                      25+
+                    </div>
+                    <div className="about-stat-label">
+                      Marka
+                    </div>
+                  </div>
+                  <div className="about-stat">
+                    <div className="about-stat-number" aria-label="7/24 teknik destek">
+                      7/24
+                    </div>
+                    <div className="about-stat-label">
+                      Teknik Destek
+                    </div>
                   </div>
                 </div>
               </div>
               
               {/* Bina Görselleri Galerisi */}
-              <div className="about-building-gallery">
+              <div className="about-building-gallery" role="region" aria-label="Firma görsel galerisi">
                 <div className="about-gallery-main">
-                  <img 
-                    src={buildingImages[currentImageIndex].src}
-                    alt={buildingImages[currentImageIndex].alt}
-                    className="about-gallery-image"
-                    loading="lazy"
-                    width="600"
-                    height="400"
-                  />
-                  <div className="about-gallery-overlay">
-                    <ImageIcon size={20} />
-                    <span>{buildingImages[currentImageIndex].title}</span>
-                  </div>
+                  <figure>
+                    <img 
+                      src={buildingImages[currentImageIndex].src}
+                      alt={buildingImages[currentImageIndex].alt}
+                      className="about-gallery-image"
+                      loading="lazy"
+                      width="600"
+                      height="400"
+                    />
+                    <figcaption className="about-gallery-overlay" aria-hidden="true">
+                      <ImageIcon size={20} />
+                      <span>{buildingImages[currentImageIndex].title}</span>
+                    </figcaption>
+                  </figure>
                   
-                  {/* Galeri Kontrolleri */}
+                  {/* Galeri Kontrolleri - Accessibility uyumlu */}
                   <button 
                     className="about-gallery-btn about-gallery-prev"
                     onClick={handlePrevImage}
                     aria-label="Önceki görsel"
                   >
-                    <ChevronLeft size={24} />
+                    <ChevronLeft size={24} aria-hidden="true" />
                   </button>
                   <button 
                     className="about-gallery-btn about-gallery-next"
                     onClick={handleNextImage}
                     aria-label="Sonraki görsel"
                   >
-                    <ChevronRightIcon size={24} />
+                    <ChevronRightIcon size={24} aria-hidden="true" />
                   </button>
                 </div>
                 
-                {/* Thumbnail'ler */}
-                <div className="about-gallery-thumbnails">
+                {/* Thumbnail'ler - Keyboard navigasyonu için button */}
+                <div className="about-gallery-thumbnails" role="tablist" aria-label="Galeri thumbnail seçimi">
                   {buildingImages.map((img, index) => (
                     <button
                       key={index}
                       className={`about-gallery-thumb ${index === currentImageIndex ? 'active' : ''}`}
                       onClick={() => setCurrentImageIndex(index)}
                       aria-label={`${img.title} görselini göster`}
+                      role="tab"
+                      aria-selected={index === currentImageIndex}
+                      aria-controls="gallery-image"
                     >
-                      <img src={img.src} alt={img.alt} />
+                      <img 
+                        src={img.src} 
+                        alt={img.alt} 
+                        loading="lazy"
+                        width="80"
+                        height="60"
+                      />
                     </button>
                   ))}
                 </div>
               </div>
-            </div>
+            </article>
 
-            {/* Sektörler */}
-            <div className="about-industries">
-              <h3 className="about-industries-title">Hizmet Verdiğimiz Sektörler</h3>
-              <div className="about-industries-list">
-                {industries.map((industry, index) => (
-                  <div key={index} className="about-industry-item">
-                    <CheckCircle size={20} className="about-industry-icon" />
-                    <span className="about-industry-name">{industry}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+            {/* NOT: Hizmet Verdiğimiz Sektörler bölümü kaldırıldı */}
           </div>
         </section>
 
         {/* ============================================
             MİSYON & VİZYON BÖLÜMÜ
+            SEO: H2 başlık, anlamlı içerik
             ============================================ */}
         <section 
           id="mission" 
           className={`about-section ${activeSection === 'mission' ? 'about-section-active' : ''}`}
           aria-labelledby="mission-heading"
         >
-          <div className="about-section-header">
-            <Target size={32} className="about-section-icon" />
-            <h2 id="mission-heading" className="about-section-title">Misyon & Vizyon</h2>
-            <p className="about-section-subtitle">Geleceğe Yön Veriyoruz</p>
-          </div>
+          <header className="about-section-header">
+            <Target size={32} className="about-section-icon" aria-hidden="true" />
+            <h2 id="mission-heading" className="about-section-title">
+              Misyon & Vizyon
+            </h2>
+            <p className="about-section-subtitle">
+              Geleceğe Yön Veriyoruz
+            </p>
+          </header>
 
           <div className="about-mission-vision">
             {/* Misyon */}
-            <div className="about-mission">
-              <div className="about-mission-icon">
+            <article className="about-mission">
+              <div className="about-mission-icon" aria-hidden="true">
                 <Target size={48} />
               </div>
-              <h3 className="about-mission-title">Misyonumuz</h3>
+              <h3 className="about-mission-title">
+                Misyonumuz
+              </h3>
               <p className="about-mission-description">
-                Mobilya ve endüstriyel sektöre en kaliteli makineleri, en uygun fiyatlarla 
-                sunarak müşterilerimizin üretim verimliliğini artırmak. Teknik desteğimiz 
-                ve danışmanlık hizmetlerimizle sektörün gelişimine katkı sağlamak.
+                Orhan Makine olarak, 40 yılı aşkın deneyimimizle mobilya ve endüstriyel 
+                üretim sektörüne güvenilir, kaliteli ve sürdürülebilir çözümler sunmayı 
+                misyon edindik. Müşterilerimizin üretim süreçlerini güçlendiren profesyonel 
+                bileme hizmetleri, CNC makineler ve endüstriyel ekipmanlar ile sektörde 
+                tam kapsamlı bir çözüm ortağı olmayı hedefliyoruz.
               </p>
-              <ul className="about-mission-list">
-                <li><CheckCircle size={16} /> Kaliteli ürün temini</li>
-                <li><CheckCircle size={16} /> Teknik eğitim ve destek</li>
-                <li><CheckCircle size={16} /> Hızlı ve güvenilir servis</li>
-                <li><CheckCircle size={16} /> Sürekli gelişim</li>
+              <ul className="about-mission-list" aria-label="Misyon maddeleri">
+                <li>
+                  <strong>Amacımız</strong>
+                </li>
+                <li>
+                  <CheckCircle size={16} aria-hidden="true" />
+                  Kesim kalitesini artıran hassas bileme işlemleri sunmak
+                </li>
+                <li>
+                  <CheckCircle size={16} aria-hidden="true" />
+                  Müşterilerimize uzun ömürlü, yüksek verimli makineler sağlamak
+                </li>
+                <li>
+                  <Star size={16} aria-hidden="true" />
+                  Kaliteli ürün temini
+                </li>
+                <li>
+                  <Star size={16} aria-hidden="true" />
+                  Hızlı ve güvenilir servis
+                </li>
+                <li>
+                  <Star size={16} aria-hidden="true" />
+                  Sürekli gelişim
+                </li>
               </ul>
-            </div>
+            </article>
 
             {/* Vizyon */}
-            <div className="about-vision">
-              <div className="about-vision-icon">
+            <article className="about-vision">
+              <div className="about-vision-icon" aria-hidden="true">
                 <Eye size={48} />
               </div>
-              <h3 className="about-vision-title">Vizyonumuz</h3>
+              <h3 className="about-vision-title">
+                Vizyonumuz
+              </h3>
               <p className="about-vision-description">
-                Türkiye'nin önde gelen makine tedarikçisi ve çözüm ortağı olarak, 
-                uluslararası arenada tanınan, sektörün geleceğine yön veren bir marka 
-                olmak. Yenilikçi teknolojilerle müşterilerimizi buluşturarak 
-                rekabet güçlerini artırmak.
+                Mobilya ve endüstriyel üretim makineleri sektöründe, Türkiye'nin 
+                en güvenilir ve en yenilikçi markalarından biri olmak. Teknolojiye 
+                ve gelişime yatırım yaparak, hem müşteri memnuniyetinde hem de 
+                ürün-hizmet çeşitliliğinde sektörün standartlarını yükseltmeyi hedefliyoruz.
               </p>
-              <ul className="about-vision-list">
-                <li><Star size={16} /> Sektör lideri olmak</li>
-                <li><Star size={16} /> İnovasyon odaklı büyüme</li>
-                <li><Star size={16} /> Uluslararası pazarlarda varlık</li>
-                <li><Star size={16} /> Sürdürülebilir başarı</li>
+              <ul className="about-vision-list" aria-label="Vizyon maddeleri">
+                <li>
+                  <strong>Vizyonumuz</strong>
+                </li>
+                <li>
+                  <CheckCircle size={16} aria-hidden="true" />
+                  Mızrak, Makita, Freud gibi güçlü markalarla ürün portföyümüzü genişletmek
+                </li>
+                <li>
+                  <CheckCircle size={16} aria-hidden="true" />
+                  CNC makineler, toz emme sistemleri gibi profesyonel ekipmanlarda yenilikçi çözümler sunmak
+                </li>
+                <li>
+                  <CheckCircle size={16} aria-hidden="true" />
+                  Dijitalleşen ticarette modern web altyapısı ve e-ticaret gücüyle müşterilere ulaşımı kolaylaştırmak
+                </li>
+                <li>
+                  <CheckCircle size={16} aria-hidden="true" />
+                  Sektörde kalite, güven ve uzmanlık dendiğinde ilk akla gelen firma olmak
+                </li>
               </ul>
-            </div>
+            </article>
           </div>
 
           {/* Değerlerimiz */}
-          <div className="about-values">
-            <h3 className="about-values-title">Değerlerimiz</h3>
+          <div className="about-values" role="region" aria-label="Firma değerleri">
+            <h3 className="about-values-title">
+              Değerlerimiz
+            </h3>
             <div className="about-values-grid">
               <div className="about-value-card">
-                <div className="about-value-icon">
+                <div className="about-value-icon" aria-hidden="true">
                   <Shield size={24} />
                 </div>
-                <h4 className="about-value-title">Güvenilirlik</h4>
+                <h4 className="about-value-title">
+                  Güvenilirlik
+                </h4>
                 <p className="about-value-description">
-                  40 yıllık tecrübemizle müşterilerimize güven veriyor, sözlerimizin 
-                  arkasında duruyoruz.
+                  40 yıllık tecrübemizle müşterilerimize güven veriyor, 
+                  sözlerimizin arkasında duruyoruz. Her işlemde şeffaflık ilkesiyle hareket ediyoruz.
                 </p>
               </div>
               <div className="about-value-card">
-                <div className="about-value-icon">
+                <div className="about-value-icon" aria-hidden="true">
                   <Users size={24} />
                 </div>
-                <h4 className="about-value-title">Müşteri Odaklılık</h4>
+                <h4 className="about-value-title">
+                  Müşteri Odaklılık
+                </h4>
                 <p className="about-value-description">
-                  Müşteri memnuniyetini her şeyin üzerinde tutuyor, özel çözümler 
-                  üretiyoruz.
+                  Müşteri memnuniyetini her şeyin üzerinde tutuyor, 
+                  özel çözümler üretiyoruz. Her müşterimizin ihtiyacını anlayarak çözüm sunuyoruz.
                 </p>
               </div>
               <div className="about-value-card">
-                <div className="about-value-icon">
+                <div className="about-value-icon" aria-hidden="true">
                   <Award size={24} />
                 </div>
-                <h4 className="about-value-title">Kalite</h4>
+                <h4 className="about-value-title">
+                  Kalite
+                </h4>
                 <p className="about-value-description">
-                  Dünyanın en kaliteli markalarını temsil ediyor, ürünlerimizin 
-                  kalitesinden ödün vermiyoruz.
+                  Dünyanın en kaliteli markalarını temsil ediyor, 
+                  ürünlerimizin kalitesinden ödün vermiyoruz. Tüm ürünlerimiz orijinal ve garantilidir.
                 </p>
               </div>
               <div className="about-value-card">
-                <div className="about-value-icon">
+                <div className="about-value-icon" aria-hidden="true">
                   <Truck size={24} />
                 </div>
-                <h4 className="about-value-title">Hızlı Hizmet</h4>
+                <h4 className="about-value-title">
+                  Hızlı Hizmet
+                </h4>
                 <p className="about-value-description">
                   Satış sonrası destek ve teknik serviste hızlı çözümler sunuyor, 
-                  üretiminizin durmamasını sağlıyoruz.
+                  üretiminizin durmamasını sağlıyoruz. 7/24 teknik destek hattımızla yanınızdayız.
                 </p>
               </div>
             </div>
@@ -642,159 +711,109 @@ const AboutPage = () => {
 
         {/* ============================================
             EKİP BÖLÜMÜ
+            SEO: Personel bilgileri, alt text'ler
             ============================================ */}
         <section 
           id="team" 
           className={`about-section ${activeSection === 'team' ? 'about-section-active' : ''}`}
           aria-labelledby="team-heading"
         >
-          <div className="about-section-header">
-            <Users size={32} className="about-section-icon" />
-            <h2 id="team-heading" className="about-section-title">Ekibimiz</h2>
-            <p className="about-section-subtitle">Uzman Kadromuzla Yanınızdayız</p>
-          </div>
+          <header className="about-section-header">
+            <Users size={32} className="about-section-icon" aria-hidden="true" />
+            <h2 id="team-heading" className="about-section-title">
+              Ekibimiz
+            </h2>
+            <p className="about-section-subtitle">
+              Uzman Kadromuzla Yanınızdayız
+            </p>
+          </header>
 
           <div className="about-team-intro">
             <p className="about-team-description">
               40 yıllık tecrübemizin arkasında, her biri kendi alanında uzmanlaşmış 
               deneyimli bir ekip bulunuyor. Müşterilerimize en iyi hizmeti sunmak 
-              için sürekli çalışıyoruz.
+              için sürekli eğitim alıyor ve sektördeki gelişmeleri yakından takip ediyoruz.
             </p>
           </div>
 
           <div className="about-team-grid">
             {teamMembers.map((member) => (
-              <div key={member.id} className="about-team-card">
+              <article 
+                key={member.id} 
+                className="about-team-card"
+                itemScope
+                itemType="https://schema.org/Person"
+              >
                 <div className="about-team-image-container">
                   <div className="about-team-ellipse">
                     <img 
                       src={member.image} 
-                      alt={`${member.name} - ${member.title}`}
+                      alt={member.alt}
                       className="about-team-image"
                       loading="lazy"
                       width="200"
                       height="200"
+                      itemProp="image"
                     />
                   </div>
-                  <div className="about-team-experience">
-                    <Clock size={16} />
+                  <div className="about-team-experience" aria-label={`${member.experience} tecrübe`}>
+                    <Clock size={16} aria-hidden="true" />
                     <span>{member.experience}</span>
                   </div>
                 </div>
                 <div className="about-team-info">
-                  <h3 className="about-team-name">{member.name}</h3>
+                  <h3 className="about-team-name" itemProp="name">
+                    {member.name}
+                  </h3>
                   <div className="about-team-titles">
-                    <span className="about-team-title">{member.title}</span>
-                    <span className="about-team-role">{member.role}</span>
+                    <span className="about-team-title" itemProp="jobTitle">
+                      {member.title}
+                    </span>
+                    <span className="about-team-role">
+                      {member.role}
+                    </span>
                   </div>
                   <div className="about-team-details">
-                    <div className="about-team-detail">
-                      <User size={14} />
+                    <div className="about-team-detail" aria-label={`${member.age} yaşında`}>
+                      <User size={14} aria-hidden="true" />
                       <span>{member.age} yaş</span>
                     </div>
-                    <div className="about-team-detail">
-                      <Briefcase size={14} />
+                    <div className="about-team-detail" aria-label={`${member.experience} tecrübe`}>
+                      <Briefcase size={14} aria-hidden="true" />
                       <span>{member.experience} tecrübe</span>
                     </div>
                   </div>
-                  <p className="about-team-description-text">{member.description}</p>
+                  <p className="about-team-description-text" itemProp="description">
+                    {member.description}
+                  </p>
                 </div>
-              </div>
+              </article>
             ))}
           </div>
 
-          <div className="about-team-stats">
+          <div className="about-team-stats" role="region" aria-label="Ekip istatistikleri">
             <div className="about-team-stat">
-              <div className="about-team-stat-number">5</div>
-              <div className="about-team-stat-label">Uzman Personel</div>
+              <div className="about-team-stat-number" aria-label="5 uzman personel">
+                5
+              </div>
+              <div className="about-team-stat-label">
+                Uzman Personel
+              </div>
             </div>
             <div className="about-team-stat">
-              <div className="about-team-stat-number">110+</div>
-              <div className="about-team-stat-label">Toplam Tecrübe (Yıl)</div>
+              <div className="about-team-stat-number" aria-label="110 yıldan fazla toplam tecrübe">
+                110+
+              </div>
+              <div className="about-team-stat-label">
+                Toplam Tecrübe (Yıl)
+              </div>
             </div>
             <div className="about-team-stat">
-              <div className="about-team-stat-number">100%</div>
-              <div className="about-team-stat-label">Müşteri Memnuniyeti</div>
-            </div>
-          </div>
-        </section>
-
-        {/* ============================================
-            ÇÖZÜMLER BÖLÜMÜ
-            ============================================ */}
-        <section 
-          id="solutions" 
-          className={`about-section ${activeSection === 'solutions' ? 'about-section-active' : ''}`}
-          aria-labelledby="solutions-heading"
-        >
-          <div className="about-section-header">
-            <Wrench size={32} className="about-section-icon" />
-            <h2 id="solutions-heading" className="about-section-title">Çözümlerimiz</h2>
-            <p className="about-section-subtitle">Endüstriyel Üretim için Kapsamlı Çözümler</p>
-          </div>
-
-          <div className="about-solutions">
-            {solutions.map((solution, index) => (
-              <div key={index} className="about-solution-card">
-                <div className="about-solution-icon">
-                  {solution.icon}
-                </div>
-                <h3 className="about-solution-title">{solution.title}</h3>
-                <p className="about-solution-description">{solution.description}</p>
-                <div className="about-solution-features">
-                  <span className="about-solution-feature">
-                    <CheckCircle size={14} /> Uzman Ekip
-                  </span>
-                  <span className="about-solution-feature">
-                    <CheckCircle size={14} /> Orijinal Ürün
-                  </span>
-                  <span className="about-solution-feature">
-                    <CheckCircle size={14} /> Teknik Destek
-                  </span>
-                </div>
+              <div className="about-team-stat-number" aria-label="Yüzde yüz müşteri memnuniyeti">
+                100%
               </div>
-            ))}
-          </div>
-
-          {/* Detaylı Ürün Grupları */}
-          <div className="about-products-detail">
-            <h3 className="about-products-title">Ürün Gruplarımız</h3>
-            <div className="about-products-grid">
-              <div className="about-product-category">
-                <h4 className="about-category-title">CNC Makineler</h4>
-                <ul className="about-category-list">
-                  <li>CNC Router Makineler</li>
-                  <li>Panel İşleme Makineleri</li>
-                  <li>Kesim ve Delik Makineleri</li>
-                  <li>3 Eksenli CNC Sistemler</li>
-                </ul>
-              </div>
-              <div className="about-product-category">
-                <h4 className="about-category-title">Testere Sistemleri</h4>
-                <ul className="about-category-list">
-                  <li>Freud Testere Bıçakları</li>
-                  <li>Farabi Endüstriyel Testereler</li>
-                  <li>Panel Testere Makineleri</li>
-                  <li>Daire Testere Sistemleri</li>
-                </ul>
-              </div>
-              <div className="about-product-category">
-                <h4 className="about-category-title">Toz Emme Sistemleri</h4>
-                <ul className="about-category-list">
-                  <li>Endüstriyel Toz Emiciler</li>
-                  <li>Filtreleme Sistemleri</li>
-                  <li>Santral Toz Emme</li>
-                  <li>Mobil Toz Emme Üniteleri</li>
-                </ul>
-              </div>
-              <div className="about-product-category">
-                <h4 className="about-category-title">Yedek Parça & Aksesuar</h4>
-                <ul className="about-category-list">
-                  <li>Orijinal Yedek Parçalar</li>
-                  <li>Kesici Takımlar</li>
-                  <li>Bakım Kitleri</li>
-                  <li>Endüstriyel Aksesuarlar</li>
-                </ul>
+              <div className="about-team-stat-label">
+                Müşteri Memnuniyeti
               </div>
             </div>
           </div>
@@ -802,55 +821,70 @@ const AboutPage = () => {
 
         {/* ============================================
             MARKALAR BÖLÜMÜ
+            SEO: Marka bilgileri, alt text'ler
+            NOT: Çözümlerimiz bölümü kaldırıldı
             ============================================ */}
         <section 
           id="brands" 
           className={`about-section ${activeSection === 'brands' ? 'about-section-active' : ''}`}
           aria-labelledby="brands-heading"
         >
-          <div className="about-section-header">
-            <Award size={32} className="about-section-icon" />
-            <h2 id="brands-heading" className="about-section-title">Markalarımız</h2>
-            <p className="about-section-subtitle">25+ Kaliteli Markayı Temsil Ediyoruz</p>
-          </div>
+          <header className="about-section-header">
+            <Award size={32} className="about-section-icon" aria-hidden="true" />
+            <h2 id="brands-heading" className="about-section-title">
+              Markalarımız
+            </h2>
+            <p className="about-section-subtitle">
+              25+ Kaliteli Markayı Temsil Ediyoruz
+            </p>
+          </header>
 
           <div className="about-brands-intro">
             <p className="about-brands-description">
               Mobilya ve endüstriyel sektörünün önde gelen markalarının resmi distribütörüyüz. 
-              Her marka, kendi kategorisinde dünya standartlarında kalite sunmaktadır.
+              Her marka, kendi kategorisinde dünya standartlarında kalite ve performans sunmaktadır.
+              Orjinal ürün garantisi ve teknik desteğimiz ile markalarımızı güvenle sunuyoruz.
             </p>
           </div>
 
           {/* Marka Kartları - brandsData'dan çekiliyor */}
           <div className="about-brands-grid">
             {brandsData.map((brand) => (
-              <div key={brand.id} className="about-brand-card">
-                <div className="about-brand-header">
-                  <div className="about-brand-icon">
+              <article key={brand.id} className="about-brand-card">
+                <header className="about-brand-header">
+                  <div className="about-brand-icon" aria-hidden="true">
                     {getIconComponent(brand.icon, 24)}
                   </div>
-                  <span className="about-brand-category">{brand.category}</span>
-                </div>
-                <h3 className="about-brand-name">{brand.name}</h3>
-                <p className="about-brand-description">{brand.shortDescription}</p>
+                  <span className="about-brand-category">
+                    {brand.category}
+                  </span>
+                </header>
+                <h3 className="about-brand-name">
+                  {brand.name}
+                </h3>
+                <p className="about-brand-description">
+                  {brand.shortDescription}
+                </p>
                 <div className="about-brand-features">
                   <span className="about-brand-feature">
-                    <CheckCircle size={14} /> Orijinal Ürün
+                    <CheckCircle size={14} aria-hidden="true" /> Orijinal Ürün
                   </span>
                   <span className="about-brand-feature">
-                    <CheckCircle size={14} /> Teknik Destek
+                    <CheckCircle size={14} aria-hidden="true" /> Teknik Destek
                   </span>
                   <span className="about-brand-feature">
-                    <CheckCircle size={14} /> Yedek Parça
+                    <CheckCircle size={14} aria-hidden="true" /> Yedek Parça
                   </span>
                 </div>
-              </div>
+              </article>
             ))}
           </div>
 
           {/* Marka Kategorileri Özeti */}
-          <div className="about-brand-categories">
-            <h3 className="about-brand-categories-title">Marka Kategorilerimiz</h3>
+          <div className="about-brand-categories" role="region" aria-label="Marka kategorileri">
+            <h3 className="about-brand-categories-title">
+              Marka Kategorilerimiz
+            </h3>
             <div className="about-brand-categories-grid">
               {brandCategories.map((category) => (
                 <div key={category.id} className="about-brand-category-item">
@@ -866,21 +900,26 @@ const AboutPage = () => {
 
       {/* ============================================
           CTA SECTION - Çağrı-Eylem Bölümü
+          SEO: Call-to-action butonları
+          Accessibility: Açıklayıcı button text'leri
           ============================================ */}
-      <section className="about-cta">
+      <section className="about-cta" role="region" aria-label="İletişim çağrısı">
         <div className="about-cta-content">
-          <h2 className="about-cta-title">Sektörünüz İçin Doğru Makineyi Bulun</h2>
+          <h2 className="about-cta-title">
+            Sektörünüz İçin Doğru Makine ve Bileme Hizmetini Bulun
+          </h2>
           <p className="about-cta-description">
-            40 yıllık tecrübemizle ihtiyacınız olan çözümü sunalım.
-            Ücretsiz danışmanlık ve teknik destek için bize ulaşın.
+            40 yıllık tecrübemizle ihtiyacınız olan makine, yedek parça veya 
+            bileme hizmetini sunalım. Ücretsiz danışmanlık ve teknik destek için 
+            bize ulaşın. Elazığ merkezli olarak Türkiye geneli hizmet veriyoruz.
           </p>
           <div className="about-cta-buttons">
             <Link to="/contact" className="about-cta-button about-cta-primary">
-              <Phone size={20} />
+              <Phone size={20} aria-hidden="true" />
               <span>İletişime Geçin</span>
             </Link>
             <Link to="/products" className="about-cta-button about-cta-secondary">
-              <Package size={20} />
+              <Package size={20} aria-hidden="true" />
               <span>Ürünlerimizi Görün</span>
             </Link>
           </div>
