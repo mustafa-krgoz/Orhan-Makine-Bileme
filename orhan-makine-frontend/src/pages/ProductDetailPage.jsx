@@ -280,17 +280,22 @@ const ProductDetailPage = () => {
               </div>
 
               <div className="main-image-section">
-                <div 
-                  className="main-image-container"
-                  onMouseEnter={() => setIsHoveringImage(true)}
-                  onMouseLeave={() => setIsHoveringImage(false)}
-                  onMouseMove={handleZoomMove}
-                >
-                  <img 
+                  <div 
+                    className="main-image-container"
+                    onMouseEnter={() => setIsHoveringImage(true)}
+                    onMouseLeave={() => setIsHoveringImage(false)}
+                    onMouseMove={handleZoomMove}
+                  >
+                    
+                  <img ß
                     src={images[selectedImage]}
                     alt={product.name}
                     className={`main-image ${isHoveringImage ? 'zoom-active' : ''}`}
                     loading="lazy"
+                    decoding="async"
+                    fetchpriority="low"
+                    width="800"
+                    height="800"
                     style={{
                       '--zoom-x': `${zoomPosition.x}%`,
                       '--zoom-y': `${zoomPosition.y}%`,
