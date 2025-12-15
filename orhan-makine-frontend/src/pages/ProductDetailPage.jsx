@@ -27,7 +27,6 @@ const ProductDetailPage = () => {
   const [showShareModal, setShowShareModal] = useState(false);
   const [isHoveringImage, setIsHoveringImage] = useState(false);
   
-  // YORUMLAR İÇİN STATE'LER
   const [reviewRating, setReviewRating] = useState(0);
   const [reviewText, setReviewText] = useState('');
   const [reviewName, setReviewName] = useState('');
@@ -35,7 +34,6 @@ const ProductDetailPage = () => {
   const [averageRating, setAverageRating] = useState(0);
   const [totalReviews, setTotalReviews] = useState(0);
   
-  // SORU & CEVAP İÇİN STATE'LER
   const [questionText, setQuestionText] = useState('');
   const [questionName, setQuestionName] = useState('');
   const [questions, setQuestions] = useState([]);
@@ -56,33 +54,24 @@ const ProductDetailPage = () => {
     const rect = e.target.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
-  
     setZoomPosition({ x, y });
   };
 
-  // URL hash kontrolü - Yorumlar ve Soru&Cevap için
   useEffect(() => {
     if (location.hash === '#reviews') {
       setActiveTab('reviews');
-      setTimeout(() => {
-        reviewsTabRef.current?.scrollIntoView({ behavior: 'smooth' });
-      }, 100);
+      setTimeout(() => reviewsTabRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
     }
     if (location.hash === '#questions') {
       setActiveTab('questions');
-      setTimeout(() => {
-        questionTabRef.current?.scrollIntoView({ behavior: 'smooth' });
-      }, 100);
+      setTimeout(() => questionTabRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
     }
     if (location.hash === '#write-review') {
       setActiveTab('reviews');
-      setTimeout(() => {
-        commentFormRef.current?.scrollIntoView({ behavior: 'smooth' });
-      }, 100);
+      setTimeout(() => commentFormRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
     }
   }, [location]);
 
-  // Ürün bulunamazsa hata sayfası göster
   if (!product) {
     return (
       <div className="product-not-found">
@@ -92,10 +81,8 @@ const ProductDetailPage = () => {
     );
   }
 
-  // Ürün görsellerini al
   const images = product.images || [product.image];
 
-  // Fiyat formatlama fonksiyonu
   const formatPrice = (price) => {
     return new Intl.NumberFormat('tr-TR', {
       minimumFractionDigits: 2,
@@ -103,7 +90,6 @@ const ProductDetailPage = () => {
     }).format(price);
   };
 
-  // İndirim hesaplama
   const calculateDiscount = () => {
     if (!product.originalPrice || product.price >= product.originalPrice) return 0;
     return Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100);
@@ -111,19 +97,16 @@ const ProductDetailPage = () => {
 
   const discountPercentage = calculateDiscount();
 
-  // Taksit hesaplama
   const calculateInstallment = (installmentCount = 12) => {
     const monthly = product.price / installmentCount;
     return formatPrice(monthly);
   };
 
-  // Favori butonu işlevi
   const handleFavoriteClick = () => {
     toggleFavorite(product.id);
     toast.success(isFavorite(product.id) ? 'Favorilerden çıkarıldı' : 'Favorilere eklendi');
   };
 
-  // Sepete ekle butonu işlevi
   const handleAddToCart = () => {
     addToCart(product, quantity);
     toast.success(`${product.name} sepete eklendi!`, {
@@ -133,7 +116,6 @@ const ProductDetailPage = () => {
     });
   };
 
-  // Hemen al butonu işlevi
   const handleBuyNow = () => {
     addToCart(product, quantity);
     window.location.href = '/cart';
@@ -141,19 +123,14 @@ const ProductDetailPage = () => {
 
   const productUrl = window.location.href;
 
-  // YORUM İŞLEMLERİ
   const handleReviewClick = () => {
     setActiveTab('reviews');
-    setTimeout(() => {
-      reviewsTabRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, 100);
+    setTimeout(() => reviewsTabRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
   };
 
   const handleWriteReviewClick = () => {
     setActiveTab('reviews');
-    setTimeout(() => {
-      commentFormRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, 100);
+    setTimeout(() => commentFormRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
   };
 
   const handleSubmitReview = (e) => {
@@ -198,19 +175,14 @@ const ProductDetailPage = () => {
     toast.success('Yorumunuz başarıyla gönderildi!');
   };
 
-  // SORU İŞLEMLERİ
   const handleQuestionClick = () => {
     setActiveTab('questions');
-    setTimeout(() => {
-      questionTabRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, 100);
+    setTimeout(() => questionTabRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
   };
 
   const handleAskQuestionClick = () => {
     setActiveTab('questions');
-    setTimeout(() => {
-      questionFormRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, 100);
+    setTimeout(() => questionFormRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
   };
 
   const handleSubmitQuestion = (e) => {
@@ -239,10 +211,9 @@ const ProductDetailPage = () => {
     setQuestionName('');
     setQuestionText('');
     
-    toast.success('Soranız başarıyla gönderildi!');
+    toast.success('Sorunuz başarıyla gönderildi!');
   };
 
-  // Kategori formatlama
   const formatCategories = () => {
     if (Array.isArray(product.categories)) {
       return product.categories.join(', ');
@@ -250,11 +221,24 @@ const ProductDetailPage = () => {
     return product.category || 'Kategori';
   };
 
+  // İkon mapping helper
+  const getIconComponent = (iconName) => {
+    const icons = {
+      FaBolt: FaBolt,
+      FaCogs: FaCogs,
+      FaHardHat: FaHardHat,
+      FaShippingFast: FaShippingFast,
+      FaBox: FaBox,
+      FaShieldAlt: FaShieldAlt,
+      FaIndustry: FaIndustry
+    };
+    return icons[iconName] || FaCheckCircle;
+  };
+
   return (
     <div className="product-detail-page">
       <ToastContainer />
       
-      {/* PAYLAŞIM MODAL'I */}
       <ShareModal
         isOpen={showShareModal}
         onClose={() => setShowShareModal(false)}
@@ -264,8 +248,7 @@ const ProductDetailPage = () => {
 
       <div className="container">
 
-        {/* Breadcrumb */}
-        <nav className="breadcrumb">
+        <nav className="breadcrumb" aria-label="Breadcrumb">
           <Link to="/">Ana Sayfa</Link>
           <span> / </span>
           <Link to="/products">Ürünler</Link>
@@ -279,13 +262,10 @@ const ProductDetailPage = () => {
 
         <div className="product-main">
 
-          {/* SOL KOLON - Ürün Galerisi */}
           <div className="product-left-column">
             
-            {/* Ürün Galerisi */}
             <div className="product-gallery-new">
               
-              {/* SOL - Küçük Resimler */}
               <div className="thumbnail-gallery-vertical">
                 {images.map((img, index) => (
                   <button
@@ -299,13 +279,12 @@ const ProductDetailPage = () => {
                 ))}
               </div>
 
-              {/* SAĞ - Ana Resim */}
               <div className="main-image-section">
                 <div 
                   className="main-image-container"
                   onMouseEnter={() => setIsHoveringImage(true)}
                   onMouseLeave={() => setIsHoveringImage(false)}
-                  onMouseMove={handleZoomMove}   // ⭐ YENİ EKLENDİ
+                  onMouseMove={handleZoomMove}
                 >
                   <img 
                     src={images[selectedImage]}
@@ -317,7 +296,7 @@ const ProductDetailPage = () => {
                       '--zoom-y': `${zoomPosition.y}%`,
                     }}
                   />
-                                    m
+                  
                   {isHoveringImage && (
                     <div className="zoom-overlay">
                       <div className="zoom-text">
@@ -330,48 +309,71 @@ const ProductDetailPage = () => {
 
             </div>
 
-            {/* Ürün Detay Bilgileri */}
+            {/* DİNAMİK ÜRÜN DETAY KARTI */}
             <div className="product-details-card">
               <div className="detail-row">
                 <span className="detail-label">Kategori</span>
                 <span className="detail-value">{formatCategories()}</span>
               </div>
+              
               <div className="detail-row">
                 <span className="detail-label">Marka</span>
-                <span className="detail-value">{product.brand || "MACROZA"}</span>
+                <span className="detail-value">{product.brand || "Belirtilmemiş"}</span>
               </div>
-              <div className="detail-row">
-                <span className="detail-label">Stok Kodu</span>
-                <span className="detail-value">{product.stockCode || "38248"}</span>
-              </div>
+              
+              {product.productCode && (
+                <div className="detail-row">
+                  <span className="detail-label">Ürün Kodu</span>
+                  <span className="detail-value">{product.productCode}</span>
+                </div>
+              )}
+              
+              {product.stockCode && (
+                <div className="detail-row">
+                  <span className="detail-label">Stok Kodu</span>
+                  <span className="detail-value">{product.stockCode}</span>
+                </div>
+              )}
+              
               <div className="detail-row">
                 <span className="detail-label">Stok Durumu</span>
                 <span className={`detail-value stock-status-indicator ${product.inStock ? 'in-stock' : 'out-of-stock'}`}>
-                  {product.inStock ? 'Stokta Var' : 'Stokta Yok'}
+                  {product.inStock ? '✓ Stokta Var' : '✗ Stokta Yok'}
                 </span>
               </div>
-              <div className="detail-row">
-                <span className="detail-label">Havale</span>
-                <span className="detail-value eft-discount">
-                  (%2.00 Havale/EFT indirimi)
-                </span>
-              </div>
+              
+              {product.isNew && (
+                <div className="detail-row">
+                  <span className="detail-label">Durum</span>
+                  <span className="detail-value badge-new">🆕 Yeni Ürün</span>
+                </div>
+              )}
+              
+              {product.isCampaign && (
+                <div className="detail-row">
+                  <span className="detail-label">Kampanya</span>
+                  <span className="detail-value badge-campaign">🎉 Kampanyalı Ürün</span>
+                </div>
+              )}
+              
+              {product.isFeatured && (
+                <div className="detail-row">
+                  <span className="detail-label">Özellik</span>
+                  <span className="detail-value badge-featured">⭐ Öne Çıkan Ürün</span>
+                </div>
+              )}
             </div>
 
           </div>
 
-          {/* ORTA KOLON - Ürün Bilgileri ve Butonlar - GÜNCELLENDİ (DAHA SIKI) */}
           <div className="product-middle-column">
             <div className="product-info">
 
-              {/* Ürün Başlığı - DAHA SIKI */}
               <header className="product-header">
                 <h1 className="product-title">{product.name}</h1>
 
-                {/* PUANLAMA VE AKSİYON LİNKLERİ - DAHA SIKI */}
                 <div className="product-rating-section compact">
                   <div className="rating-container compact">
-                    {/* Puanlama */}
                     <div className="rating-display compact">
                       <span className="rating-score">{averageRating}</span>
                       <div className="stars">
@@ -385,7 +387,6 @@ const ProductDetailPage = () => {
                       <span className="review-count">({totalReviews} yorum)</span>
                     </div>
                     
-                    {/* AKSİYON LİNKLERİ - DAHA SIKI */}
                     <div className="action-links compact">
                       <button 
                         className="action-link review-link"
@@ -411,7 +412,6 @@ const ProductDetailPage = () => {
                 </div>
               </header>
 
-              {/* FİYAT BİLGİSİ - DAHA SIKI */}
               <div className="price-section-top compact">
                 <div className="price-display-top compact">
                   {product.originalPrice && product.originalPrice > product.price && (
@@ -431,9 +431,8 @@ const ProductDetailPage = () => {
                 </div>
               </div>
 
-              {/* Adet Seçimi - DAHA SIKI */}
               <div className="quantity-section compact">
-                <label>Adet:</label>
+                <label htmlFor="quantity-input">Adet:</label>
                 <div className="quantity-control">
                   <button 
                     onClick={() => setQuantity(q => Math.max(1, q - 1))} 
@@ -443,11 +442,13 @@ const ProductDetailPage = () => {
                     −
                   </button>
                   <input 
+                    id="quantity-input"
                     type="number" 
                     value={quantity} 
                     onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
                     min="1"
                     max="99"
+                    aria-label="Ürün adedi"
                   />
                   <button 
                     onClick={() => setQuantity(q => q + 1)}
@@ -458,14 +459,13 @@ const ProductDetailPage = () => {
                 </div>
               </div>
 
-              {/* BUTONLAR - DAHA SIKI */}
               <div className="action-buttons-container compact">
                 <div className="primary-buttons">
-                  {/* SEPETE EKLE BUTONU */}
                   <button 
                     className="btn-add-to-cart" 
                     onClick={handleAddToCart}
                     disabled={!product.inStock}
+                    aria-label="Sepete ekle"
                   >
                     <div className="btn-content">
                       <FaShoppingCart className="btn-icon" />
@@ -473,11 +473,11 @@ const ProductDetailPage = () => {
                     </div>
                   </button>
 
-                  {/* HEMEN AL BUTONU */}
                   <button 
                     className="btn-buy-now" 
                     onClick={handleBuyNow}
                     disabled={!product.inStock}
+                    aria-label="Hemen satın al"
                   >
                     <div className="btn-content">
                       <span className="btn-text">HEMEN SATIN AL</span>
@@ -485,7 +485,6 @@ const ProductDetailPage = () => {
                   </button>
                 </div>
 
-                {/* İKİNCİL BUTONLAR */}
                 <div className="secondary-buttons">
                   <button 
                     className={`btn-favorite ${isFavorite(product.id) ? "active" : ""}`}
@@ -512,22 +511,20 @@ const ProductDetailPage = () => {
             </div>
           </div>
 
-          {/* SAĞ KOLON - İletişim ve Ödeme Bilgileri */}
           <div className="product-right-column">
             
-            {/* YARDIM İSTER MİSİNİZ? */}
             <div className="contact-card">
               <h3>Yardım İster misiniz?</h3>
               <p>Ürünle ilgili sorularınız için bize ulaşın.</p>
               <div className="contact-options">
-                <a href="tel:+905001234567" className="contact-option">
+                <a href="tel:+905334613150" className="contact-option">
                   <FaPhone className="option-icon" />
                   <div>
                     <span>Telefon</span>
                     <small>+90 (533) 461 31 50</small>
                   </div>
                 </a>
-                <a href="mailto:info@orhanmakine.com" className="contact-option">
+                <a href="mailto:info@orhanmakine.com.tr" className="contact-option">
                   <FaEnvelope className="option-icon" />
                   <div>
                     <span>E-posta</span>
@@ -540,7 +537,6 @@ const ProductDetailPage = () => {
               </Link>
             </div>
 
-            {/* ÖDEME SEÇENEKLERİ */}
             <div className="payment-info-card">
               <h3>Ödeme Seçenekleri</h3>
               <div className="payment-info-list">
@@ -558,7 +554,7 @@ const ProductDetailPage = () => {
                     <FaUniversity className="payment-icon" />
                     <div className="payment-details">
                       <span className="payment-method-name">Havale/EFT</span>
-                      <small className="payment-method-desc">%2 indirim, banka hesap bilgileri</small>
+                      <small className="payment-method-desc">Banka hesap bilgileri</small>
                     </div>
                   </div>
                 </div>
@@ -567,7 +563,7 @@ const ProductDetailPage = () => {
                     <FaMoneyBill className="payment-icon" />
                     <div className="payment-details">
                       <span className="payment-method-name">Kapıda Ödeme</span>
-                      <small className="payment-method-desc">Nakit veya kredi kartı, +20 TL</small>
+                      <small className="payment-method-desc">Nakit veya kredi kartı</small>
                     </div>
                   </div>
                 </div>
@@ -578,12 +574,12 @@ const ProductDetailPage = () => {
 
         </div>
 
-        {/* TAB'LAR - GÜNCELLENDİ (TEKNİK ÖZELLİKLER TAB'I KALDIRILDI) */}
         <div className="product-tabs" ref={reviewsTabRef}>
           <div className="tab-headers">
             <button 
               className={`tab-header ${activeTab === 'description' ? 'active' : ''}`}
               onClick={() => setActiveTab('description')}
+              aria-label="Ürün Bilgisi"
             >
               <FaInfoCircle className="tab-icon" />
               <span>Ürün Bilgisi</span>
@@ -592,6 +588,7 @@ const ProductDetailPage = () => {
               className={`tab-header ${activeTab === 'questions' ? 'active' : ''}`}
               onClick={() => setActiveTab('questions')}
               ref={questionTabRef}
+              aria-label="Soru ve Cevap"
             >
               <FaQuestionCircle className="tab-icon" />
               <span>Soru & Cevap ({questions.length})</span>
@@ -599,6 +596,7 @@ const ProductDetailPage = () => {
             <button 
               className={`tab-header ${activeTab === 'installment' ? 'active' : ''}`}
               onClick={() => setActiveTab('installment')}
+              aria-label="Taksit Seçenekleri"
             >
               <FaCalendarAlt className="tab-icon" />
               <span>Taksit Seçenekleri</span>
@@ -606,6 +604,7 @@ const ProductDetailPage = () => {
             <button 
               className={`tab-header ${activeTab === 'shipping' ? 'active' : ''}`}
               onClick={() => setActiveTab('shipping')}
+              aria-label="Kargo Bilgileri"
             >
               <FaTruck className="tab-icon" />
               <span>Kargo Bilgileri</span>
@@ -613,6 +612,7 @@ const ProductDetailPage = () => {
             <button 
               className={`tab-header ${activeTab === 'reviews' ? 'active' : ''}`}
               onClick={() => setActiveTab('reviews')}
+              aria-label="Yorumlar"
             >
               <FaStar className="tab-icon" />
               <span>Yorumlar ({totalReviews})</span>
@@ -621,7 +621,7 @@ const ProductDetailPage = () => {
 
           <div className="tab-content">
             
-            {/* ÜRÜN BİLGİSİ TAB - TAMAMEN YENİ DETAYLI TASARIM */}
+            {/* DİNAMİK ÜRÜN BİLGİSİ TAB */}
             {activeTab === 'description' && (
               <div className="tab-panel modern">
                 <header className="description-header">
@@ -629,147 +629,105 @@ const ProductDetailPage = () => {
                     <FaInfoCircle className="section-icon" />
                     Ürün Açıklaması
                   </h2>
-                  <div className="product-badge">
-                    <FaCertificate className="badge-icon" />
-                    <span>Orijinal Ürün</span>
-                  </div>
+                  {product.warranty && (
+                    <div className="product-badge">
+                      <FaCertificate className="badge-icon" />
+                      <span>{product.warranty}</span>
+                    </div>
+                  )}
                 </header>
                 
                 <div className="description-content-modern">
-                  {/* Ana Açıklama */}
-                  <section className="description-main">
-                    <p className="description-lead">
-                      MACROZA EXF5121 KAZIMA BIÇAK ORTA, endüstriyel ve profesyonel kullanım için özel olarak tasarlanmış yüksek performanslı bir kazıma bıçağıdır. Özel alaşım çelikten üretilen bu bıçak, uzun ömürlü kullanım ve yüksek dayanıklılık sunar. Ağır iş koşullarında bile maksimum verimlilik sağlayan ürün, EXF5121 modelleri ile tam uyumludur.
-                    </p>
-                    
-                    <div className="description-highlights">
-                      <div className="highlight-item">
-                        <FaShieldAlt className="highlight-icon" />
-                        <div>
-                          <h3>2 Yıl Garanti</h3>
-                          <p>Üretici firma garantisi ile güvence altında</p>
-                        </div>
-                      </div>
-                      <div className="highlight-item">
-                        <FaBox className="highlight-icon" />
-                        <div>
-                          <h3>Orijinal Kutu</h3>
-                          <p>Kutulu ve belgeli orijinal ürün</p>
-                        </div>
-                      </div>
-                      <div className="highlight-item">
-                        <FaIndustry className="highlight-icon" />
-                        <div>
-                          <h3>Endüstriyel Kalite</h3>
-                          <p>Profesyonel kullanıma uygun</p>
-                        </div>
-                      </div>
-                    </div>
-                  </section>
                   
-                  {/* Ürün Özellikleri */}
-                  <section className="product-features-modern">
-                    <h3 className="features-title">
-                      <FaCheckCircle className="features-icon" />
-                      Ürün Özellikleri
-                    </h3>
-                    <div className="features-grid">
-                      <div className="feature-card">
-                        <FaBoltIcon className="feature-icon" />
-                        <div className="feature-content">
-                          <h4>Yüksek Dayanıklılık</h4>
-                          <p>Özel ısıl işlem görmüş çelik yapı</p>
+                  {product.description?.lead && (
+                    <section className="description-main">
+                      <p className="description-lead">
+                        {product.description.lead}
+                      </p>
+                      
+                      {(product.warranty || product.certificates) && (
+                        <div className="description-highlights">
+                          {product.warranty && (
+                            <div className="highlight-item">
+                              <FaShieldAlt className="highlight-icon" />
+                              <div>
+                                <h3>{product.warranty}</h3>
+                                <p>Üretici firma garantisi ile güvence altında</p>
+                              </div>
+                            </div>
+                          )}
+                          
+                          {product.certificates?.map((cert, idx) => (
+                            <div className="highlight-item" key={idx}>
+                              <FaBox className="highlight-icon" />
+                              <div>
+                                <h3>{cert}</h3>
+                                <p>Orijinal ve belgeli ürün</p>
+                              </div>
+                            </div>
+                          ))}
                         </div>
-                      </div>
-                      <div className="feature-card">
-                        <FaCogs className="feature-icon" />
-                        <div className="feature-content">
-                          <h4>Kolay Montaj</h4>
-                          <p>Standart bağlantı sistemleri ile uyumlu</p>
-                        </div>
-                      </div>
-                      <div className="feature-card">
-                        <FaHardHat className="feature-icon" />
-                        <div className="feature-content">
-                          <h4>Güvenli Kullanım</h4>
-                          <p>Koruyucu tasarım ile iş güvenliği</p>
-                        </div>
-                      </div>
-                      <div className="feature-card">
-                        <FaShippingFast className="feature-icon" />
-                        <div className="feature-content">
-                          <h4>Hızlı Teslimat</h4>
-                          <p>Stoktan aynı gün kargo imkanı</p>
-                        </div>
-                      </div>
-                    </div>
-                  </section>
+                      )}
+                    </section>
+                  )}
                   
-                  {/* Teknik Ölçüler */}
-                  <section className="technical-specs-modern">
-                    <h3 className="specs-title">
-                      <FaRuler className="specs-icon" />
-                      Teknik Ölçüler
-                    </h3>
-                    <div className="specs-table-modern">
-                      <div className="specs-row">
-                        <span className="specs-label">Ürün Tipi</span>
-                        <span className="specs-value">Kazıma Bıçağı - Orta</span>
+                  {product.description?.features && (
+                    <section className="product-features-modern">
+                      <h3 className="features-title">
+                        <FaCheckCircle className="features-icon" />
+                        Ürün Özellikleri
+                      </h3>
+                      <div className="features-grid">
+                        {product.description.features.map((feature, idx) => {
+                          const IconComponent = getIconComponent(feature.icon);
+                          return (
+                            <div className="feature-card" key={idx}>
+                              <IconComponent className="feature-icon" />
+                              <div className="feature-content">
+                                <h4>{feature.title}</h4>
+                                <p>{feature.description}</p>
+                              </div>
+                            </div>
+                          );
+                        })}
                       </div>
-                      <div className="specs-row">
-                        <span className="specs-label">Uyumlu Makine</span>
-                        <span className="specs-value">EXF5121 Serisi</span>
-                      </div>
-                      <div className="specs-row">
-                        <span className="specs-label">Kazıma Genişliği</span>
-                        <span className="specs-value">25 mm</span>
-                      </div>
-                      <div className="specs-row">
-                        <span className="specs-label">Kazıma Derinliği</span>
-                        <span className="specs-value">15 - 25 mm (ayarlanabilir)</span>
-                      </div>
-                      <div className="specs-row">
-                        <span className="specs-label">Malzeme</span>
-                        <span className="specs-value">Yüksek Karbon Çelik</span>
-                      </div>
-                      <div className="specs-row">
-                        <span className="specs-label">Ağırlık</span>
-                        <span className="specs-value">850 gr</span>
-                      </div>
-                      <div className="specs-row">
-                        <span className="specs-label">Boyutlar</span>
-                        <span className="specs-value">150 x 45 x 25 mm</span>
-                      </div>
-                      <div className="specs-row">
-                        <span className="specs-label">Paket İçeriği</span>
-                        <span className="specs-value">1 Adet Kazıma Bıçağı + Montaj Vidaları</span>
-                      </div>
-                    </div>
-                  </section>
+                    </section>
+                  )}
                   
-                  {/* Ek Bilgiler */}
-                  <section className="additional-info-modern">
-                    <h3>Kullanım ve Bakım Bilgileri</h3>
-                    <div className="info-grid">
-                      <div className="info-card">
-                        <h4>Kullanım Alanı</h4>
-                        <p>Endüstriyel kazıma işlemleri, yol bakımı, inşaat sektörü, tarım makineleri bakımı için ideal.</p>
+                  {product.description?.technicalSpecs && (
+                    <section className="technical-specs-modern">
+                      <h3 className="specs-title">
+                        <FaRuler className="specs-icon" />
+                        Teknik Ölçüler
+                      </h3>
+                      <div className="specs-table-modern">
+                        {product.description.technicalSpecs.map((spec, idx) => (
+                          <div className="specs-row" key={idx}>
+                            <span className="specs-label">{spec.label}</span>
+                            <span className="specs-value">{spec.value}</span>
+                          </div>
+                        ))}
                       </div>
-                      <div className="info-card">
-                        <h4>Bakım Önerileri</h4>
-                        <p>Her kullanımdan sonra temizlenmeli, düzenli yağlanmalı ve kuru ortamda saklanmalıdır.</p>
+                    </section>
+                  )}
+                  
+                  {product.description?.additionalInfo && (
+                    <section className="additional-info-modern">
+                      <h3>Kullanım ve Bakım Bilgileri</h3>
+                      <div className="info-grid">
+                        {product.description.additionalInfo.map((info, idx) => (
+                          <div className="info-card" key={idx}>
+                            <h4>{info.title}</h4>
+                            <p>{info.content}</p>
+                          </div>
+                        ))}
                       </div>
-                      <div className="info-card">
-                        <h4>Performans</h4>
-                        <p>Yüksek tork dayanımı, uzun ömürlü keskinlik ve minimum bakım gereksinimi.</p>
-                      </div>
-                    </div>
-                  </section>
+                    </section>
+                  )}
                 </div>
               </div>
             )}
 
-            {/* SORU & CEVAP TAB - AYNI KALDI */}
             {activeTab === 'questions' && (
               <div className="tab-panel">
                 <div className="questions-header">
@@ -782,7 +740,6 @@ const ProductDetailPage = () => {
                   </button>
                 </div>
 
-                {/* SORU SORMA FORMU */}
                 <div className="ask-question-section" ref={questionFormRef}>
                   <h4>Soru Sor</h4>
                   <p className="form-description">
@@ -832,7 +789,6 @@ const ProductDetailPage = () => {
                   </form>
                 </div>
 
-                {/* SORULAR LİSTESİ */}
                 <div className="questions-list">
                   {questions.length > 0 ? (
                     questions.map((question) => (
@@ -851,7 +807,6 @@ const ProductDetailPage = () => {
                           <p>{question.question}</p>
                         </div>
 
-                        {/* CEVAPLAR */}
                         {question.answers && question.answers.length > 0 && (
                           <div className="answers-section">
                             <h5>Cevaplar ({question.answers.length})</h5>
@@ -890,7 +845,6 @@ const ProductDetailPage = () => {
               </div>
             )}
 
-            {/* TAKSİT SEÇENEKLERİ TAB - AYNI KALDI */}
             {activeTab === 'installment' && (
               <div className="tab-panel modern">
                 <h3 className="section-title">
@@ -989,7 +943,6 @@ const ProductDetailPage = () => {
               </div>
             )}
 
-            {/* KARGO BİLGİLERİ TAB - GÜNCELLENDİ (RENK VE İKON) */}
             {activeTab === 'shipping' && (
               <div className="tab-panel modern">
                 <h3 className="section-title">
@@ -1028,7 +981,7 @@ const ProductDetailPage = () => {
                       <div className="highlight-content">
                         <h4>Kapıda Ödeme</h4>
                         <p className="highlight-value available">Mevcut</p>
-                        <small>+20 TL ek ücret</small>
+                        <small>Nakit veya kart</small>
                       </div>
                     </div>
                   </div>
@@ -1110,7 +1063,6 @@ const ProductDetailPage = () => {
               </div>
             )}
 
-            {/* YORUMLAR TAB - AYNI KALDI */}
             {activeTab === 'reviews' && (
               <div className="tab-panel">
                 <div className="reviews-header">
@@ -1123,7 +1075,6 @@ const ProductDetailPage = () => {
                   </button>
                 </div>
                 
-                {/* YORUM ÖZETİ */}
                 <div className="review-summary">
                   <div className="average-rating">
                     <span className="rating-number">{averageRating}</span>
@@ -1139,7 +1090,6 @@ const ProductDetailPage = () => {
                   </div>
                 </div>
 
-                {/* YORUM YAZMA FORMU */}
                 <div className="write-review-section" ref={commentFormRef}>
                   <h4>Yorumunuzu Yazın</h4>
                   <p className="form-description">
@@ -1147,7 +1097,6 @@ const ProductDetailPage = () => {
                   </p>
                   
                   <form className="review-form" onSubmit={handleSubmitReview}>
-                    {/* Puanlama */}
                     <div className="form-group">
                       <label className="form-label">Puanınız:</label>
                       <div className="rating-input">
@@ -1168,7 +1117,6 @@ const ProductDetailPage = () => {
                       </div>
                     </div>
 
-                    {/* Ad Soyad */}
                     <div className="form-group">
                       <label className="form-label" htmlFor="reviewName">
                         Adınız Soyadınız *
@@ -1184,7 +1132,6 @@ const ProductDetailPage = () => {
                       />
                     </div>
 
-                    {/* Yorum */}
                     <div className="form-group">
                       <label className="form-label" htmlFor="reviewText">
                         Yorumunuz *
@@ -1203,7 +1150,6 @@ const ProductDetailPage = () => {
                       </small>
                     </div>
 
-                    {/* Gönder Butonu */}
                     <div className="form-actions">
                       <button type="submit" className="btn-submit-review">
                         <FaComment className="submit-icon" />
@@ -1216,7 +1162,6 @@ const ProductDetailPage = () => {
                   </form>
                 </div>
 
-                {/* MEVCUT YORUMLAR */}
                 <div className="reviews-list">
                   {reviews.length > 0 ? (
                     reviews.map((review) => (
@@ -1259,16 +1204,6 @@ const ProductDetailPage = () => {
                 </div>
               </div>
             )}
-          </div>
-        </div>
-
-        {/* BENZER ÜRÜNLER */}
-        <div className="related-products">
-          <h3>Benzer Ürünler</h3>
-          <div className="related-products-grid">
-            <div className="related-placeholder">
-              <p>Benzer ürünler yükleniyor...</p>
-            </div>
           </div>
         </div>
 
