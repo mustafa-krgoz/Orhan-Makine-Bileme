@@ -423,11 +423,6 @@ const ProductDetailPage = () => {
                     </div>
                   )}
                   <div className="current-price-top">{formatPrice(product.price)} TL</div>
-                  
-                  <div className="installment-highlight-top">
-                    <FaTag className="installment-icon" />
-                    <span>{calculateInstallment(12)} TL'den başlayan taksitlerle!</span>
-                  </div>
                 </div>
               </div>
 
@@ -558,15 +553,6 @@ const ProductDetailPage = () => {
                     </div>
                   </div>
                 </div>
-                <div className="payment-info-item">
-                  <div className="payment-method-info">
-                    <FaMoneyBill className="payment-icon" />
-                    <div className="payment-details">
-                      <span className="payment-method-name">Kapıda Ödeme</span>
-                      <small className="payment-method-desc">Nakit veya kredi kartı</small>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
 
@@ -593,14 +579,7 @@ const ProductDetailPage = () => {
               <FaQuestionCircle className="tab-icon" />
               <span>Soru & Cevap ({questions.length})</span>
             </button>
-            <button 
-              className={`tab-header ${activeTab === 'installment' ? 'active' : ''}`}
-              onClick={() => setActiveTab('installment')}
-              aria-label="Taksit Seçenekleri"
-            >
-              <FaCalendarAlt className="tab-icon" />
-              <span>Taksit Seçenekleri</span>
-            </button>
+
             <button 
               className={`tab-header ${activeTab === 'shipping' ? 'active' : ''}`}
               onClick={() => setActiveTab('shipping')}
@@ -622,111 +601,117 @@ const ProductDetailPage = () => {
           <div className="tab-content">
             
             {/* DİNAMİK ÜRÜN BİLGİSİ TAB */}
-            {activeTab === 'description' && (
-              <div className="tab-panel modern">
-                <header className="description-header">
-                  <h2 className="section-title">
-                    <FaInfoCircle className="section-icon" />
-                    Ürün Açıklaması
-                  </h2>
-                  {product.warranty && (
-                    <div className="product-badge">
-                      <FaCertificate className="badge-icon" />
-                      <span>{product.warranty}</span>
-                    </div>
-                  )}
-                </header>
-                
-                <div className="description-content-modern">
-                  
-                  {product.description?.lead && (
-                    <section className="description-main">
-                      <p className="description-lead">
-                        {product.description.lead}
-                      </p>
-                      
-                      {(product.warranty || product.certificates) && (
-                        <div className="description-highlights">
-                          {product.warranty && (
-                            <div className="highlight-item">
-                              <FaShieldAlt className="highlight-icon" />
-                              <div>
-                                <h3>{product.warranty}</h3>
-                                <p>Üretici firma garantisi ile güvence altında</p>
-                              </div>
+          {activeTab === 'description' && (
+            <div className="tab-panel modern">
+
+              {/* ÜST BAŞLIK */}
+              <header className="description-header">
+                <h2 className="section-title">
+                  <FaInfoCircle className="section-icon" />
+                  Ürün Açıklaması
+                </h2>
+
+                {product.warranty && (
+                  <div className="product-badge">
+                    <FaCertificate className="badge-icon" />
+                    <span>{product.warranty}</span>
+                  </div>
+                )}
+              </header>
+
+              <div className="description-content-modern">
+
+                {/* ANA AÇIKLAMA */}
+                {product.description && (
+                  <section className="description-main">
+                    <p className="description-lead">{product.description}</p>
+
+                    {(product.warranty || product.certificates) && (
+                      <div className="description-highlights">
+
+                        {product.warranty && (
+                          <div className="highlight-item">
+                            <FaShieldAlt className="highlight-icon" />
+                            <div>
+                              <h3>{product.warranty}</h3>
+                              <p>Üretici firma garantisi ile güvence altında</p>
                             </div>
-                          )}
-                          
-                          {product.certificates?.map((cert, idx) => (
-                            <div className="highlight-item" key={idx}>
-                              <FaBox className="highlight-icon" />
-                              <div>
-                                <h3>{cert}</h3>
-                                <p>Orijinal ve belgeli ürün</p>
-                              </div>
+                          </div>
+                        )}
+
+                        {product.certificates?.map((cert, idx) => (
+                          <div className="highlight-item" key={idx}>
+                            <FaBox className="highlight-icon" />
+                            <div>
+                              <h3>{cert}</h3>
+                              <p>Orijinal ve belgeli ürün</p>
                             </div>
-                          ))}
+                          </div>
+                        ))}
+
+                      </div>
+                    )}
+                  </section>
+                )}
+
+                {/* ÜRÜN ÖZELLİKLERİ (features array) */}
+                {product.features && product.features.length > 0 && (
+                  <section className="product-features-modern">
+                    <h3 className="features-title">
+                      <FaCheckCircle className="features-icon" />
+                      Ürün Özellikleri
+                    </h3>
+
+                    <div className="features-grid">
+                      {product.features.map((feature, idx) => (
+                        <div className="feature-card" key={idx}>
+                          <FaCheckCircle className="feature-icon" />
+                          <div className="feature-content">
+                            <h4>{feature}</h4>
+                          </div>
                         </div>
-                      )}
-                    </section>
-                  )}
-                  
-                  {product.description?.features && (
-                    <section className="product-features-modern">
-                      <h3 className="features-title">
-                        <FaCheckCircle className="features-icon" />
-                        Ürün Özellikleri
-                      </h3>
-                      <div className="features-grid">
-                        {product.description.features.map((feature, idx) => {
-                          const IconComponent = getIconComponent(feature.icon);
-                          return (
-                            <div className="feature-card" key={idx}>
-                              <IconComponent className="feature-icon" />
-                              <div className="feature-content">
-                                <h4>{feature.title}</h4>
-                                <p>{feature.description}</p>
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </section>
-                  )}
-                  
-                  {product.description?.technicalSpecs && (
-                    <section className="technical-specs-modern">
-                      <h3 className="specs-title">
-                        <FaRuler className="specs-icon" />
-                        Teknik Ölçüler
-                      </h3>
-                      <div className="specs-table-modern">
-                        {product.description.technicalSpecs.map((spec, idx) => (
-                          <div className="specs-row" key={idx}>
-                            <span className="specs-label">{spec.label}</span>
-                            <span className="specs-value">{spec.value}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </section>
-                  )}
-                  
-                  {product.description?.additionalInfo && (
-                    <section className="additional-info-modern">
-                      <h3>Kullanım ve Bakım Bilgileri</h3>
-                      <div className="info-grid">
-                        {product.description.additionalInfo.map((info, idx) => (
-                          <div className="info-card" key={idx}>
-                            <h4>{info.title}</h4>
-                            <p>{info.content}</p>
-                          </div>
-                        ))}
-                      </div>
-                    </section>
-                  )}
-                </div>
+                      ))}
+                    </div>
+                  </section>
+                )}
+
+                {/* TEKNİK ÖZELLİKLER (specifications object) */}
+                {product.specifications && Object.keys(product.specifications).length > 0 && (
+                  <section className="technical-specs-modern">
+                    <h3 className="specs-title">
+                      <FaRuler className="specs-icon" />
+                      Teknik Özellikler
+                    </h3>
+
+                    <div className="specs-table-modern">
+                      {Object.entries(product.specifications).map(([label, value], idx) => (
+                        <div className="specs-row" key={idx}>
+                          <span className="specs-label">{label}</span>
+                          <span className="specs-value">{value}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                )}
+
+                {/* EK BİLGİLER (opsiyonel) */}
+                {product.additionalInfo && product.additionalInfo.length > 0 && (
+                  <section className="additional-info-modern">
+                    <h3>Kullanım ve Bakım Bilgileri</h3>
+                    <div className="info-grid">
+                      {product.additionalInfo.map((info, idx) => (
+                        <div className="info-card" key={idx}>
+                          <h4>{info.title}</h4>
+                          <p>{info.content}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                )}
+
               </div>
-            )}
+            </div>
+          )}
 
             {activeTab === 'questions' && (
               <div className="tab-panel">
@@ -845,104 +830,6 @@ const ProductDetailPage = () => {
               </div>
             )}
 
-            {activeTab === 'installment' && (
-              <div className="tab-panel modern">
-                <h3 className="section-title">
-                  <FaCalendarAlt className="section-icon" />
-                  Taksit Seçenekleri
-                </h3>
-                
-                <div className="installment-modern">
-                  <div className="installment-summary">
-                    <div className="summary-card">
-                      <div className="summary-icon">
-                        <FaCreditCard />
-                      </div>
-                      <div className="summary-content">
-                        <h4>Toplam Tutar</h4>
-                        <p className="total-amount">{formatPrice(product.price)} TL</p>
-                      </div>
-                    </div>
-                    <div className="summary-card">
-                      <div className="summary-icon">
-                        <FaTag />
-                      </div>
-                      <div className="summary-content">
-                        <h4>En Uygun Taksit</h4>
-                        <p className="best-installment">{calculateInstallment(12)} x 12 Ay</p>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="installment-table-modern">
-                    <div className="table-header-modern">
-                      <div className="header-cell">Taksit Sayısı</div>
-                      <div className="header-cell">Aylık Taksit Tutarı</div>
-                      <div className="header-cell">Toplam Tutar</div>
-                      <div className="header-cell">Seçenek</div>
-                    </div>
-                    
-                    {[1, 2, 3, 6, 9, 12].map((installment, index) => {
-                      const monthlyAmount = installment === 1 
-                        ? product.price 
-                        : product.price / installment;
-                      const isRecommended = installment === 12;
-                      
-                      return (
-                        <div 
-                          key={installment} 
-                          className={`installment-row-modern ${isRecommended ? 'recommended' : ''} ${index % 2 === 0 ? 'even' : 'odd'}`}
-                        >
-                          <div className="cell installment-count">
-                            {installment === 1 ? 'Tek Çekim' : `${installment} Taksit`}
-                            {isRecommended && <span className="recommended-badge">Önerilen</span>}
-                          </div>
-                          <div className="cell installment-amount">
-                            <span className="amount-value">{formatPrice(monthlyAmount)} TL</span>
-                            {installment > 1 && <span className="amount-period">/ay</span>}
-                          </div>
-                          <div className="cell installment-total">
-                            {formatPrice(product.price)} TL
-                          </div>
-                          <div className="cell installment-action">
-                            <button className="select-installment-btn">
-                              {installment === 1 ? 'Tek Çekim Öde' : `${installment} Taksit Seç`}
-                            </button>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                  
-                  <div className="installment-notes-modern">
-                    <div className="notes-grid">
-                      <div className="note-card">
-                        <div className="note-icon">ℹ️</div>
-                        <div className="note-content">
-                          <h5>Taksit Notları</h5>
-                          <p>Taksit seçenekleri bankalara göre değişiklik gösterebilir.</p>
-                        </div>
-                      </div>
-                      <div className="note-card">
-                        <div className="note-icon">💰</div>
-                        <div className="note-content">
-                          <h5>Minimum Tutar</h5>
-                          <p>Minimum taksit tutarı 100 TL'dir.</p>
-                        </div>
-                      </div>
-                      <div className="note-card">
-                        <div className="note-icon">🎯</div>
-                        <div className="note-content">
-                          <h5>İndirimler</h5>
-                          <p>İndirimler tek çekim fiyatı üzerinden uygulanır.</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-
             {activeTab === 'shipping' && (
               <div className="tab-panel modern">
                 <h3 className="section-title">
@@ -969,19 +856,7 @@ const ProductDetailPage = () => {
                       </div>
                       <div className="highlight-content">
                         <h4>Kargo Ücreti</h4>
-                        <p className="highlight-value">500 TL Üzeri Ücretsiz</p>
-                        <small>500 TL altı için 25 TL</small>
-                      </div>
-                    </div>
-                    
-                    <div className="highlight-card tertiary">
-                      <div className="highlight-icon">
-                        <FaMoneyBill />
-                      </div>
-                      <div className="highlight-content">
-                        <h4>Kapıda Ödeme</h4>
-                        <p className="highlight-value available">Mevcut</p>
-                        <small>Nakit veya kart</small>
+                        <p className="highlight-value">10.000 TL Üzeri Ücretsiz Kargo</p>
                       </div>
                     </div>
                   </div>
@@ -995,7 +870,7 @@ const ProductDetailPage = () => {
                       <ul className="detail-list">
                         <li className="detail-item">
                           <span className="item-bullet">✓</span>
-                          <span>Siparişler saat 17:00'a kadar verilirse aynı gün kargoya verilir.</span>
+                          <span>Siparişler hızlı bir şekilde kargoya verilir.</span>
                         </li>
                         <li className="detail-item">
                           <span className="item-bullet">✓</span>
