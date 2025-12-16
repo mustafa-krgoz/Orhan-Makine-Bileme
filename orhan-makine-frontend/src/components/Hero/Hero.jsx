@@ -4,38 +4,37 @@ import { Link } from "react-router-dom";
 import { useEffect, useRef } from "react";
 
 export default function Hero() {
-  // ❗ Video referansı burada tanımlanmalıydı – HATA BUNDAN KAYNAKLANIYORDU
+
+  // 🎯 Video DOM erişimi
   const videoRef = useRef(null);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    // iOS autoplay fix
+    // ✔ iOS autoplay düzeltmesi
     video.setAttribute("playsinline", "");
     video.setAttribute("muted", "");
     video.setAttribute("preload", "auto");
 
-    // Görüntü netliği
+    // ✔ Video görünürlüğü net olsun
     video.style.filter = "brightness(1)";
     video.style.opacity = "1";
 
-    // Başlatıcı fonksiyon (loop + hız optimizasyonu)
+    // ✔ Video başladığında hız + loop ayarı
     const startVideo = () => {
       video.muted = true;
       video.loop = true;
-      video.playbackRate = 1.03; // daha yumuşak döngü
+      video.playbackRate = 1.05; // daha akıcı oynatma
       video.play().catch(() => {});
     };
 
     video.addEventListener("loadeddata", startVideo);
 
-    // Video pause olursa tekrar çalıştır (arka planda durmasın)
+    // ✔ Safari / iOS durdurma bug fix
     const keepAlive = setInterval(() => {
-      if (video.paused) {
-        video.play().catch(() => {});
-      }
-    }, 2000);
+      if (video.paused) video.play().catch(() => {});
+    }, 1800);
 
     return () => {
       video.removeEventListener("loadeddata", startVideo);
@@ -45,7 +44,8 @@ export default function Hero() {
 
   return (
     <section className="hero-section" role="banner">
-      {/* ---------- BACKGROUND VIDEO ---------- */}
+      
+      {/* ====================== BACKGROUND VIDEO ====================== */}
       <div className="video-container">
         <video
           ref={videoRef}
@@ -54,23 +54,39 @@ export default function Hero() {
           loop
           muted
           playsInline
-          preload="auto"
+          preload="auto"       // ✔ Daha hızlı yükleme
+          poster="/images/hero-background.webp" // ✔ LCP hızlandırıcı
         >
-          <source src="/videos/makine.mp4" type="video/mp4" />
+
+          {/* ✔ Tarayıcı destekliyse daha hızlı WebM oynar */}
           <source src="/videos/makine.webm" type="video/webm" />
-          {/* Fallback image */}
-          <img src="/images/hero-background.jpg" alt="Makine tanıtım görseli" />
+
+          {/* ✔ Asıl MP4 videon — görünüm bozulmaz */}
+          <source src="/videos/makine.mp4" type="video/mp4" />
+
+          {/* ✔ Video yüklenmezse son çare olarak görsel gösterilir */}
+          <picture>
+            <source srcSet="/images/hero-background.webp" type="image/webp" />
+            <img
+              src="/images/hero-background.jpg"
+              alt="Makine tanıtım görseli"
+              loading="lazy"
+              decoding="async"
+            />
+          </picture>
+
         </video>
       </div>
 
-      {/* ---------- HERO CONTENT ---------- */}
+      {/* ====================== HERO CONTENT ====================== */}
       <div className="hero-content">
+
         <h1 className="hero-title">Profesyonel Makine Satış Hizmetleri</h1>
 
         <p className="hero-description">
-          1980'den bu yana mobilya ve endüstriyel sektöre en kaliteli makineleri
-          sunuyoruz. <strong>40 yılı aşkın deneyimimizle</strong> Freud, Farabi,
-          Mızrak ve daha birçok marka ile profesyonel çözümler sağlıyoruz.
+          1980'den bu yana mobilya ve endüstriyel sektöre en kaliteli makineleri sunuyoruz.
+          <strong> 40 yılı aşkın deneyimimizle </strong>
+          Freud, Farabi, Mızrak ve daha birçok marka ile profesyonel çözümler sağlıyoruz.
         </p>
 
         {/* BUTTONS */}
@@ -90,7 +106,7 @@ export default function Hero() {
           </a>
         </div>
 
-        {/* STATS */}
+        {/* ====================== STATS ====================== */}
         <div className="hero-stats">
           <div className="hero-stat-item">
             <span className="hero-stat-number">2000+</span>
@@ -113,34 +129,33 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* ---------- PAYMENT ALERT BANNER ---------- */}
+        {/* ================= PAYMENT ALERT ================= */}
         <div
           className="payment-alert-banner"
           role="alert"
           aria-label="Ödeme sistemi bilgilendirme mesajı"
         >
           <div className="payment-alert-content">
+            
             <AlertTriangle className="payment-alert-icon" />
 
             <div className="payment-alert-text">
               <p className="payment-alert-main">
-                <strong>ÖNEMLİ BİLGİ:</strong> Ürünleri inceledikten sonra bizimle
-                iletişime geçiniz!
+                <strong>ÖNEMLİ BİLGİ:</strong> Ürünleri inceledikten sonra bizimle iletişime geçiniz!
               </p>
               <p className="payment-alert-sub">
-                <strong>Not:</strong> Ödeme sayfamız aktif değildir. Satın alma
-                işlemleri için lütfen bizimle iletişime geçin.
+                <strong>Not:</strong> Ödeme sayfamız aktif değildir. Satın alma işlemleri için bizimle iletişime geçmelisiniz.
               </p>
             </div>
 
             <Link
               to="/contact"
               className="payment-alert-button"
-              aria-label="İletişim sayfasına git"
             >
               <span>İletişime Geç</span>
               <ArrowRight className="payment-alert-button-icon" />
             </Link>
+
           </div>
         </div>
 
@@ -149,6 +164,7 @@ export default function Hero() {
           <h2>Orhan Makine - Endüstriyel Makine Satışı</h2>
           <p>Profesyonel makine satış hizmetleri ve teknik destek.</p>
         </div>
+
       </div>
     </section>
   );
