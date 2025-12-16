@@ -33,10 +33,12 @@ export const productsData = [
     ],
 
     specifications: {
-      power: "2.5 HP",
-      capacity: "100 Litre",
-      pressure: "8 Bar",
-      weight: "45 kg",
+      Güç: "2.5 / 2.5 HP",
+      HavaGirişi: "194 Lt/d-m3/saat",
+      Basınç:"8 / 115 bar-psi",
+      Ölçüler:"110x48x88cm",
+      NetAğırlık: "85 kg",
+      DepoHacmi: "100 Litre",
     },
 
     inStock: true,
@@ -79,10 +81,12 @@ export const productsData = [
     ],
 
     specifications: {
-      diskDiameter: "190 mm",
-      rpm: "5000 rpm",
-      power: "1200W",
-      weight: "3.8 kg",
+      SürekliAkımGirişi: "1200W",
+      Kapasite:"90 Derece: 66mm / 45 Derece: 46mm",
+      TesetereÖlçüleri:"190x30mm",
+      BoştaDevir:"5200devir/dk",
+      NetAğırlık:"3.8kg",
+      Akım:"5.5Ah"
     },
 
     inStock: true,
@@ -431,12 +435,6 @@ export const productsData = [
       description: "Makita 40V Max bataryalar için yüksek hızlı şarj cihazı.",
   
       features: ["40V Max uyumlu", "Hızlı şarj", "Isı kontrol sistemi", "Uzun ömürlü kullanım"],
-  
-      specifications: {
-        voltage: "40V Max",
-        chargingSpeed: "Hızlı",
-        weight: "1.2 kg",
-      },
   
       inStock: true,
       isNew: true,

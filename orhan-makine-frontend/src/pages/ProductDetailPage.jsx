@@ -517,18 +517,18 @@ const ProductDetailPage = () => {
               <h3>Yardım İster misiniz?</h3>
               <p>Ürünle ilgili sorularınız için bize ulaşın.</p>
               <div className="contact-options">
-                <a href="tel:+905334613150" className="contact-option">
+                <a href="tel:+905395159925" className="contact-option">
                   <FaPhone className="option-icon" />
                   <div>
                     <span>Telefon</span>
-                    <small>+90 (533) 461 31 50</small>
+                    <small>+90 (539) 515 99 25</small>
                   </div>
                 </a>
                 <a href="mailto:info@orhanmakine.com.tr" className="contact-option">
                   <FaEnvelope className="option-icon" />
                   <div>
                     <span>E-posta</span>
-                    <small>info@orhanmakine.com.tr</small>
+                    <small>orhanmakine23@gmial.com</small>
                   </div>
                 </a>
               </div>

@@ -286,8 +286,8 @@ const LoginPage = () => {
           <div className="login-contact-info">
             <h3>İletişim</h3>
             <p>Merkez, Elazığ</p>
-            <p>info@orhanmakine.com</p>
-            <p>+90 (500) 123 45 67</p>
+            <p>orhanmakine23@gmail.com</p>
+            <p>+90 (539) 515 99 25</p>
           </div>
         </div>
 

@@ -33,7 +33,7 @@ const ServicesPage = () => {
         "Freze Bıçakları Bileme: Profil açıları korunarak CNC kontrollü bileme yapılır, keskinlik ve işleme kalitesi artırılır.",
         "Kalem Uçları Bileme: CNC router kalem uçlarını yüksek devirde ilk günkü keskinliğine kavuşturuyoruz.",
         "2’li, 3’lü, 4’lü Kalem Bıçağı Bileme: Çoklu bıçaklarda yüzey bozukluklarını ve tırtıklanmayı gidererek yüksek performans sağlıyoruz.",
-        "CLC Kalem Bıçak Bileme: Orijinal form bozulmadan mikron seviyesinde yüzey yenileme yapılır.",
+        "CNC Kalem Bıçak Bileme: Orijinal form bozulmadan mikron seviyesinde yüzey yenileme yapılır.",
         "Jilet Bıçağı Bileme: Endüstriyel jilet bıçaklarının keskinliğini geri kazandırır, temiz ve hızlı kesim elde edilir.",
         "Planya Bıçağı Bileme: Pürüzsüz yüzey için doğru ağız açıları korunarak hassas taşlama yapılır.",
         "Buat Açacağı Bileme: Çapaksız ve düzgün delik açımı için özel açılandırma ile bileme yapılır.",

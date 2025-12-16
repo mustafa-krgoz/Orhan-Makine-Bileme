@@ -152,13 +152,13 @@ export default function Navbar() {
               <div className="nav-contact-item">
                 <Phone className="nav-contact-icon" />
                 <a href="tel:+905395159925" className="nav-contact-link">
-                  +90 533 461 31 50
+                  +90 539 515 99 25
                 </a>
               </div>
 
               <div className="nav-contact-item">
                 <MapPin className="nav-contact-icon" />
-                <span>Orhan Makine Bileme</span>
+                <span>Orhan Makine</span>
               </div>
 
               <div className="nav-contact-item">
@@ -169,7 +169,7 @@ export default function Navbar() {
 
             <div className="nav-top-bar-cta">
               <Truck className="nav-cta-icon" />
-              <span>10000 TL Üzeri Ücretsiz Kargo</span>
+              <span>10.000 TL Üzeri Ücretsiz Kargo</span>
             </div>
           </div>
         </div>

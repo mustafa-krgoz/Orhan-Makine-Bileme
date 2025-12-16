@@ -22,17 +22,17 @@ const ContactPage = () => {
     {
       icon: <Phone className="contact-info-icon" />,
       title: "Telefon",
-      content: "0533 461 31 50",
+      content: "0539 515 99 25",
       subtitle: "Hemen arayın",
-      link: "tel:+905334613150",
+      link: "tel:+905395159925",
       ariaLabel: "Telefon ile arayın"
     },
     {
       icon: <Mail className="contact-info-icon" />,
       title: "E-posta",
-      content: "info@orhanmakine.com.tr",
+      content: "orhanmakine23@gmail.com",
       subtitle: "E-posta ile iletişim",
-      link: "mailto:info@orhanmakine.com.tr",
+      link: "mailto:orhanmakine23@gmial.com",
       ariaLabel: "E-posta gönderin"
     },
     {
