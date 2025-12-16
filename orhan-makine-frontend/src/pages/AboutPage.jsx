@@ -17,6 +17,7 @@ import {
   Scissors, Flame, Hammer
 } from 'lucide-react';
 import { brandsData, brandCategories } from '../data/brandsData';
+import OptimizedImage from "../components/OptimizedImage";
 import '../styles/AboutPage.css';
 
 // TreePine özel ikonu - marka kategorileri için
@@ -157,7 +158,7 @@ const AboutPage = () => {
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute('content', 
-        'Orhan Makine Bileme - 40 yılı aşkın tecrübemizle mobilya ve endüstriyel sektöre kaliteli makine satışı, bileme hizmeti ve teknik destek. Elazığ merkezli makine distribütörü.'
+        'Orhan Makine- 40 yılı aşkın tecrübemizle mobilya ve endüstriyel sektöre kaliteli makine satışı, bileme hizmeti ve teknik destek. Elazığ merkezli makine distribütörü.'
       );
     }
     
@@ -365,13 +366,13 @@ const AboutPage = () => {
           
           {/* Hero Görseli - LCP için eager loading */}
           <div className="about-hero-image-container">
-            <img 
-              src="/images/joblocations/orhan-makine-bina.png" 
+          <OptimizedImage
+              src="/images/joblocations/orhan-makine-bina.png"
               alt="Orhan Makine Bileme işyeri binası - Elazığ merkez"
               className="about-hero-image"
-              loading="eager"
               width="800"
               height="600"
+              loading="eager"
               itemProp="image"
             />
             <div className="about-hero-badge" aria-label="1980'den beri hizmet veriyoruz">
@@ -436,7 +437,7 @@ const AboutPage = () => {
             <article className="about-story">
               <div className="about-story-text">
                 <h3 className="about-story-title">
-                  Orhan Makine Bileme'nin Hikayesi
+                  Orhan Makine'nin Hikayesi
                 </h3>
                 <p className="about-story-paragraph" itemProp="description">
                   1980 yılında Elazığ'da küçük bir atölye olarak başlayan yolculuğumuz, 
@@ -476,14 +477,6 @@ const AboutPage = () => {
                       Marka
                     </div>
                   </div>
-                  <div className="about-stat">
-                    <div className="about-stat-number" aria-label="7/24 teknik destek">
-                      7/24
-                    </div>
-                    <div className="about-stat-label">
-                      Teknik Destek
-                    </div>
-                  </div>
                 </div>
               </div>
               
@@ -491,14 +484,13 @@ const AboutPage = () => {
               <div className="about-building-gallery" role="region" aria-label="Firma görsel galerisi">
                 <div className="about-gallery-main">
                   <figure>
-                    <img 
-                      src={buildingImages[currentImageIndex].src}
-                      alt={buildingImages[currentImageIndex].alt}
-                      className="about-gallery-image"
-                      loading="lazy"
-                      width="600"
-                      height="400"
-                    />
+                  <OptimizedImage
+                    src={buildingImages[currentImageIndex].src}
+                    alt={buildingImages[currentImageIndex].alt}
+                    className="about-gallery-image"
+                    width="600"
+                    height="400"
+                  />
                     <figcaption className="about-gallery-overlay" aria-hidden="true">
                       <ImageIcon size={20} />
                       <span>{buildingImages[currentImageIndex].title}</span>
@@ -534,10 +526,9 @@ const AboutPage = () => {
                       aria-selected={index === currentImageIndex}
                       aria-controls="gallery-image"
                     >
-                      <img 
-                        src={img.src} 
-                        alt={img.alt} 
-                        loading="lazy"
+                      <OptimizedImage
+                        src={img.src}
+                        alt={img.alt}
                         width="80"
                         height="60"
                       />
@@ -746,15 +737,14 @@ const AboutPage = () => {
               >
                 <div className="about-team-image-container">
                   <div className="about-team-ellipse">
-                    <img 
-                      src={member.image} 
-                      alt={member.alt}
-                      className="about-team-image"
-                      loading="lazy"
-                      width="200"
-                      height="200"
-                      itemProp="image"
-                    />
+                  <OptimizedImage
+                    src={member.image}
+                    alt={member.alt}
+                    className="about-team-image"
+                    width="200"
+                    height="200"
+                    itemProp="image"
+                  />
                   </div>
                   <div className="about-team-experience" aria-label={`${member.experience} tecrübe`}>
                     <Clock size={16} aria-hidden="true" />

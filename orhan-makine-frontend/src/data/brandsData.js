@@ -12,6 +12,7 @@ export const brandsData = [
   {
     id: 1,
     name: 'Freud',
+    slug: 'freud',
     category: 'Testereler',
     icon: 'Wrench',
     shortDescription: 'İtalyan kalitesi testere bıçakları ve kesici takımlar',
@@ -30,6 +31,7 @@ export const brandsData = [
   {
     id: 2,
     name: 'Farabi',
+    slug: 'farabi',
     category: 'Testereler',
     icon: 'Wrench',
     shortDescription: 'Türkiye\'nin lider testere üreticisi',
@@ -48,6 +50,7 @@ export const brandsData = [
   {
     id: 3,
     name: 'Mızrak',
+    slug: 'mizrak',
     category: 'Makineler',
     icon: 'Factory',
     shortDescription: 'Endüstriyel makine üretiminde Türk markası',
@@ -66,6 +69,7 @@ export const brandsData = [
   {
     id: 4,
     name: 'MAKİTA',
+    slug: 'makita',
     category: 'El Aletleri',
     icon: 'Drill',
     shortDescription: 'Profesyonel elektrikli el aletleri',
@@ -84,6 +88,7 @@ export const brandsData = [
   {
     id: 5,
     name: 'BEA',
+    slug: 'bea',
     category: 'Havalı Aletler',
     icon: 'Package',
     shortDescription: 'Havalı zımba ve çivi çakma makinaları',
@@ -102,6 +107,7 @@ export const brandsData = [
   {
     id: 6,
     name: 'BIGLIFT',
+    slug: 'biglift',
     category: 'Kaldırma',
     icon: 'Truck',
     shortDescription: 'Transpalet, istifleme ve kaldırma ekipmanları',
@@ -120,6 +126,7 @@ export const brandsData = [
   {
     id: 7,
     name: 'CORA',
+    slug: 'cora',
     category: 'Hava Sistemleri',
     icon: 'Droplets',
     shortDescription: 'Kompresörler ve boya tabancaları',
@@ -138,6 +145,7 @@ export const brandsData = [
   {
     id: 8,
     name: 'EDN',
+    slug: 'edn',
     category: 'Testereler',
     icon: 'Wrench',
     shortDescription: 'Yüksek kalite daire testereler',
@@ -156,6 +164,7 @@ export const brandsData = [
   {
     id: 9,
     name: 'EUROMAX',
+    slug: 'euromax',
     category: 'Endüstriyel',
     icon: 'Factory',
     shortDescription: 'Palta-karol-boru işleme ve endüstriyel makinalar',
@@ -174,6 +183,7 @@ export const brandsData = [
   {
     id: 10,
     name: 'FACTOR',
+    slug: 'factor',
     category: 'İnşaat',
     icon: 'Thermometer',
     shortDescription: 'Asfalt ve beton zemin işleme makineleri',
@@ -192,6 +202,7 @@ export const brandsData = [
   {
     id: 11,
     name: 'GISON',
+    slug: 'gison',
     category: 'Havalı Aletler',
     icon: 'Zap',
     shortDescription: 'Havalı aletler ve aksesuarlar',
@@ -210,6 +221,7 @@ export const brandsData = [
   {
     id: 12,
     name: 'KAMA by REİS',
+    slug: 'kama-by-reis',
     category: 'Bahçe',
     icon: 'GitBranch',
     shortDescription: 'Bahçe ve tarım makineleri, jeneratörler',
@@ -228,6 +240,7 @@ export const brandsData = [
   {
     id: 13,
     name: 'KINSAW',
+    slug: 'kinsaw',
     category: 'Testereler',
     icon: 'Wrench',
     shortDescription: 'Geniş yelpazede testere çeşitleri',
@@ -246,6 +259,7 @@ export const brandsData = [
   {
     id: 14,
     name: 'LEICA',
+    slug: 'leica',
     category: 'Ölçüm',
     icon: 'Compass',
     shortDescription: 'Lazerli ölçü aletleri ve geomatik çözümler',
@@ -264,6 +278,7 @@ export const brandsData = [
   {
     id: 15,
     name: 'OZCO',
+    slug: 'ozco',
     category: 'Takım Tezgahları',
     icon: 'Wrench',
     shortDescription: 'Sütunlu matkaplar, frezeler, tornalar',
@@ -282,6 +297,7 @@ export const brandsData = [
   {
     id: 16,
     name: 'PRO-SAW',
+    slug: 'pro-saw',
     category: 'Kesim',
     icon: 'Scissors',
     shortDescription: 'Daire testereler, elmas testereler, karot uçları',
@@ -300,6 +316,7 @@ export const brandsData = [
   {
     id: 17,
     name: 'RAPID',
+    slug: 'rapid',
     category: 'Montaj',
     icon: 'Package',
     shortDescription: 'Zımba ve silikon tabancaları',
@@ -318,6 +335,7 @@ export const brandsData = [
   {
     id: 18,
     name: 'SCHEPPACH',
+    slug: 'scheppach',
     category: 'Ahşap',
     icon: 'TreePine',
     shortDescription: 'Ahşap işleme makineleri',
@@ -336,6 +354,7 @@ export const brandsData = [
   {
     id: 19,
     name: 'STARK',
+    slug : 'stark',
     category: 'Metal',
     icon: 'Wrench',
     shortDescription: 'Metal işleme testereleri',
@@ -354,6 +373,7 @@ export const brandsData = [
   {
     id: 20,
     name: 'TOPSHOP',
+    slug: 'topshop',
     category: 'El Aletleri',
     icon: 'Hammer',
     shortDescription: 'El aletleri ve freze bıçakları',
@@ -372,6 +392,7 @@ export const brandsData = [
   {
     id: 21,
     name: 'TURCOBOOR',
+    slug: 'turcoboor',
     category: 'Delme',
     icon: 'Zap',
     shortDescription: 'Manyetik matkaplar ve aksesuarları',
@@ -390,6 +411,7 @@ export const brandsData = [
   {
     id: 22,
     name: 'VIRAX',
+    slug: 'virax',
     category: 'Boru',
     icon: 'Droplets',
     shortDescription: 'Boru işleme ekipmanları',
@@ -408,6 +430,7 @@ export const brandsData = [
   {
     id: 23,
     name: 'WELDER',
+    slug: 'welder',
     category: 'Kaynak',
     icon: 'Flame',
     shortDescription: 'Kaynak makineleri ve aksesuarları',
@@ -426,6 +449,7 @@ export const brandsData = [
   {
     id: 24,
     name: 'WELLER',
+    slug: 'weller',
     category: 'Elektronik',
     icon: 'Zap',
     shortDescription: 'Lehim havyaları ve el aletleri',
@@ -444,6 +468,7 @@ export const brandsData = [
   {
     id: 25,
     name: 'KNIPEX',
+    slug: 'knipex',
     category: 'El Aletleri',
     icon: 'Wrench',
     shortDescription: 'Alman kalitesi penseler ve sıkma aletleri',
