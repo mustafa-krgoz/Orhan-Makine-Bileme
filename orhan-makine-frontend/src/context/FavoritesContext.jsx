@@ -1,67 +1,94 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { 
+  createContext, 
+  useContext, 
+  useState, 
+  useEffect, 
+  useCallback, 
+  useMemo 
+} from "react";
 import { productsData } from "../data/productsData";
 
 const FavoritesContext = createContext();
 
-export function FavoritesProvider({ children }) {
-  const [favoriteIds, setFavoriteIds] = useState([]);
-
-  // LocalStorage'dan favorileri yükle
-  useEffect(() => {
-    const savedFavorites = localStorage.getItem('favoriteProducts');
-    if (savedFavorites) {
-      setFavoriteIds(JSON.parse(savedFavorites));
-    }
-  }, []);
-
-  // LocalStorage'a favorileri kaydet
-  useEffect(() => {
-    localStorage.setItem('favoriteProducts', JSON.stringify(favoriteIds));
-  }, [favoriteIds]);
-
-  // Favorilere ürün ekle/çıkar
-  const toggleFavorite = (productId) => {
-    setFavoriteIds((prev) => {
-      if (prev.includes(productId)) {
-        // Eğer zaten favorilerse çıkar
-        return prev.filter(id => id !== productId);
-      } else {
-        // Favorilere ekle
-        return [...prev, productId];
-      }
-    });
-  };
-
-  // Favori ürünleri getir (tam ürün bilgileriyle)
-  const getFavoriteProducts = () => {
-    return productsData.filter(product => favoriteIds.includes(product.id));
-  };
-
-  // ID'ye göre favori mi kontrolü
-  const isFavorite = (productId) => {
-    return favoriteIds.includes(productId);
-  };
-
-  // Favori sayısı
-  const favoritesCount = favoriteIds.length;
-
-  return (
-    <FavoritesContext.Provider value={{
-      favoriteIds,
-      favorites: getFavoriteProducts(),
-      favoritesCount,
-      toggleFavorite,
-      isFavorite
-    }}>
-      {children}
-    </FavoritesContext.Provider>
-  );
-}
-
+// Custom Hook
 export function useFavorites() {
   const context = useContext(FavoritesContext);
   if (!context) {
-    throw new Error('useFavorites must be used within a FavoritesProvider');
+    throw new Error("useFavorites must be used within a FavoritesProvider");
   }
   return context;
+}
+
+export function FavoritesProvider({ children }) {
+  const [favoriteIds, setFavoriteIds] = useState([]);
+
+  /* -----------------------------------------------------
+     📌 1) SAYFA YÜKLENİNCE FAVORİLERİ LOCALSTORAGE'DAN AL
+  ------------------------------------------------------- */
+  useEffect(() => {
+    const saved = localStorage.getItem("favoriteProducts");
+    if (saved) {
+      setFavoriteIds(JSON.parse(saved));
+    }
+  }, []);
+
+  /* -----------------------------------------------------
+     📌 2) FAVORİLERİ LOCALSTORAGE'A YAZ — OPTİMİZE EDİLDİ
+        Debounce → çok hızlı ardışık tıklamalarda spam yazmaz
+  ------------------------------------------------------- */
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      localStorage.setItem("favoriteProducts", JSON.stringify(favoriteIds));
+    }, 150);
+    return () => clearTimeout(timeout);
+  }, [favoriteIds]);
+
+  /* -----------------------------------------------------
+     📌 3) FAVORİ EKLE/SİL — useCallback ile MEMOIZED
+  ------------------------------------------------------- */
+  const toggleFavorite = useCallback((productId) => {
+    setFavoriteIds(prev => {
+      return prev.includes(productId)
+        ? prev.filter(id => id !== productId)
+        : [...prev, productId];
+    });
+  }, []);
+
+  /* -----------------------------------------------------
+     📌 4) FAVORİ Mİ? → useCallback ile optimize edildi
+  ------------------------------------------------------- */
+  const isFavorite = useCallback((productId) => {
+    return favoriteIds.includes(productId);
+  }, [favoriteIds]);
+
+  /* -----------------------------------------------------
+     📌 5) FAVORİ ÜRÜNLERİ HESAPLA — useMemo ile optimize
+        Her render’da productsData filtresi çalışmaz artık!
+  ------------------------------------------------------- */
+  const favoriteProducts = useMemo(() => {
+    return productsData.filter(p => favoriteIds.includes(p.id));
+  }, [favoriteIds]);
+
+  /* -----------------------------------------------------
+     📌 6) FAVORİ SAYISI
+  ------------------------------------------------------- */
+  const favoritesCount = favoriteIds.length;
+
+  /* -----------------------------------------------------
+     📌 7) PROVIDER VALUE → useMemo
+        (Her render’da yeni object yaratılmasını engeller)
+  ------------------------------------------------------- */
+  const value = useMemo(() => ({
+    favoriteIds,
+    favorites: favoriteProducts,
+    favoritesCount,
+    toggleFavorite,
+    isFavorite
+  }), [favoriteIds, favoriteProducts, favoritesCount, toggleFavorite, isFavorite]);
+
+  return (
+    <FavoritesContext.Provider value={value}>
+      {children}
+    </FavoritesContext.Provider>
+  );
 }

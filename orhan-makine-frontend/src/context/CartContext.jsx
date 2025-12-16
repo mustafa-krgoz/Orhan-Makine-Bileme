@@ -1,11 +1,19 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import React, { 
+  createContext, 
+  useState, 
+  useContext, 
+  useEffect, 
+  useCallback, 
+  useMemo 
+} from 'react';
 
 const CartContext = createContext();
 
+// Custom Hook
 export const useCart = () => {
   const context = useContext(CartContext);
   if (!context) {
-    throw new Error('useCart must be used within a CartProvider');
+    throw new Error("useCart must be used within a CartProvider");
   }
   return context;
 };
@@ -14,93 +22,124 @@ export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
 
-  // LocalStorage'dan sepeti yükle
+  /* --------------------------------------------
+    📌 1) SAYFA YÜKLENİNCE LocalStorage’den oku  
+  --------------------------------------------- */
   useEffect(() => {
-    const savedCart = localStorage.getItem('orhanmakine-cart');
-    if (savedCart) {
-      const parsedCart = JSON.parse(savedCart);
-      setCartItems(parsedCart);
-      updateTotalItems(parsedCart);
+    const saved = localStorage.getItem("orhanmakine-cart");
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      setCartItems(parsed);
+      setTotalItems(parsed.reduce((s, i) => s + i.quantity, 0));
     }
   }, []);
 
-  // LocalStorage'a sepeti kaydet
+  /* ---------------------------------------------------------
+    📌 2) LocalStorage’a yazmayı optimize et
+        - Her quantity değişiminde 10 defa yazmayı engeller
+        - 150ms debounce → daha performanslı
+  ---------------------------------------------------------- */
   useEffect(() => {
-    localStorage.setItem('orhanmakine-cart', JSON.stringify(cartItems));
+    const timeout = setTimeout(() => {
+      localStorage.setItem("orhanmakine-cart", JSON.stringify(cartItems));
+    }, 150);
+
+    return () => clearTimeout(timeout);
   }, [cartItems]);
 
-  const updateTotalItems = (items) => {
-    const total = items.reduce((sum, item) => sum + item.quantity, 0);
-    setTotalItems(total);
-  };
+  /* --------------------------------------------
+     📌 TOPLAM ADETİ GÜNCELLEYEN MEMOIZED FONKSİYON  
+  --------------------------------------------- */
+  const updateTotal = useCallback((items) => {
+    setTotalItems(items.reduce((sum, item) => sum + item.quantity, 0));
+  }, []);
 
-  const addToCart = (product, quantity = 1) => {
-    setCartItems(prevItems => {
-      const existingItem = prevItems.find(item => item.id === product.id);
-      
-      let newItems;
-      if (existingItem) {
-        newItems = prevItems.map(item =>
+  /* --------------------------------------------
+     📌 ÜRÜN EKLE — useCallback ile optimize
+  --------------------------------------------- */
+  const addToCart = useCallback((product, quantity = 1) => {
+    setCartItems(prev => {
+      const existing = prev.find(item => item.id === product.id);
+
+      let updated;
+      if (existing) {
+        updated = prev.map(item =>
           item.id === product.id
             ? { ...item, quantity: item.quantity + quantity }
             : item
         );
       } else {
-        newItems = [...prevItems, {
-          id: product.id,
-          name: product.name,
-          price: product.price,
-          originalPrice: product.originalPrice,
-          image: product.image,
-          brand: product.brand,
-          quantity: quantity,
-          inStock: product.inStock,
-          stockCode: product.stockCode
-        }];
+        updated = [
+          ...prev,
+          {
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            originalPrice: product.originalPrice,
+            image: product.image,
+            brand: product.brand,
+            quantity,
+            inStock: product.inStock,
+            stockCode: product.stockCode
+          }
+        ];
       }
-      
-      updateTotalItems(newItems);
-      return newItems;
+
+      updateTotal(updated);
+      return updated;
     });
-  };
+  }, [updateTotal]);
 
-  const removeFromCart = (productId) => {
-    setCartItems(prevItems => {
-      const newItems = prevItems.filter(item => item.id !== productId);
-      updateTotalItems(newItems);
-      return newItems;
+  /* --------------------------------------------
+     📌 ÜRÜN SİL
+  --------------------------------------------- */
+  const removeFromCart = useCallback((productId) => {
+    setCartItems(prev => {
+      const updated = prev.filter(item => item.id !== productId);
+      updateTotal(updated);
+      return updated;
     });
-  };
+  }, [updateTotal]);
 
-  const updateQuantity = (productId, newQuantity) => {
-    if (newQuantity < 1) {
-      removeFromCart(productId);
-      return;
-    }
+  /* --------------------------------------------
+     📌 ADET GÜNCELLE
+  --------------------------------------------- */
+  const updateQuantity = useCallback((productId, newQuantity) => {
+    if (newQuantity < 1) return removeFromCart(productId);
 
-    setCartItems(prevItems => {
-      const newItems = prevItems.map(item =>
+    setCartItems(prev => {
+      const updated = prev.map(item =>
         item.id === productId ? { ...item, quantity: newQuantity } : item
       );
-      updateTotalItems(newItems);
-      return newItems;
+      updateTotal(updated);
+      return updated;
     });
-  };
+  }, [removeFromCart, updateTotal]);
 
-  const clearCart = () => {
+  /* --------------------------------------------
+     📌 SEPETİ TEMİZLE
+  --------------------------------------------- */
+  const clearCart = useCallback(() => {
     setCartItems([]);
     setTotalItems(0);
-  };
+  }, []);
 
-  const getTotalPrice = () => {
-    return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
-  };
+  /* --------------------------------------------
+     📌 MEMOIZED SELECTORS (Performans boost)
+  --------------------------------------------- */
+  const getTotalPrice = useCallback(() => {
+    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+  }, [cartItems]);
 
-  const getItemCount = () => {
+  const getItemCount = useCallback(() => {
     return cartItems.reduce((total, item) => total + item.quantity, 0);
-  };
+  }, [cartItems]);
 
-  const value = {
+  /* ---------------------------------------------------------
+    📌 CONTEXT VALUE → useMemo ile tek sefer oluştur
+       (Her render’da yeni object oluşmasını engeller)
+  ---------------------------------------------------------- */
+  const value = useMemo(() => ({
     cartItems,
     totalItems,
     addToCart,
@@ -109,7 +148,16 @@ export const CartProvider = ({ children }) => {
     clearCart,
     getTotalPrice,
     getItemCount
-  };
+  }), [
+    cartItems,
+    totalItems,
+    addToCart,
+    removeFromCart,
+    updateQuantity,
+    clearCart,
+    getTotalPrice,
+    getItemCount
+  ]);
 
   return (
     <CartContext.Provider value={value}>
