@@ -6,6 +6,7 @@ import "./Footer.css";
 export default function Footer() {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
+  // Rastgele 6 ürün
   const footerProducts = [...productsData]
     .sort(() => Math.random() - 0.5)
     .slice(0, 6);
@@ -22,6 +23,8 @@ export default function Footer() {
   const socialLinks = [
     { icon: Instagram, href: "https://www.instagram.com/orhan_makina_bileme/?__d=1", name: "Instagram" },
     { icon: Linkedin, href: "https://linkedin.com", name: "LinkedIn" },
+
+    // WHATSAPP İKONU — DOKUNMADIM
     {
       icon: () => (
         <img
@@ -29,6 +32,7 @@ export default function Footer() {
           className="footer-social-icon invert"
           alt="WhatsApp"
           loading="lazy"
+          decoding="async"
         />
       ),
       href: "https://wa.me/905395159925",
@@ -42,7 +46,9 @@ export default function Footer() {
         <div className="footer-container">
           <div className="footer-grid">
 
-            {/* LOGO + AÇIKLAMA */}
+            {/* ==========================
+               LOGO + AÇIKLAMA
+            ========================== */}
             <section className="footer-col footer-company-info">
               <div className="footer-logo">
                 <img
@@ -50,6 +56,7 @@ export default function Footer() {
                   alt="Orhan Makine Logo"
                   className="footer-logo-img"
                   loading="lazy"
+                  decoding="async"
                 />
                 <div className="footer-logo-text">
                   <h3>ORHAN MAKİNE</h3>
@@ -70,9 +77,9 @@ export default function Footer() {
                       key={i}
                       href={s.href}
                       target="_blank"
-                      rel="noopener noreferrer"
-                      className="footer-social-link"
+                      rel="noopener nofollow noreferrer"
                       aria-label={s.name}
+                      className="footer-social-link"
                     >
                       <Icon className="footer-social-icon" />
                     </a>
@@ -81,7 +88,9 @@ export default function Footer() {
               </div>
             </section>
 
-            {/* HIZLI LİNKLER */}
+            {/* ==========================
+                HIZLI LİNKLER
+            ========================== */}
             <nav className="footer-col" aria-label="Hızlı Linkler">
               <h4 className="footer-title">Hızlı Linkler</h4>
               <ul className="footer-links">
@@ -93,13 +102,19 @@ export default function Footer() {
               </ul>
             </nav>
 
-            {/* ÜRÜNLER (SEO-friendly) */}
+            {/* ==========================
+                ÜRÜNLER — SEO SLUG DESTEKLİ
+            ========================== */}
             <nav className="footer-col" aria-label="Popüler Ürünler">
               <h4 className="footer-title">Ürünler</h4>
               <ul className="footer-links">
                 {footerProducts.map((item) => (
                   <li key={item.id}>
-                    <Link to={`/product/${item.id}`} className="footer-link">
+                    <Link
+                      to={`/product/${item.slug}`}
+                      className="footer-link"
+                      onClick={scrollToTop}
+                    >
                       {item.name}
                     </Link>
                   </li>
@@ -107,7 +122,9 @@ export default function Footer() {
               </ul>
             </nav>
 
-            {/* İLETİŞİM */}
+            {/* ==========================
+                İLETİŞİM BİLGİLERİ
+            ========================== */}
             <section className="footer-col">
               <h4 className="footer-title">İletişim</h4>
               <div className="footer-contact-items">
@@ -149,9 +166,13 @@ export default function Footer() {
 
           </div>
 
+          {/* ==========================
+              ALT BÖLÜM
+          ========================== */}
           <div className="footer-copyright">
             © 2024 Orhan Makine Bileme Hizmetleri — Tüm hakları saklıdır.
             <span className="footer-divider"> | </span>
+
             <a 
               href="https://www.linkedin.com/in/halit-mustafa-karagoz"
               target="_blank"
@@ -161,6 +182,7 @@ export default function Footer() {
               Developed by Halit Mustafa Karagöz
             </a>
           </div>
+
         </div>
       </div>
     </footer>

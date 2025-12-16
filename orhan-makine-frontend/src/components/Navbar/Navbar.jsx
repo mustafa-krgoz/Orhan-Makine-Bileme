@@ -180,11 +180,16 @@ export default function Navbar() {
         <div className="nav-container">
           {/* LOGO */}
           <Link to="/" className="nav-logo-wrapper" onClick={closeAll}>
-            <img
-              src="/images/logo.png"
-              alt="Orhan Makine Logo"
-              className="nav-navbar-logo"
-            />
+            <picture>
+              <source srcSet="/images/logo.webp" type="image/webp" />
+              <img
+                src="/images/logo.png"
+                alt="Orhan Makine Logo"
+                className="nav-navbar-logo"
+                loading="lazy"
+                decoding="async"
+              />
+            </picture>
 
             <div className="nav-logo-text">
               <h1 className="nav-logo-title">
@@ -246,13 +251,16 @@ export default function Navbar() {
                           onClick={handleSearchItemClick}
                         >
                           <div className="search-result-image">
-                            <img
-                              src={product.image}
-                              alt={product.name}
-                              onError={(e) =>
-                                (e.target.src = "/images/default-product.png")
-                              }
-                            />
+                            <picture>
+                              <source srcSet={product.image.replace(".png", ".webp")} type="image/webp" />
+                              <img
+                                src={product.image}
+                                alt={product.name}
+                                loading="lazy"
+                                decoding="async"
+                                onError={(e) => (e.target.src = "/images/default-product.png")}
+                              />
+                            </picture>
                           </div>
 
                           <div className="search-result-info">
@@ -331,9 +339,20 @@ export default function Navbar() {
                         <div className="cart-preview-items">
                           {cartItems.slice(0, 3).map((item) => (
                             <div key={item.id} className="cart-preview-item">
-                              <div className="cart-preview-item-image">
-                                <img src={item.image} alt={item.name} />
-                              </div>
+                            <div className="cart-preview-item-image">
+                              <picture>
+                                <source
+                                  srcSet={item.image.replace(".png", ".webp")}
+                                  type="image/webp"
+                                />
+                                <img
+                                  src={item.image}
+                                  alt={item.name}
+                                  loading="lazy"
+                                  decoding="async"
+                                />
+                              </picture>
+                            </div>
 
                               <div className="cart-preview-item-info">
                                 <h5>{item.name}</h5>
@@ -458,13 +477,19 @@ export default function Navbar() {
                         onClick={handleSearchItemClick}
                       >
                         <div className="search-result-image">
-                          <img
-                            src={product.image}
-                            alt={product.name}
-                            onError={(e) =>
-                              (e.target.src = "/images/default-product.png")
-                            }
-                          />
+                          <picture>
+                            <source
+                              srcSet={product.image.replace(".png", ".webp")}
+                              type="image/webp"
+                            />
+                            <img
+                              src={product.image}
+                              alt={product.name}
+                              loading="lazy"
+                              decoding="async"
+                              onError={(e) => (e.target.src = "/images/default-product.png")}
+                            />
+                          </picture>
                         </div>
 
                         <div className="search-result-info">
