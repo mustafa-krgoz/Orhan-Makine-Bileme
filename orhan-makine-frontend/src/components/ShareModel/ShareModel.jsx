@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   FaTimes, FaCopy, FaWhatsapp, FaFacebook, FaTwitter, 
   FaEnvelope, FaLink, FaCheck 
@@ -7,6 +7,19 @@ import './ShareModel.css';
 
 const ShareModal = ({ isOpen, onClose, productName, productUrl }) => {
   const [copied, setCopied] = useState(false);
+
+  // Body scroll lock
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -25,42 +38,51 @@ const ShareModal = ({ isOpen, onClose, productName, productUrl }) => {
       name: 'WhatsApp',
       icon: <FaWhatsapp />,
       color: '#25D366',
-      action: () => {
-        window.open(`https://wa.me/?text=${encodeURIComponent(`${productName} - ${productUrl}`)}`, '_blank');
-      }
+      action: () =>
+        window.open(
+          `https://wa.me/?text=${encodeURIComponent(`${productName} - ${productUrl}`)}`,
+          '_blank'
+        )
     },
     {
       name: 'Facebook',
       icon: <FaFacebook />,
       color: '#1877F2',
-      action: () => {
-        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(productUrl)}`, '_blank');
-      }
+      action: () =>
+        window.open(
+          `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(productUrl)}`,
+          '_blank'
+        )
     },
     {
       name: 'Twitter',
       icon: <FaTwitter />,
       color: '#1DA1F2',
-      action: () => {
-        window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(productUrl)}&text=${encodeURIComponent(productName)}`, '_blank');
-      }
+      action: () =>
+        window.open(
+          `https://twitter.com/intent/tweet?url=${encodeURIComponent(productUrl)}&text=${encodeURIComponent(productName)}`,
+          '_blank'
+        )
     },
     {
       name: 'E-posta',
       icon: <FaEnvelope />,
       color: '#EA4335',
-      action: () => {
-        window.location.href = `mailto:?subject=${encodeURIComponent(productName)}&body=${encodeURIComponent(`Bu ürünü incelemelisin: ${productUrl}`)}`;
-      }
+      action: () =>
+        window.location.href = 
+        `mailto:?subject=${encodeURIComponent(productName)}&body=${encodeURIComponent(`Bu ürünü incelemelisin: ${productUrl}`)}`
     }
   ];
 
   return (
-    <div className="share-modal-overlay">
-      <div className="share-modal">
+    <div className="share-modal-overlay" onClick={onClose}>
+      <div 
+        className="share-modal" 
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="share-modal-header">
           <h3>Ürünü Paylaş</h3>
-          <button className="close-button" onClick={onClose}>
+          <button className="close-button" onClick={onClose} aria-label="Kapat">
             <FaTimes />
           </button>
         </div>
@@ -77,6 +99,7 @@ const ShareModal = ({ isOpen, onClose, productName, productUrl }) => {
             <button 
               className={`copy-button ${copied ? 'copied' : ''}`}
               onClick={handleCopyLink}
+              aria-label="Ürün linkini kopyala"
             >
               {copied ? <FaCheck /> : <FaCopy />}
               {copied ? 'Kopyalandı!' : 'Kopyala'}
@@ -93,6 +116,7 @@ const ShareModal = ({ isOpen, onClose, productName, productUrl }) => {
                 className="platform-button"
                 onClick={platform.action}
                 style={{ '--platform-color': platform.color }}
+                aria-label={`${platform.name} ile paylaş`}
               >
                 <span className="platform-icon">{platform.icon}</span>
                 <span className="platform-name">{platform.name}</span>

@@ -4,7 +4,7 @@ import './PWAPrompt.css';
 
 const PWAPrompt = ({ onInstall, onDismiss }) => {
   return (
-    <div className="pwa-prompt-overlay">
+    <div className="pwa-prompt-overlay" role="presentation">
       <div className="pwa-prompt">
         <button 
           className="pwa-prompt-close"
@@ -16,10 +16,10 @@ const PWAPrompt = ({ onInstall, onDismiss }) => {
         
         <div className="pwa-prompt-content">
           <div className="pwa-prompt-icon">
-            <Download size={32} />
+            <Download size={32} aria-hidden="true" focusable="false" />
           </div>
           
-          <h3 className="pwa-prompt-title">Orhan Makine'yi Yükleyin</h3>
+          <h2 className="pwa-prompt-title">Orhan Makine'yi Yükleyin</h2>
           
           <p className="pwa-prompt-description">
             Uygulamayı yükleyerek daha hızlı erişim sağlayın ve 

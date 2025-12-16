@@ -5,12 +5,17 @@ const ScrollToTop = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    // Sayfa değiştiğinde en üste scroll et
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: 'smooth'
-    });
+    // Modern tarayıcılar için smooth scroll
+    try {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+      });
+    } catch (err) {
+      // Eski iOS / Safari fallback
+      window.scrollTo(0, 0);
+    }
   }, [pathname]);
 
   return null;
