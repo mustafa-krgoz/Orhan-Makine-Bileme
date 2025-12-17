@@ -78,52 +78,52 @@ const AboutPage = () => {
   // ============================================
   const buildingImages = [
     {
-      src: '/images/joblocations/bina4.png',
+      src: '/images/joblocations/bina4.webp',
       alt: 'Orhan Makine Bileme Satış ve Servis Bölümü görseli',
       title: 'Satış ve Servis Bölümü'
     },
     {
-      src: '/images/joblocations/bina3.png',
+      src: '/images/joblocations/bina3.webp',
       alt: 'Orhan Makine Bileme satış bölümü ikinci görsel',
       title: 'Satış Bölümü'
     },
     {
-      src: '/images/joblocations/bina1.png',
+      src: '/images/joblocations/bina1.webp',
       alt: 'Orhan Makine ofis ve yönetim birimi',
       title: 'Ofis ve Yönetim'
     },
     {
-      src: '/images/joblocations/bina2.png',
+      src: '/images/joblocations/bina2.webp',
       alt: 'Orhan Makine yönetim ofisi ikinci görsel',
       title: 'Yönetim Ofisi'
     },
     {
-      src: '/images/joblocations/bina5.png',
+      src: '/images/joblocations/bina5.webp',
       alt: 'Orhan Makine ürün stok alanı',
       title: 'Ürün Stok Alanı'
     },
     {
-      src: '/images/joblocations/bina6.png',
+      src: '/images/joblocations/bina6.webp',
       alt: 'Orhan Makine makine sergi alanı',
       title: 'Makine Sergi Alanı'
     },
     {
-      src: '/images/joblocations/bina7.png',
+      src: '/images/joblocations/bina7.webp',
       alt: 'Orhan Makine teknik ekipman stok alanı',
       title: 'Teknik Ekipman Stoku'
     },
     {
-      src: '/images/joblocations/bina8.png',
+      src: '/images/joblocations/bina8.webp',
       alt: 'Orhan Makine ürün depoları',
       title: 'Ürün Depoları'
     },
     {
-      src: '/images/joblocations/bina9.png',
+      src: '/images/joblocations/bina9.webp',
       alt: 'Orhan Makine yedek parça stok alanı',
       title: 'Yedek Parça Stoku'
     },
     {
-      src: '/images/joblocations/bina10.png',
+      src: '/images/joblocations/bina10.webp',
       alt: 'Orhan Makine genel görünüm',
       title: 'Firma Genel Görünüm'
     }
@@ -202,7 +202,7 @@ const AboutPage = () => {
         "name": "Orhan Makine Bileme",
         "alternateName": "Orhan Makine",
         "url": window.location.origin,
-        "logo": `${window.location.origin}/logo.png`,
+        "logo": `${window.location.origin}/logo.webp`,
         "foundingDate": "1980",
         "founder": {
           "@type": "Person",

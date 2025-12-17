@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const OptimizedImage = ({
   src,
@@ -9,26 +9,41 @@ const OptimizedImage = ({
   style = {},
   loading = "lazy",
   fallback = "/images/default-product.png",
+  fetchpriority = "auto", // "high" yapılınca LCP hızlanır
 }) => {
+
+  // Normal PNG/JPG kaynak
   const [imgSrc, setImgSrc] = useState(src);
 
-  // PNG → WEBP Dönüşüm Mantığı
-  const webpSrc = src.match(/\.(png|jpg|jpeg)$/i)
-    ? src.replace(/\.(png|jpg|jpeg)$/i, ".webp")
-    : null;
+  // WEBP versiyonunu üret
+  const webpSrc = src.replace(/\.(png|jpg|jpeg)$/i, ".webp");
+
+  // Tarayıcı webp destekliyor mu?
+  const [supportsWebp, setSupportsWebp] = useState(true);
+
+  useEffect(() => {
+    const webpTest = new Image();
+    webpTest.onload = () => setSupportsWebp(true);
+    webpTest.onerror = () => setSupportsWebp(false);
+    webpTest.src =
+      "data:image/webp;base64,UklGRiIAAABXRUJQVlA4ICAAAADwAQCdASoCAAIALmk0mk0iIiIiIgBoSywA";
+  }, []);
 
   return (
     <picture>
-      {/* WebP varsa dener */}
-      {webpSrc && (
+
+      {/* WEBP DESTEKLİYSE YÜKLE */}
+      {supportsWebp && (
         <source
           srcSet={webpSrc}
           type="image/webp"
-          onError={() => console.log("WEBP yüklenemedi:", webpSrc)}
         />
       )}
 
-      {/* PNG/JPG fallback */}
+      {/* JPEG fallback ekleyelim — SEO + ticari sitelerde önemlidir */}
+      <source srcSet={src} type="image/jpeg" />
+
+      {/* PNG/JPG IMG TAG */}
       <img
         src={imgSrc}
         alt={alt}
@@ -36,10 +51,17 @@ const OptimizedImage = ({
         loading={loading}
         width={width}
         height={height}
-        style={style}
-        onError={(e) => {
-          console.warn("Görsel yüklenemedi → fallback’e düşüldü:", imgSrc);
+        decoding="async"
+        fetchpriority={fetchpriority}
+        style={{
+          display: "block",
+          width: width || "100%",
+          height: height || "auto",
+          ...style,
+        }}
+        onError={() => {
           if (imgSrc !== fallback) {
+            console.warn("Resim yüklenemedi, fallback'e geçildi:", fallback);
             setImgSrc(fallback);
           }
         }}

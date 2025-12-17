@@ -64,6 +64,7 @@
     /* TRANSITION */
     --gallery-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
     --gallery-transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    --gallery-transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
     
     /* CONTAINER */
     --gallery-max-width: 1400px;
@@ -490,7 +491,7 @@
   }
   
   /* ============================================
-     GALERİ KARTI - ÜRÜN ARKA PLANI #5ba3f7
+     GALERİ KARTI - GÜNCELLENDİ (POPÜLER ÜRÜNLER GİBİ)
      ============================================ */
   .gallery-card {
     background: var(--gallery-white);
@@ -511,32 +512,36 @@
     border-color: var(--gallery-primary-light);
   }
   
-  /* Görsel Alanı - ARKA PLAN RENGİ #5ba3f7 OLARAK DEĞİŞTİRİLDİ */
+  /* Görsel Alanı - SABİT BOYUT, ARKA PLAN #5ba3f7 */
   .gallery-card-image {
     position: relative;
-    height: 240px;
+    height: 240px; /* SABİT YÜKSEKLİK */
+    width: 100%; /* SABİT GENİŞLİK */
     overflow: hidden;
-    background: var(--gallery-product-bg); /* #5ba3f7 - DEĞİŞTİRİLDİ */
+    background: var(--gallery-product-bg); /* #5ba3f7 ARKA PLAN */
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 20px;
+    border-bottom: 1px solid var(--gallery-gray-200);
+    flex-shrink: 0; /* Görsel alanının küçülmesini engelle */
   }
   
-  /* GÖRSEL - Ürün arka planına uyumlu */
+  /* GÖRSEL - Tüm ürünler için standart boyutlandırma */
   .gallery-image {
     max-width: 100%;
     max-height: 100%;
     width: auto;
     height: auto;
-    object-fit: contain;
+    object-fit: contain; /* Ürün bozulmadan sığdır */
+    object-position: center; /* Ortada hizala */
     display: block;
     transition: var(--gallery-transition-slow);
     transform-origin: center;
   }
   
   .gallery-card:hover .gallery-image {
-    transform: scale(1.02);
+    transform: scale(1.05); /* Hover'da hafif büyüme */
   }
   
   /* Yükleme durumu */
@@ -686,13 +691,14 @@
   
   /* YENİ ÜRÜN BADGE KALDIRILDI - CSS'DEN SİLİNDİ */
   
-  /* Bilgi Alanı */
+  /* KART İÇERİK ALANI - EŞİT DAĞILIM (GÜNCELLENDİ) */
   .gallery-card-info {
     padding: 20px;
     flex: 1;
     display: flex;
     flex-direction: column;
     gap: 12px;
+    min-height: 0; /* Flexbox overflow sorununu çöz */
   }
   
   .gallery-card-brand {
@@ -702,6 +708,7 @@
     font-size: 14px;
     font-weight: 600;
     color: var(--gallery-info);
+    flex-shrink: 0;
   }
   
   .gallery-card-title {
@@ -711,9 +718,12 @@
     margin: 0;
     line-height: 1.4;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 2; /* MAKSİMUM 2 SATIR */
     -webkit-box-orient: vertical;
     overflow: hidden;
+    text-overflow: ellipsis;
+    flex-shrink: 0;
+    min-height: 50px; /* Minimum yükseklik sabit */
   }
   
   .gallery-card-category {
@@ -722,7 +732,8 @@
     gap: 8px;
     font-size: 13px;
     color: var(--gallery-gray-600);
-    margin-top: auto;
+    margin-top: auto; /* EN ALTA İTER */
+    flex-shrink: 0;
   }
   
   /* Boş Galeri */
@@ -901,12 +912,14 @@
     align-items: center;
     justify-content: center;
     padding: 40px;
+    border-bottom: 1px solid var(--gallery-gray-200);
   }
   
   .gallery-lightbox-image {
     max-width: 100%;
     max-height: 100%;
-    object-fit: contain;
+    object-fit: contain; /* Ürün bozulmadan sığdır */
+    object-position: center; /* Ortada hizala */
     image-rendering: -webkit-optimize-contrast;
     image-rendering: crisp-edges;
   }
@@ -1370,7 +1383,10 @@
     }
   }
   
-  /* SEO ve PERFORMANS OPTİMİZASYONU */
+  /* ============================================
+     PERFORMANS VE SEO OPTİMİZASYONU
+     ============================================ */
+  
   .gallery-image {
     content-visibility: auto;
     contain-intrinsic-size: 400px 300px;
