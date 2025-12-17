@@ -21,7 +21,7 @@ export const productsData = [
     originalPrice: 17040,
     showDiscount: true,
 
-    image: "/images/products/CORA-KOMPRESOR-2.5HP-100L.png",
+    image: "/images/products/CORA-KOMPRESOR-2.5HP-100L.webp",
 
     description: "Yüksek performanslı, sessiz ve enerji tasarruflu kompresör.",
 
@@ -69,7 +69,7 @@ export const productsData = [
     originalPrice: 8000,
     showDiscount: false,
 
-    image: "/images/products/HS7601-SUNTA-KESME.png",
+    image: "/images/products/HS7601-SUNTA-KESME.webp",
 
     description: "Hassas ve güçlü sunta kesme makinesi.",
 
@@ -117,7 +117,7 @@ export const productsData = [
     originalPrice: 13500,
     showDiscount: true,
 
-    image: "/images/products/MAKITA-4350CT-DEKUPAJ-ELEKTRONIK1.png",
+    image: "/images/products/MAKITA-4350CT-DEKUPAJ-ELEKTRONIK1.webp",
 
     description:
       "Hassas kesimler için elektronik hız kontrollü dekupaj testeresi.",
@@ -165,7 +165,7 @@ export const productsData = [
     showDiscount: true,
 
     image:
-      "/images/products/MAKITA-DHR241RMJ-AKULU-KIRICI-DELICI-HILTI1.png",
+      "/images/products/MAKITA-DHR241RMJ-AKULU-KIRICI-DELICI-HILTI1.webp",
 
     description: "Yüksek darbe gücüne sahip akülü kırıcı-delici hilti.",
 
@@ -210,7 +210,7 @@ export const productsData = [
       originalPrice: 4800,
       showDiscount: false,
   
-      image: "/images/products/MAKITA-HG5030K-ISITICI1.png",
+      image: "/images/products/MAKITA-HG5030K-ISITICI1.webp",
   
       description: "Profesyonel kullanım için portatif sıcak hava ısıtıcısı.",
   
@@ -256,7 +256,7 @@ export const productsData = [
       originalPrice: 35000,
       showDiscount: true,
   
-      image: "/images/products/MAKITA-LH1040-TABLALI-GONYE-TEZGAH.png",
+      image: "/images/products/MAKITA-LH1040-TABLALI-GONYE-TEZGAH.webp",
   
       description: "Profesyonel gönye kesim tezgahı.",
   
@@ -302,7 +302,7 @@ export const productsData = [
       originalPrice: 24000,
       showDiscount: false,
   
-      image: "/images/products/MAKITA-DHP484RTJ-AKULU-DARBELI-MATKAP1.png",
+      image: "/images/products/MAKITA-DHP484RTJ-AKULU-DARBELI-MATKAP1.webp",
   
       description: "Profesyonel sınıf darbeli matkap.",
   
@@ -343,7 +343,7 @@ export const productsData = [
       originalPrice: 6850,
       showDiscount: false,
   
-      image: "/images/products/akusuzdarbelimatkap1.png",
+      image: "/images/products/akusuzdarbelimatkap1.webp",
   
       description: "Kablolu yüksek performanslı darbeli matkap.",
   
@@ -384,7 +384,7 @@ export const productsData = [
       originalPrice: 6500,
       showDiscount: true,
   
-      image: "/images/products/KAMAKMR46-KAMA-BY-REIS-46CC-MOTORLU-TESTERE.png",
+      image: "/images/products/KAMAKMR46-KAMA-BY-REIS-46CC-MOTORLU-TESTERE.webp",
   
       description: "46cc güçlü motoruyla profesyonel kullanım için ideal benzinli testere.",
   
@@ -430,7 +430,7 @@ export const productsData = [
       originalPrice: 7600,
       showDiscount: true,
   
-      image: "/images/products/MAA191E07-8-MAKITA-DC40RA-HIZLI-SARJ-CIHAZI.png",
+      image: "/images/products/MAA191E07-8-MAKITA-DC40RA-HIZLI-SARJ-CIHAZI.webp",
   
       description: "Makita 40V Max bataryalar için yüksek hızlı şarj cihazı.",
   
@@ -463,7 +463,7 @@ export const productsData = [
     originalPrice: 74900,
     showDiscount: true,
 
-    image: "/images/products/MAKITA-HM1812-KIRICI.png",
+    image: "/images/products/MAKITA-HM1812-KIRICI.webp",
 
     description: "Ağır hizmet tipi profesyonel kırıcı.",
 
@@ -508,7 +508,7 @@ export const productsData = [
     originalPrice: 27000,
     showDiscount: true,
 
-    image: "/images/products/MAKITA-LS1040N-GONYE-KESME-TEZGAHI.png",
+    image: "/images/products/MAKITA-LS1040N-GONYE-KESME-TEZGAHI.webp",
 
     description: "Profesyonel gönye kesimler için yüksek hassasiyetli tezgah.",
 
@@ -553,7 +553,7 @@ export const productsData = [
     originalPrice: 64000,
     showDiscount: true,
 
-    image: "/images/products/MAKITA-LS1219-GONYE-KESME.png",
+    image: "/images/products/MAKITA-LS1219-GONYE-KESME.webp",
 
     description: "Büyük boy gönye kesimler için üstün performans.",
 
@@ -597,7 +597,7 @@ export const productsData = [
     originalPrice: 69000,
     showDiscount: true,
 
-    image: "/images/products/MAKITA-LS1219L-GONYE-KESME.png",
+    image: "/images/products/MAKITA-LS1219L-GONYE-KESME.webp",
 
     description: "Lazer kılavuzlu hassas gönye kesim makinesi.",
 
@@ -641,7 +641,7 @@ export const productsData = [
     originalPrice: 12500,
     showDiscount: true,
 
-    image: "/images/products/MAKITA-UC4041A-ELEKTRIKLI-ZINCIR-TESTERE.png",
+    image: "/images/products/MAKITA-UC4041A-ELEKTRIKLI-ZINCIR-TESTERE.webp",
 
     description: "Hızlı ve güvenli kesim için elektrikli zincir testere.",
 
@@ -685,7 +685,7 @@ export const productsData = [
     originalPrice: 11500,
     showDiscount: true,
 
-    image: "/images/products/MAKITA-M3602B-FREZE-MAKINASI.png",
+    image: "/images/products/MAKITA-M3602B-FREZE-MAKINASI.webp",
 
     description: "Profesyonel freze işçilikleri için güçlü Makita freze makinesi.",
 
@@ -730,7 +730,7 @@ export const productsData = [
     originalPrice: 5500,
     showDiscount: false,
 
-    image: "/images/products/HM80L-LASERLI-GONYE-KESME.png",
+    image: "/images/products/HM80L-LASERLI-GONYE-KESME.webp",
 
     description: "Hassas ve lazer kılavuzlu gönye kesim makinesi.",
 
@@ -768,7 +768,7 @@ export const productsData = [
     originalPrice: 10500,
     showDiscount: false,
 
-    image: "/images/products/MAKITA-BO4901-EKSANTRIK-TITRESIM-ALETI.png",
+    image: "/images/products/MAKITA-BO4901-EKSANTRIK-TITRESIM-ALETI.webp",
 
     description: "Profesyonel yüzey işlemleri için eksantrik titreşim zımparası.",
 
@@ -806,7 +806,7 @@ export const productsData = [
     originalPrice: 12000,
     showDiscount: false,
 
-    image: "/images/products/MAKITA-BO6030-DAIRESEL-EKSANTRIK-ZIMPARA.png",
+    image: "/images/products/MAKITA-BO6030-DAIRESEL-EKSANTRIK-ZIMPARA.webp",
 
     description: "Güçlü ve ergonomik dairesel eksantrik zımpara.",
 
@@ -844,7 +844,7 @@ export const productsData = [
     originalPrice: 24000,
     showDiscount: false,
 
-    image: "/images/products/MAKITA-HM0870C-KIRICI.png",
+    image: "/images/products/MAKITA-HM0870C-KIRICI.webp",
 
     description: "Orta seviye kırma işlemleri için ideal elektrikli kırıcı.",
 
@@ -882,7 +882,7 @@ export const productsData = [
     originalPrice: 33600,
     showDiscount: false,
 
-    image: "/images/products/MAKITA-HM1101C-KIRICI.png",
+    image: "/images/products/MAKITA-HM1101C-KIRICI.webp",
 
     description: "Yüksek darbeli profesyonel elektrikli kırıcı.",
 
@@ -920,7 +920,7 @@ export const productsData = [
     originalPrice: 30000,
     showDiscount: false,
 
-    image: "/images/products/MAKITA-HM1203C-KIRICI.png",
+    image: "/images/products/MAKITA-HM1203C-KIRICI.webp",
 
     description: "Ağır iş sınıfında güçlü kırıcı.",
 
@@ -958,7 +958,7 @@ export const productsData = [
     originalPrice: 30000,
     showDiscount: false,
 
-    image: "/images/products/MAKITA-HR4002-DELICI-KIRICI.png",
+    image: "/images/products/MAKITA-HR4002-DELICI-KIRICI.webp",
 
     description: "Güçlü SDS-MAX delici kırıcı.",
 
@@ -996,7 +996,7 @@ export const productsData = [
     originalPrice: 70800,
     showDiscount: false,
 
-    image: "/images/products/MAKITA-LS1219L-GONYE-KESME.png",
+    image: "/images/products/MAKITA-LS1219L-GONYE-KESME.webp",
 
     description:
       "Profesyoneller için lazer destekli geniş kapasiteli gönye kesme makinesi.",

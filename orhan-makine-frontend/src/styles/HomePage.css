@@ -352,8 +352,7 @@
   left: 100%;
 }
 /* =========================================================
-   POPÜLER ÜRÜNLER SEKSİYONU
-   Arka plan, padding ve genel hizalama tamamen korunuyor.
+   POPÜLER ÜRÜNLER SEKSİYONU - OPTİMİZE
 ========================================================= */
 
 .home-products-section {
@@ -362,7 +361,7 @@
 }
 
 /* =========================================================
-   SLIDER WRAPPER (OKLAR + TRACK KABINI TUTAR)
+   SLIDER YAPISI
 ========================================================= */
 
 .home-products-slider-wrapper {
@@ -373,12 +372,6 @@
   margin: 40px 0;
 }
 
-
-/* =========================================================
-   SLIDER CONTAINER
-   İçeride overflow: hidden; slider taşmalarını engeller.
-========================================================= */
-
 .home-products-slider-container {
   flex: 1;
   overflow: hidden;
@@ -388,107 +381,68 @@
   width: 100%;
 }
 
-/* =========================================================
-   TRACK (ÜRÜNLERİN YAN YANA SIRALANDIĞI ALAN)
-========================================================= */
-
 .home-products-track {
   display: flex;
+  gap: 24px; /* Flex gap kullanarak margin-right sorununu çözüyoruz */
   transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: transform;               /* Performans için */
+  will-change: transform;
 }
-
 
 /* =========================================================
-   SLIDER ARROWS
-========================================================= */
-
-.home-slider-arrow {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: #1d6fb8;
-  border: none;
-  color: white;
-  cursor: pointer;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  flex-shrink: 0;
-
-  box-shadow: 0 4px 15px rgba(29, 111, 184, 0.3);
-  transition: all 0.3s ease;
-}
-
-.home-slider-arrow:hover {
-  background: #155a96;
-  transform: scale(1.1);
-  box-shadow: 0 8px 25px rgba(29, 111, 184, 0.5);
-}
-
-.home-slider-arrow:active {
-  transform: scale(0.95);
-}
-
-
-/* =========================================================
-   ÜRÜN KARTLARI
-   Hover efektleri optimize edildi — görünüm aynı.
+   ÜRÜN KARTLARI - TÜMÜ AYNI BOYUTTA
 ========================================================= */
 
 .home-product-card {
   background: #ffffff;
   border-radius: 16px;
   overflow: hidden;
-
   border: 1px solid #f1f5f9;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-
-  width: calc(25% - 18px);    /* 4 ürün görünür → aynı */
-  margin-right: 24px;
-  flex-shrink: 0;
-
+  
+  /* SABİT GENİŞLİK */
+  width: calc(25% - 18px);
+  flex: 0 0 calc(25% - 18px);
+  
+  /* TÜM KARTLAR AYNI YÜKSEKLİKTE */
+  min-height: 520px;
+  height: auto;
+  
   display: flex;
   flex-direction: column;
-
+  
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* KART HOVER */
 .home-product-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 25px 50px -12px rgba(29, 111, 184, 0.15);
   border-color: #dbeafe;
 }
 
-/* Track'in son ürününde sağ boşluk olmasın */
-.home-products-track .home-product-card:last-child {
-  margin-right: 0;
-}
-
-
 /* =========================================================
-   ÜRÜN RESMİ
+   ÜRÜN GÖRSEL ALANI - STANDART BOYUT
 ========================================================= */
 
 .home-product-image {
-  height: 240px;
-  background: linear-gradient(135deg, #f8fafc, #e2e8f0);
-
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #fff;
+  padding: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  padding: 20px;
+  border-bottom: 1px solid #f1f5f9;
   overflow: hidden;
+  flex-shrink: 0; /* Görsel alanının küçülmesini engelle */
 }
 
 .home-product-image img {
   width: 100%;
   height: 100%;
   object-fit: contain;
-
+  object-position: center;
+  mix-blend-mode: multiply;
   transition: transform 0.3s ease;
 }
 
@@ -496,19 +450,19 @@
   transform: scale(1.05);
 }
 
-
 /* =========================================================
-   ÜRÜN KARTI TEXT / CONTENT
+   İÇERİK ALANI - EŞİT DAĞILIM
 ========================================================= */
 
 .home-product-content {
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  flex: 1;
+  flex: 1; /* İçeriği genişlet */
+  min-height: 0; /* Flexbox overflow sorununu çöz */
 }
 
-/* Marka adı */
+/* MARKA */
 .home-product-brand {
   color: #64748b;
   font-size: 0.85rem;
@@ -516,20 +470,30 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 8px;
+  flex-shrink: 0;
 }
 
-/* Ürün adı */
+/* ÜRÜN ADI */
 .home-product-title {
   font-size: 1.25rem;
   font-weight: 600;
   color: #1e293b;
   margin-bottom: 10px;
   line-height: 1.4;
+  flex-shrink: 0;
+  
+  /* Çok satırlı başlıklar için */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* Fiyat alanı */
+/* FİYAT */
 .home-product-pricing {
   margin-bottom: 15px;
+  flex-shrink: 0;
 }
 
 .home-product-price {
@@ -539,78 +503,82 @@
   margin-bottom: 15px;
 }
 
-/* Ürün açıklaması */
+/* AÇIKLAMA */
 .home-product-description {
   color: #64748b;
   font-size: 0.95rem;
   line-height: 1.5;
-
-  flex: 1;
-
-  /* 3 satırın altında kesme */
+  margin-bottom: 1rem;
+  flex: 1; /* Açıklama alanını genişlet */
+  min-height: 60px; /* Minimum yükseklik */
+  
+  /* 3 satırla sınırla */
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
-
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-
 /* =========================================================
-   ÜRÜN ÖZELLİKLERİ (LISTE)
+   ÖZELLİKLER LİSTESİ - SABİT YÜKSEKLİK
 ========================================================= */
 
 .home-product-features {
   list-style: none;
   padding: 0;
-  flex: 1;
   margin-bottom: 1.5rem;
+  flex-shrink: 0;
+  min-height: 90px; /* Özellikler için sabit yükseklik */
 }
 
 .home-feature-item {
   display: flex;
   align-items: flex-start;
   gap: 8px;
-
   color: #475569;
   font-size: 0.9rem;
   margin-bottom: 8px;
+  
+  /* Tek satırda kes */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .home-feature-icon {
   width: 1.125rem;
   height: 1.125rem;
-  color: #10b981;          /* Yeşil tik */
+  color: #10b981;
   flex-shrink: 0;
   margin-top: 2px;
 }
 
-
 /* =========================================================
-   DETAYLI İNCELE BUTONU
+   BUTON - ALTTA SABİT KONUM
 ========================================================= */
+
+.home-product-button-wrapper {
+  margin-top: auto; /* Butonu en alta iter */
+  flex-shrink: 0;
+}
 
 .home-product-button {
   width: 100%;
   padding: 12px 20px;
-
   background: linear-gradient(135deg, #1d6fb8, #2b8df5);
   color: #ffffff;
-
   border-radius: 8px;
   font-weight: 600;
   font-size: 0.95rem;
-
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-
   text-decoration: none;
   cursor: pointer;
-
   transition: all 0.3s ease;
+  border: none;
 }
 
 .home-product-button:hover {
@@ -629,6 +597,32 @@
   transform: translateX(4px);
 }
 
+/* =========================================================
+   SLIDER OKLARI
+========================================================= */
+
+.home-slider-arrow {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #1d6fb8;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 15px rgba(29, 111, 184, 0.3);
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.home-slider-arrow:hover {
+  background: #155a96;
+  transform: scale(1.1);
+  box-shadow: 0 8px 25px rgba(29, 111, 184, 0.5);
+}
 
 /* =========================================================
    "TÜM ÜRÜNLERİ GÖR" BUTONU
@@ -636,24 +630,21 @@
 
 .home-view-all-products {
   text-align: center;
-  margin-top: 40px;
+  margin-top: 60px;
 }
 
 .home-view-all-button {
   display: inline-block;
   background: linear-gradient(135deg, #1d6fb8, #2b8df5);
   color: white;
-
   padding: 14px 32px;
   border-radius: 10px;
-
   font-weight: 600;
   font-size: 1.05rem;
-
   text-decoration: none;
   cursor: pointer;
-
   transition: all 0.3s ease;
+  border: none;
 }
 
 .home-view-all-button:hover {
@@ -662,73 +653,107 @@
   box-shadow: 0 10px 25px rgba(29, 111, 184, 0.3);
 }
 
-
 /* =========================================================
-   LOADING STATE
+   RESPONSIVE - OPTİMİZE
 ========================================================= */
 
-.home-products-loading {
-  text-align: center;
-  padding: 60px 20px;
-  color: #64748b;
-  font-size: 1.1rem;
-}
-
-
-/* =========================================================
-   RESPONSIVE - PAKET 3
-========================================================= */
-
-/* 1024px ↓ 2 ürün */
+/* 1024px - 3 ürün */
 @media (max-width: 1024px) {
   .home-product-card {
     width: calc(33.333% - 16px);
+    flex: 0 0 calc(33.333% - 16px);
+    min-height: 500px;
   }
-
+  
   .home-slider-arrow {
     width: 50px;
     height: 50px;
   }
-
-  .home-product-image {
-    height: 200px;
-  }
 }
 
-/* 768px ↓ 2 ürün */
+/* 768px - 2 ürün */
 @media (max-width: 768px) {
   .home-product-card {
     width: calc(50% - 12px);
+    flex: 0 0 calc(50% - 12px);
+    min-height: 480px;
   }
-
+  
   .home-products-slider-wrapper {
     gap: 1rem;
   }
-
+  
   .home-slider-arrow {
     width: 45px;
     height: 45px;
   }
+  
+  .home-product-features {
+    min-height: 80px;
+  }
 }
 
-/* 480px ↓ tek ürün göster */
+/* 480px - 1 ürün */
 @media (max-width: 480px) {
   .home-product-card {
     width: 100%;
+    flex: 0 0 100%;
+    min-height: auto;
     margin-right: 0;
   }
-
+  
   .home-slider-arrow {
     width: 40px;
     height: 40px;
   }
-
+  
   .home-product-title {
     font-size: 1.25rem;
   }
+  
+  .home-product-description {
+    min-height: auto;
+  }
+  
+  .home-product-features {
+    min-height: auto;
+  }
 }
+
 /* =========================================================
-   SEO BÖLÜMÜ – Tasarım korunarak profesyonelleştirildi
+   PERFORMANS & SEO OPTİMİZASYONU
+========================================================= */
+
+/* Görseller için lazy loading */
+.home-product-image img {
+  loading: lazy;
+}
+
+/* Kartlar için will-change */
+.home-product-card {
+  will-change: transform, box-shadow;
+}
+
+/* Erişilebilirlik için focus stil */
+.home-product-button:focus,
+.home-slider-arrow:focus,
+.home-view-all-button:focus {
+  outline: 2px solid #2e69b1;
+  outline-offset: 3px;
+}
+
+/* Yazı tipi rendering optimizasyonu */
+.home-product-title,
+.home-product-price,
+.home-product-brand {
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* =========================================================
+   SEO BÖLÜMÜ
 ========================================================= */
 
 .home-seo-section {
@@ -769,51 +794,7 @@
 }
 
 /* =========================================================
-   GLOBAL OPTİMİZASYON (Tasarıma dokunmadan kalite artışı)
-========================================================= */
-
-/* Tüm sayfa spacing ve container standardizasyonu */
-.home-container,
-.home-container-full {
-  width: 100%;
-  margin: 0 auto;
-  padding: 0 24px;
-  box-sizing: border-box;
-}
-
-/* Başlıklarda UI bütünlüğü */
-.home-section-title {
-  letter-spacing: -0.3px;
-  text-transform: none;
-  color: #2e69b1;
-}
-
-/* Focus stilleri – PWA & Accessibility için önemli */
-.homepage a:focus,
-.homepage button:focus {
-  outline: 2px solid #2e69b1;
-  outline-offset: 3px;
-}
-
-/* Performans için görsellerin donanım hızlandırması */
-img,
-svg {
-  will-change: transform;
-}
-
-/* Lazy-loaded img fade animasyonu */
-img.lazy-loaded {
-  opacity: 0;
-  animation: fadeInSlow 0.65s ease forwards;
-}
-
-@keyframes fadeInSlow {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-/* =========================================================
-   RESPONSIVE GÜNCELLEMELER – SEO & Global Elemanlar
+   RESPONSIVE - SEO BÖLÜMÜ
 ========================================================= */
 
 /* Tablet */
@@ -842,4 +823,3 @@ img.lazy-loaded {
     font-size: 1rem;
   }
 }
-

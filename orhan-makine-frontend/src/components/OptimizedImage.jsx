@@ -12,20 +12,23 @@ const OptimizedImage = ({
 }) => {
   const [imgSrc, setImgSrc] = useState(src);
 
-  // Her format için webp oluştur
-  const webpSrc =
-    src.endsWith(".png") ||
-    src.endsWith(".jpg") ||
-    src.endsWith(".jpeg")
-      ? src.replace(/\.(png|jpg|jpeg)$/i, ".webp")
-      : null;
+  // PNG → WEBP Dönüşüm Mantığı
+  const webpSrc = src.match(/\.(png|jpg|jpeg)$/i)
+    ? src.replace(/\.(png|jpg|jpeg)$/i, ".webp")
+    : null;
 
   return (
     <picture>
-      {/* WebP desteği varsa kullan */}
-      {webpSrc && <source srcSet={webpSrc} type="image/webp" />}
+      {/* WebP varsa dener */}
+      {webpSrc && (
+        <source
+          srcSet={webpSrc}
+          type="image/webp"
+          onError={() => console.log("WEBP yüklenemedi:", webpSrc)}
+        />
+      )}
 
-      {/* Orijinal fallback */}
+      {/* PNG/JPG fallback */}
       <img
         src={imgSrc}
         alt={alt}
@@ -34,9 +37,10 @@ const OptimizedImage = ({
         width={width}
         height={height}
         style={style}
-        onError={() => {
+        onError={(e) => {
+          console.warn("Görsel yüklenemedi → fallback’e düşüldü:", imgSrc);
           if (imgSrc !== fallback) {
-            setImgSrc(fallback); // kırık görsel → fallback
+            setImgSrc(fallback);
           }
         }}
       />
