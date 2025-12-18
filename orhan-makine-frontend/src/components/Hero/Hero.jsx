@@ -4,49 +4,46 @@ import { Link } from "react-router-dom";
 import { useEffect, useRef } from "react";
 
 export default function Hero() {
-
-  // 🎯 Video DOM erişimi
   const videoRef = useRef(null);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    // ✔ iOS autoplay düzeltmesi
-    video.setAttribute("playsinline", "");
-    video.setAttribute("muted", "");
-    video.setAttribute("preload", "auto");
-
-    // ✔ Video görünürlüğü net olsun
-    video.style.filter = "brightness(1)";
-    video.style.opacity = "1";
-
-    // ✔ Video başladığında hız + loop ayarı
     const startVideo = () => {
       video.muted = true;
+      video.playsInline = true;
+      video.preload = "auto";
       video.loop = true;
-      video.playbackRate = 1.05; // daha akıcı oynatma
-      video.play().catch(() => {});
+      
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          document.body.addEventListener('click', () => {
+            video.play().catch(() => {});
+          }, { once: true });
+        });
+      }
     };
 
-    video.addEventListener("loadeddata", startVideo);
+    if (video.readyState >= 3) {
+      startVideo();
+    } else {
+      video.addEventListener('canplay', startVideo, { once: true });
+    }
 
-    // ✔ Safari / iOS durdurma bug fix
-    const keepAlive = setInterval(() => {
-      if (video.paused) video.play().catch(() => {});
-    }, 1800);
+    video.addEventListener('loadeddata', () => {
+      video.style.opacity = '1';
+    });
 
     return () => {
-      video.removeEventListener("loadeddata", startVideo);
-      clearInterval(keepAlive);
+      video.removeEventListener('canplay', startVideo);
     };
   }, []);
 
   return (
     <section className="hero-section" role="banner">
-      
-      {/* ====================== BACKGROUND VIDEO ====================== */}
-      <div className="video-container">
+      <div className="video-wrapper">
         <video
           ref={videoRef}
           className="hero-video"
@@ -54,117 +51,100 @@ export default function Hero() {
           loop
           muted
           playsInline
-          preload="auto"       // ✔ Daha hızlı yükleme
-          poster="/images/hero-background.webp" // ✔ LCP hızlandırıcı
+          preload="auto"
+          poster="/images/hero-background.webp"
+          aria-label="Arka plan videosu"
         >
-
-          {/* ✔ Tarayıcı destekliyse daha hızlı WebM oynar */}
           <source src="/videos/makine.webm" type="video/webm" />
-
-          {/* ✔ Asıl MP4 videon — görünüm bozulmaz */}
           <source src="/videos/makine.mp4" type="video/mp4" />
-
-          {/* ✔ Video yüklenmezse son çare olarak görsel gösterilir */}
-          <picture>
-            <source srcSet="/images/hero-background.webp" type="image/webp" />
-            <img
-              src="/images/hero-background.jpg"
-              alt="Makine tanıtım görseli"
-              loading="lazy"
-              decoding="async"
-            />
-          </picture>
-
+          <img
+            src="/images/hero-background.webp"
+            alt="Makine tanıtım görseli"
+            loading="eager"
+          />
         </video>
+        <div className="video-overlay"></div>
       </div>
 
-      {/* ====================== HERO CONTENT ====================== */}
-      <div className="hero-content">
-
-        <h1 className="hero-title">Profesyonel Makine Satış Hizmetleri</h1>
-
-        <p className="hero-description">
-          1980'den bu yana mobilya ve endüstriyel sektöre en kaliteli makineleri sunuyoruz.
-          <strong> 40 yılı aşkın deneyimimizle </strong>
-          Freud, Farabi, Mızrak ve daha birçok marka ile profesyonel çözümler sağlıyoruz.
-        </p>
-
-        {/* BUTTONS */}
-        <div className="hero-buttons">
-          <Link to="/products" className="hero-btn-primary">
-            Ürünleri İncele
-          </Link>
-
-          <a
-            href="https://wa.me/905395159925"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hero-btn-secondary"
-          >
-            <MessageCircle className="hero-btn-icon" />
-            WhatsApp'tan Yaz
-          </a>
-        </div>
-
-        {/* ====================== STATS ====================== */}
-        <div className="hero-stats">
-          <div className="hero-stat-item">
-            <span className="hero-stat-number">2000+</span>
-            <span className="hero-stat-label">Mutlu Müşteri</span>
-          </div>
-
-          <div className="hero-stat-item">
-            <span className="hero-stat-number">40+</span>
-            <span className="hero-stat-label">Yıl Deneyim</span>
-          </div>
-
-          <div className="hero-stat-item">
-            <span className="hero-stat-number">10000+</span>
-            <span className="hero-stat-label">Tamamlanan İş</span>
-          </div>
-
-          <div className="hero-stat-item">
-            <span className="hero-stat-number">98%</span>
-            <span className="hero-stat-label">Memnuniyet</span>
-          </div>
-        </div>
-
-        {/* ================= PAYMENT ALERT ================= */}
-        <div
-          className="payment-alert-banner"
-          role="alert"
-          aria-label="Ödeme sistemi bilgilendirme mesajı"
-        >
-          <div className="payment-alert-content">
+      <div className="hero-container">
+        <div className="hero-content-wrapper">
+          <div className="hero-text-content">
+            <h1 className="hero-title">
+              Profesyonel Makine Satış Hizmetleri
+            </h1>
             
-            <AlertTriangle className="payment-alert-icon" />
+            <p className="hero-description">
+              1980'den bu yana mobilya ve endüstriyel sektöre en kaliteli makineleri sunuyoruz.
+              <strong> 40 yılı aşkın deneyimimizle </strong>
+              Freud, Farabi, Mızrak ve daha birçok marka ile profesyonel çözümler sağlıyoruz.
+            </p>
 
-            <div className="payment-alert-text">
-              <p className="payment-alert-main">
-                <strong>ÖNEMLİ BİLGİ:</strong> Ürünleri inceledikten sonra bizimle iletişime geçiniz!
-              </p>
-              <p className="payment-alert-sub">
-                <strong>Not:</strong> Ödeme sayfamız aktif değildir. Satın alma işlemleri için bizimle iletişime geçmelisiniz.
-              </p>
+            <div className="hero-buttons-container">
+              <Link to="/products" className="hero-btn primary-btn">
+                Ürünleri İncele
+              </Link>
+              
+              <a
+                href="https://wa.me/905395159925"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hero-btn secondary-btn"
+              >
+                <MessageCircle className="btn-icon" />
+                WhatsApp'tan Yaz
+              </a>
             </div>
 
-            <Link
-              to="/contact"
-              className="payment-alert-button"
-            >
-              <span>İletişime Geç</span>
-              <ArrowRight className="payment-alert-button-icon" />
-            </Link>
+            <div className="stats-container">
+              <div className="stats-grid">
+                <div className="stat-box">
+                  <div className="stat-number">2000+</div>
+                  <div className="stat-label">Mutlu Müşteri</div>
+                </div>
+                
+                <div className="stat-box">
+                  <div className="stat-number">40+</div>
+                  <div className="stat-label">Yıl Deneyim</div>
+                </div>
+                
+                <div className="stat-box">
+                  <div className="stat-number">10000+</div>
+                  <div className="stat-label">Tamamlanan İş</div>
+                </div>
+                
+                <div className="stat-box">
+                  <div className="stat-number">98%</div>
+                  <div className="stat-label">Memnuniyet</div>
+                </div>
+              </div>
+            </div>
+          </div>
 
+          <div className="alert-banner">
+            <div className="alert-content">
+              <AlertTriangle className="alert-icon" />
+              
+              <div className="alert-text">
+                <h3 className="alert-title">
+                  <strong>ÖNEMLİ BİLGİ:</strong> Ürünleri inceledikten sonra bizimle iletişime geçiniz!
+                </h3>
+                <p className="alert-subtitle">
+                  <strong>Not:</strong> Ödeme sayfamız aktif değildir. Satın alma işlemleri için bizimle iletişime geçmelisiniz.
+                </p>
+              </div>
+              
+              <Link to="/contact" className="alert-button">
+                <span>İletişime Geç</span>
+                <ArrowRight className="button-icon" />
+              </Link>
+            </div>
           </div>
         </div>
+      </div>
 
-        {/* SEO — Kullanıcıya görünmez */}
-        <div className="sr-only">
-          <h2>Orhan Makine - Endüstriyel Makine Satışı</h2>
-          <p>Profesyonel makine satış hizmetleri ve teknik destek.</p>
-        </div>
-
+      <div className="sr-only">
+        <h2>Orhan Makine - Endüstriyel Makine Satışı</h2>
+        <p>Profesyonel makine satış hizmetleri ve teknik destek.</p>
       </div>
     </section>
   );
