@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://SITE_ADRESI/sitemap.xml
+Sitemap: https://www.orhanmakine.com.tr/sitemap.xml
