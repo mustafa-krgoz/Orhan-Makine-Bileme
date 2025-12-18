@@ -27,9 +27,9 @@ const ContactPage = () => {
     {
       icon: <Mail className="contact-info-icon" />,
       title: "E-posta",
-      content: "orhanmakine23@gmail.com",
+      content: "info@orhanmakina.com.tr",
       subtitle: "E-posta ile iletişim",
-      link: "mailto:orhanmakine23@gmail.com",
+      link: "mailto:info@orhanmakina.com.tr",
       ariaLabel: "E-posta gönder"
     },
     {

@@ -148,8 +148,8 @@ export default function Footer() {
 
                 <div className="footer-contact-item">
                   <Mail className="footer-contact-icon" />
-                  <a href="mailto:orhanmakine23@gmail.com" className="footer-contact-link">
-                    orhanmakine23@gmail.com
+                  <a href="mailto:info@orhanmakina.com.tr" className="footer-contact-link">
+                    info@orhanmakina.com.tr
                   </a>
                 </div>
 

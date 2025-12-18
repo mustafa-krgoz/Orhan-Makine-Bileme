@@ -524,11 +524,11 @@ const ProductDetailPage = () => {
                     <small>+90 (539) 515 99 25</small>
                   </div>
                 </a>
-                <a href="mailto:info@orhanmakine.com.tr" className="contact-option">
+                <a href="mailto:info@orhanmakina.com.tr" className="contact-option">
                   <FaEnvelope className="option-icon" />
                   <div>
                     <span>E-posta</span>
-                    <small>orhanmakine23@gmial.com</small>
+                    <small>info@orhanmakina.com.tr</small>
                   </div>
                 </a>
               </div>
