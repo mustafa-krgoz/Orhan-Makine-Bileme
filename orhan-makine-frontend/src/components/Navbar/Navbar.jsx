@@ -6,20 +6,19 @@ import {
   ShoppingCart,
   User,
   Phone,
-  MapPin,
   Clock,
   Menu,
   X,
   Truck,
   ShieldCheck,
   Heart,
-  LogIn,
   Package,
   ShoppingBag,
   Home,
   Info,
   Images,
-  Mail
+  Mail,
+  MapPin
 } from "lucide-react";
 
 import { useFavorites } from "../../context/FavoritesContext";
@@ -38,8 +37,10 @@ export default function Navbar() {
   const [searchQuery, setSearchQuery] = useState("");
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [showCartPreview, setShowCartPreview] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-  const [isSearchExpanded, setIsSearchExpanded] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+  const [isTablet, setIsTablet] = useState(
+    window.innerWidth >= 768 && window.innerWidth < 1024
+  );
 
   // =====================================================
   // REF YÖNETİMİ
@@ -61,15 +62,17 @@ export default function Navbar() {
   // =====================================================
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-      if (window.innerWidth >= 768) {
+      const width = window.innerWidth;
+      setIsMobile(width < 1024);
+      setIsTablet(width >= 768 && width < 1024);
+      
+      if (width >= 1024) {
         setIsMenuOpen(false);
-        setIsSearchExpanded(false);
       }
     };
 
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > 10);
       setShowSearchResults(false);
       setShowCartPreview(false);
     };
@@ -88,7 +91,6 @@ export default function Navbar() {
   // =====================================================
   useEffect(() => {
     const handleClickOutside = (e) => {
-      // Arama dropdown'ı kapat
       if (
         searchRef.current &&
         !searchRef.current.contains(e.target) &&
@@ -98,7 +100,6 @@ export default function Navbar() {
         setShowSearchResults(false);
       }
 
-      // Sepet preview'ını kapat
       if (cartRef.current && !cartRef.current.contains(e.target)) {
         setShowCartPreview(false);
       }
@@ -149,8 +150,7 @@ export default function Navbar() {
 
   const handleSearchFocus = useCallback(() => {
     if (searchQuery.length > 0) setShowSearchResults(true);
-    if (isMobile) setIsSearchExpanded(true);
-  }, [searchQuery, isMobile]);
+  }, [searchQuery]);
 
   const handleSearchSubmit = useCallback((e) => {
     e.preventDefault();
@@ -158,7 +158,6 @@ export default function Navbar() {
       navigate(`/products?search=${encodeURIComponent(searchQuery)}`);
       setSearchQuery("");
       setShowSearchResults(false);
-      setIsSearchExpanded(false);
       setIsMenuOpen(false);
     }
   }, [searchQuery, navigate]);
@@ -167,7 +166,6 @@ export default function Navbar() {
     setSearchQuery("");
     setShowSearchResults(false);
     setIsMenuOpen(false);
-    setIsSearchExpanded(false);
   }, []);
 
   const handleCartIconClick = useCallback(
@@ -193,7 +191,6 @@ export default function Navbar() {
     setShowSearchResults(false);
     setShowCartPreview(false);
     setIsMenuOpen(false);
-    setIsSearchExpanded(false);
   }, []);
 
   const formatPrice = useCallback((price) => {
@@ -208,7 +205,7 @@ export default function Navbar() {
   // =====================================================
   return (
     <>
-      {/* TOP BAR - Sadece Desktop'ta göster */}
+      {/* TOP BAR - Sadece Desktop'ta (1024px+) */}
       {!isMobile && (
         <div className="nav-top-bar">
           <div className="nav-top-bar-container">
@@ -222,19 +219,21 @@ export default function Navbar() {
                 </div>
 
                 <div className="nav-contact-item">
-                  <MapPin className="nav-contact-icon" />
-                  <span>Orhan Makine</span>
-                </div>
-
-                <div className="nav-contact-item">
                   <Clock className="nav-contact-icon" />
                   <span>Pzt - Cmt: 08:00 - 18:00</span>
                 </div>
+
+                <div className="nav-contact-item">
+                  <Truck className="nav-contact-icon" />
+                  <span>10.000 TL Üzeri Ücretsiz Kargo</span>
+                </div>
               </div>
 
-              <div className="nav-top-bar-cta">
-                <Truck className="nav-cta-icon" />
-                <span>10.000 TL Üzeri Ücretsiz Kargo</span>
+              <div className="nav-top-bar-right">
+                <Link to="/login" className="nav-login-btn">
+                  <User className="login-icon" />
+                  <span>Giriş Yap / Üye Ol</span>
+                </Link>
               </div>
             </div>
           </div>
@@ -244,23 +243,32 @@ export default function Navbar() {
       {/* MAIN NAVBAR */}
       <nav 
         ref={navbarRef}
-        className={`nav-navbar ${isScrolled ? "nav-navbar-scrolled" : ""} ${isMobile ? "nav-mobile" : ""}`}
+        className={`nav-navbar ${isScrolled ? "nav-navbar-scrolled" : ""}`}
+        role="navigation"
+        aria-label="Ana navigasyon"
       >
         <div className="nav-container">
           
-          {/* HAMBURGER MENU BUTTON (Mobilde Sol Tarafta) */}
+          {/* HAMBURGER MENU BUTTON (Mobil & Tablet) */}
           {isMobile && (
             <button
               className="nav-hamburger"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label={isMenuOpen ? "Menüyü kapat" : "Menüyü aç"}
+              aria-expanded={isMenuOpen}
+              aria-controls="mobile-menu"
             >
               {isMenuOpen ? <X className="hamburger-icon" /> : <Menu className="hamburger-icon" />}
             </button>
           )}
 
-          {/* LOGO (Mobilde Ortada) */}
-          <Link to="/" className="nav-logo-wrapper" onClick={closeAll}>
+          {/* LOGO - PC'de solda, Mobilde ortada */}
+          <Link 
+            to="/" 
+            className="nav-logo-wrapper" 
+            onClick={closeAll}
+            aria-label="Orhan Makine Ana Sayfa"
+          >
             <div className="nav-logo-image">
               <picture>
                 <source srcSet="/images/logo.webp" type="image/webp" />
@@ -268,28 +276,29 @@ export default function Navbar() {
                   src="/images/logo.png"
                   alt="Orhan Makine Logo"
                   className="nav-logo-img"
-                  loading="lazy"
+                  loading="eager"
                   decoding="async"
+                  width="120"
+                  height="60"
                 />
               </picture>
             </div>
             
-            {!isMobile && (
-              <div className="nav-logo-text">
-                <h1 className="nav-logo-title">
-                  <span className="orhan-text">Orhan</span>
-                  <span className="makina-text"> Makine</span>
-                </h1>
-                <p className="nav-logo-subtext">
-                  BİLEME İNŞ. TUR. PAZ. İTH. İHR. SAN. ve TİC. LTD.
-                </p>
-              </div>
-            )}
+            {/* Logo yazısı - PC'de ve Mobilde görünsün */}
+            <div className="nav-logo-text">
+              <h1 className="nav-logo-title">
+                <span className="orhan-text">Orhan</span>
+                <span className="makina-text"> Makine</span>
+              </h1>
+              <p className="nav-logo-subtext">
+                BİLEME İNŞ. TUR. PAZ. İTH. İHR. SAN. ve TİC. LTD. ŞTİ.
+              </p>
+            </div>
           </Link>
 
-          {/* DESKTOP MENÜ (768px+) */}
+          {/* DESKTOP MENÜ (1024px+) */}
           {!isMobile && (
-            <div className="nav-menu">
+            <nav className="nav-menu" aria-label="Ana menü">
               {menuItems.map((item) => (
                 <Link
                   key={item.text}
@@ -300,250 +309,272 @@ export default function Navbar() {
                   {item.text}
                 </Link>
               ))}
+            </nav>
+          )}
+
+          {/* DESKTOP ARAMA (1024px+) */}
+          {!isMobile && (
+            <div className="nav-search-container" ref={searchRef}>
+              <form 
+                onSubmit={handleSearchSubmit} 
+                className="nav-search-wrapper"
+                role="search"
+                aria-label="Site içi arama"
+              >
+                <input
+                  ref={searchInputRef}
+                  type="text"
+                  placeholder="Ürün ara..."
+                  className="nav-search-input"
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                  onFocus={handleSearchFocus}
+                  aria-label="Arama terimi"
+                />
+                <button 
+                  type="submit" 
+                  className="nav-search-button"
+                  aria-label="Ara"
+                >
+                  <Search className="nav-search-icon" />
+                </button>
+              </form>
+
+              {/* ARAMA SONUÇLARI DROPDOWN */}
+              {showSearchResults && searchQuery.length > 0 && (
+                <div 
+                  className="nav-search-dropdown" 
+                  role="listbox"
+                  aria-label="Arama sonuçları"
+                >
+                  {searchResults.length > 0 ? (
+                    <>
+                      <div className="nav-search-results-header">
+                        <span>{searchResults.length} ürün bulundu</span>
+                      </div>
+                      {searchResults.map((product) => (
+                        <Link
+                          key={product.id}
+                          to={`/product/${product.id}`}
+                          className="nav-search-result-item"
+                          onClick={handleSearchItemClick}
+                          role="option"
+                        >
+                          <div className="search-result-image">
+                            <img
+                              src={product.image}
+                              alt={product.name}
+                              loading="lazy"
+                              width="48"
+                              height="48"
+                            />
+                          </div>
+                          <div className="search-result-info">
+                            <span className="nav-search-result-name">
+                              {product.name}
+                            </span>
+                            <span className="nav-search-result-price">
+                              {formatPrice(product.price)} TL
+                            </span>
+                          </div>
+                        </Link>
+                      ))}
+                    </>
+                  ) : (
+                    <div className="nav-search-no-result">
+                      <Package className="no-result-icon" />
+                      <span>Aramanızla eşleşen ürün bulunamadı</span>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           )}
 
-          {/* SAĞ TARAF AKSİYONLARI */}
+          {/* AKSİYON İKONLARI */}
           <div className="nav-actions">
-            
-            {/* DESKTOP ARAMA (768px+) */}
+            {/* GİRİŞ BUTONU (Sadece Desktop) */}
             {!isMobile && (
-              <div className="nav-search-container" ref={searchRef}>
-                <form onSubmit={handleSearchSubmit} className="nav-search-wrapper">
-                  <input
-                    ref={searchInputRef}
-                    type="text"
-                    placeholder="Ürün ara..."
-                    className="nav-search-input"
-                    value={searchQuery}
-                    onChange={handleSearchChange}
-                    onFocus={handleSearchFocus}
-                  />
-                  <button type="submit" className="nav-search-button">
-                    <Search className="nav-search-icon" />
-                  </button>
-                </form>
-
-                {/* ARAMA SONUÇLARI DROPDOWN */}
-                {showSearchResults && searchQuery.length > 0 && (
-                  <div className="nav-search-dropdown">
-                    {searchResults.length > 0 ? (
-                      <>
-                        <div className="nav-search-results-header">
-                          <span>{searchResults.length} ürün bulundu</span>
-                        </div>
-                        {searchResults.map((product) => (
-                          <Link
-                            key={product.id}
-                            to={`/product/${product.id}`}
-                            className="nav-search-result-item"
-                            onClick={handleSearchItemClick}
-                          >
-                            <div className="search-result-image">
-                              <img
-                                src={product.image}
-                                alt={product.name}
-                                loading="lazy"
-                              />
-                            </div>
-                            <div className="search-result-info">
-                              <span className="nav-search-result-name">
-                                {product.name}
-                              </span>
-                              <span className="nav-search-result-price">
-                                {formatPrice(product.price)} TL
-                              </span>
-                            </div>
-                          </Link>
-                        ))}
-                      </>
-                    ) : (
-                      <div className="nav-search-no-result">
-                        <Package className="no-result-icon" />
-                        <span>Aramanızla eşleşen ürün bulunamadı</span>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
+              <Link to="/login" className="nav-action-icon login-icon" onClick={closeAll}>
+                <User className="icon" />
+                <span className="nav-action-text">Giriş</span>
+              </Link>
             )}
 
-            {/* AKSİYON İKONLARI */}
-            <div className="nav-action-icons">
-              
-              {/* MOBİL ARAMA İKONU */}
-              {isMobile && !isSearchExpanded && (
-                <button
-                  className="nav-action-icon"
-                  onClick={() => setIsSearchExpanded(true)}
-                  aria-label="Arama yap"
-                >
-                  <Search className="icon" />
-                </button>
+            {/* FAVORİLER */}
+            <Link
+              to="/favorites"
+              className="nav-action-icon favorites-icon"
+              onClick={closeAll}
+              aria-label="Favoriler"
+            >
+              <Heart className="icon" />
+              {favoritesCount > 0 && (
+                <span className="nav-badge favorites-badge" aria-label={`${favoritesCount} favori ürün`}>
+                  {favoritesCount}
+                </span>
               )}
+              {!isMobile && <span className="nav-action-text">Favoriler</span>}
+            </Link>
 
-              {/* KULLANICI GİRİŞİ */}
-              <Link to="/login" className="nav-action-icon" onClick={closeAll}>
-                <User className="icon" />
-                {!isMobile && <span className="nav-action-text">Giriş</span>}
+            {/* SEPET */}
+            <div className="nav-cart-container" ref={cartRef}>
+              <Link
+                to="/cart"
+                className="nav-action-icon cart-icon"
+                onClick={handleCartIconClick}
+                aria-label="Sepet"
+              >
+                <ShoppingCart className="icon" />
+                {cartCount > 0 && (
+                  <span className="nav-badge cart-badge" aria-label={`${cartCount} ürün sepetinizde`}>
+                    {cartCount}
+                  </span>
+                )}
+                {!isMobile && <span className="nav-action-text">Sepet</span>}
               </Link>
 
-              {/* ADMIN PANELİ */}
+              {/* SEPET ÖNİZLEME (Sadece Desktop) */}
+              {!isMobile && showCartPreview && cartItems.length > 0 && (
+                <div 
+                  className="nav-cart-preview" 
+                  role="dialog"
+                  aria-label="Sepet önizleme"
+                >
+                  <div className="cart-preview-header">
+                    <h4>Sepetim</h4>
+                    <span className="cart-items-count">
+                      {cartCount} ürün
+                    </span>
+                  </div>
+                  <div className="cart-preview-items">
+                    {cartItems.slice(0, 3).map((item) => (
+                      <div key={item.id} className="cart-preview-item">
+                        <div className="cart-preview-item-image">
+                          <img src={item.image} alt={item.name} width="60" height="60" />
+                        </div>
+                        <div className="cart-preview-item-info">
+                          <h5>{item.name}</h5>
+                          <div className="cart-preview-item-meta">
+                            <span>{item.quantity} adet</span>
+                            <span>×</span>
+                            <span className="price">
+                              {formatPrice(item.price)} TL
+                            </span>
+                          </div>
+                          <div className="cart-preview-item-total">
+                            {formatPrice(item.price * item.quantity)} TL
+                          </div>
+                        </div>
+                        <button
+                          className="cart-preview-remove"
+                          onClick={(e) => handleRemoveFromCart(e, item.id)}
+                          aria-label={`${item.name} ürününü kaldır`}
+                        >
+                          <X className="remove-icon" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                  {cartItems.length > 3 && (
+                    <div className="cart-preview-more">
+                      +{cartItems.length - 3} ürün daha...
+                    </div>
+                  )}
+                  <div className="cart-preview-total">
+                    <span>Toplam:</span>
+                    <span className="total-price">
+                      {formatPrice(getTotalPrice())} TL
+                    </span>
+                  </div>
+                  <div className="cart-preview-actions">
+                    <Link to="/cart" className="btn-view-cart" onClick={closeAll}>
+                      <ShoppingBag className="btn-icon" />
+                      Sepete Git
+                    </Link>
+                    <Link to="/checkout" className="btn-checkout" onClick={closeAll}>
+                      Ödeme Yap
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* ADMIN BUTONU (Sadece Desktop, Sepetin Sağında) */}
+            {!isMobile && (
               <Link
                 to="/admin"
                 className="nav-action-icon admin-icon"
                 onClick={closeAll}
+                aria-label="Admin Paneli"
               >
                 <ShieldCheck className="icon" />
-                {!isMobile && <span className="nav-action-text">Admin</span>}
+                <span className="nav-action-text">Admin</span>
               </Link>
-
-              {/* FAVORİLER */}
-              <Link
-                to="/favorites"
-                className="nav-action-icon favorites-icon"
-                onClick={closeAll}
-              >
-                <Heart className="icon" />
-                {favoritesCount > 0 && (
-                  <span className="nav-badge favorites-badge">
-                    {favoritesCount}
-                  </span>
-                )}
-                {!isMobile && <span className="nav-action-text">Favoriler</span>}
-              </Link>
-
-              {/* SEPET */}
-              <div className="nav-cart-container" ref={cartRef}>
-                <Link
-                  to="/cart"
-                  className="nav-action-icon cart-icon"
-                  onClick={handleCartIconClick}
-                >
-                  <ShoppingCart className="icon" />
-                  {cartCount > 0 && (
-                    <span className="nav-badge cart-badge">{cartCount}</span>
-                  )}
-                  {!isMobile && <span className="nav-action-text">Sepet</span>}
-                </Link>
-
-                {/* SEPET ÖNİZLEME (Sadece Desktop) */}
-                {!isMobile && showCartPreview && cartItems.length > 0 && (
-                  <div className="nav-cart-preview">
-                    <div className="cart-preview-header">
-                      <h4>Sepetim</h4>
-                      <span className="cart-items-count">
-                        {cartCount} ürün
-                      </span>
-                    </div>
-                    <div className="cart-preview-items">
-                      {cartItems.slice(0, 3).map((item) => (
-                        <div key={item.id} className="cart-preview-item">
-                          <div className="cart-preview-item-image">
-                            <img src={item.image} alt={item.name} />
-                          </div>
-                          <div className="cart-preview-item-info">
-                            <h5>{item.name}</h5>
-                            <div className="cart-preview-item-meta">
-                              <span>{item.quantity} adet</span>
-                              <span>×</span>
-                              <span className="price">
-                                {formatPrice(item.price)} TL
-                              </span>
-                            </div>
-                            <div className="cart-preview-item-total">
-                              {formatPrice(item.price * item.quantity)} TL
-                            </div>
-                          </div>
-                          <button
-                            className="cart-preview-remove"
-                            onClick={(e) => handleRemoveFromCart(e, item.id)}
-                          >
-                            <X className="remove-icon" />
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                    {cartItems.length > 3 && (
-                      <div className="cart-preview-more">
-                        +{cartItems.length - 3} ürün daha...
-                      </div>
-                    )}
-                    <div className="cart-preview-total">
-                      <span>Toplam:</span>
-                      <span className="total-price">
-                        {formatPrice(getTotalPrice())} TL
-                      </span>
-                    </div>
-                    <div className="cart-preview-actions">
-                      <Link to="/cart" className="btn-view-cart" onClick={closeAll}>
-                        <ShoppingBag className="btn-icon" />
-                        Sepete Git
-                      </Link>
-                      <Link to="/checkout" className="btn-checkout" onClick={closeAll}>
-                        Ödeme Yap
-                      </Link>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
+            )}
           </div>
         </div>
 
-        {/* MOBİL ARAMA BAR (Açık durumda) */}
-        {isMobile && isSearchExpanded && (
-          <div className="nav-mobile-search-expanded">
-            <div className="mobile-search-container">
-              <form onSubmit={handleSearchSubmit} className="mobile-search-form">
-                <button
-                  type="button"
-                  className="mobile-search-back"
-                  onClick={() => setIsSearchExpanded(false)}
-                >
-                  <X className="back-icon" />
-                </button>
+        {/* MOBİL ARAMA BAR (Navbar Altında - Mobil & Tablet) */}
+        {isMobile && (
+          <div className="nav-mobile-search-container">
+            <div className="nav-mobile-search-wrapper">
+              <form 
+                onSubmit={handleSearchSubmit} 
+                className="nav-mobile-search-form"
+                role="search"
+                aria-label="Mobil site içi arama"
+              >
                 <input
                   type="text"
                   placeholder="Ürün ara..."
-                  className="mobile-search-input"
+                  className="nav-mobile-search-input"
                   value={searchQuery}
                   onChange={handleSearchChange}
                   onFocus={handleSearchFocus}
-                  autoFocus
+                  aria-label="Arama terimi"
                 />
-                <button type="submit" className="mobile-search-submit">
-                  <Search className="search-icon" />
+                <button 
+                  type="submit" 
+                  className="nav-mobile-search-button"
+                  aria-label="Ara"
+                >
+                  <Search className="nav-mobile-search-icon" />
                 </button>
               </form>
-              
+
               {/* MOBİL ARAMA SONUÇLARI */}
               {showSearchResults && searchQuery.length > 0 && (
-                <div className="mobile-search-results">
+                <div 
+                  className="nav-mobile-search-results" 
+                  role="listbox"
+                  aria-label="Mobil arama sonuçları"
+                >
                   {searchResults.length > 0 ? (
                     searchResults.map((product) => (
                       <Link
                         key={product.id}
                         to={`/product/${product.id}`}
-                        className="mobile-search-result-item"
+                        className="nav-mobile-search-result-item"
                         onClick={handleSearchItemClick}
+                        role="option"
                       >
-                        <div className="mobile-result-image">
-                          <img src={product.image} alt={product.name} />
+                        <div className="nav-mobile-result-image">
+                          <img src={product.image} alt={product.name} width="48" height="48" />
                         </div>
-                        <div className="mobile-result-info">
-                          <span className="mobile-result-name">
+                        <div className="nav-mobile-result-info">
+                          <span className="nav-mobile-result-name">
                             {product.name}
                           </span>
-                          <span className="mobile-result-price">
+                          <span className="nav-mobile-result-price">
                             {formatPrice(product.price)} TL
                           </span>
                         </div>
                       </Link>
                     ))
                   ) : (
-                    <div className="mobile-no-results">
-                      <Package className="no-result-icon" />
+                    <div className="nav-mobile-no-results">
+                      <Package className="nav-no-result-icon" />
                       <span>Aramanızla eşleşen ürün bulunamadı</span>
                     </div>
                   )}
@@ -555,71 +586,92 @@ export default function Navbar() {
 
         {/* MOBİL MENÜ SIDEBAR */}
         {isMobile && (
-          <div className={`nav-mobile-menu ${isMenuOpen ? "open" : ""}`}>
-            <div className="mobile-menu-header">
-              <div className="mobile-menu-user">
-                <User className="user-icon" />
-                <div>
-                  <span className="user-greeting">Hoş geldiniz</span>
-                  <Link to="/login" className="user-login" onClick={closeAll}>
-                    Giriş Yap / Üye Ol
-                  </Link>
-                </div>
-              </div>
-              <button className="mobile-menu-close" onClick={() => setIsMenuOpen(false)}>
-                <X className="close-icon" />
-              </button>
-            </div>
-
-            <div className="mobile-menu-items">
-              {menuItems.map((item) => (
-                <Link
-                  key={item.text}
-                  to={item.path}
-                  className="mobile-menu-item"
-                  onClick={closeAll}
-                >
-                  {item.icon}
-                  <span>{item.text}</span>
-                </Link>
-              ))}
-            </div>
-
-            <div className="mobile-menu-footer">
-              <div className="mobile-menu-contact">
-                <div className="contact-item">
-                  <Phone className="contact-icon" />
-                  <a href="tel:+905395159925">+90 539 515 99 25</a>
-                </div>
-                <div className="contact-item">
-                  <Clock className="contact-icon" />
-                  <span>Pzt - Cmt: 08:00 - 18:00</span>
-                </div>
-                <div className="contact-item">
-                  <Truck className="contact-icon" />
-                  <span>10.000 TL Üzeri Ücretsiz Kargo</span>
-                </div>
-              </div>
-              
-              {cartCount > 0 && (
-                <div className="mobile-cart-summary">
-                  <ShoppingCart className="cart-summary-icon" />
-                  <div className="cart-summary-info">
-                    <span className="cart-count">{cartCount} ürün</span>
-                    <span className="cart-total">{formatPrice(getTotalPrice())} TL</span>
+          <>
+            <div 
+              className={`nav-mobile-menu ${isMenuOpen ? "open" : ""}`}
+              id="mobile-menu"
+              role="dialog"
+              aria-label="Mobil menü"
+              aria-modal="true"
+            >
+              <div className="mobile-menu-header">
+                <div className="mobile-menu-user">
+                  <User className="user-icon" />
+                  <div>
+                    <span className="user-greeting">Hoş geldiniz</span>
+                    <Link to="/login" className="user-login" onClick={closeAll}>
+                      Giriş Yap / Üye Ol
+                    </Link>
                   </div>
-                  <Link to="/cart" className="cart-summary-button" onClick={closeAll}>
-                    Sepete Git
-                  </Link>
                 </div>
-              )}
-            </div>
-          </div>
-        )}
+                <button 
+                  className="mobile-menu-close" 
+                  onClick={() => setIsMenuOpen(false)}
+                  aria-label="Menüyü kapat"
+                >
+                  <X className="close-icon" />
+                </button>
+              </div>
 
-        {/* MOBİL MENÜ OVERLAY */}
-        {isMobile && isMenuOpen && (
-          <div className="nav-mobile-overlay" onClick={() => setIsMenuOpen(false)} />
+              <nav className="mobile-menu-items" aria-label="Mobil menü öğeleri">
+                {menuItems.map((item) => (
+                  <Link
+                    key={item.text}
+                    to={item.path}
+                    className="mobile-menu-item"
+                    onClick={closeAll}
+                  >
+                    {item.icon}
+                    <span>{item.text}</span>
+                  </Link>
+                ))}
+              </nav>
+
+              <div className="mobile-menu-footer">
+                <div className="mobile-menu-contact">
+                  <div className="contact-item">
+                    <Phone className="contact-icon" />
+                    <a href="tel:+905395159925">+90 539 515 99 25</a>
+                  </div>
+                  <div className="contact-item">
+                    <Clock className="contact-icon" />
+                    <span>Pzt - Cmt: 08:00 - 18:00</span>
+                  </div>
+                  <div className="contact-item">
+                    <Truck className="contact-icon" />
+                    <span>10.000 TL Üzeri Ücretsiz Kargo</span>
+                  </div>
+                  <div className="contact-item">
+                    <MapPin className="contact-icon" />
+                    <span>Orhan Makine</span>
+                  </div>
+                </div>
+                
+                {cartCount > 0 && (
+                  <div className="mobile-cart-summary">
+                    <ShoppingCart className="cart-summary-icon" />
+                    <div className="cart-summary-info">
+                      <span className="cart-count">{cartCount} ürün</span>
+                      <span className="cart-total">{formatPrice(getTotalPrice())} TL</span>
+                    </div>
+                    <Link to="/cart" className="cart-summary-button" onClick={closeAll}>
+                      Sepete Git
+                    </Link>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* MOBİL MENÜ OVERLAY */}
+            {isMenuOpen && (
+              <div 
+                className="nav-mobile-overlay" 
+                onClick={() => setIsMenuOpen(false)}
+                aria-label="Menüyü kapat"
+                role="presentation"
+              />
+            )}
+          </>
         )}
       </nav>
     </>
