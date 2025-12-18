@@ -265,7 +265,7 @@ export default function Navbar() {
           {/* LOGO - PC'de solda, Mobilde ortada */}
           <Link 
             to="/" 
-            className="nav-logo-wrapper" 
+            className={`nav-logo-wrapper ${isMobile ? 'mobile' : 'desktop'}`}
             onClick={closeAll}
             aria-label="Orhan Makine Ana Sayfa"
           >
@@ -288,7 +288,7 @@ export default function Navbar() {
             <div className="nav-logo-text">
               <h1 className="nav-logo-title">
                 <span className="orhan-text">Orhan</span>
-                <span className="makina-text"> Makine</span>
+                <span className="makina-text">Makine</span>
               </h1>
               <p className="nav-logo-subtext">
                 BİLEME İNŞ. TUR. PAZ. İTH. İHR. SAN. ve TİC. LTD. ŞTİ.
@@ -296,7 +296,7 @@ export default function Navbar() {
             </div>
           </Link>
 
-          {/* DESKTOP MENÜ (1024px+) */}
+          {/* DESKTOP MENÜ (1024px+) - OPTİMİZE EDİLMİŞ */}
           {!isMobile && (
             <nav className="nav-menu" aria-label="Ana menü">
               {menuItems.map((item) => (
@@ -312,7 +312,7 @@ export default function Navbar() {
             </nav>
           )}
 
-          {/* DESKTOP ARAMA (1024px+) */}
+          {/* DESKTOP ARAMA (1024px+) - KISALTILMIŞ */}
           {!isMobile && (
             <div className="nav-search-container" ref={searchRef}>
               <form 
@@ -393,124 +393,166 @@ export default function Navbar() {
 
           {/* AKSİYON İKONLARI */}
           <div className="nav-actions">
-            {/* GİRİŞ BUTONU (Sadece Desktop) */}
-            {!isMobile && (
-              <Link to="/login" className="nav-action-icon login-icon" onClick={closeAll}>
-                <User className="icon" />
-                <span className="nav-action-text">Giriş</span>
-              </Link>
-            )}
-
-            {/* FAVORİLER */}
-            <Link
-              to="/favorites"
-              className="nav-action-icon favorites-icon"
-              onClick={closeAll}
-              aria-label="Favoriler"
-            >
-              <Heart className="icon" />
-              {favoritesCount > 0 && (
-                <span className="nav-badge favorites-badge" aria-label={`${favoritesCount} favori ürün`}>
-                  {favoritesCount}
-                </span>
-              )}
-              {!isMobile && <span className="nav-action-text">Favoriler</span>}
-            </Link>
-
-            {/* SEPET */}
-            <div className="nav-cart-container" ref={cartRef}>
-              <Link
-                to="/cart"
-                className="nav-action-icon cart-icon"
-                onClick={handleCartIconClick}
-                aria-label="Sepet"
-              >
-                <ShoppingCart className="icon" />
-                {cartCount > 0 && (
-                  <span className="nav-badge cart-badge" aria-label={`${cartCount} ürün sepetinizde`}>
-                    {cartCount}
-                  </span>
-                )}
-                {!isMobile && <span className="nav-action-text">Sepet</span>}
-              </Link>
-
-              {/* SEPET ÖNİZLEME (Sadece Desktop) */}
-              {!isMobile && showCartPreview && cartItems.length > 0 && (
-                <div 
-                  className="nav-cart-preview" 
-                  role="dialog"
-                  aria-label="Sepet önizleme"
+            {/* MOBİL İÇİN YAZILI İKONLAR */}
+            {isMobile ? (
+              <>
+                {/* FAVORİLER - Mobilde yazılı */}
+                <Link
+                  to="/favorites"
+                  className="nav-action-icon favorites-icon mobile-with-text"
+                  onClick={closeAll}
+                  aria-label="Favoriler"
                 >
-                  <div className="cart-preview-header">
-                    <h4>Sepetim</h4>
-                    <span className="cart-items-count">
-                      {cartCount} ürün
+                  <Heart className="icon" />
+                  <span className="nav-action-text">Favoriler</span>
+                  {favoritesCount > 0 && (
+                    <span className="nav-badge favorites-badge" aria-label={`${favoritesCount} favori ürün`}>
+                      {favoritesCount}
                     </span>
-                  </div>
-                  <div className="cart-preview-items">
-                    {cartItems.slice(0, 3).map((item) => (
-                      <div key={item.id} className="cart-preview-item">
-                        <div className="cart-preview-item-image">
-                          <img src={item.image} alt={item.name} width="60" height="60" />
-                        </div>
-                        <div className="cart-preview-item-info">
-                          <h5>{item.name}</h5>
-                          <div className="cart-preview-item-meta">
-                            <span>{item.quantity} adet</span>
-                            <span>×</span>
-                            <span className="price">
-                              {formatPrice(item.price)} TL
-                            </span>
-                          </div>
-                          <div className="cart-preview-item-total">
-                            {formatPrice(item.price * item.quantity)} TL
-                          </div>
-                        </div>
-                        <button
-                          className="cart-preview-remove"
-                          onClick={(e) => handleRemoveFromCart(e, item.id)}
-                          aria-label={`${item.name} ürününü kaldır`}
-                        >
-                          <X className="remove-icon" />
-                        </button>
+                  )}
+                </Link>
+
+                {/* SEPET - Mobilde yazılı */}
+                <div className="nav-cart-container" ref={cartRef}>
+                  <Link
+                    to="/cart"
+                    className="nav-action-icon cart-icon mobile-with-text"
+                    onClick={handleCartIconClick}
+                    aria-label="Sepet"
+                  >
+                    <ShoppingCart className="icon" />
+                    <span className="nav-action-text">Sepet</span>
+                    {cartCount > 0 && (
+                      <span className="nav-badge cart-badge" aria-label={`${cartCount} ürün sepetinizde`}>
+                        {cartCount}
+                      </span>
+                    )}
+                  </Link>
+                </div>
+
+                {/* ADMIN - Mobilde yazılı */}
+                <Link
+                  to="/admin"
+                  className="nav-action-icon admin-icon mobile-with-text"
+                  onClick={closeAll}
+                  aria-label="Admin Paneli"
+                >
+                  <ShieldCheck className="icon" />
+                  <span className="nav-action-text">Admin</span>
+                </Link>
+              </>
+            ) : (
+              <>
+                {/* DESKTOP İÇİN YAZILI İKONLAR */}
+                <Link
+                  to="/favorites"
+                  className="nav-action-icon favorites-icon"
+                  onClick={closeAll}
+                  aria-label="Favoriler"
+                >
+                  <Heart className="icon" />
+                  <span className="nav-action-text">Favoriler</span>
+                  {favoritesCount > 0 && (
+                    <span className="nav-badge favorites-badge" aria-label={`${favoritesCount} favori ürün`}>
+                      {favoritesCount}
+                    </span>
+                  )}
+                </Link>
+
+                {/* SEPET */}
+                <div className="nav-cart-container" ref={cartRef}>
+                  <Link
+                    to="/cart"
+                    className="nav-action-icon cart-icon"
+                    onClick={handleCartIconClick}
+                    aria-label="Sepet"
+                  >
+                    <ShoppingCart className="icon" />
+                    <span className="nav-action-text">Sepet</span>
+                    {cartCount > 0 && (
+                      <span className="nav-badge cart-badge" aria-label={`${cartCount} ürün sepetinizde`}>
+                        {cartCount}
+                      </span>
+                    )}
+                  </Link>
+
+                  {/* SEPET ÖNİZLEME (Sadece Desktop) */}
+                  {showCartPreview && cartItems.length > 0 && (
+                    <div 
+                      className="nav-cart-preview" 
+                      role="dialog"
+                      aria-label="Sepet önizleme"
+                    >
+                      <div className="cart-preview-header">
+                        <h4>Sepetim</h4>
+                        <span className="cart-items-count">
+                          {cartCount} ürün
+                        </span>
                       </div>
-                    ))}
-                  </div>
-                  {cartItems.length > 3 && (
-                    <div className="cart-preview-more">
-                      +{cartItems.length - 3} ürün daha...
+                      <div className="cart-preview-items">
+                        {cartItems.slice(0, 3).map((item) => (
+                          <div key={item.id} className="cart-preview-item">
+                            <div className="cart-preview-item-image">
+                              <img src={item.image} alt={item.name} width="60" height="60" />
+                            </div>
+                            <div className="cart-preview-item-info">
+                              <h5>{item.name}</h5>
+                              <div className="cart-preview-item-meta">
+                                <span>{item.quantity} adet</span>
+                                <span>×</span>
+                                <span className="price">
+                                  {formatPrice(item.price)} TL
+                                </span>
+                              </div>
+                              <div className="cart-preview-item-total">
+                                {formatPrice(item.price * item.quantity)} TL
+                              </div>
+                            </div>
+                            <button
+                              className="cart-preview-remove"
+                              onClick={(e) => handleRemoveFromCart(e, item.id)}
+                              aria-label={`${item.name} ürününü kaldır`}
+                            >
+                              <X className="remove-icon" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                      {cartItems.length > 3 && (
+                        <div className="cart-preview-more">
+                          +{cartItems.length - 3} ürün daha...
+                        </div>
+                      )}
+                      <div className="cart-preview-total">
+                        <span>Toplam:</span>
+                        <span className="total-price">
+                          {formatPrice(getTotalPrice())} TL
+                        </span>
+                      </div>
+                      <div className="cart-preview-actions">
+                        <Link to="/cart" className="btn-view-cart" onClick={closeAll}>
+                          <ShoppingBag className="btn-icon" />
+                          Sepete Git
+                        </Link>
+                        <Link to="/checkout" className="btn-checkout" onClick={closeAll}>
+                          Ödeme Yap
+                        </Link>
+                      </div>
                     </div>
                   )}
-                  <div className="cart-preview-total">
-                    <span>Toplam:</span>
-                    <span className="total-price">
-                      {formatPrice(getTotalPrice())} TL
-                    </span>
-                  </div>
-                  <div className="cart-preview-actions">
-                    <Link to="/cart" className="btn-view-cart" onClick={closeAll}>
-                      <ShoppingBag className="btn-icon" />
-                      Sepete Git
-                    </Link>
-                    <Link to="/checkout" className="btn-checkout" onClick={closeAll}>
-                      Ödeme Yap
-                    </Link>
-                  </div>
                 </div>
-              )}
-            </div>
 
-            {/* ADMIN BUTONU (Sadece Desktop, Sepetin Sağında) */}
-            {!isMobile && (
-              <Link
-                to="/admin"
-                className="nav-action-icon admin-icon"
-                onClick={closeAll}
-                aria-label="Admin Paneli"
-              >
-                <ShieldCheck className="icon" />
-                <span className="nav-action-text">Admin</span>
-              </Link>
+                {/* ADMIN BUTONU (Desktop) */}
+                <Link
+                  to="/admin"
+                  className="nav-action-icon admin-icon"
+                  onClick={closeAll}
+                  aria-label="Admin Paneli"
+                >
+                  <ShieldCheck className="icon" />
+                  <span className="nav-action-text">Admin</span>
+                </Link>
+              </>
             )}
           </div>
         </div>
