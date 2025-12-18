@@ -2,19 +2,11 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    react({
-      // React Fast Refresh
-      fastRefresh: true,
-      // Babel options
-      babel: {
-        plugins: []
-      }
-    })
+    react()
   ],
-  
+
   // Path aliases
   resolve: {
     alias: {
@@ -29,48 +21,37 @@ export default defineConfig({
     },
   },
 
-  // Server configuration
+  // Dev server
   server: {
     port: 3000,
-    open: true, // Otomatik tarayıcı açma
+    open: true,
     cors: true,
     proxy: {
-      // API proxy configuration
       '/api': {
         target: 'http://localhost:8000',
         changeOrigin: true,
         secure: false,
-        // rewrite: (path) => path.replace(/^\/api/, ''),
       },
     },
   },
 
-  // Build configuration
+  // Build (PROD)
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
-    sourcemap: false, // Production'da false yapın
+    sourcemap: false,
     minify: 'esbuild',
     target: 'es2015',
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          // Vendor chunks
-          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
-          'ui-vendor': ['lucide-react'],
-        },
-      },
-    },
     chunkSizeWarningLimit: 1000,
   },
 
-  // Preview configuration
+  // Preview (prod test)
   preview: {
     port: 4173,
     open: true,
   },
 
-  // CSS configuration
+  // CSS
   css: {
     devSourcemap: true,
     preprocessorOptions: {
@@ -80,13 +61,12 @@ export default defineConfig({
     }
   },
 
-  // Optimization
+  // Dependency optimization
   optimizeDeps: {
     include: ['react', 'react-dom', 'react-router-dom', 'lucide-react'],
-    exclude: [],
   },
 
-  // Environment variables
+  // Global constants
   define: {
     __APP_VERSION__: JSON.stringify(process.env.npm_package_version),
   },

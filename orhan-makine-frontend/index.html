@@ -1,11 +1,74 @@
 <!doctype html>
-<html lang="en">
+<html lang="tr">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+
+    <!-- Responsive / Mobile -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>orhan-makine-frontend</title>
+
+    <!-- SEO: Title + Description -->
+    <title>Orhan Makine Bileme | Endüstriyel Bileme ve Kesici Bakım Hizmetleri</title>
+    <meta
+      name="description"
+      content="Orhan Makine Bileme; endüstriyel bıçak ve kesici bileme, bakım-onarım ve hassas taşlama hizmetleri sunar. Hızlı teklif, güvenilir işçilik."
+    />
+
+    <!-- Indexing -->
+    <meta name="robots" content="index, follow" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/webp" href="/images/logo.webp" />
+
+    <!-- Theme color (mobil tarayıcı üst bar) -->
+    <meta name="theme-color" content="#0f172a" />
+
+    <!-- Open Graph (WhatsApp / Facebook / LinkedIn) -->
+    <meta property="og:locale" content="tr_TR" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Orhan Makine Bileme" />
+    <meta
+      property="og:title"
+      content="Orhan Makine Bileme | Endüstriyel Bileme Hizmetleri"
+    />
+    <meta
+      property="og:description"
+      content="Endüstriyel kesici bileme, bakım-onarım ve hassas taşlama hizmetleri. Hızlı teklif ve güvenilir işçilik."
+    />
+    <meta property="og:url" content="https://example.com" />
+
+    <!-- OG Image (logo.webp kullanıyoruz – DOMAIN OLMADAN ÇALIŞIR) -->
+    <meta property="og:image" content="/images/logo.webp" />
+    <meta property="og:image:type" content="image/webp" />
+    <meta property="og:image:alt" content="Orhan Makine Bileme Logo" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Orhan Makine Bileme" />
+    <meta
+      name="twitter:description"
+      content="Endüstriyel bileme ve kesici bakım hizmetleri. Hızlı teklif, güvenilir işçilik."
+    />
+    <meta name="twitter:image" content="/images/logo.webp" />
+
+    <!-- Telefon numaralarını otomatik linkleme -->
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- Structured Data (LocalBusiness) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Orhan Makine Bileme",
+        "description": "Endüstriyel bileme, kesici bakım ve hassas taşlama hizmetleri.",
+        "url": "/",
+        "areaServed": "TR",
+        "sameAs": []
+      }
+    </script>
   </head>
+
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
