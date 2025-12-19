@@ -277,12 +277,12 @@
         font-size: 0.6rem;
         text-align: left;
         line-height: 1.2;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        white-space: normal;
+        overflow: visible;
+        text-overflow: unset;
         display: block !important;
         color: var(--gray-text);
-        max-width: 180px;
+        max-width: 100%;
     }
 }
 
@@ -1446,7 +1446,6 @@
     
     .nav-logo-subtext {
         font-size: 0.55rem;
-        max-width: 140px;
     }
     
     .nav-action-icon.mobile-with-text {
@@ -1649,10 +1648,11 @@
 /* ========================== DESKTOP FLEX LAYOUT - ADMIN KALDIRILDI ========================== */
 @media (min-width: 1024px) {
     /* Ana navbar düzeni - Admin kaldırıldı */
-    .nav-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+    @media (min-width: 1024px) {
+        .nav-container {
+            padding-left: 2px;   /* 0 da yapabilirsin */
+            padding-right: 16px;
+        }
     }
     
     /* Logo - solda sıkı */
