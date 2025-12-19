@@ -10,7 +10,6 @@ import {
   Menu,
   X,
   Truck,
-  ShieldCheck,
   Heart,
   Package,
   ShoppingBag,
@@ -262,7 +261,7 @@ export default function Navbar() {
             </button>
           )}
 
-          {/* LOGO - PC'de solda, Mobilde ortada */}
+          {/* LOGO - PC'de solda, Mobilde sola hizalı */}
           <Link 
             to="/" 
             className={`nav-logo-wrapper ${isMobile ? 'mobile' : 'desktop'}`}
@@ -296,7 +295,7 @@ export default function Navbar() {
             </div>
           </Link>
 
-          {/* DESKTOP MENÜ (1024px+) - OPTİMİZE EDİLMİŞ */}
+          {/* DESKTOP MENÜ (1024px+) */}
           {!isMobile && (
             <nav className="nav-menu" aria-label="Ana menü">
               {menuItems.map((item) => (
@@ -312,7 +311,7 @@ export default function Navbar() {
             </nav>
           )}
 
-          {/* DESKTOP ARAMA (1024px+) - KISALTILMIŞ */}
+          {/* DESKTOP ARAMA (1024px+) */}
           {!isMobile && (
             <div className="nav-search-container" ref={searchRef}>
               <form 
@@ -391,12 +390,12 @@ export default function Navbar() {
             </div>
           )}
 
-          {/* AKSİYON İKONLARI */}
+          {/* AKSİYON İKONLARI - Admin KALDIRILDI */}
           <div className="nav-actions">
-            {/* MOBİL İÇİN YAZILI İKONLAR */}
+            {/* MOBİL İÇİN */}
             {isMobile ? (
               <>
-                {/* FAVORİLER - Mobilde yazılı */}
+                {/* FAVORİLER - Mobil */}
                 <Link
                   to="/favorites"
                   className="nav-action-icon favorites-icon mobile-with-text"
@@ -412,7 +411,7 @@ export default function Navbar() {
                   )}
                 </Link>
 
-                {/* SEPET - Mobilde yazılı */}
+                {/* SEPET - Mobil */}
                 <div className="nav-cart-container" ref={cartRef}>
                   <Link
                     to="/cart"
@@ -429,21 +428,11 @@ export default function Navbar() {
                     )}
                   </Link>
                 </div>
-
-                {/* ADMIN - Mobilde yazılı */}
-                <Link
-                  to="/admin"
-                  className="nav-action-icon admin-icon mobile-with-text"
-                  onClick={closeAll}
-                  aria-label="Admin Paneli"
-                >
-                  <ShieldCheck className="icon" />
-                  <span className="nav-action-text">Admin</span>
-                </Link>
               </>
             ) : (
               <>
-                {/* DESKTOP İÇİN YAZILI İKONLAR */}
+                {/* DESKTOP İÇİN */}
+                {/* FAVORİLER */}
                 <Link
                   to="/favorites"
                   className="nav-action-icon favorites-icon"
@@ -541,17 +530,6 @@ export default function Navbar() {
                     </div>
                   )}
                 </div>
-
-                {/* ADMIN BUTONU (Desktop) */}
-                <Link
-                  to="/admin"
-                  className="nav-action-icon admin-icon"
-                  onClick={closeAll}
-                  aria-label="Admin Paneli"
-                >
-                  <ShieldCheck className="icon" />
-                  <span className="nav-action-text">Admin</span>
-                </Link>
               </>
             )}
           </div>
