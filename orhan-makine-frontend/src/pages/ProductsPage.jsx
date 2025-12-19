@@ -17,9 +17,18 @@ const ProductsPage = () => {
   const [filteredProducts, setFilteredProducts] = useState(productsData);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedBrands, setSelectedBrands] = useState([]);
-  const [showOnlyInStock, setShowOnlyInStock] = useState(false);
   const [imageErrors, setImageErrors] = useState({});
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+
+  // Mobil için geçici filtreler (uygula butonuna basılana kadar)
+  const [tempSelectedCategories, setTempSelectedCategories] = useState([]);
+  const [tempSelectedBrands, setTempSelectedBrands] = useState([]);
+  const [tempFilters, setTempFilters] = useState({
+    campaign: false,
+    sponsored: false,
+    new: false,
+    discounted: false,
+  });
 
   const [filters, setFilters] = useState({
     campaign: false,
@@ -69,10 +78,6 @@ const ProductsPage = () => {
   useEffect(() => {
     let result = products;
 
-    if (showOnlyInStock) {
-      result = result.filter((p) => p.inStock);
-    }
-
     if (selectedCategories.length > 0) {
       result = result.filter((p) => selectedCategories.includes(p.category));
     }
@@ -119,7 +124,6 @@ const ProductsPage = () => {
   }, [
     selectedCategories,
     selectedBrands,
-    showOnlyInStock,
     filters,
     searchTerm,
     sortOption,
@@ -142,6 +146,12 @@ const ProductsPage = () => {
     Math.round(((original - current) / original) * 100);
 
   const toggleMobileFilter = () => {
+    if (!isMobileFilterOpen) {
+      // Açılırken mevcut filtreleri geçicilere kopyala
+      setTempSelectedCategories(selectedCategories);
+      setTempSelectedBrands(selectedBrands);
+      setTempFilters(filters);
+    }
     setIsMobileFilterOpen(!isMobileFilterOpen);
   };
 
@@ -149,39 +159,36 @@ const ProductsPage = () => {
     setIsMobileFilterOpen(false);
   };
 
+  // Mobil filtreleri uygula
+  const applyMobileFilters = () => {
+    setSelectedCategories(tempSelectedCategories);
+    setSelectedBrands(tempSelectedBrands);
+    setFilters(tempFilters);
+    closeMobileFilter();
+  };
+
+  // Desktop filtre değişikliklerini anında uygula
+  const handleDesktopCategoryChange = (cat) => {
+    setSelectedCategories((prev) =>
+      prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
+    );
+  };
+
+  const handleDesktopBrandChange = (brand) => {
+    setSelectedBrands((prev) =>
+      prev.includes(brand) ? prev.filter((b) => b !== brand) : [...prev, brand]
+    );
+  };
+
+  const handleDesktopFilterChange = (filterName, value) => {
+    setFilters((prev) => ({ ...prev, [filterName]: value }));
+  };
+
   // ----------------------------------------------------------
-  // FILTER SIDEBAR COMPONENT
+  // DESKTOP FILTER SIDEBAR COMPONENT
   // ----------------------------------------------------------
-  const FilterSidebar = () => (
+  const DesktopFilterSidebar = () => (
     <div className="filter-sidebar-content">
-      {/* Stok Durumu */}
-      <div className="filter-group">
-        <h3>Stok Durumu</h3>
-        <div className="radio-options">
-          <label className="radio-item">
-            <input
-              type="radio"
-              name="stock"
-              checked={!showOnlyInStock}
-              onChange={() => setShowOnlyInStock(false)}
-            />
-            <span className="radio-mark"></span>
-            Tüm Ürünler ({products.length})
-          </label>
-
-          <label className="radio-item">
-            <input
-              type="radio"
-              name="stock"
-              checked={showOnlyInStock}
-              onChange={() => setShowOnlyInStock(true)}
-            />
-            <span className="radio-mark"></span>
-            Stoktakiler ({products.filter((p) => p.inStock).length})
-          </label>
-        </div>
-      </div>
-
       {/* Ürün Grupları */}
       <div className="filter-group">
         <h3>Ürün Grupları</h3>
@@ -191,8 +198,102 @@ const ProductsPage = () => {
               <input
                 type="checkbox"
                 checked={selectedCategories.includes(cat)}
+                onChange={() => handleDesktopCategoryChange(cat)}
+              />
+              <span className="checkmark"></span>
+              {cat}
+            </label>
+          ))}
+        </div>
+      </div>
+
+      {/* Marka */}
+      <div className="filter-group">
+        <h3>Marka</h3>
+        <div className="brand-list">
+          {brands.map((brand) => (
+            <label key={brand} className="checkbox-item">
+              <input
+                type="checkbox"
+                checked={selectedBrands.includes(brand)}
+                onChange={() => handleDesktopBrandChange(brand)}
+              />
+              <span className="checkmark"></span>
+              {brand}
+            </label>
+          ))}
+        </div>
+      </div>
+
+      {/* Filtre Seçenekleri */}
+      <div className="filter-group">
+        <h3>Filtreler</h3>
+
+        <label className="checkbox-item">
+          <input
+            type="checkbox"
+            checked={filters.campaign}
+            onChange={(e) =>
+              handleDesktopFilterChange("campaign", e.target.checked)
+            }
+          />
+          <span className="checkmark"></span>
+          Kampanyalı Ürünler
+        </label>
+
+        <label className="checkbox-item">
+          <input
+            type="checkbox"
+            checked={filters.sponsored}
+            onChange={(e) =>
+              handleDesktopFilterChange("sponsored", e.target.checked)
+            }
+          />
+          <span className="checkmark"></span>
+          Sponsor Ürünler
+        </label>
+
+        <label className="checkbox-item">
+          <input
+            type="checkbox"
+            checked={filters.new}
+            onChange={(e) => handleDesktopFilterChange("new", e.target.checked)}
+          />
+          <span className="checkmark"></span>
+          Yeni Ürünler
+        </label>
+
+        <label className="checkbox-item">
+          <input
+            type="checkbox"
+            checked={filters.discounted}
+            onChange={(e) =>
+              handleDesktopFilterChange("discounted", e.target.checked)
+            }
+          />
+          <span className="checkmark"></span>
+          İndirimli Ürünler
+        </label>
+      </div>
+    </div>
+  );
+
+  // ----------------------------------------------------------
+  // MOBILE FILTER SIDEBAR COMPONENT
+  // ----------------------------------------------------------
+  const MobileFilterSidebar = () => (
+    <div className="filter-sidebar-content">
+      {/* Ürün Grupları */}
+      <div className="filter-group">
+        <h3>Ürün Grupları</h3>
+        <div className="category-list">
+          {categories.map((cat) => (
+            <label key={cat} className="checkbox-item">
+              <input
+                type="checkbox"
+                checked={tempSelectedCategories.includes(cat)}
                 onChange={() =>
-                  setSelectedCategories((prev) =>
+                  setTempSelectedCategories((prev) =>
                     prev.includes(cat)
                       ? prev.filter((c) => c !== cat)
                       : [...prev, cat]
@@ -214,9 +315,9 @@ const ProductsPage = () => {
             <label key={brand} className="checkbox-item">
               <input
                 type="checkbox"
-                checked={selectedBrands.includes(brand)}
+                checked={tempSelectedBrands.includes(brand)}
                 onChange={() =>
-                  setSelectedBrands((prev) =>
+                  setTempSelectedBrands((prev) =>
                     prev.includes(brand)
                       ? prev.filter((b) => b !== brand)
                       : [...prev, brand]
@@ -237,9 +338,9 @@ const ProductsPage = () => {
         <label className="checkbox-item">
           <input
             type="checkbox"
-            checked={filters.campaign}
+            checked={tempFilters.campaign}
             onChange={(e) =>
-              setFilters((prev) => ({ ...prev, campaign: e.target.checked }))
+              setTempFilters((prev) => ({ ...prev, campaign: e.target.checked }))
             }
           />
           <span className="checkmark"></span>
@@ -249,9 +350,9 @@ const ProductsPage = () => {
         <label className="checkbox-item">
           <input
             type="checkbox"
-            checked={filters.sponsored}
+            checked={tempFilters.sponsored}
             onChange={(e) =>
-              setFilters((prev) => ({ ...prev, sponsored: e.target.checked }))
+              setTempFilters((prev) => ({ ...prev, sponsored: e.target.checked }))
             }
           />
           <span className="checkmark"></span>
@@ -261,9 +362,9 @@ const ProductsPage = () => {
         <label className="checkbox-item">
           <input
             type="checkbox"
-            checked={filters.new}
+            checked={tempFilters.new}
             onChange={(e) =>
-              setFilters((prev) => ({ ...prev, new: e.target.checked }))
+              setTempFilters((prev) => ({ ...prev, new: e.target.checked }))
             }
           />
           <span className="checkmark"></span>
@@ -273,9 +374,9 @@ const ProductsPage = () => {
         <label className="checkbox-item">
           <input
             type="checkbox"
-            checked={filters.discounted}
+            checked={tempFilters.discounted}
             onChange={(e) =>
-              setFilters((prev) => ({
+              setTempFilters((prev) => ({
                 ...prev,
                 discounted: e.target.checked,
               }))
@@ -286,19 +387,15 @@ const ProductsPage = () => {
         </label>
       </div>
 
-      {/* Hızlı Arama */}
-      <div className="filter-group">
-        <h3>Hızlı Arama</h3>
-        <div className="search-box">
-          <span className="search-icon">🔍</span>
-          <input
-            type="text"
-            placeholder="Ürün ara..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="search-input"
-          />
-        </div>
+      {/* Filtrele Butonu */}
+      <div className="mobile-apply-filters">
+        <button
+          className="apply-filters-btn"
+          onClick={applyMobileFilters}
+          aria-label="Filtreleri uygula"
+        >
+          Filtrele
+        </button>
       </div>
     </div>
   );
@@ -314,7 +411,7 @@ const ProductsPage = () => {
             DESKTOP SIDEBAR
         ------------------------------------------------------ */}
         <aside className="products-sidebar desktop-only" aria-label="Ürün filtreleri">
-          <FilterSidebar />
+          <DesktopFilterSidebar />
         </aside>
 
         {/* ------------------------------------------------------
@@ -342,7 +439,7 @@ const ProductsPage = () => {
                   ✕
                 </button>
               </div>
-              <FilterSidebar />
+              <MobileFilterSidebar />
             </aside>
           </>
         )}
@@ -372,6 +469,19 @@ const ProductsPage = () => {
             <span className="products-count">
               Toplam {filteredProducts.length} ürün
             </span>
+
+            {/* HIZLI ARAMA - PC GÖRÜNÜMDE HEADER'DA */}
+            <div className="header-search-box desktop-search-only">
+              <span className="search-icon">🔍</span>
+              <input
+                type="text"
+                placeholder="Ürün, marka veya kod ara..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="search-input"
+                aria-label="Ürün arama"
+              />
+            </div>
 
             <div className="sort-options">
               <label htmlFor="sort-select">Sırala:</label>
