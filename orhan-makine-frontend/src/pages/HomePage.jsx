@@ -1,6 +1,6 @@
 // =======================================
 // ORHAN MAKİNE - HOME PAGE (OPTIMIZED)
-// TASARIM AYNI → PERFORMANS + SEO ARTIRILDI
+// MOBİL/TABLET RESPONSIVE GÜNCELLEMELERİ
 // =======================================
 
 import "../styles/HomePage.css";
@@ -16,33 +16,80 @@ import {
   ChevronRight
 } from "lucide-react";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
 import OptimizedImage from "../components/OptimizedImage";
 import { productsData } from "../data/productsData";
 
 export default function HomePage() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
+  const sliderRef = useRef(null);
 
   // ===============================
-  // POPÜLER ÜRÜNLER
+  // RESPONSIVE DETECTION
+  // ===============================
+  useEffect(() => {
+    const checkResponsive = () => {
+      const width = window.innerWidth;
+      setIsMobile(width <= 768);
+      setIsTablet(width > 768 && width <= 1024);
+    };
+
+    checkResponsive();
+    window.addEventListener('resize', checkResponsive);
+    return () => window.removeEventListener('resize', checkResponsive);
+  }, []);
+
+  // ===============================
+  // POPÜLER ÜRÜNLER - RESPONSIVE SLIDER
   // ===============================
   const featuredProducts = useMemo(() => {
     return [...productsData]
       .sort(() => Math.random() - 0.5)
-      .slice(0, 6);
+      .slice(0, 8); // Daha fazla ürün göster
   }, []);
 
-  const maxSlide = featuredProducts.length > 4 ? featuredProducts.length - 4 : 0;
+  // Responsive slide hesaplama
+  const getSlidesToShow = () => {
+    if (isMobile) return 2;
+    if (isTablet) return 3;
+    return 4; // Desktop
+  };
 
-  const nextSlide = () =>
-    setCurrentSlide(prev => (prev >= maxSlide ? 0 : prev + 1));
+  const slidesToShow = getSlidesToShow();
+  const maxSlide = Math.max(0, featuredProducts.length - slidesToShow);
 
-  const prevSlide = () =>
-    setCurrentSlide(prev => (prev <= 0 ? maxSlide : prev - 1));
+  const nextSlide = () => {
+    if (currentSlide >= maxSlide) {
+      setCurrentSlide(0);
+    } else {
+      setCurrentSlide(prev => prev + 1);
+    }
+  };
+
+  const prevSlide = () => {
+    if (currentSlide <= 0) {
+      setCurrentSlide(maxSlide);
+    } else {
+      setCurrentSlide(prev => prev - 1);
+    }
+  };
+
+  // Auto-slide for desktop
+  useEffect(() => {
+    if (isMobile) return; // Mobilde auto-slide yok
+    
+    const interval = setInterval(() => {
+      nextSlide();
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [currentSlide, isMobile]);
 
   // ===============================
-  // HİZMETLER
+  // HİZMETLER - RESPONSIVE
   // ===============================
   const services = useMemo(
     () => [
@@ -68,7 +115,7 @@ export default function HomePage() {
   );
 
   // ===============================
-  // MARKALAR
+  // MARKALAR - RESPONSIVE
   // ===============================
   const brands = useMemo(
     () => [
@@ -127,7 +174,13 @@ export default function HomePage() {
       "@context": "https://schema.org",
       "@type": "WebSite",
       name: "Orhan Makine Bileme",
-      url: window.location.origin
+      url: window.location.origin,
+      description: "40 yıllık tecrübeyle profesyonel makine satış hizmetleri",
+      potentialAction: {
+        "@type": "SearchAction",
+        target: `${window.location.origin}/products?search={search_term_string}`,
+        "query-input": "required name=search_term_string"
+      }
     });
 
     document.head.appendChild(script);
@@ -144,7 +197,7 @@ export default function HomePage() {
       <Hero />
 
       {/* ================= POPÜLER ÜRÜNLER ================= */}
-      <section className="home-products-section">
+      <section className="home-products-section" aria-label="Popüler Ürünler">
         <div className="home-container-full">
           <div className="home-section-header">
             <h2 className="home-section-title">Popüler Ürünlerimiz</h2>
@@ -160,25 +213,36 @@ export default function HomePage() {
           ) : (
             <div className="home-products-slider-wrapper">
               
-              {/* Sol ok */}
-              <button
-                className="home-slider-arrow home-slider-arrow-left"
-                onClick={prevSlide}
-              >
-                <ChevronLeft className="w-6 h-6" />
-              </button>
+              {/* Sol ok - Desktop için */}
+              {!isMobile && (
+                <button
+                  className="home-slider-arrow home-slider-arrow-left"
+                  onClick={prevSlide}
+                  aria-label="Önceki ürünler"
+                >
+                  <ChevronLeft className="w-6 h-6" />
+                </button>
+              )}
 
-              {/* SLIDER */}
-              <div className="home-products-slider-container">
+              {/* SLIDER CONTAINER */}
+              <div 
+                className="home-products-slider-container"
+                ref={sliderRef}
+              >
                 <div className="home-products-slider">
                   <div
                     className="home-products-track"
                     style={{
-                      transform: `translateX(-${currentSlide * 25}%)`
+                      transform: `translateX(-${currentSlide * (100 / slidesToShow)}%)`
                     }}
                   >
                     {featuredProducts.map(product => (
-                      <div key={product.id} className="home-product-card">
+                      <div 
+                        key={product.id} 
+                        className="home-product-card"
+                        role="group"
+                        aria-label={`${product.brand} ${product.name}`}
+                      >
 
                         {/* OPTIMIZED IMAGE */}
                         <div className="home-product-image">
@@ -187,6 +251,8 @@ export default function HomePage() {
                             alt={product.name}
                             className="home-product-img"
                             loading="lazy"
+                            width="300"
+                            height="300"
                           />
                         </div>
 
@@ -201,8 +267,8 @@ export default function HomePage() {
                           </p>
 
                           <p className="home-product-description">
-                            {product.description.length > 100
-                              ? product.description.slice(0, 100) + "..."
+                            {product.description.length > 80
+                              ? product.description.slice(0, 80) + "..."
                               : product.description}
                           </p>
 
@@ -218,6 +284,7 @@ export default function HomePage() {
                           <Link
                             to={`/product/${product.id}`}
                             className="home-product-button"
+                            aria-label={`${product.name} detaylarını gör`}
                           >
                             Detaylı İncele
                             <ArrowRight className="home-button-icon" />
@@ -229,13 +296,48 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* Sağ ok */}
-              <button
-                className="home-slider-arrow home-slider-arrow-right"
-                onClick={nextSlide}
-              >
-                <ChevronRight className="w-6 h-6" />
-              </button>
+              {/* Sağ ok - Desktop için */}
+              {!isMobile && (
+                <button
+                  className="home-slider-arrow home-slider-arrow-right"
+                  onClick={nextSlide}
+                  aria-label="Sonraki ürünler"
+                >
+                  <ChevronRight className="w-6 h-6" />
+                </button>
+              )}
+
+              {/* Mobile slider controls */}
+              {isMobile && (
+                <div className="home-mobile-slider-controls">
+                  <button
+                    className="home-mobile-slider-arrow"
+                    onClick={prevSlide}
+                    aria-label="Önceki"
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+                  
+                  <div className="home-slider-dots">
+                    {Array.from({ length: Math.ceil(featuredProducts.length / slidesToShow) }).map((_, idx) => (
+                      <button
+                        key={idx}
+                        className={`home-slider-dot ${idx === Math.floor(currentSlide / slidesToShow) ? 'active' : ''}`}
+                        onClick={() => setCurrentSlide(idx * slidesToShow)}
+                        aria-label={`${idx + 1}. sayfa`}
+                      />
+                    ))}
+                  </div>
+                  
+                  <button
+                    className="home-mobile-slider-arrow"
+                    onClick={nextSlide}
+                    aria-label="Sonraki"
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
+                </div>
+              )}
             </div>
           )}
 
@@ -248,7 +350,7 @@ export default function HomePage() {
       </section>
 
       {/* ================= HİZMETLER ================= */}
-      <section className="home-services-section">
+      <section className="home-services-section" aria-label="Neden Orhan Makine?">
         <div className="home-container">
           <div className="home-section-header">
             <h2 className="home-section-title">Neden Orhan Makine?</h2>
@@ -259,7 +361,12 @@ export default function HomePage() {
 
           <div className="home-services-grid">
             {services.map((service, idx) => (
-              <div key={idx} className="home-service-card">
+              <div 
+                key={idx} 
+                className="home-service-card"
+                role="article"
+                aria-label={service.title}
+              >
                 <div className="home-service-icon">{service.icon}</div>
                 <h3 className="home-service-title">{service.title}</h3>
                 <p className="home-service-description">{service.description}</p>
@@ -270,7 +377,7 @@ export default function HomePage() {
       </section>
 
       {/* ================= MARKALAR ================= */}
-      <section className="home-brands-section">
+      <section className="home-brands-section" aria-label="Popüler Markalarımız">
         <div className="home-container">
 
           <div className="home-section-header">
@@ -282,7 +389,12 @@ export default function HomePage() {
 
           <div className="home-brands-grid">
             {brands.map((brand, idx) => (
-              <div key={idx} className="home-brand-card">
+              <div 
+                key={idx} 
+                className="home-brand-card"
+                role="article"
+                aria-label={brand.name}
+              >
 
                 <div className="home-brand-header">
                   <div className="home-brand-logo">
@@ -291,6 +403,8 @@ export default function HomePage() {
                       alt={`${brand.name} Logo`}
                       className="home-brand-logo-image"
                       loading="lazy"
+                      width="150"
+                      height="150"
                     />
                   </div>
 
@@ -312,7 +426,11 @@ export default function HomePage() {
           </div>
 
           <div className="home-brand-button-wrapper">
-            <Link to="/about#brands" className="home-brand-bottom-button">
+            <Link 
+              to="/about#brands" 
+              className="home-brand-bottom-button"
+              aria-label="Tüm markaları görüntüle"
+            >
               Tüm Markaları Gör <ArrowRight />
             </Link>
           </div>
@@ -321,7 +439,7 @@ export default function HomePage() {
       </section>
 
       {/* ================= SEO SECTION ================= */}
-      <section className="home-seo-section">
+      <section className="home-seo-section" aria-label="Orhan Makine Hakkında">
         <div className="home-container">
           <div className="home-seo-content">
             <h2 className="home-seo-title">

@@ -1,369 +1,68 @@
 /* =========================================================
    HOME PAGE – GENEL LAYOUT, CONTAINERS VE TYPOGRAPHY
-   Bu bölüm tüm sayfanın temel yapısını belirler.
-   Görselliği değiştirmez, sadece düzen ve SEO iyileştirir.
+   MOBİL/TABLET OPTIMIZE EDİLMİŞ VERSİYON
 ========================================================= */
 
 /* Sayfanın ana kapsayıcı yapısı */
 .homepage {
-  min-height: 100vh;          /* Tam ekran yüksekliği */
-  background: #ffffff;        /* Temiz beyaz arka plan */
-  overflow-x: hidden;         /* Slider taşmalarını engeller */
-  scroll-behavior: smooth;    /* Daha yumuşak geçişler */
+  min-height: 100vh;
+  background: #ffffff;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
 /* İçerik için dar container (standart içerikler) */
 .home-container {
-  max-width: 1200px;          /* Desktop için ideal genişlik */
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;            /* Mobil uyumlu padding */
+  padding: 0 20px;
 }
 
 /* Ürün sliderının geniş alanı için büyük container */
 .home-container-full {
-  max-width: 1700px;          /* Büyük ekranlarda daha iyi yayılım */
+  max-width: 1700px;
   margin: 0 auto;
   padding: 0 20px;
 }
 
 /* =========================================================
-   BÖLÜM BAŞLIKLARI (Popüler Ürünler, Markalar, Hizmetler)
+   BÖLÜM BAŞLIKLARI (Responsive Optimizasyon)
 ========================================================= */
 
 .home-section-header {
   text-align: center;
-  margin-bottom: 4rem;
+  margin-bottom: 3rem;
 }
 
-/* Ana bölüm başlığı */
 .home-section-title {
-  font-size: 2.5rem;          /* Büyük, net başlık */
+  font-size: 2.5rem;
   font-weight: 700;
-  color: #2e69b1;             /* Senin belirlediğin marka rengi */
+  color: #2e69b1;
   margin-bottom: 1rem;
   line-height: 1.2;
-  text-wrap: balance;         /* Çok satırlı başlıklarda daha dengeli görünüm */
+  text-wrap: balance;
 }
 
-/* Başlık altı açıklama */
 .home-section-description {
   font-size: 1.125rem;
-  color: #64748b;             /* Soft gri ton */
+  color: #64748b;
   max-width: 600px;
   margin: 0 auto;
   line-height: 1.6;
-  text-wrap: pretty;          /* Okunabilirlik için satır kırılımı daha iyi */
+  text-wrap: pretty;
 }
 
 /* =========================================================
-     GLOBAL TYPOGRAPHY DOKUNUŞLARI – SEO + ACCESSIBILITY
-========================================================= */
-
-/* Başlıkların SEO tarayıcıları tarafından daha iyi algılanması */
-.homepage h1,
-.homepage h2,
-.homepage h3 {
-  position: relative;
-  z-index: 2;
-  font-family: inherit;       /* Framework farkı yaratmasın */
-}
-
-/* Linklere odaklanma görünürlüğü → Erişilebilirlik kriteri */
-.homepage a:focus,
-.homepage button:focus {
-  outline: 2px solid #1d6fb8;
-  outline-offset: 2px;
-}
-
-/* Performans optimizasyonu – animasyonlu kutularda daha az CPU */
-.home-product-card,
-.home-service-card,
-.home-brand-card {
-  will-change: transform;
-}
-
-/* =========================================================
-   HİZMETLER BÖLÜMÜ (WHY US?)
-   Bu bölümdeki kartlar grid yapıda temiz şekilde hizalanıyor.
-   Hover animasyonları optimize edildi — görünüm aynıdır.
-========================================================= */
-
-.home-services-section {
-  padding: 80px 0;
-  background: #f8fafc;                 /* Yumuşak gri arka plan */
-}
-
-.home-services-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 sütun = Desktop */
-  gap: 2.5rem;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* Hizmet kartı */
-.home-service-card {
-  background: #ffffff;
-  padding: 2.5rem 2rem;
-  border-radius: 16px;
-  text-align: center;
-  border: 1px solid #f1f5f9;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-
-  /* Hover performansı için */
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.home-service-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-  border-color: #dbeafe;
-}
-
-/* Hizmet ikonları */
-.home-service-icon {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  margin: 0 auto 1.5rem;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  color: #1d4ed8;
-  font-size: 2.5rem;
-
-  background: linear-gradient(135deg, #dbeafe, #bfdbfe);
-
-  box-shadow: 0 4px 15px rgba(29, 78, 216, 0.15);
-}
-
-/* Hizmet başlığı */
-.home-service-title {
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: #1e293b;
-  margin-bottom: 1.2rem;
-}
-
-/* Hizmet açıklaması */
-.home-service-description {
-  color: #64748b;
-  line-height: 1.7;
-  font-size: 1.05rem;
-  text-wrap: pretty;       /* Daha düzgün satır kırılımı */
-}
-
-
-/* =========================================================
-   MARKALAR BÖLÜMÜ
-   Kartların hover animasyonu optimize edildi.
-   Görünüm tamamen aynı kalır.
-========================================================= */
-
-.home-brands-section {
-  padding: 80px 0;
-  background: #f0f9ff;                 /* Hafif mavi arka plan */
-}
-
-.home-brands-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2.5rem;
-  max-width: 1300px;
-  margin: 0 auto;
-}
-
-/* Marka kartı */
-.home-brand-card {
-  background: #ffffff;
-  padding: 2.5rem;
-  border-radius: 20px;
-  border: 1px solid #e0f2fe;
-  overflow: hidden;
-  position: relative;
-
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-
-  /* Hover animasyonu optimize */
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
-}
-
-/* Üst çizgi animasyonu */
-.home-brand-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 4px;
-  width: 100%;
-
-  background: linear-gradient(135deg, #1d6fb8, #2b8df5);
-
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.4s ease;
-}
-
-/* Hover davranışları */
-.home-brand-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 25px 50px -12px rgba(29, 111, 184, 0.15);
-}
-
-.home-brand-card:hover::before {
-  transform: scaleX(1);
-}
-
-/* Marka logo kabı */
-.home-brand-header {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
-}
-
-/* Logo alanı */
-.home-brand-logo {
-  width: 90px;
-  height: 90px;
-  background: linear-gradient(135deg, #f8fafc, #e2e8f0);
-  border-radius: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border: 2px solid #f1f5f9;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-
-  overflow: hidden;
-  flex-shrink: 0;
-}
-
-/* Marka logo görüntüsü */
-.home-brand-logo-image {
-  width: 75%;
-  height: 75%;
-  object-fit: contain;
-  transition: transform 0.3s ease;
-}
-
-.home-brand-card:hover .home-brand-logo-image {
-  transform: scale(1.15); /* Hafif büyüme efekti */
-}
-
-/* Marka adı */
-.home-brand-title {
-  font-size: 1.85rem;
-  font-weight: 800;
-
-  /* Premium gradient text */
-  background: linear-gradient(135deg, #1e293b, #374151);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* Marka açıklaması */
-.home-brand-description {
-  color: #64748b;
-  font-size: 1.1rem;
-  line-height: 1.7;
-  margin-bottom: 2rem;
-  flex-grow: 1;
-}
-
-/* Marka özellik listesi */
-.home-brand-features {
-  list-style: none;
-  padding: 0;
-  margin-bottom: 2.5rem;
-  flex-grow: 1;
-}
-
-.home-brand-feature-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  color: #475569;
-  font-size: 1.05rem;
-  line-height: 1.5;
-  margin-bottom: 1rem;
-}
-
-/* Wrapper → Butonu ortalar ve aşağı boşluk verir */
-.home-brand-button-wrapper {
-  width: 100%;
-  display: flex;
-  justify-content: center;   /* YATAYDA ORTALA */
-  align-items: center;
-  margin-top: 2.5rem;        /* Kartlardan aşağı boşluk */
-  margin-bottom: 1rem;
-
-  /* Hafif sağa kaydırma isterim dediğin için */
-  transform: translateX(10px);
-}
-
-/* Butonun kendi stili (önceden oluşturduğum paket dahil) */
-.home-brand-bottom-button {
-  padding: 1rem 2rem;
-  background: linear-gradient(135deg, #1d6fb8, #2b8df5);
-  color: white;
-
-  border-radius: 14px;
-  font-weight: 600;
-  font-size: 1.15rem;
-
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-
-  text-decoration: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-
-  position: relative;
-  overflow: hidden;
-
-  box-shadow: 0 8px 22px rgba(29, 111, 184, 0.28);
-}
-
-/* Hover */
-.home-brand-bottom-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 14px 28px rgba(29, 111, 184, 0.40);
-}
-
-/* Yansıma efekti */
-.home-brand-bottom-button::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -120%;
-  width: 120%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.28), transparent);
-  transition: left 0.6s ease;
-}
-
-.home-brand-bottom-button:hover::before {
-  left: 100%;
-}
-/* =========================================================
-   POPÜLER ÜRÜNLER SEKSİYONU - OPTİMİZE
+   POPÜLER ÜRÜNLER SEKSİYONU - RESPONSIVE SLIDER
 ========================================================= */
 
 .home-products-section {
-  padding: 80px 0;
+  padding: 60px 0;
   background: #ffffff;
+  position: relative;
 }
 
-/* =========================================================
-   SLIDER YAPISI
-========================================================= */
-
+/* SLIDER YAPISI */
 .home-products-slider-wrapper {
   position: relative;
   display: flex;
@@ -375,42 +74,35 @@
 .home-products-slider-container {
   flex: 1;
   overflow: hidden;
+  position: relative;
 }
 
 .home-products-slider {
   width: 100%;
+  overflow: hidden;
 }
 
 .home-products-track {
   display: flex;
-  gap: 24px; /* Flex gap kullanarak margin-right sorununu çözüyoruz */
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform;
 }
 
-/* =========================================================
-   ÜRÜN KARTLARI - TÜMÜ AYNI BOYUTTA
-========================================================= */
-
+/* ÜRÜN KARTLARI - RESPONSIVE WIDTH */
 .home-product-card {
   background: #ffffff;
   border-radius: 16px;
   overflow: hidden;
   border: 1px solid #f1f5f9;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  
-  /* SABİT GENİŞLİK */
-  width: calc(25% - 18px);
-  flex: 0 0 calc(25% - 18px);
-  
-  /* TÜM KARTLAR AYNI YÜKSEKLİKTE */
-  min-height: 520px;
-  height: auto;
-  
   display: flex;
   flex-direction: column;
-  
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  flex-shrink: 0;
+  margin: 0 10px;
+  
+  /* Desktop: 4'lü */
+  width: calc(25% - 20px);
 }
 
 /* KART HOVER */
@@ -420,10 +112,7 @@
   border-color: #dbeafe;
 }
 
-/* =========================================================
-   ÜRÜN GÖRSEL ALANI - STANDART BOYUT
-========================================================= */
-
+/* ÜRÜN GÖRSEL ALANI */
 .home-product-image {
   width: 100%;
   aspect-ratio: 1 / 1;
@@ -434,7 +123,6 @@
   justify-content: center;
   border-bottom: 1px solid #f1f5f9;
   overflow: hidden;
-  flex-shrink: 0; /* Görsel alanının küçülmesini engelle */
 }
 
 .home-product-image img {
@@ -450,16 +138,13 @@
   transform: scale(1.05);
 }
 
-/* =========================================================
-   İÇERİK ALANI - EŞİT DAĞILIM
-========================================================= */
-
+/* İÇERİK ALANI */
 .home-product-content {
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  flex: 1; /* İçeriği genişlet */
-  min-height: 0; /* Flexbox overflow sorununu çöz */
+  flex: 1;
+  min-height: 0;
 }
 
 /* MARKA */
@@ -470,7 +155,6 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 8px;
-  flex-shrink: 0;
 }
 
 /* ÜRÜN ADI */
@@ -480,22 +164,15 @@
   color: #1e293b;
   margin-bottom: 10px;
   line-height: 1.4;
-  flex-shrink: 0;
-  
-  /* Çok satırlı başlıklar için */
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  min-height: 2.8em;
 }
 
 /* FİYAT */
-.home-product-pricing {
-  margin-bottom: 15px;
-  flex-shrink: 0;
-}
-
 .home-product-price {
   color: #1e40af;
   font-size: 1.4rem;
@@ -509,27 +186,20 @@
   font-size: 0.95rem;
   line-height: 1.5;
   margin-bottom: 1rem;
-  flex: 1; /* Açıklama alanını genişlet */
-  min-height: 60px; /* Minimum yükseklik */
-  
-  /* 3 satırla sınırla */
+  flex: 1;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  min-height: 4.5em;
 }
 
-/* =========================================================
-   ÖZELLİKLER LİSTESİ - SABİT YÜKSEKLİK
-========================================================= */
-
+/* ÖZELLİKLER LİSTESİ */
 .home-product-features {
   list-style: none;
   padding: 0;
   margin-bottom: 1.5rem;
-  flex-shrink: 0;
-  min-height: 90px; /* Özellikler için sabit yükseklik */
 }
 
 .home-feature-item {
@@ -539,11 +209,7 @@
   color: #475569;
   font-size: 0.9rem;
   margin-bottom: 8px;
-  
-  /* Tek satırda kes */
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  line-height: 1.4;
 }
 
 .home-feature-icon {
@@ -554,15 +220,7 @@
   margin-top: 2px;
 }
 
-/* =========================================================
-   BUTON - ALTTA SABİT KONUM
-========================================================= */
-
-.home-product-button-wrapper {
-  margin-top: auto; /* Butonu en alta iter */
-  flex-shrink: 0;
-}
-
+/* BUTON */
 .home-product-button {
   width: 100%;
   padding: 12px 20px;
@@ -579,6 +237,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
   border: none;
+  margin-top: auto;
 }
 
 .home-product-button:hover {
@@ -598,7 +257,7 @@
 }
 
 /* =========================================================
-   SLIDER OKLARI
+   SLIDER OKLARI - RESPONSIVE
 ========================================================= */
 
 .home-slider-arrow {
@@ -624,13 +283,63 @@
   box-shadow: 0 8px 25px rgba(29, 111, 184, 0.5);
 }
 
+/* MOBİL SLIDER CONTROLS */
+.home-mobile-slider-controls {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 30px;
+  width: 100%;
+}
+
+.home-mobile-slider-arrow {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #1d6fb8;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.home-mobile-slider-arrow:hover {
+  background: #155a96;
+  transform: scale(1.1);
+}
+
+.home-slider-dots {
+  display: flex;
+  gap: 10px;
+}
+
+.home-slider-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #cbd5e1;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.home-slider-dot.active {
+  background: #1d6fb8;
+  transform: scale(1.2);
+}
+
 /* =========================================================
    "TÜM ÜRÜNLERİ GÖR" BUTONU
 ========================================================= */
 
 .home-view-all-products {
   text-align: center;
-  margin-top: 60px;
+  margin-top: 50px;
 }
 
 .home-view-all-button {
@@ -654,102 +363,242 @@
 }
 
 /* =========================================================
-   RESPONSIVE - OPTİMİZE
+   HİZMETLER BÖLÜMÜ - RESPONSIVE
 ========================================================= */
 
-/* 1024px - 3 ürün */
-@media (max-width: 1024px) {
-  .home-product-card {
-    width: calc(33.333% - 16px);
-    flex: 0 0 calc(33.333% - 16px);
-    min-height: 500px;
-  }
-  
-  .home-slider-arrow {
-    width: 50px;
-    height: 50px;
-  }
+.home-services-section {
+  padding: 60px 0;
+  background: #f8fafc;
 }
 
-/* 768px - 2 ürün */
-@media (max-width: 768px) {
-  .home-product-card {
-    width: calc(50% - 12px);
-    flex: 0 0 calc(50% - 12px);
-    min-height: 480px;
-  }
-  
-  .home-products-slider-wrapper {
-    gap: 1rem;
-  }
-  
-  .home-slider-arrow {
-    width: 45px;
-    height: 45px;
-  }
-  
-  .home-product-features {
-    min-height: 80px;
-  }
+.home-services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-/* 480px - 1 ürün */
-@media (max-width: 480px) {
-  .home-product-card {
-    width: 100%;
-    flex: 0 0 100%;
-    min-height: auto;
-    margin-right: 0;
-  }
-  
-  .home-slider-arrow {
-    width: 40px;
-    height: 40px;
-  }
-  
-  .home-product-title {
-    font-size: 1.25rem;
-  }
-  
-  .home-product-description {
-    min-height: auto;
-  }
-  
-  .home-product-features {
-    min-height: auto;
-  }
+/* Hizmet kartı */
+.home-service-card {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 16px;
+  text-align: center;
+  border: 1px solid #f1f5f9;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 320px;
+}
+
+.home-service-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  border-color: #dbeafe;
+}
+
+/* Hizmet ikonları */
+.home-service-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin: 0 auto 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1d4ed8;
+  font-size: 2rem;
+  background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+  box-shadow: 0 4px 15px rgba(29, 78, 216, 0.15);
+}
+
+/* Hizmet başlığı */
+.home-service-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 1rem;
+}
+
+/* Hizmet açıklaması */
+.home-service-description {
+  color: #64748b;
+  line-height: 1.6;
+  font-size: 1rem;
+  text-wrap: pretty;
+  flex: 1;
+  display: flex;
+  align-items: center;
 }
 
 /* =========================================================
-   PERFORMANS & SEO OPTİMİZASYONU
+   MARKALAR BÖLÜMÜ - RESPONSIVE
 ========================================================= */
 
-/* Görseller için lazy loading */
-.home-product-image img {
-  loading: lazy;
+.home-brands-section {
+  padding: 60px 0;
+  background: #f0f9ff;
 }
 
-/* Kartlar için will-change */
-.home-product-card {
-  will-change: transform, box-shadow;
+.home-brands-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-/* Erişilebilirlik için focus stil */
-.home-product-button:focus,
-.home-slider-arrow:focus,
-.home-view-all-button:focus {
-  outline: 2px solid #2e69b1;
-  outline-offset: 3px;
+/* Marka kartı - Mobile Optimize */
+.home-brand-card {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 16px;
+  border: 1px solid #e0f2fe;
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  min-height: 380px;
 }
 
-/* Yazı tipi rendering optimizasyonu */
-.home-product-title,
-.home-product-price,
-.home-product-brand {
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Üst çizgi animasyonu */
+.home-brand-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 4px;
+  width: 100%;
+  background: linear-gradient(135deg, #1d6fb8, #2b8df5);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+
+.home-brand-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(29, 111, 184, 0.15);
+}
+
+.home-brand-card:hover::before {
+  transform: scaleX(1);
+}
+
+/* Marka logo kabı - Daha küçük */
+.home-brand-header {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-bottom: 1.2rem;
+  flex-wrap: wrap;
+}
+
+/* Logo alanı - Küçültülmüş */
+.home-brand-logo {
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #f1f5f9;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* Marka logo görüntüsü */
+.home-brand-logo-image {
+  width: 65%;
+  height: 65%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.home-brand-card:hover .home-brand-logo-image {
+  transform: scale(1.1);
+}
+
+/* Marka adı - Font küçültüldü */
+.home-brand-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #1e293b, #374151);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.3;
+}
+
+/* Marka açıklaması - Daha kısa */
+.home-brand-description {
+  color: #64748b;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 4.8em;
+}
+
+/* Marka özellik listesi - Compact */
+.home-brand-features {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 1.5rem;
+  flex: 1;
+}
+
+.home-brand-feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  color: #475569;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 0.8rem;
+}
+
+/* Buton wrapper */
+.home-brand-button-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+/* Buton stili */
+.home-brand-bottom-button {
+  padding: 0.9rem 1.8rem;
+  background: linear-gradient(135deg, #1d6fb8, #2b8df5);
+  color: white;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(29, 111, 184, 0.25);
+}
+
+.home-brand-bottom-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px rgba(29, 111, 184, 0.35);
 }
 
 /* =========================================================
@@ -757,35 +606,35 @@
 ========================================================= */
 
 .home-seo-section {
-  padding: 60px 0;
+  padding: 50px 0;
   background: #ffffff;
   border-top: 1px solid #f1f5f9;
   border-bottom: 1px solid #f1f5f9;
 }
 
 .home-seo-content {
-  max-width: 950px;
+  max-width: 900px;
   margin: 0 auto;
   text-align: center;
 }
 
 .home-seo-title {
-  font-size: 1.9rem;
+  font-size: 1.8rem;
   font-weight: 700;
   color: #1e293b;
-  margin-bottom: 2.2rem;
+  margin-bottom: 1.8rem;
   line-height: 1.35;
 }
 
 .home-seo-text {
   color: #475569;
-  line-height: 1.85;
-  font-size: 1.12rem;
+  line-height: 1.8;
+  font-size: 1.1rem;
   text-align: left;
 }
 
 .home-seo-text p {
-  margin-bottom: 1.6rem;
+  margin-bottom: 1.5rem;
   text-align: justify;
 }
 
@@ -794,32 +643,419 @@
 }
 
 /* =========================================================
-   RESPONSIVE - SEO BÖLÜMÜ
+   RESPONSIVE BREAKPOINTS
 ========================================================= */
 
-/* Tablet */
-@media (max-width: 768px) {
-  .home-seo-title {
-    font-size: 1.65rem;
+/* =========== TABLET (1024px ve altı) =========== */
+@media (max-width: 1024px) {
+  /* Genel ayarlar */
+  .home-section-title {
+    font-size: 2.2rem;
   }
+  
+  .home-section-description {
+    font-size: 1.05rem;
+  }
+  
+  /* Popüler Ürünler - 3'lü */
+  .home-product-card {
+    width: calc(33.333% - 20px);
+  }
+  
+  /* Hizmetler Grid */
+  .home-services-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  
+  .home-service-card {
+    padding: 1.5rem;
+    min-height: 300px;
+  }
+  
+  .home-service-icon {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .home-service-title {
+    font-size: 1.3rem;
+  }
+  
+  /* Markalar Grid */
+  .home-brands-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  
+  .home-brand-card {
+    padding: 1.5rem;
+    min-height: 360px;
+  }
+  
+  .home-brand-logo {
+    width: 65px;
+    height: 65px;
+  }
+  
+  .home-brand-title {
+    font-size: 1.4rem;
+  }
+  
+  .home-brand-description {
+    font-size: 0.95rem;
+  }
+}
 
+/* =========== TABLET (768px ve altı) =========== */
+@media (max-width: 768px) {
+  /* Genel ayarlar */
+  .home-section-header {
+    margin-bottom: 2rem;
+  }
+  
+  .home-section-title {
+    font-size: 1.9rem;
+  }
+  
+  .home-section-description {
+    font-size: 1rem;
+    padding: 0 10px;
+  }
+  
+  /* Popüler Ürünler - 2'li (Tablet) */
+  .home-product-card {
+    width: calc(50% - 20px);
+  }
+  
+  .home-product-title {
+    font-size: 1.15rem;
+  }
+  
+  .home-product-price {
+    font-size: 1.3rem;
+  }
+  
+  .home-product-description {
+    font-size: 0.9rem;
+  }
+  
+  /* Desktop okları gizle, mobil kontrolleri göster */
+  .home-slider-arrow {
+    display: none;
+  }
+  
+  .home-mobile-slider-controls {
+    display: flex;
+  }
+  
+  /* Hizmetler - 3'lü yatay */
+  .home-services-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+  }
+  
+  .home-service-card {
+    min-height: 280px;
+    padding: 1.2rem;
+  }
+  
+  .home-service-icon {
+    width: 60px;
+    height: 60px;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+  
+  .home-service-title {
+    font-size: 1.2rem;
+    margin-bottom: 0.8rem;
+  }
+  
+  .home-service-description {
+    font-size: 0.95rem;
+  }
+  
+  /* Markalar - 3'lü yatay */
+  .home-brands-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+  }
+  
+  .home-brand-card {
+    padding: 1.2rem;
+    min-height: 340px;
+  }
+  
+  .home-brand-header {
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .home-brand-logo {
+    width: 55px;
+    height: 55px;
+    border-radius: 10px;
+  }
+  
+  .home-brand-title {
+    font-size: 1.3rem;
+  }
+  
+  .home-brand-description {
+    font-size: 0.9rem;
+    -webkit-line-clamp: 4;
+  }
+  
+  .home-brand-feature-item {
+    font-size: 0.9rem;
+  }
+  
+  /* SEO Bölümü */
+  .home-seo-title {
+    font-size: 1.6rem;
+  }
+  
   .home-seo-text {
     font-size: 1.05rem;
   }
 }
 
-/* Telefon */
+/* =========== MOBİL (480px ve altı) =========== */
 @media (max-width: 480px) {
+  /* Container padding azalt */
+  .home-container,
+  .home-container-full {
+    padding: 0 15px;
+  }
+  
+  /* Bölüm başlıkları */
+  .home-section-title {
+    font-size: 1.7rem;
+  }
+  
+  .home-section-description {
+    font-size: 0.95rem;
+  }
+  
+  /* Popüler Ürünler - 2'li (Mobil) */
+  .home-product-card {
+    width: calc(50% - 10px);
+    margin: 0 5px;
+    border-radius: 12px;
+  }
+  
+  .home-product-image {
+    padding: 12px;
+  }
+  
+  .home-product-content {
+    padding: 1rem;
+  }
+  
+  .home-product-title {
+    font-size: 1.05rem;
+    min-height: 2.6em;
+  }
+  
+  .home-product-price {
+    font-size: 1.2rem;
+  }
+  
+  .home-product-description {
+    font-size: 0.85rem;
+    min-height: 4em;
+  }
+  
+  .home-product-button {
+    padding: 10px 15px;
+    font-size: 0.9rem;
+  }
+  
+  /* Hizmetler - Dikey tek sütun */
+  .home-services-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    max-width: 400px;
+  }
+  
+  .home-service-card {
+    min-height: auto;
+    padding: 1.5rem;
+  }
+  
+  .home-service-icon {
+    width: 70px;
+    height: 70px;
+  }
+  
+  /* Markalar - Dikey tek sütun */
+  .home-brands-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    max-width: 400px;
+  }
+  
+  .home-brand-card {
+    min-height: auto;
+  }
+  
+  .home-brand-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+  
+  .home-brand-logo {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .home-brand-title {
+    font-size: 1.5rem;
+    width: 100%;
+  }
+  
+  .home-brand-description {
+    text-align: center;
+    -webkit-line-clamp: unset;
+  }
+  
+  .home-brand-features {
+    text-align: left;
+  }
+  
+  /* Mobil slider controls */
+  .home-mobile-slider-controls {
+    gap: 15px;
+  }
+  
+  .home-mobile-slider-arrow {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .home-slider-dot {
+    width: 10px;
+    height: 10px;
+  }
+  
+  /* SEO Bölümü */
   .home-seo-section {
-    padding: 45px 0;
+    padding: 40px 0;
   }
-
+  
   .home-seo-title {
-    font-size: 1.45rem;
-    margin-bottom: 1.5rem;
+    font-size: 1.4rem;
   }
-
+  
   .home-seo-text {
     font-size: 1rem;
+    text-align: justify;
+  }
+}
+
+/* =========== ÇOK KÜÇÜK MOBİL (360px ve altı) =========== */
+@media (max-width: 360px) {
+  /* Popüler Ürünler - 1'li */
+  .home-product-card {
+    width: 100%;
+    margin: 0 5px;
+  }
+  
+  .home-product-title {
+    font-size: 1rem;
+  }
+  
+  .home-product-price {
+    font-size: 1.1rem;
+  }
+  
+  /* Hizmetler */
+  .home-service-card {
+    padding: 1.2rem;
+  }
+  
+  .home-service-title {
+    font-size: 1.1rem;
+  }
+  
+  /* Markalar */
+  .home-brand-card {
+    padding: 1rem;
+  }
+  
+  .home-brand-title {
+    font-size: 1.3rem;
+  }
+}
+
+/* =========================================================
+   PERFORMANS & SEO OPTİMİZASYONU
+========================================================= */
+
+/* Görseller için lazy loading */
+.home-product-image img,
+.home-brand-logo-image {
+  loading: lazy;
+}
+
+/* Kartlar için will-change */
+.home-product-card,
+.home-service-card,
+.home-brand-card {
+  will-change: transform, box-shadow;
+}
+
+/* Erişilebilirlik için focus stil */
+.home-product-button:focus,
+.home-slider-arrow:focus,
+.home-view-all-button:focus,
+.home-mobile-slider-arrow:focus,
+.home-slider-dot:focus,
+.home-brand-bottom-button:focus {
+  outline: 2px solid #2e69b1;
+  outline-offset: 3px;
+}
+
+/* Yazı tipi rendering optimizasyonu */
+.home-product-title,
+.home-product-price,
+.home-service-title,
+.home-brand-title,
+.home-section-title {
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Touch-friendly boyutlar */
+@media (hover: none) and (pointer: coarse) {
+  .home-product-button,
+  .home-view-all-button,
+  .home-brand-bottom-button,
+  .home-mobile-slider-arrow,
+  .home-slider-dot {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  .home-product-button {
+    padding: 14px 20px;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .home-product-card,
+  .home-service-card,
+  .home-brand-card,
+  .home-products-track,
+  .home-product-image img,
+  .home-brand-logo-image,
+  .home-brand-card::before {
+    transition: none !important;
+    animation: none !important;
   }
 }
