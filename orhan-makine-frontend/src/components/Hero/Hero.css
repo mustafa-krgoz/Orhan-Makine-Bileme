@@ -1,5 +1,6 @@
 /* =========================================================
    HERO SECTION - OPTIMIZED WITH LEFT ALIGNMENT FOR DESKTOP
+   PERFORMANCE OPTIMIZED VERSION
    ========================================================= */
 
 /* === BASE STYLES === */
@@ -9,6 +10,7 @@
   min-height: 100vh;
   background: #000;
   overflow: hidden;
+  contain: layout style paint;
 }
 
 /* === VIDEO WRAPPER === */
@@ -19,6 +21,9 @@
   width: 100%;
   height: 100%;
   z-index: 1;
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .hero-video {
@@ -26,10 +31,19 @@
   height: 100%;
   object-fit: cover;
   object-position: center;
-  opacity: 0;
-  transition: opacity 0.5s ease;
+  opacity: 1;
+  /* GPU Acceleration için optimizasyonlar */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  perspective: 1000px;
+  will-change: opacity;
+  /* Daha akıcı render için */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
 }
 
+/* Video overlay - GPU accelerated */
 .video-overlay {
   position: absolute;
   top: 0;
@@ -44,6 +58,8 @@
     rgba(0, 0, 0, 0.2) 80%,
     transparent 100%
   );
+  transform: translateZ(0);
+  will-change: opacity;
 }
 
 /* === HERO CONTAINER === */
@@ -57,9 +73,10 @@
   height: 100vh;
   display: flex;
   align-items: center;
+  contain: layout style;
 }
 
-/* DEĞİŞTİRİLDİ: Sola hizalama */
+/* Sola hizalama */
 .hero-content-wrapper {
   width: 100%;
   max-width: 700px;
@@ -74,17 +91,19 @@
 
 /* === TYPOGRAPHY === */
 .hero-title {
-  font-size: 3.0rem; /* 3.8rem'den 3.2rem'e küçülttüm */
+  font-size: 3.0rem;
   font-weight: 800;
   line-height: 1.1;
   color: #fff;
   margin-bottom: 1.5rem;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  /* Tek satırda kalması için */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
+  /* GPU optimization */
+  transform: translateZ(0);
+  will-change: transform;
 }
 
 .hero-description {
@@ -94,10 +113,13 @@
   margin-bottom: 2rem;
   opacity: 0.95;
   max-width: 650px;
+  /* GPU optimization */
+  transform: translateZ(0);
 }
 
 .hero-description strong {
   color: #7dd3fc;
+  font-weight: 700;
 }
 
 /* === BUTTONS === */
@@ -117,10 +139,14 @@
   font-weight: 600;
   border-radius: 10px;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border: 2px solid transparent;
   cursor: pointer;
   min-height: 56px;
+  /* GPU optimization */
+  transform: translateZ(0);
+  will-change: transform, box-shadow;
+  backface-visibility: hidden;
 }
 
 .primary-btn {
@@ -130,7 +156,7 @@
 
 .primary-btn:hover {
   background: #f0f0f0;
-  transform: translateY(-2px);
+  transform: translateY(-2px) translateZ(0);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
@@ -138,12 +164,13 @@
   background: rgba(255, 255, 255, 0.1);
   color: #fff;
   border: 2px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
 }
 
 .secondary-btn:hover {
   background: rgba(255, 255, 255, 0.2);
   border-color: #fff;
-  transform: translateY(-2px);
+  transform: translateY(-2px) translateZ(0);
 }
 
 .btn-icon {
@@ -171,6 +198,15 @@
   text-align: center;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
+  /* GPU optimization */
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.stat-box:hover {
+  transform: translateY(-3px) translateZ(0);
 }
 
 .stat-number {
@@ -199,6 +235,9 @@
   backdrop-filter: blur(12px);
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
   max-width: 700px;
+  /* GPU optimization */
+  transform: translateZ(0);
+  will-change: transform;
 }
 
 .alert-content {
@@ -242,14 +281,18 @@
   text-decoration: none;
   font-weight: 600;
   border-radius: 10px;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   white-space: nowrap;
+  /* GPU optimization */
+  transform: translateZ(0);
+  will-change: transform, background-color;
+  backface-visibility: hidden;
 }
 
 .alert-button:hover {
   background: rgba(255, 193, 7, 0.3);
   border-color: #FFC107;
-  transform: translateY(-2px);
+  transform: translateY(-2px) translateZ(0);
 }
 
 .button-icon {
@@ -281,7 +324,7 @@
   }
   
   .hero-title {
-    font-size: 2.4rem; /* 4.2rem'den 3.5rem'e küçülttüm */
+    font-size: 2.4rem;
   }
   
   .hero-description {
@@ -291,7 +334,6 @@
 
 /* === DESKTOP (992px - 1399px) - SOLA HİZALI === */
 @media (min-width: 992px) {
-  /* Desktop'ta sola hizalı, mobilde merkezde */
   .hero-content-wrapper {
     margin-left: 0;
     margin-right: auto;
@@ -321,7 +363,6 @@
     padding-bottom: 60px;
   }
   
-  /* DEĞİŞTİRİLDİ: Tablet ve mobilde merkezde */
   .hero-content-wrapper {
     margin: 0 auto;
     text-align: center;
@@ -331,7 +372,7 @@
   .hero-title {
     font-size: 2.8rem;
     text-align: center;
-    white-space: normal; /* Mobilde çok satıra geçebilir */
+    white-space: normal;
     overflow: visible;
     text-overflow: clip;
   }
@@ -587,7 +628,46 @@
   }
   
   .hero-btn,
-  .alert-button {
+  .alert-button,
+  .stat-box {
     transition: none;
+    transform: none;
   }
+  
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* === DARK MODE SUPPORT === */
+@media (prefers-color-scheme: dark) {
+  .hero-section {
+    background: #000;
+  }
+}
+
+/* === HIGH CONTRAST MODE === */
+@media (prefers-contrast: high) {
+  .hero-title,
+  .hero-description {
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.9);
+  }
+  
+  .video-overlay {
+    background: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.95) 0%,
+      rgba(0, 0, 0, 0.8) 50%,
+      rgba(0, 0, 0, 0.6) 100%
+    );
+  }
+}
+
+/* === CONTENT VISIBILITY API (Performance) === */
+.stats-container,
+.alert-banner {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 200px;
 }
