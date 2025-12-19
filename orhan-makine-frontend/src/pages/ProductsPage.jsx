@@ -1,5 +1,5 @@
 // ==========================================================
-// PRODUCTS PAGE — MODERN, SEO-PWA UYUMLU, CLEAN CODE
+// PRODUCTS PAGE — MODERN, SEO-PWA UYUMLU, MOBILE OPTIMIZED
 // ==========================================================
 
 import React, { useState, useEffect } from "react";
@@ -19,6 +19,7 @@ const ProductsPage = () => {
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [showOnlyInStock, setShowOnlyInStock] = useState(false);
   const [imageErrors, setImageErrors] = useState({});
+  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
   const [filters, setFilters] = useState({
     campaign: false,
@@ -41,7 +42,21 @@ const ProductsPage = () => {
   const brands = [...new Set(products.map((p) => p.brand))];
 
   // ----------------------------------------------------------
-  // 🟦 İNDİRİM GÖSTERİM MANTIĞI — showDiscount destekli
+  // MOBİL FILTER OVERLAY KONTROL
+  // ----------------------------------------------------------
+  useEffect(() => {
+    if (isMobileFilterOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isMobileFilterOpen]);
+
+  // ----------------------------------------------------------
+  // İNDİRİM GÖSTERİM MANTIĞI
   // ----------------------------------------------------------
   const shouldShowDiscount = (product) => {
     if (!product.showDiscount) return false;
@@ -126,6 +141,168 @@ const ProductsPage = () => {
   const calculateDiscount = (original, current) =>
     Math.round(((original - current) / original) * 100);
 
+  const toggleMobileFilter = () => {
+    setIsMobileFilterOpen(!isMobileFilterOpen);
+  };
+
+  const closeMobileFilter = () => {
+    setIsMobileFilterOpen(false);
+  };
+
+  // ----------------------------------------------------------
+  // FILTER SIDEBAR COMPONENT
+  // ----------------------------------------------------------
+  const FilterSidebar = () => (
+    <div className="filter-sidebar-content">
+      {/* Stok Durumu */}
+      <div className="filter-group">
+        <h3>Stok Durumu</h3>
+        <div className="radio-options">
+          <label className="radio-item">
+            <input
+              type="radio"
+              name="stock"
+              checked={!showOnlyInStock}
+              onChange={() => setShowOnlyInStock(false)}
+            />
+            <span className="radio-mark"></span>
+            Tüm Ürünler ({products.length})
+          </label>
+
+          <label className="radio-item">
+            <input
+              type="radio"
+              name="stock"
+              checked={showOnlyInStock}
+              onChange={() => setShowOnlyInStock(true)}
+            />
+            <span className="radio-mark"></span>
+            Stoktakiler ({products.filter((p) => p.inStock).length})
+          </label>
+        </div>
+      </div>
+
+      {/* Ürün Grupları */}
+      <div className="filter-group">
+        <h3>Ürün Grupları</h3>
+        <div className="category-list">
+          {categories.map((cat) => (
+            <label key={cat} className="checkbox-item">
+              <input
+                type="checkbox"
+                checked={selectedCategories.includes(cat)}
+                onChange={() =>
+                  setSelectedCategories((prev) =>
+                    prev.includes(cat)
+                      ? prev.filter((c) => c !== cat)
+                      : [...prev, cat]
+                  )
+                }
+              />
+              <span className="checkmark"></span>
+              {cat}
+            </label>
+          ))}
+        </div>
+      </div>
+
+      {/* Marka */}
+      <div className="filter-group">
+        <h3>Marka</h3>
+        <div className="brand-list">
+          {brands.map((brand) => (
+            <label key={brand} className="checkbox-item">
+              <input
+                type="checkbox"
+                checked={selectedBrands.includes(brand)}
+                onChange={() =>
+                  setSelectedBrands((prev) =>
+                    prev.includes(brand)
+                      ? prev.filter((b) => b !== brand)
+                      : [...prev, brand]
+                  )
+                }
+              />
+              <span className="checkmark"></span>
+              {brand}
+            </label>
+          ))}
+        </div>
+      </div>
+
+      {/* Filtre Seçenekleri */}
+      <div className="filter-group">
+        <h3>Filtreler</h3>
+
+        <label className="checkbox-item">
+          <input
+            type="checkbox"
+            checked={filters.campaign}
+            onChange={(e) =>
+              setFilters((prev) => ({ ...prev, campaign: e.target.checked }))
+            }
+          />
+          <span className="checkmark"></span>
+          Kampanyalı Ürünler
+        </label>
+
+        <label className="checkbox-item">
+          <input
+            type="checkbox"
+            checked={filters.sponsored}
+            onChange={(e) =>
+              setFilters((prev) => ({ ...prev, sponsored: e.target.checked }))
+            }
+          />
+          <span className="checkmark"></span>
+          Sponsor Ürünler
+        </label>
+
+        <label className="checkbox-item">
+          <input
+            type="checkbox"
+            checked={filters.new}
+            onChange={(e) =>
+              setFilters((prev) => ({ ...prev, new: e.target.checked }))
+            }
+          />
+          <span className="checkmark"></span>
+          Yeni Ürünler
+        </label>
+
+        <label className="checkbox-item">
+          <input
+            type="checkbox"
+            checked={filters.discounted}
+            onChange={(e) =>
+              setFilters((prev) => ({
+                ...prev,
+                discounted: e.target.checked,
+              }))
+            }
+          />
+          <span className="checkmark"></span>
+          İndirimli Ürünler
+        </label>
+      </div>
+
+      {/* Hızlı Arama */}
+      <div className="filter-group">
+        <h3>Hızlı Arama</h3>
+        <div className="search-box">
+          <span className="search-icon">🔍</span>
+          <input
+            type="text"
+            placeholder="Ürün ara..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="search-input"
+          />
+        </div>
+      </div>
+    </div>
+  );
+
   // ----------------------------------------------------------
   // RENDER
   // ----------------------------------------------------------
@@ -134,173 +311,76 @@ const ProductsPage = () => {
       <div className="products-container">
         
         {/* ------------------------------------------------------
-            SOL SİDEBAR — TÜM FİLTRELER
+            DESKTOP SIDEBAR
         ------------------------------------------------------ */}
-        <div className="products-sidebar">
+        <aside className="products-sidebar desktop-only" aria-label="Ürün filtreleri">
+          <FilterSidebar />
+        </aside>
 
-          {/* Stok Durumu */}
-          <div className="filter-group">
-            <h3>Stok Durumu</h3>
-            <div className="radio-options">
-              <label className="radio-item">
-                <input
-                  type="radio"
-                  checked={!showOnlyInStock}
-                  onChange={() => setShowOnlyInStock(false)}
-                />
-                <span className="radio-mark"></span>
-                Tüm Ürünler ({products.length})
-              </label>
-
-              <label className="radio-item">
-                <input
-                  type="radio"
-                  checked={showOnlyInStock}
-                  onChange={() => setShowOnlyInStock(true)}
-                />
-                <span className="radio-mark"></span>
-                Stoktakiler ({products.filter((p) => p.inStock).length})
-              </label>
-            </div>
-          </div>
-
-          {/* Ürün Grupları */}
-          <div className="filter-group">
-            <h3>Ürün Grupları</h3>
-            <div className="category-list">
-              {categories.map((cat) => (
-                <label key={cat} className="checkbox-item">
-                  <input
-                    type="checkbox"
-                    checked={selectedCategories.includes(cat)}
-                    onChange={() =>
-                      setSelectedCategories((prev) =>
-                        prev.includes(cat)
-                          ? prev.filter((c) => c !== cat)
-                          : [...prev, cat]
-                      )
-                    }
-                  />
-                  <span className="checkmark"></span>
-                  {cat}
-                </label>
-              ))}
-            </div>
-          </div>
-
-          {/* Marka */}
-          <div className="filter-group">
-            <h3>Marka</h3>
-            <div className="brand-list">
-              {brands.map((brand) => (
-                <label key={brand} className="checkbox-item">
-                  <input
-                    type="checkbox"
-                    checked={selectedBrands.includes(brand)}
-                    onChange={() =>
-                      setSelectedBrands((prev) =>
-                        prev.includes(brand)
-                          ? prev.filter((b) => b !== brand)
-                          : [...prev, brand]
-                      )
-                    }
-                  />
-                  <span className="checkmark"></span>
-                  {brand}
-                </label>
-              ))}
-            </div>
-          </div>
-
-          {/* Filtre Seçenekleri */}
-          <div className="filter-group">
-            <h3>Filtreler</h3>
-
-            <label className="checkbox-item">
-              <input
-                type="checkbox"
-                checked={filters.campaign}
-                onChange={(e) =>
-                  setFilters((prev) => ({ ...prev, campaign: e.target.checked }))
-                }
-              />
-              <span className="checkmark"></span>
-              Kampanyalı Ürünler
-            </label>
-
-            <label className="checkbox-item">
-              <input
-                type="checkbox"
-                checked={filters.sponsored}
-                onChange={(e) =>
-                  setFilters((prev) => ({ ...prev, sponsored: e.target.checked }))
-                }
-              />
-              <span className="checkmark"></span>
-              Sponsor Ürünler
-            </label>
-
-            <label className="checkbox-item">
-              <input
-                type="checkbox"
-                checked={filters.new}
-                onChange={(e) =>
-                  setFilters((prev) => ({ ...prev, new: e.target.checked }))
-                }
-              />
-              <span className="checkmark"></span>
-              Yeni Ürünler
-            </label>
-
-            <label className="checkbox-item">
-              <input
-                type="checkbox"
-                checked={filters.discounted}
-                onChange={(e) =>
-                  setFilters((prev) => ({
-                    ...prev,
-                    discounted: e.target.checked,
-                  }))
-                }
-              />
-              <span className="checkmark"></span>
-              İndirimli Ürünler
-            </label>
-          </div>
-
-          {/* Hızlı Arama */}
-          <div className="filter-group">
-            <h3>Hızlı Arama</h3>
-            <div className="search-box">
-              <span className="search-icon">🔍</span>
-              <input
-                type="text"
-                placeholder="Ürün ara..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="search-input"
-              />
-            </div>
-          </div>
-        </div>
+        {/* ------------------------------------------------------
+            MOBİL HAMBURGER OVERLAY
+        ------------------------------------------------------ */}
+        {isMobileFilterOpen && (
+          <>
+            <div 
+              className="mobile-filter-overlay" 
+              onClick={closeMobileFilter}
+              aria-hidden="true"
+            ></div>
+            <aside 
+              className="mobile-filter-sidebar"
+              role="dialog"
+              aria-label="Mobil filtre menüsü"
+            >
+              <div className="mobile-filter-header">
+                <h2>Filtrele</h2>
+                <button 
+                  className="close-filter-btn"
+                  onClick={closeMobileFilter}
+                  aria-label="Filtreyi kapat"
+                >
+                  ✕
+                </button>
+              </div>
+              <FilterSidebar />
+            </aside>
+          </>
+        )}
 
         {/* ------------------------------------------------------
             SAĞ ÜRÜN LİSTESİ
         ------------------------------------------------------ */}
-        <div className="products-content">
+        <main className="products-content">
+
+          {/* MOBİL HAMBURGER BUTON */}
+          <button 
+            className="mobile-filter-toggle"
+            onClick={toggleMobileFilter}
+            aria-label="Filtreleri aç"
+            aria-expanded={isMobileFilterOpen}
+          >
+            <span className="hamburger-icon">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+            <span className="filter-text">Filtrele</span>
+          </button>
 
           {/* Üst Bilgi */}
-          <div className="products-header">
+          <header className="products-header">
             <span className="products-count">
               Toplam {filteredProducts.length} ürün
             </span>
 
             <div className="sort-options">
-              <label>Sırala:</label>
+              <label htmlFor="sort-select">Sırala:</label>
               <select
+                id="sort-select"
                 value={sortOption}
                 onChange={(e) => setSortOption(e.target.value)}
                 className="sort-select"
+                aria-label="Ürün sıralama seçenekleri"
               >
                 <option value="recommended">Önerilen</option>
                 <option value="price-low">Fiyat (Artan)</option>
@@ -309,12 +389,12 @@ const ProductsPage = () => {
                 <option value="rating">Değerlendirme</option>
               </select>
             </div>
-          </div>
+          </header>
 
           {/* Ürün Grid */}
-          <div className="products-grid">
+          <section className="products-grid" aria-label="Ürün listesi">
             {filteredProducts.map((product) => (
-              <div key={product.id} className="product-card">
+              <article key={product.id} className="product-card">
                 
                 {/* ÜRÜN GÖRSELİ */}
                 <div className="product-image">
@@ -327,14 +407,14 @@ const ProductsPage = () => {
                     alt={`${product.brand} ${product.name}`}
                     onError={() => handleImageError(product.id)}
                     loading="lazy"
+                    width="300"
+                    height="300"
                   />
 
                   {/* BADGE ALANI */}
-                  <div className="product-badges">
-
-                    {/* İNDİRİM BADGE — showDiscount destekli */}
+                  <div className="product-badges" aria-label="Ürün etiketleri">
                     {shouldShowDiscount(product) && (
-                      <span className="badge discount">
+                      <span className="badge discount" aria-label="İndirim yüzdesi">
                         %{calculateDiscount(
                           product.originalPrice,
                           product.price
@@ -354,6 +434,11 @@ const ProductsPage = () => {
                       isFavorite(product.id) ? "active" : ""
                     }`}
                     onClick={() => toggleFavorite(product.id)}
+                    aria-label={
+                      isFavorite(product.id)
+                        ? "Favorilerden çıkar"
+                        : "Favorilere ekle"
+                    }
                   >
                     {isFavorite(product.id) ? "❤️" : "🤍"}
                   </button>
@@ -365,7 +450,7 @@ const ProductsPage = () => {
 
                   <h3 className="product-name">{product.name}</h3>
 
-                  {/* ÜRÜN KODU — modern görünüm */}
+                  {/* ÜRÜN KODU */}
                   <div className="product-code">
                     <span className="product-code-label">Ürün Kodu:</span>
                     <span className="product-code-value">
@@ -373,19 +458,19 @@ const ProductsPage = () => {
                     </span>
                   </div>
 
-                  <div className="product-description">
+                  <p className="product-description">
                     {product.description}
-                  </div>
+                  </p>
 
-                  {/* FİYAT ALANI — showDiscount uyumlu */}
+                  {/* FİYAT ALANI */}
                   <div className="product-pricing">
                     {shouldShowDiscount(product) && (
-                      <div className="original-price">
+                      <div className="original-price" aria-label="Eski fiyat">
                         {formatPrice(product.originalPrice)} TL
                       </div>
                     )}
 
-                    <div className="current-price">
+                    <div className="current-price" aria-label="Güncel fiyat">
                       {formatPrice(product.price)} TL
                     </div>
                   </div>
@@ -396,6 +481,11 @@ const ProductsPage = () => {
                       className="add-to-cart-btn"
                       disabled={!product.inStock}
                       onClick={() => addToCart(product, 1)}
+                      aria-label={
+                        product.inStock
+                          ? "Sepete ekle"
+                          : "Stokta yok"
+                      }
                     >
                       {product.inStock ? "SEPETE EKLE" : "STOKTA YOK"}
                     </button>
@@ -403,23 +493,24 @@ const ProductsPage = () => {
                     <Link
                       to={`/product/${product.id}`}
                       className="view-details-btn"
+                      aria-label={`${product.name} detaylarını görüntüle`}
                     >
                       Detaylı İncele
                     </Link>
                   </div>
                 </div>
-              </div>
+              </article>
             ))}
-          </div>
+          </section>
 
           {/* ÜRÜN YOKSA */}
           {filteredProducts.length === 0 && (
-            <div className="no-products">
+            <div className="no-products" role="status">
               <h3>Ürün bulunamadı</h3>
               <p>Filtreleri değiştirip tekrar deneyin.</p>
             </div>
           )}
-        </div>
+        </main>
       </div>
     </div>
   );
