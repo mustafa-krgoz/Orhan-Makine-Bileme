@@ -26,25 +26,33 @@ export default function FavoritesPage() {
     Math.round(((original - current) / original) * 100);
 
   // Sepete ekleme fonksiyonu - GERÇEK SEPET CONTEXT'İ KULLAN
-  const handleAddToCart = (product, e) => {
+  const handleAddToCart = (productId, e) => { // DEĞİŞTİ: product yerine productId alıyor
     e.preventDefault();
     e.stopPropagation();
     
-    // Sepete ekle
-    addToCart(product, 1);
+    // Sepete ekle - sadece productId gönder
+    addToCart(productId, 1);
     
     // Başarı mesajı (isteğe bağlı)
-    showToastMessage(`${product.name} sepete eklendi!`);
+    const product = favorites.find(p => p.id === productId);
+    if (product) {
+      showToastMessage(`${product.name} sepete eklendi!`);
+    }
   };
 
   // Toast mesajı gösterme (isteğe bağlı)
   const showToastMessage = (message) => {
+    // Mevcut bir toast varsa kaldır
+    const existingToast = document.querySelector('.cart-toast-message');
+    if (existingToast) {
+      existingToast.remove();
+    }
+
     // Basit bir toast mesajı oluştur
     const toast = document.createElement('div');
     toast.className = 'cart-toast-message';
     toast.innerHTML = `
-      <div class="toast-content">
-        <Check size={18} />
+      <div class="toast-content" style="display: flex; align-items: center; gap: 8px;">
         <span>${message}</span>
       </div>
     `;
@@ -59,6 +67,7 @@ export default function FavoritesPage() {
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
       z-index: 9999;
       animation: slideIn 0.3s ease-out;
+      font-family: Arial, sans-serif;
     `;
     
     document.body.appendChild(toast);
@@ -102,7 +111,9 @@ export default function FavoritesPage() {
     document.head.appendChild(style);
     
     return () => {
-      document.head.removeChild(style);
+      if (style.parentNode) {
+        document.head.removeChild(style);
+      }
     };
   }, []);
 
@@ -257,7 +268,7 @@ export default function FavoritesPage() {
                     <div className="favorite-actions">
                       <button
                         className={`btn-add-to-cart ${inCart ? 'in-cart' : ''}`}
-                        onClick={(e) => handleAddToCart(product, e)}
+                        onClick={(e) => handleAddToCart(product.id, e)} // DEĞİŞTİ: product.id gönder
                         disabled={!product.inStock || inCart}
                       >
                         {inCart ? (

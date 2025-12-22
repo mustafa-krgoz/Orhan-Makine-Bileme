@@ -44,7 +44,7 @@ const ProductDetailPage = () => {
   const commentFormRef = useRef(null);
 
   const { isFavorite, toggleFavorite } = useFavorites();
-  const { addToCart } = useCart();
+  const { addToCart } = useCart(); // Sadece addToCart'ı al
 
   const product = productsData.find((p) => p.id === Number(id));
 
@@ -108,7 +108,7 @@ const ProductDetailPage = () => {
   };
 
   const handleAddToCart = () => {
-    addToCart(product, quantity);
+    addToCart(product.id, quantity);
     toast.success(`${product.name} sepete eklendi!`, {
       icon: '🛒',
       position: "bottom-right",
@@ -117,7 +117,7 @@ const ProductDetailPage = () => {
   };
 
   const handleBuyNow = () => {
-    addToCart(product, quantity);
+    addToCart(product.id, quantity);
     window.location.href = '/cart';
   };
 
@@ -287,7 +287,7 @@ const ProductDetailPage = () => {
                     onMouseMove={handleZoomMove}
                   >
                     
-                  <img ß
+                  <img 
                     src={images[selectedImage]}
                     alt={product.name}
                     className={`main-image ${isHoveringImage ? 'zoom-active' : ''}`}

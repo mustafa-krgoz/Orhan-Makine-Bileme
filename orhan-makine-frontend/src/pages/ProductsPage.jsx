@@ -42,7 +42,7 @@ const ProductsPage = () => {
 
   // FAVORİLER & SEPET CONTEXT
   const { isFavorite, toggleFavorite } = useFavorites();
-  const { addToCart } = useCart();
+  const { addToCart } = useCart(); // Sadece addToCart'ı al
 
   // Tüm kategoriler
   const categories = [...new Set(products.map((p) => p.category))];
@@ -71,6 +71,93 @@ const ProductsPage = () => {
     if (!product.showDiscount) return false;
     return product.originalPrice > product.price;
   };
+
+  // ----------------------------------------------------------
+  // SEPETE EKLEME İŞLEMİ
+  // ----------------------------------------------------------
+  const handleAddToCart = (productId) => {
+    addToCart(productId, 1);
+    
+    // Kullanıcıya feedback göster
+    const product = productsData.find(p => p.id === productId);
+    if (product) {
+      // Mini toast mesajı
+      showToast(`${product.name} sepete eklendi!`);
+    }
+  };
+
+  // Toast mesajı gösterme
+  const showToast = (message) => {
+    // Mevcut bir toast varsa kaldır
+    const existingToast = document.querySelector('.product-toast');
+    if (existingToast) {
+      existingToast.remove();
+    }
+
+    // Yeni toast oluştur
+    const toast = document.createElement('div');
+    toast.className = 'product-toast';
+    toast.textContent = message;
+    toast.style.cssText = `
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #4CAF50;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 4px;
+      z-index: 10000;
+      animation: slideIn 0.3s ease;
+      font-weight: 500;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    `;
+    
+    document.body.appendChild(toast);
+    
+    // 3 saniye sonra kaldır
+    setTimeout(() => {
+      toast.style.animation = 'slideOut 0.3s ease';
+      setTimeout(() => {
+        if (toast.parentNode) {
+          toast.remove();
+        }
+      }, 300);
+    }, 3000);
+  };
+
+  // CSS animasyonu ekle
+  useEffect(() => {
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes slideIn {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+      @keyframes slideOut {
+        from {
+          transform: translateX(0);
+          opacity: 1;
+        }
+        to {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+    
+    return () => {
+      if (style.parentNode) {
+        style.remove();
+      }
+    };
+  }, []);
 
   // ----------------------------------------------------------
   // FİLTRELEME VE SIRALAMA
@@ -590,7 +677,7 @@ const ProductsPage = () => {
                     <button
                       className="add-to-cart-btn"
                       disabled={!product.inStock}
-                      onClick={() => addToCart(product, 1)}
+                      onClick={() => handleAddToCart(product.id)}
                       aria-label={
                         product.inStock
                           ? "Sepete ekle"
