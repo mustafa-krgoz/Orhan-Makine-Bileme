@@ -366,7 +366,7 @@ export default function HomePage() {
 
               <p>
                 Ürün danışmanlığı veya teknik destek almak isterseniz WhatsApp
-                üzerinden <strong>0533 461 31 50</strong> numaramızdan bize
+                üzerinden <strong>0539 515 99 25</strong> numaramızdan bize
                 ulaşabilirsiniz.
               </p>
             </div>

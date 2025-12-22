@@ -48,6 +48,9 @@ export default function Navbar() {
   const searchInputRef = useRef(null);
   const cartRef = useRef(null);
   const navbarRef = useRef(null);
+  const cartPreviewRef = useRef(null);
+  const cartIconRef = useRef(null);
+  const previewTimeoutRef = useRef(null);
 
   // =====================================================
   // CONTEXT API
@@ -99,7 +102,13 @@ export default function Navbar() {
         setShowSearchResults(false);
       }
 
-      if (cartRef.current && !cartRef.current.contains(e.target)) {
+      // Sepet önizlemesi için: İkon veya önizleme kutusu dışına tıklanırsa kapat
+      if (
+        cartRef.current && 
+        !cartRef.current.contains(e.target) && 
+        cartPreviewRef.current && 
+        !cartPreviewRef.current.contains(e.target)
+      ) {
         setShowCartPreview(false);
       }
     };
@@ -167,15 +176,73 @@ export default function Navbar() {
     setIsMenuOpen(false);
   }, []);
 
-  const handleCartIconClick = useCallback(
+  // SEPET ÖNİZLEME TOGGLE - Desktop için
+  const handleCartPreviewToggle = useCallback(
     (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      setShowCartPreview((prev) => !prev);
-      setShowSearchResults(false);
+      // Desktop'ta ve sepet doluysa: Önizlemeyi aç/kapat, linki engelle
+      if (!isMobile && cartItems.length > 0) {
+        e.preventDefault();
+        e.stopPropagation();
+        setShowCartPreview((prev) => !prev);
+        setShowSearchResults(false);
+      }
+      // Mobile veya sepet boşsa: Normal link davranışı (yönlendir)
     },
-    []
+    [isMobile, cartItems.length]
   );
+
+  // SEPET İKONUNA TIKLAMA - Desktop için doğrudan sepet sayfasına git
+  const handleCartIconClick = useCallback((e) => {
+    if (!isMobile && cartItems.length === 0) {
+      // Sepet boşsa doğrudan sepet sayfasına git
+      navigate("/cart");
+      setShowCartPreview(false);
+    }
+    // Sepet doluysa handleCartPreviewToggle zaten önizlemeyi yönetecek
+  }, [isMobile, cartItems.length, navigate]);
+
+  // SEPETE HOVER - Mouse üzerine gelince önizleme aç
+  const handleCartMouseEnter = useCallback(() => {
+    if (!isMobile && cartItems.length > 0) {
+      // Önceki timeout'u temizle
+      if (previewTimeoutRef.current) {
+        clearTimeout(previewTimeoutRef.current);
+      }
+      setShowCartPreview(true);
+      setShowSearchResults(false);
+    }
+  }, [isMobile, cartItems.length]);
+
+  // SEPETTEN ÇIKARKEN - Gecikmeli kapatma
+  const handleCartMouseLeave = useCallback(() => {
+    if (!isMobile && cartItems.length > 0) {
+      previewTimeoutRef.current = setTimeout(() => {
+        // Eğer mouse hala sepet ikonu veya önizleme kutusu üzerinde değilse kapat
+        const isMouseOverCart = cartIconRef.current?.contains(document.activeElement) || 
+                               cartPreviewRef.current?.contains(document.activeElement);
+        
+        if (!isMouseOverCart) {
+          setShowCartPreview(false);
+        }
+      }, 300); // 300ms gecikme
+    }
+  }, [isMobile, cartItems.length]);
+
+  // ÖNİZLEME KUTUSUNA HOVER
+  const handlePreviewMouseEnter = useCallback(() => {
+    if (previewTimeoutRef.current) {
+      clearTimeout(previewTimeoutRef.current);
+    }
+  }, []);
+
+  // ÖNİZLEME KUTUSUNDAN ÇIKARKEN
+  const handlePreviewMouseLeave = useCallback(() => {
+    if (!isMobile && cartItems.length > 0) {
+      previewTimeoutRef.current = setTimeout(() => {
+        setShowCartPreview(false);
+      }, 300);
+    }
+  }, [isMobile, cartItems.length]);
 
   const handleRemoveFromCart = useCallback(
     (e, id) => {
@@ -197,6 +264,17 @@ export default function Navbar() {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }).format(price);
+  }, []);
+
+  // =====================================================
+  // CLEANUP EFFECT
+  // =====================================================
+  useEffect(() => {
+    return () => {
+      if (previewTimeoutRef.current) {
+        clearTimeout(previewTimeoutRef.current);
+      }
+    };
   }, []);
 
   // =====================================================
@@ -390,7 +468,7 @@ export default function Navbar() {
             </div>
           )}
 
-          {/* AKSİYON İKONLARI - Admin KALDIRILDI */}
+          {/* AKSİYON İKONLARI */}
           <div className="nav-actions">
             {/* MOBİL İÇİN */}
             {isMobile ? (
@@ -411,23 +489,21 @@ export default function Navbar() {
                   )}
                 </Link>
 
-                {/* SEPET - Mobil */}
-                <div className="nav-cart-container" ref={cartRef}>
-                  <Link
-                    to="/cart"
-                    className="nav-action-icon cart-icon mobile-with-text"
-                    onClick={handleCartIconClick}
-                    aria-label="Sepet"
-                  >
-                    <ShoppingCart className="icon" />
-                    <span className="nav-action-text">Sepet</span>
-                    {cartCount > 0 && (
-                      <span className="nav-badge cart-badge" aria-label={`${cartCount} ürün sepetinizde`}>
-                        {cartCount}
-                      </span>
-                    )}
-                  </Link>
-                </div>
+                {/* SEPET - Mobil (DİREKT YÖNLENDİR) */}
+                <Link
+                  to="/cart"
+                  className="nav-action-icon cart-icon mobile-with-text"
+                  onClick={closeAll}
+                  aria-label="Sepet"
+                >
+                  <ShoppingCart className="icon" />
+                  <span className="nav-action-text">Sepet</span>
+                  {cartCount > 0 && (
+                    <span className="nav-badge cart-badge" aria-label={`${cartCount} ürün sepetinizde`}>
+                      {cartCount}
+                    </span>
+                  )}
+                </Link>
               </>
             ) : (
               <>
@@ -448,13 +524,22 @@ export default function Navbar() {
                   )}
                 </Link>
 
-                {/* SEPET */}
-                <div className="nav-cart-container" ref={cartRef}>
+                {/* SEPET - Desktop (HOVER + CLICK) */}
+                <div 
+                  className="nav-cart-container" 
+                  ref={cartRef}
+                  onMouseEnter={handleCartMouseEnter}
+                  onMouseLeave={handleCartMouseLeave}
+                >
                   <Link
                     to="/cart"
                     className="nav-action-icon cart-icon"
-                    onClick={handleCartIconClick}
+                    onClick={(e) => {
+                      handleCartIconClick(e);
+                      handleCartPreviewToggle(e);
+                    }}
                     aria-label="Sepet"
+                    ref={cartIconRef}
                   >
                     <ShoppingCart className="icon" />
                     <span className="nav-action-text">Sepet</span>
@@ -469,8 +554,11 @@ export default function Navbar() {
                   {showCartPreview && cartItems.length > 0 && (
                     <div 
                       className="nav-cart-preview" 
+                      ref={cartPreviewRef}
                       role="dialog"
                       aria-label="Sepet önizleme"
+                      onMouseEnter={handlePreviewMouseEnter}
+                      onMouseLeave={handlePreviewMouseLeave}
                     >
                       <div className="cart-preview-header">
                         <h4>Sepetim</h4>
@@ -519,11 +607,25 @@ export default function Navbar() {
                         </span>
                       </div>
                       <div className="cart-preview-actions">
-                        <Link to="/cart" className="btn-view-cart" onClick={closeAll}>
+                        <Link 
+                          to="/cart" 
+                          className="btn-view-cart" 
+                          onClick={() => {
+                            closeAll();
+                            setShowCartPreview(false);
+                          }}
+                        >
                           <ShoppingBag className="btn-icon" />
                           Sepete Git
                         </Link>
-                        <Link to="/checkout" className="btn-checkout" onClick={closeAll}>
+                        <Link 
+                          to="/checkout" 
+                          className="btn-checkout" 
+                          onClick={() => {
+                            closeAll();
+                            setShowCartPreview(false);
+                          }}
+                        >
                           Ödeme Yap
                         </Link>
                       </div>
