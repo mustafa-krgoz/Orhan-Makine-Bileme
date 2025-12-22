@@ -20,143 +20,211 @@ export const useCart = () => {
 
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
-  const [totalItems, setTotalItems] = useState(0);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   /* --------------------------------------------
     📌 1) SAYFA YÜKLENİNCE LocalStorage’den oku  
   --------------------------------------------- */
   useEffect(() => {
-    const saved = localStorage.getItem("orhanmakine-cart");
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      setCartItems(parsed);
-      setTotalItems(parsed.reduce((s, i) => s + i.quantity, 0));
+    try {
+      const saved = localStorage.getItem("orhanmakine-cart");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        setCartItems(Array.isArray(parsed) ? parsed : []);
+      }
+    } catch (error) {
+      console.error("Sepet verisi okunamadı:", error);
+      setCartItems([]);
+    } finally {
+      setIsInitialized(true);
     }
   }, []);
 
   /* ---------------------------------------------------------
     📌 2) LocalStorage’a yazmayı optimize et
-        - Her quantity değişiminde 10 defa yazmayı engeller
-        - 150ms debounce → daha performanslı
+        - Sadece cartItems değiştiğinde ve başlatıldıktan sonra yaz
+        - Debounce ile performans optimizasyonu
   ---------------------------------------------------------- */
   useEffect(() => {
+    if (!isInitialized) return;
+
     const timeout = setTimeout(() => {
-      localStorage.setItem("orhanmakine-cart", JSON.stringify(cartItems));
+      try {
+        localStorage.setItem("orhanmakine-cart", JSON.stringify(cartItems));
+      } catch (error) {
+        console.error("Sepet verisi kaydedilemedi:", error);
+      }
     }, 150);
 
     return () => clearTimeout(timeout);
-  }, [cartItems]);
-
-  /* --------------------------------------------
-     📌 TOPLAM ADETİ GÜNCELLEYEN MEMOIZED FONKSİYON  
-  --------------------------------------------- */
-  const updateTotal = useCallback((items) => {
-    setTotalItems(items.reduce((sum, item) => sum + item.quantity, 0));
-  }, []);
+  }, [cartItems, isInitialized]);
 
   /* --------------------------------------------
      📌 ÜRÜN EKLE — useCallback ile optimize
   --------------------------------------------- */
   const addToCart = useCallback((product, quantity = 1) => {
+    if (!product || !product.id) {
+      console.error("Geçersiz ürün:", product);
+      return;
+    }
+
     setCartItems(prev => {
-      const existing = prev.find(item => item.id === product.id);
+      const existingIndex = prev.findIndex(item => item.id === product.id);
 
-      let updated;
-      if (existing) {
-        updated = prev.map(item =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
-        );
+      if (existingIndex >= 0) {
+        // Ürün zaten sepette, miktarı artır
+        const updated = [...prev];
+        updated[existingIndex] = {
+          ...updated[existingIndex],
+          quantity: updated[existingIndex].quantity + quantity
+        };
+        return updated;
       } else {
-        updated = [
-          ...prev,
-          {
-            id: product.id,
-            name: product.name,
-            price: product.price,
-            originalPrice: product.originalPrice,
-            image: product.image,
-            brand: product.brand,
-            quantity,
-            inStock: product.inStock,
-            stockCode: product.stockCode
-          }
-        ];
+        // Yeni ürün ekle
+        const newItem = {
+          id: product.id,
+          name: product.name || "İsimsiz Ürün",
+          price: Number(product.price) || 0,
+          originalPrice: Number(product.originalPrice) || null,
+          image: product.image || "/images/default-product.png",
+          brand: product.brand || "Belirsiz Marka",
+          quantity: Math.max(1, quantity),
+          inStock: product.inStock !== false,
+          stockCode: product.stockCode || `STK-${product.id}`,
+          category: product.category,
+          description: product.description
+        };
+        return [...prev, newItem];
       }
-
-      updateTotal(updated);
-      return updated;
     });
-  }, [updateTotal]);
+  }, []);
 
   /* --------------------------------------------
      📌 ÜRÜN SİL
   --------------------------------------------- */
   const removeFromCart = useCallback((productId) => {
-    setCartItems(prev => {
-      const updated = prev.filter(item => item.id !== productId);
-      updateTotal(updated);
-      return updated;
-    });
-  }, [updateTotal]);
+    setCartItems(prev => prev.filter(item => item.id !== productId));
+  }, []);
 
   /* --------------------------------------------
      📌 ADET GÜNCELLE
   --------------------------------------------- */
   const updateQuantity = useCallback((productId, newQuantity) => {
-    if (newQuantity < 1) return removeFromCart(productId);
+    if (newQuantity < 1) {
+      // Miktar 0'dan küçükse ürünü sil
+      setCartItems(prev => prev.filter(item => item.id !== productId));
+      return;
+    }
 
-    setCartItems(prev => {
-      const updated = prev.map(item =>
-        item.id === productId ? { ...item, quantity: newQuantity } : item
-      );
-      updateTotal(updated);
-      return updated;
-    });
-  }, [removeFromCart, updateTotal]);
+    setCartItems(prev => 
+      prev.map(item =>
+        item.id === productId 
+          ? { ...item, quantity: Math.max(1, newQuantity) }
+          : item
+      )
+    );
+  }, []);
 
   /* --------------------------------------------
      📌 SEPETİ TEMİZLE
   --------------------------------------------- */
   const clearCart = useCallback(() => {
     setCartItems([]);
-    setTotalItems(0);
   }, []);
+
+  /* --------------------------------------------
+     📌 SEPETTE VAR MI KONTROLÜ
+  --------------------------------------------- */
+  const isInCart = useCallback((productId) => {
+    return cartItems.some(item => item.id === productId);
+  }, [cartItems]);
+
+  /* --------------------------------------------
+     📌 BELİRLİ ÜRÜNÜN MİKTARINI GETİR
+  --------------------------------------------- */
+  const getProductQuantity = useCallback((productId) => {
+    const item = cartItems.find(item => item.id === productId);
+    return item ? item.quantity : 0;
+  }, [cartItems]);
 
   /* --------------------------------------------
      📌 MEMOIZED SELECTORS (Performans boost)
   --------------------------------------------- */
   const getTotalPrice = useCallback(() => {
-    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+    return cartItems.reduce((total, item) => {
+      const price = Number(item.price) || 0;
+      const quantity = Number(item.quantity) || 0;
+      return total + (price * quantity);
+    }, 0);
   }, [cartItems]);
 
   const getItemCount = useCallback(() => {
-    return cartItems.reduce((total, item) => total + item.quantity, 0);
+    return cartItems.reduce((total, item) => {
+      return total + (Number(item.quantity) || 0);
+    }, 0);
   }, [cartItems]);
 
   /* ---------------------------------------------------------
+    📌 SEPET ÖZETİ (Sipariş özeti için)
+  ---------------------------------------------------------- */
+  const getCartSummary = useCallback(() => {
+    const totalPrice = getTotalPrice();
+    const itemCount = getItemCount();
+    const itemCountText = `${itemCount} ${itemCount === 1 ? 'ürün' : 'ürün'}`;
+    
+    return {
+      totalPrice,
+      itemCount,
+      itemCountText,
+      formattedTotalPrice: new Intl.NumberFormat('tr-TR', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }).format(totalPrice)
+    };
+  }, [getTotalPrice, getItemCount]);
+
+  /* ---------------------------------------------------------
     📌 CONTEXT VALUE → useMemo ile tek sefer oluştur
-       (Her render’da yeni object oluşmasını engeller)
+       (Her render'da yeni object oluşmasını engeller)
   ---------------------------------------------------------- */
   const value = useMemo(() => ({
+    // State
     cartItems,
-    totalItems,
+    isInitialized,
+    
+    // Actions
     addToCart,
     removeFromCart,
     updateQuantity,
     clearCart,
+    
+    // Selectors
     getTotalPrice,
-    getItemCount
+    getItemCount,
+    isInCart,
+    getProductQuantity,
+    getCartSummary,
+    
+    // Convenience properties (memoized değerler)
+    totalItems: getItemCount(),
+    totalPrice: getTotalPrice(),
+    formattedTotalPrice: new Intl.NumberFormat('tr-TR', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(getTotalPrice()),
+    itemCountText: `${getItemCount()} ${getItemCount() === 1 ? 'ürün' : 'ürün'}`
   }), [
     cartItems,
-    totalItems,
+    isInitialized,
     addToCart,
     removeFromCart,
     updateQuantity,
     clearCart,
     getTotalPrice,
-    getItemCount
+    getItemCount,
+    isInCart,
+    getProductQuantity,
+    getCartSummary
   ]);
 
   return (

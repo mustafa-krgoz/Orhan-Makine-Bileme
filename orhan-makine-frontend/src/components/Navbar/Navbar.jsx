@@ -53,11 +53,22 @@ export default function Navbar() {
   const previewTimeoutRef = useRef(null);
 
   // =====================================================
-  // CONTEXT API
+  // CONTEXT API - GÜNCELLENDİ
   // =====================================================
   const { favoritesCount } = useFavorites();
-  const { cartItems, getItemCount, getTotalPrice, removeFromCart } = useCart();
-  const cartCount = getItemCount();
+  
+  // CartContext'ten güncel fonksiyonları al
+  const { 
+    cartItems, 
+    getItemCount, 
+    getTotalPrice, 
+    removeFromCart,
+    totalItems,  // Convenience property
+    totalPrice   // Convenience property
+  } = useCart();
+  
+  // totalItems ve getItemCount() aynı şeyi döndürüyor
+  const cartCount = totalItems || getItemCount();
 
   // =====================================================
   // MOBİL DETECTION & SCROLL EFFECT
@@ -142,7 +153,8 @@ export default function Navbar() {
         (product) =>
           product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
           product.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          product.category.toLowerCase().includes(searchQuery.toLowerCase())
+          product.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          product.productCode?.toLowerCase().includes(searchQuery.toLowerCase())
       )
       .slice(0, 6);
   }, [searchQuery]);
@@ -244,6 +256,7 @@ export default function Navbar() {
     }
   }, [isMobile, cartItems.length]);
 
+  // SEPETTEN ÜRÜN KALDIRMA
   const handleRemoveFromCart = useCallback(
     (e, id) => {
       e.preventDefault();
@@ -259,6 +272,7 @@ export default function Navbar() {
     setIsMenuOpen(false);
   }, []);
 
+  // FİYAT FORMATLAMA
   const formatPrice = useCallback((price) => {
     return new Intl.NumberFormat("tr-TR", {
       minimumFractionDigits: 2,
@@ -276,6 +290,25 @@ export default function Navbar() {
       }
     };
   }, []);
+
+  // =====================================================
+  // CART PREVIEW İÇİN GÜNCEL ÜRÜN BİLGİLERİ
+  // =====================================================
+  const cartPreviewItems = useMemo(() => {
+    return cartItems.slice(0, 3).map(item => {
+      // productsData'dan güncel ürün bilgilerini al
+      const productFromData = productsData.find(p => p.id === item.id);
+      
+      return {
+        ...item,
+        // productsData'dan gelen güncel bilgileri kullan
+        name: productFromData?.name || item.name,
+        price: productFromData?.price || item.price,
+        image: productFromData?.image || item.image,
+        inStock: productFromData?.inStock !== false
+      };
+    });
+  }, [cartItems]);
 
   // =====================================================
   // RENDER
@@ -432,7 +465,7 @@ export default function Navbar() {
                       {searchResults.map((product) => (
                         <Link
                           key={product.id}
-                          to={`/product/${product.id}`}
+                          to={`/product/${product.slug || product.id}`}
                           className="nav-search-result-item"
                           onClick={handleSearchItemClick}
                           role="option"
@@ -567,10 +600,16 @@ export default function Navbar() {
                         </span>
                       </div>
                       <div className="cart-preview-items">
-                        {cartItems.slice(0, 3).map((item) => (
+                        {cartPreviewItems.map((item) => (
                           <div key={item.id} className="cart-preview-item">
                             <div className="cart-preview-item-image">
-                              <img src={item.image} alt={item.name} width="60" height="60" />
+                              <img 
+                                src={item.image} 
+                                alt={item.name} 
+                                width="60" 
+                                height="60" 
+                                loading="lazy"
+                              />
                             </div>
                             <div className="cart-preview-item-info">
                               <h5>{item.name}</h5>
@@ -589,6 +628,7 @@ export default function Navbar() {
                               className="cart-preview-remove"
                               onClick={(e) => handleRemoveFromCart(e, item.id)}
                               aria-label={`${item.name} ürününü kaldır`}
+                              disabled={!item.inStock}
                             >
                               <X className="remove-icon" />
                             </button>
@@ -676,7 +716,7 @@ export default function Navbar() {
                     searchResults.map((product) => (
                       <Link
                         key={product.id}
-                        to={`/product/${product.id}`}
+                        to={`/product/${product.slug || product.id}`}
                         className="nav-mobile-search-result-item"
                         onClick={handleSearchItemClick}
                         role="option"

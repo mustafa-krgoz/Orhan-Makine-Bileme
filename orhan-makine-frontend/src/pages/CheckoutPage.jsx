@@ -219,20 +219,6 @@ const CheckoutPage = () => {
                     <FaShieldAlt />
                     <span>Havale / EFT</span>
                   </label>
-
-                  <label className="payment-method">
-                    <input
-                      type="radio"
-                      name="payment"
-                      value="cashOnDelivery"
-                      checked={formData.paymentMethod === "cashOnDelivery"}
-                      onChange={(e) =>
-                        setFormData({ ...formData, paymentMethod: e.target.value })
-                      }
-                    />
-                    <FaTruck />
-                    <span>Kapıda Ödeme</span>
-                  </label>
                 </div>
 
                 {/* -------------------------------------------------

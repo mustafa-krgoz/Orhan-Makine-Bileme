@@ -1,4 +1,3 @@
-// src/pages/FavoritesPage.jsx
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -6,12 +5,14 @@ import { Link } from "react-router-dom";
 import OptimizedImage from "../components/OptimizedImage";
 
 import { useFavorites } from "../context/FavoritesContext";
-import { ShoppingCart, Heart, Trash2, Eye } from "lucide-react";
+import { useCart } from "../context/CartContext"; // CartContext'i import et
+import { ShoppingCart, Heart, Trash2, Eye, Check } from "lucide-react";
 
 import "../styles/FavoritesPage.css";
 
 export default function FavoritesPage() {
   const { favorites, toggleFavorite, favoritesCount } = useFavorites();
+  const { addToCart, cartItems } = useCart(); // CartContext'i kullan
 
   // Fiyat formatlama fonksiyonu (TRL uyumlu)
   const formatPrice = (price) =>
@@ -24,18 +25,97 @@ export default function FavoritesPage() {
   const calculateDiscount = (original, current) =>
     Math.round(((original - current) / original) * 100);
 
-  // Sepete ekleme click'ini durdurma
+  // Sepete ekleme fonksiyonu - GERÇEK SEPET CONTEXT'İ KULLAN
   const handleAddToCart = (product, e) => {
     e.preventDefault();
     e.stopPropagation();
-    alert(`${product.name} sepete eklendi!`);
+    
+    // Sepete ekle
+    addToCart(product, 1);
+    
+    // Başarı mesajı (isteğe bağlı)
+    showToastMessage(`${product.name} sepete eklendi!`);
   };
+
+  // Toast mesajı gösterme (isteğe bağlı)
+  const showToastMessage = (message) => {
+    // Basit bir toast mesajı oluştur
+    const toast = document.createElement('div');
+    toast.className = 'cart-toast-message';
+    toast.innerHTML = `
+      <div class="toast-content">
+        <Check size={18} />
+        <span>${message}</span>
+      </div>
+    `;
+    toast.style.cssText = `
+      position: fixed;
+      top: 100px;
+      right: 20px;
+      background: #10b981;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 9999;
+      animation: slideIn 0.3s ease-out;
+    `;
+    
+    document.body.appendChild(toast);
+    
+    // 3 saniye sonra kaldır
+    setTimeout(() => {
+      toast.style.animation = 'slideOut 0.3s ease-out';
+      setTimeout(() => {
+        if (toast.parentNode) {
+          document.body.removeChild(toast);
+        }
+      }, 300);
+    }, 3000);
+  };
+
+  // CSS animasyonları ekle (sayfa yüklendiğinde)
+  React.useEffect(() => {
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes slideIn {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+      @keyframes slideOut {
+        from {
+          transform: translateX(0);
+          opacity: 1;
+        }
+        to {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+    
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
 
   // Favoriden kaldırma click'ini durdurma
   const handleRemoveFavorite = (productId, e) => {
     e.preventDefault();
     e.stopPropagation();
     toggleFavorite(productId);
+  };
+
+  // Ürünün sepette olup olmadığını kontrol et
+  const isProductInCart = (productId) => {
+    return cartItems.some(item => item.id === productId);
   };
 
   return (
@@ -84,114 +164,127 @@ export default function FavoritesPage() {
                 Lazy loading + WebP + SEO-friendly alt text
             ----------------------------------------------------------- */}
             <div className="favorites-grid">
-              {favorites.map((product) => (
-                <article
-                  key={product.id}
-                  className="favorite-card"
-                  aria-label={`${product.name} favori ürün kartı`}
-                >
-                  {/* ------------------------------
-                      ÜRÜN RESMİ + BADGELER
-                  ------------------------------- */}
-                  <div className="favorite-image-container">
+              {favorites.map((product) => {
+                const inCart = isProductInCart(product.id);
+                
+                return (
+                  <article
+                    key={product.id}
+                    className="favorite-card"
+                    aria-label={`${product.name} favori ürün kartı`}
+                  >
+                    {/* ------------------------------
+                        ÜRÜN RESMİ + BADGELER
+                    ------------------------------- */}
+                    <div className="favorite-image-container">
 
-                    {/* WebP destekli lazy load optimize bileşeni */}
-                    <OptimizedImage
-                      src={product.image}
-                      alt={`${product.name} ürün resmi`}
-                      className="favorite-image"
-                      loading="lazy"
-                      onError={(e) => {
-                        e.target.src = "/images/default-product.png";
-                      }}
-                    />
+                      {/* WebP destekli lazy load optimize bileşeni */}
+                      <OptimizedImage
+                        src={product.image}
+                        alt={`${product.name} ürün resmi`}
+                        className="favorite-image"
+                        loading="lazy"
+                        onError={(e) => {
+                          e.target.src = "/images/default-product.png";
+                        }}
+                      />
 
-                    <div className="favorite-badges">
-                      {product.isNew && <span className="badge new">YENİ</span>}
+                      <div className="favorite-badges">
+                        {product.isNew && <span className="badge new">YENİ</span>}
 
-                      {product.originalPrice &&
-                        product.price < product.originalPrice && (
-                          <span className="badge discount">
-                            %{calculateDiscount(
-                              product.originalPrice,
-                              product.price
-                            )}
-                          </span>
-                        )}
+                        {product.originalPrice &&
+                          product.price < product.originalPrice && (
+                            <span className="badge discount">
+                              %{calculateDiscount(
+                                product.originalPrice,
+                                product.price
+                              )}
+                            </span>
+                          )}
+                      </div>
+
+                      {/* Favoriden kaldırma */}
+                      <button
+                        className="remove-fav-btn-icon"
+                        onClick={(e) => handleRemoveFavorite(product.id, e)}
+                        aria-label="Favorilerden kaldır"
+                      >
+                        <Trash2 size={18} />
+                      </button>
                     </div>
 
-                    {/* Favoriden kaldırma */}
-                    <button
-                      className="remove-fav-btn-icon"
-                      onClick={(e) => handleRemoveFavorite(product.id, e)}
-                      aria-label="Favorilerden kaldır"
-                    >
-                      <Trash2 size={18} />
-                    </button>
-                  </div>
+                    {/* ------------------------------
+                        ÜRÜN BİLGİLERİ
+                    ------------------------------- */}
+                    <div className="favorite-info">
+                      
+                      <div className="product-brand">{product.brand}</div>
 
-                  {/* ------------------------------
-                      ÜRÜN BİLGİLERİ
-                  ------------------------------- */}
-                  <div className="favorite-info">
-                    
-                    <div className="product-brand">{product.brand}</div>
+                      <h3 className="product-name">
+                        <Link to={`/product/${product.id}`}>
+                          {product.name}
+                        </Link>
+                      </h3>
 
-                    <h3 className="product-name">
-                      <Link to={`/product/${product.id}`}>
-                        {product.name}
-                      </Link>
-                    </h3>
+                      {/* Fiyat Bilgisi */}
+                      <div className="product-pricing">
+                        {product.originalPrice &&
+                          product.price < product.originalPrice && (
+                            <div className="original-price">
+                              {formatPrice(product.originalPrice)} TL
+                            </div>
+                          )}
+                        <div className="current-price">
+                          {formatPrice(product.price)} TL
+                        </div>
+                      </div>
 
-                    {/* Fiyat Bilgisi */}
-                    <div className="product-pricing">
-                      {product.originalPrice &&
-                        product.price < product.originalPrice && (
-                          <div className="original-price">
-                            {formatPrice(product.originalPrice)} TL
-                          </div>
-                        )}
-                      <div className="current-price">
-                        {formatPrice(product.price)} TL
+                      {/* Stok durumu */}
+                      <div className="product-stock">
+                        <span
+                          className={`stock-status ${
+                            product.inStock ? "in-stock" : "out-of-stock"
+                          }`}
+                        >
+                          {product.inStock ? "✓ Stokta" : "Stokta Yok"}
+                        </span>
                       </div>
                     </div>
 
-                    {/* Stok durumu */}
-                    <div className="product-stock">
-                      <span
-                        className={`stock-status ${
-                          product.inStock ? "in-stock" : "out-of-stock"
-                        }`}
+                    {/* ------------------------------
+                        SEPET VE DETAY BUTONLARI
+                    ------------------------------- */}
+                    <div className="favorite-actions">
+                      <button
+                        className={`btn-add-to-cart ${inCart ? 'in-cart' : ''}`}
+                        onClick={(e) => handleAddToCart(product, e)}
+                        disabled={!product.inStock || inCart}
                       >
-                        {product.inStock ? "✓ Stokta" : "Stokta Yok"}
-                      </span>
+                        {inCart ? (
+                          <>
+                            <Check size={18} />
+                            <span>Sepete Eklendi</span>
+                          </>
+                        ) : (
+                          <>
+                            <ShoppingCart size={18} />
+                            <span>Sepete Ekle</span>
+                          </>
+                        )}
+                      </button>
+
+                      <Link
+                        to={`/product/${product.id}`}
+                        className="btn-view-details"
+                        aria-label={`${product.name} detaylarını görüntüle`}
+                      >
+                        <Eye size={18} />
+                        <span>Detaylar</span>
+                      </Link>
                     </div>
-                  </div>
-
-                  {/* ------------------------------
-                      SEPET VE DETAY BUTONLARI
-                  ------------------------------- */}
-                  <div className="favorite-actions">
-                    <button
-                      className="btn-add-to-cart"
-                      onClick={(e) => handleAddToCart(product, e)}
-                      disabled={!product.inStock}
-                    >
-                      <ShoppingCart size={18} />
-                      <span>Sepete Ekle</span>
-                    </button>
-
-                    <Link
-                      to={`/product/${product.id}`}
-                      className="btn-view-details"
-                      aria-label={`${product.name} detaylarını görüntüle`}
-                    >
-                      <Eye size={18} />
-                      <span>Detaylar</span>
-                    </Link>
-                  </div>
-                </article>
-              ))}
+                  </article>
+                );
+              })}
             </div>
 
             {/* ------------------------------
