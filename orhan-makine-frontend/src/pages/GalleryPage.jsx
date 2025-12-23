@@ -6,6 +6,7 @@
 // 3. "Yeni" badge kaldırıldı
 // 4. İletişim linki ürünler sayfasına yönlendirildi
 // 5. SEO, PWA ve responsive optimizasyonları yapıldı
+// 6. TÜM CSS CLASS'LARI gallery- PREFIX İLE GÜNCELLENDİ
 // ============================================
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
@@ -212,7 +213,7 @@ const GalleryPage = () => {
   // RESİM YÜKLEME VE OPTİMİZASYON
   // ============================================
   const handleImageLoad = (e) => {
-    e.target.classList.add('loaded');
+    e.target.classList.add('gallery-loaded');
   };
 
   const handleImageError = (e) => {
@@ -225,9 +226,7 @@ const GalleryPage = () => {
   return (
     <div className="gallery-page">
       
-      {/* ============================================
-          BREADCRUMB (Minimal)
-          ============================================ */}
+      {/* BREADCRUMB (Minimal) */}
       <nav className="gallery-breadcrumb" aria-label="Breadcrumb">
         <div className="gallery-breadcrumb-container">
           <Link to="/" className="gallery-breadcrumb-link">
@@ -242,9 +241,7 @@ const GalleryPage = () => {
         </div>
       </nav>
 
-      {/* ============================================
-          PAGE HEADER (Güncellenmiş - Arama geniş, filtre dengeli)
-          ============================================ */}
+      {/* PAGE HEADER */}
       <header className="gallery-header">
         <div className="gallery-header-container">
           
@@ -300,9 +297,7 @@ const GalleryPage = () => {
         </div>
       </header>
 
-      {/* ============================================
-          FİLTRELER PANEL
-          ============================================ */}
+      {/* FİLTRELER PANEL */}
       {showFilters && (
         <div className="gallery-filters-panel" aria-label="Filtre seçenekleri">
           <div className="gallery-filters-content">
@@ -317,7 +312,7 @@ const GalleryPage = () => {
                 {categories.map(category => (
                   <button
                     key={category}
-                    className={`gallery-filter-option ${selectedCategory === category ? 'active' : ''}`}
+                    className={`gallery-filter-option ${selectedCategory === category ? 'gallery-active' : ''}`}
                     onClick={() => setSelectedCategory(category)}
                     aria-pressed={selectedCategory === category}
                   >
@@ -338,7 +333,7 @@ const GalleryPage = () => {
                 {brands.map(brand => (
                   <button
                     key={brand}
-                    className={`gallery-filter-option ${selectedBrand === brand ? 'active' : ''}`}
+                    className={`gallery-filter-option ${selectedBrand === brand ? 'gallery-active' : ''}`}
                     onClick={() => setSelectedBrand(brand)}
                     aria-pressed={selectedBrand === brand}
                   >
@@ -353,7 +348,7 @@ const GalleryPage = () => {
             <div className="gallery-filter-actions">
               <div className="gallery-active-filters">
                 {selectedCategory !== 'all' && (
-                  <span className="active-filter">
+                  <span className="gallery-active-filter">
                     Kategori: {selectedCategory}
                     <button onClick={() => setSelectedCategory('all')}>
                       <X size={12} />
@@ -361,7 +356,7 @@ const GalleryPage = () => {
                   </span>
                 )}
                 {selectedBrand !== 'all' && (
-                  <span className="active-filter">
+                  <span className="gallery-active-filter">
                     Marka: {selectedBrand}
                     <button onClick={() => setSelectedBrand('all')}>
                       <X size={12} />
@@ -387,9 +382,7 @@ const GalleryPage = () => {
         </div>
       )}
 
-      {/* ============================================
-          ANA GALERİ
-          ============================================ */}
+      {/* ANA GALERİ */}
       <main className="gallery-main" id="main-content">
         
         {/* Sonuç Bilgisi */}
@@ -466,7 +459,7 @@ const GalleryPage = () => {
                       {/* Paylaşım Menüsü */}
                       {showShareMenu === product.id && (
                         <div className="gallery-share-menu">
-                          <div className="share-menu-header">
+                          <div className="gallery-share-menu-header">
                             <span>Paylaş</span>
                             <button 
                               onClick={() => setShowShareMenu(null)}
@@ -476,9 +469,9 @@ const GalleryPage = () => {
                             </button>
                           </div>
                           
-                          <div className="share-options">
+                          <div className="gallery-share-options">
                             <button 
-                              className="share-option"
+                              className="gallery-share-option"
                               onClick={() => handleShare(product, 'whatsapp')}
                               aria-label="WhatsApp'ta paylaş"
                             >
@@ -487,7 +480,7 @@ const GalleryPage = () => {
                             </button>
                             
                             <button 
-                              className="share-option"
+                              className="gallery-share-option"
                               onClick={() => handleShare(product, 'facebook')}
                               aria-label="Facebook'ta paylaş"
                             >
@@ -496,7 +489,7 @@ const GalleryPage = () => {
                             </button>
                             
                             <button 
-                              className="share-option"
+                              className="gallery-share-option"
                               onClick={() => handleShare(product, 'email')}
                               aria-label="E-posta ile paylaş"
                             >
@@ -505,7 +498,7 @@ const GalleryPage = () => {
                             </button>
                             
                             <button 
-                              className="share-option"
+                              className="gallery-share-option"
                               onClick={() => handleShare(product, 'copy')}
                               aria-label="Linki kopyala"
                             >
@@ -517,8 +510,6 @@ const GalleryPage = () => {
                       )}
                     </div>
                   </div>
-                  
-                  {/* YENİ ÜRÜN BADGE KALDIRILDI */}
                 </div>
                 
                 {/* Ürün Bilgileri */}
@@ -544,9 +535,7 @@ const GalleryPage = () => {
         </div>
       </main>
 
-      {/* ============================================
-          LIGHTBOX MODAL
-          ============================================ */}
+      {/* LIGHTBOX MODAL */}
       {selectedImage && (
         <div 
           className="gallery-lightbox"
@@ -569,7 +558,7 @@ const GalleryPage = () => {
             
             {/* Navigasyon */}
             <button 
-              className="gallery-lightbox-nav prev"
+              className="gallery-lightbox-nav gallery-prev"
               onClick={() => navigateLightbox('prev')}
               aria-label="Önceki ürün"
             >
@@ -577,7 +566,7 @@ const GalleryPage = () => {
             </button>
             
             <button 
-              className="gallery-lightbox-nav next"
+              className="gallery-lightbox-nav gallery-next"
               onClick={() => navigateLightbox('next')}
               aria-label="Sonraki ürün"
             >
@@ -617,28 +606,28 @@ const GalleryPage = () => {
                 <button 
                   onClick={() => handleShare(selectedImage, 'whatsapp')}
                   aria-label="WhatsApp'ta paylaş"
-                  className="lightbox-share-btn"
+                  className="gallery-lightbox-share-btn"
                 >
                   <MessageCircle size={18} />
                 </button>
                 <button 
                   onClick={() => handleShare(selectedImage, 'facebook')}
                   aria-label="Facebook'ta paylaş"
-                  className="lightbox-share-btn"
+                  className="gallery-lightbox-share-btn"
                 >
                   <Facebook size={18} />
                 </button>
                 <button 
                   onClick={() => handleShare(selectedImage, 'email')}
                   aria-label="E-posta ile paylaş"
-                  className="lightbox-share-btn"
+                  className="gallery-lightbox-share-btn"
                 >
                   <Mail size={18} />
                 </button>
                 <button 
                   onClick={() => handleShare(selectedImage, 'copy')}
                   aria-label="Linki kopyala"
-                  className="lightbox-share-btn"
+                  className="gallery-lightbox-share-btn"
                 >
                   {copied ? <Check size={18} /> : <Copy size={18} />}
                 </button>
@@ -650,7 +639,7 @@ const GalleryPage = () => {
               {filteredProducts.map(product => (
                 <button
                   key={product.id}
-                  className={`gallery-lightbox-thumb ${selectedImage.id === product.id ? 'active' : ''}`}
+                  className={`gallery-lightbox-thumb ${selectedImage.id === product.id ? 'gallery-active' : ''}`}
                   onClick={() => setSelectedImage(product)}
                   aria-label={`${product.name} görseline git`}
                 >
@@ -662,23 +651,21 @@ const GalleryPage = () => {
         </div>
       )}
 
-      {/* ============================================
-          GALERİ FOOTER (Güncellenmiş)
-          ============================================ */}
+      {/* GALERİ FOOTER */}
       <footer className="gallery-footer">
         <div className="gallery-footer-container">
           <div className="gallery-footer-stats">
-            <div className="footer-stat">
-              <span className="stat-number">{productsData.length}</span>
-              <span className="stat-label">Toplam Ürün</span>
+            <div className="gallery-footer-stat">
+              <span className="gallery-stat-number">{productsData.length}</span>
+              <span className="gallery-stat-label">Toplam Ürün</span>
             </div>
-            <div className="footer-stat">
-              <span className="stat-number">{brands.length - 1}</span>
-              <span className="stat-label">Marka</span>
+            <div className="gallery-footer-stat">
+              <span className="gallery-stat-number">{brands.length - 1}</span>
+              <span className="gallery-stat-label">Marka</span>
             </div>
-            <div className="footer-stat">
-              <span className="stat-number">{categories.length - 1}</span>
-              <span className="stat-label">Kategori</span>
+            <div className="gallery-footer-stat">
+              <span className="gallery-stat-number">{categories.length - 1}</span>
+              <span className="gallery-stat-label">Kategori</span>
             </div>
           </div>
           

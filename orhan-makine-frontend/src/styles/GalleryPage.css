@@ -5,6 +5,7 @@
    2. Arama kutusu sola doğru uzatıldı
    3. "Yeni" badge CSS'den kaldırıldı
    4. Responsive, SEO & PWA uyumlu
+   5. TÜM CLASS'LARA gallery- PREFIX EKLENDİ
    ============================================ */
 
 /* ============================================
@@ -12,7 +13,7 @@
    ============================================ */
    :root {
     /* ANA RENK PALETİ - Ürün arka planı #5ba3f7 */
-    --gallery-product-bg: #5ba3f7; /* ÜRÜN ARKA PLAN RENGİ DEĞİŞTİRİLDİ */
+    --gallery-product-bg: #5ba3f7;
     --gallery-primary: #2b8df5;
     --gallery-primary-light: #5ba3f7;
     --gallery-primary-lighter: #8abbf9;
@@ -145,7 +146,7 @@
   }
   
   /* ============================================
-     PAGE HEADER - GÜNCELLENDİ (Arama geniş, filtre dengeli)
+     PAGE HEADER - GÜNCELLENDİ
      ============================================ */
   .gallery-header {
     background: var(--gallery-white);
@@ -212,15 +213,15 @@
     display: flex;
     align-items: flex-start;
     gap: 16px;
-    flex: 1; /* Flex değeri eklendi */
+    flex: 1;
     min-width: 0;
-    max-width: 800px; /* Maksimum genişlik arttırıldı */
+    max-width: 800px;
   }
   
   /* Arama Kutusu - SOLA DOĞRU UZATILDI */
   .gallery-search {
     position: relative;
-    flex: 1; /* Flex değeri eklendi - boş alanı dolduracak */
+    flex: 1;
     min-width: 0;
   }
   
@@ -293,7 +294,7 @@
     cursor: pointer;
     transition: var(--gallery-transition);
     white-space: nowrap;
-    flex-shrink: 0; /* Butonun küçülmesini engelle */
+    flex-shrink: 0;
   }
   
   .gallery-filter-btn:hover {
@@ -314,10 +315,10 @@
     max-width: var(--gallery-max-width);
     margin: 0 auto;
     padding: 0 var(--gallery-container-padding) 24px;
-    animation: slideDown 0.2s ease;
+    animation: gallery-slideDown 0.2s ease;
   }
   
-  @keyframes slideDown {
+  @keyframes gallery-slideDown {
     from {
       opacity: 0;
       transform: translateY(-10px);
@@ -381,7 +382,7 @@
     transform: translateY(-1px);
   }
   
-  .gallery-filter-option.active {
+  .gallery-filter-option.gallery-active {
     background: var(--gallery-primary-light);
     color: var(--gallery-white);
     border-color: var(--gallery-primary);
@@ -403,7 +404,7 @@
     flex-wrap: wrap;
   }
   
-  .active-filter {
+  .gallery-active-filter {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -416,7 +417,7 @@
     font-weight: 500;
   }
   
-  .active-filter button {
+  .gallery-active-filter button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -429,7 +430,7 @@
     transition: var(--gallery-transition-fast);
   }
   
-  .active-filter button:hover {
+  .gallery-active-filter button:hover {
     background: var(--gallery-primary-light);
     color: var(--gallery-white);
   }
@@ -491,7 +492,7 @@
   }
   
   /* ============================================
-     GALERİ KARTI - GÜNCELLENDİ (POPÜLER ÜRÜNLER GİBİ)
+     GALERİ KARTI - GÜNCELLENDİ
      ============================================ */
   .gallery-card {
     background: var(--gallery-white);
@@ -515,16 +516,16 @@
   /* Görsel Alanı - SABİT BOYUT, ARKA PLAN #5ba3f7 */
   .gallery-card-image {
     position: relative;
-    height: 240px; /* SABİT YÜKSEKLİK */
-    width: 100%; /* SABİT GENİŞLİK */
+    height: 240px;
+    width: 100%;
     overflow: hidden;
-    background: var(--gallery-product-bg); /* #5ba3f7 ARKA PLAN */
+    background: var(--gallery-product-bg);
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 20px;
     border-bottom: 1px solid var(--gallery-gray-200);
-    flex-shrink: 0; /* Görsel alanının küçülmesini engelle */
+    flex-shrink: 0;
   }
   
   /* GÖRSEL - Tüm ürünler için standart boyutlandırma */
@@ -533,23 +534,23 @@
     max-height: 100%;
     width: auto;
     height: auto;
-    object-fit: contain; /* Ürün bozulmadan sığdır */
-    object-position: center; /* Ortada hizala */
+    object-fit: contain;
+    object-position: center;
     display: block;
     transition: var(--gallery-transition-slow);
     transform-origin: center;
   }
   
   .gallery-card:hover .gallery-image {
-    transform: scale(1.05); /* Hover'da hafif büyüme */
+    transform: scale(1.05);
   }
   
   /* Yükleme durumu */
-  .gallery-image.loaded {
+  .gallery-image.gallery-loaded {
     opacity: 1;
   }
   
-  .gallery-image:not(.loaded) {
+  .gallery-image:not(.gallery-loaded) {
     opacity: 0;
   }
   
@@ -620,10 +621,10 @@
     box-shadow: var(--gallery-shadow-xl);
     border: 1px solid var(--gallery-gray-200);
     z-index: 100;
-    animation: fadeInUp 0.2s ease;
+    animation: gallery-fadeInUp 0.2s ease;
   }
   
-  @keyframes fadeInUp {
+  @keyframes gallery-fadeInUp {
     from {
       opacity: 0;
       transform: translateY(10px);
@@ -634,7 +635,7 @@
     }
   }
   
-  .share-menu-header {
+  .gallery-share-menu-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -644,7 +645,7 @@
     color: var(--gallery-gray-800);
   }
   
-  .share-menu-header button {
+  .gallery-share-menu-header button {
     background: none;
     border: none;
     color: var(--gallery-gray-500);
@@ -654,16 +655,16 @@
     transition: var(--gallery-transition-fast);
   }
   
-  .share-menu-header button:hover {
+  .gallery-share-menu-header button:hover {
     background: var(--gallery-gray-100);
     color: var(--gallery-gray-700);
   }
   
-  .share-options {
+  .gallery-share-options {
     padding: 12px;
   }
   
-  .share-option {
+  .gallery-share-option {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -680,25 +681,23 @@
     text-align: left;
   }
   
-  .share-option:hover {
+  .gallery-share-option:hover {
     background: var(--gallery-gray-100);
   }
   
-  .share-option:nth-child(1):hover { color: var(--whatsapp-green); }
-  .share-option:nth-child(2):hover { color: var(--facebook-blue); }
-  .share-option:nth-child(3):hover { color: var(--email-red); }
-  .share-option:nth-child(4):hover { color: var(--copy-gray); }
+  .gallery-share-option:nth-child(1):hover { color: var(--whatsapp-green); }
+  .gallery-share-option:nth-child(2):hover { color: var(--facebook-blue); }
+  .gallery-share-option:nth-child(3):hover { color: var(--email-red); }
+  .gallery-share-option:nth-child(4):hover { color: var(--copy-gray); }
   
-  /* YENİ ÜRÜN BADGE KALDIRILDI - CSS'DEN SİLİNDİ */
-  
-  /* KART İÇERİK ALANI - EŞİT DAĞILIM (GÜNCELLENDİ) */
+  /* KART İÇERİK ALANI - EŞİT DAĞILIM */
   .gallery-card-info {
     padding: 20px;
     flex: 1;
     display: flex;
     flex-direction: column;
     gap: 12px;
-    min-height: 0; /* Flexbox overflow sorununu çöz */
+    min-height: 0;
   }
   
   .gallery-card-brand {
@@ -718,12 +717,12 @@
     margin: 0;
     line-height: 1.4;
     display: -webkit-box;
-    -webkit-line-clamp: 2; /* MAKSİMUM 2 SATIR */
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
     flex-shrink: 0;
-    min-height: 50px; /* Minimum yükseklik sabit */
+    min-height: 50px;
   }
   
   .gallery-card-category {
@@ -732,7 +731,7 @@
     gap: 8px;
     font-size: 13px;
     color: var(--gallery-gray-600);
-    margin-top: auto; /* EN ALTA İTER */
+    margin-top: auto;
     flex-shrink: 0;
   }
   
@@ -800,10 +799,10 @@
     align-items: center;
     justify-content: center;
     padding: 20px;
-    animation: fadeIn 0.2s ease;
+    animation: gallery-fadeIn 0.2s ease;
   }
   
-  @keyframes fadeIn {
+  @keyframes gallery-fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
   }
@@ -828,11 +827,11 @@
     background: var(--gallery-white);
     border-radius: var(--gallery-radius-xl);
     overflow: hidden;
-    box-shadow: var(--gallery-shadow-2xl);
-    animation: scaleIn 0.3s ease;
+    box-shadow: var(--gallery-shadow-xl);
+    animation: gallery-scaleIn 0.3s ease;
   }
   
-  @keyframes scaleIn {
+  @keyframes gallery-scaleIn {
     from {
       opacity: 0;
       transform: scale(0.95);
@@ -895,11 +894,11 @@
     transform: translateY(-50%) scale(1.1);
   }
   
-  .gallery-lightbox-nav.prev {
+  .gallery-lightbox-nav.gallery-prev {
     left: 20px;
   }
   
-  .gallery-lightbox-nav.next {
+  .gallery-lightbox-nav.gallery-next {
     right: 20px;
   }
   
@@ -907,7 +906,7 @@
   .gallery-lightbox-image-wrapper {
     height: 65vh;
     min-height: 450px;
-    background: var(--gallery-product-bg); /* #5ba3f7 */
+    background: var(--gallery-product-bg);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -918,8 +917,8 @@
   .gallery-lightbox-image {
     max-width: 100%;
     max-height: 100%;
-    object-fit: contain; /* Ürün bozulmadan sığdır */
-    object-position: center; /* Ortada hizala */
+    object-fit: contain;
+    object-position: center;
     image-rendering: -webkit-optimize-contrast;
     image-rendering: crisp-edges;
   }
@@ -968,7 +967,7 @@
     font-weight: 500;
   }
   
-  .lightbox-share-btn {
+  .gallery-lightbox-share-btn {
     width: 40px;
     height: 40px;
     background: var(--gallery-gray-100);
@@ -982,15 +981,15 @@
     color: var(--gallery-gray-600);
   }
   
-  .lightbox-share-btn:hover {
+  .gallery-lightbox-share-btn:hover {
     background: var(--gallery-gray-200);
     transform: scale(1.1);
   }
   
-  .lightbox-share-btn:nth-child(2):hover { color: var(--whatsapp-green); }
-  .lightbox-share-btn:nth-child(3):hover { color: var(--facebook-blue); }
-  .lightbox-share-btn:nth-child(4):hover { color: var(--email-red); }
-  .lightbox-share-btn:nth-child(5):hover { color: var(--copy-gray); }
+  .gallery-lightbox-share-btn:nth-child(2):hover { color: var(--whatsapp-green); }
+  .gallery-lightbox-share-btn:nth-child(3):hover { color: var(--facebook-blue); }
+  .gallery-lightbox-share-btn:nth-child(4):hover { color: var(--email-red); }
+  .gallery-lightbox-share-btn:nth-child(5):hover { color: var(--copy-gray); }
   
   /* Thumbnail'ler */
   .gallery-lightbox-thumbnails {
@@ -1035,7 +1034,7 @@
     transform: translateY(-2px);
   }
   
-  .gallery-lightbox-thumb.active {
+  .gallery-lightbox-thumb.gallery-active {
     border-color: var(--gallery-primary);
     border-width: 3px;
     box-shadow: var(--gallery-shadow-sm);
@@ -1048,7 +1047,7 @@
   }
   
   /* ============================================
-     GALERİ FOOTER - GÜNCELLENDİ (Ürünler sayfası linki)
+     GALERİ FOOTER - GÜNCELLENDİ
      ============================================ */
   .gallery-footer {
     background: var(--gallery-white);
@@ -1069,7 +1068,7 @@
     margin-bottom: 32px;
   }
   
-  .footer-stat {
+  .gallery-footer-stat {
     text-align: center;
     padding: 24px;
     background: var(--gallery-gray-50);
@@ -1078,13 +1077,13 @@
     transition: var(--gallery-transition);
   }
   
-  .footer-stat:hover {
+  .gallery-footer-stat:hover {
     transform: translateY(-4px);
     box-shadow: var(--gallery-shadow-md);
     border-color: var(--gallery-primary-light);
   }
   
-  .stat-number {
+  .gallery-stat-number {
     display: block;
     font-size: 2.5rem;
     font-weight: 800;
@@ -1093,7 +1092,7 @@
     line-height: 1;
   }
   
-  .stat-label {
+  .gallery-stat-label {
     font-size: 15px;
     font-weight: 600;
     color: var(--gallery-gray-700);
@@ -1215,11 +1214,11 @@
       height: 44px;
     }
     
-    .gallery-lightbox-nav.prev {
+    .gallery-lightbox-nav.gallery-prev {
       left: 12px;
     }
     
-    .gallery-lightbox-nav.next {
+    .gallery-lightbox-nav.gallery-next {
       right: 12px;
     }
     
@@ -1297,11 +1296,11 @@
       gap: 16px;
     }
     
-    .footer-stat {
+    .gallery-footer-stat {
       padding: 20px;
     }
     
-    .stat-number {
+    .gallery-stat-number {
       font-size: 2rem;
     }
   }
@@ -1331,7 +1330,7 @@
       width: 180px;
     }
     
-    .share-option {
+    .gallery-share-option {
       padding: 10px 14px;
       font-size: 13px;
     }
@@ -1350,8 +1349,8 @@
     
     .gallery-filter-btn,
     .gallery-filter-option,
-    .share-option,
-    .lightbox-share-btn {
+    .gallery-share-option,
+    .gallery-lightbox-share-btn {
       min-height: 44px;
     }
     
@@ -1377,7 +1376,7 @@
     .gallery-card,
     .gallery-image,
     .gallery-lightbox-container,
-    .footer-stat {
+    .gallery-footer-stat {
       transition: none;
       transform: none !important;
     }
