@@ -281,6 +281,14 @@ export default function Navbar() {
   }, []);
 
   // =====================================================
+  // ÜRÜN DETAY SAYFASI YÖNLENDİRME FONKSİYONU
+  // =====================================================
+  const getProductDetailPath = useCallback((product) => {
+    // Product.id kullanarak yönlendirme yap
+    return `/product/${product.id}`;
+  }, []);
+
+  // =====================================================
   // CLEANUP EFFECT
   // =====================================================
   useEffect(() => {
@@ -465,7 +473,7 @@ export default function Navbar() {
                       {searchResults.map((product) => (
                         <Link
                           key={product.id}
-                          to={`/product/${product.slug || product.id}`}
+                          to={getProductDetailPath(product)} // DÜZELTİLDİ: doğru yönlendirme
                           className="nav-search-result-item"
                           onClick={handleSearchItemClick}
                           role="option"
@@ -716,7 +724,7 @@ export default function Navbar() {
                     searchResults.map((product) => (
                       <Link
                         key={product.id}
-                        to={`/product/${product.slug || product.id}`}
+                        to={getProductDetailPath(product)} // DÜZELTİLDİ: doğru yönlendirme
                         className="nav-mobile-search-result-item"
                         onClick={handleSearchItemClick}
                         role="option"
