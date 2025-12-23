@@ -1,7 +1,7 @@
 // ============================================
 // HAKKIMIZDA SAYFASI - ORHAN MAKİNE BİLEME
-// Güncellenmiş Sürüm: Çözümler ve Sektörler kaldırıldı
-// SEO, PWA, Responsive ve Performans Optimizasyonlu
+// Performance Optimized: Eager Loading, SEO, PWA
+// Lighthouse Score: 95+ Target
 // ============================================
 
 import React, { useState, useEffect } from "react";
@@ -20,14 +20,18 @@ import { brandsData, brandCategories } from '../data/brandsData';
 import OptimizedImage from "../components/OptimizedImage";
 import '../styles/AboutPage.css';
 
-// TreePine özel ikonu - marka kategorileri için
+// ============================================
+// ÖZEL İKONLAR
+// ============================================
 const TreePine = (props) => (
   <svg {...props} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
     <path d="M13 16L12 21M11 16L12 21M12 16V21M9 8L7 13M15 8L17 13M12 3L9 8H15L12 3Z" />
   </svg>
 );
 
-// İkon mapping fonksiyonu - markalar için uygun ikonlar
+// ============================================
+// İKON MAPPING FONKSİYONU
+// ============================================
 const getIconComponent = (iconName, size = 24) => {
   const iconMap = {
     'Wrench': <Wrench size={size} />,
@@ -57,7 +61,7 @@ const AboutPage = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   // ============================================
-  // MARKALARIMIZ — yönlendirme (#brands) için hash kontrolü
+  // HASH NAVIGATION - Markalar bölümü için
   // ============================================
   useEffect(() => {
     if (window.location.hash === "#brands") {
@@ -73,65 +77,76 @@ const AboutPage = () => {
   }, []);
 
   // ============================================
-  // BİNA GÖRSELLERİ - Firma görselleri galerisi
-  // SEO: Her görsel için açıklayıcı alt text ve title
+  // BİNA GÖRSELLERİ - Performance Optimized
+  // İlk görsel: eager loading (LCP için)
+  // Diğer görseller: lazy loading
   // ============================================
   const buildingImages = [
     {
       src: '/images/joblocations/bina4.webp',
       alt: 'Orhan Makine Bileme Satış ve Servis Bölümü görseli',
-      title: 'Satış ve Servis Bölümü'
+      title: 'Satış ve Servis Bölümü',
+      loading: 'eager', // İlk görsel eager
+      fetchpriority: 'high' // LCP için yüksek öncelik
     },
     {
       src: '/images/joblocations/bina3.webp',
       alt: 'Orhan Makine Bileme satış bölümü ikinci görsel',
-      title: 'Satış Bölümü'
+      title: 'Satış Bölümü',
+      loading: 'lazy'
     },
     {
       src: '/images/joblocations/bina1.webp',
       alt: 'Orhan Makine ofis ve yönetim birimi',
-      title: 'Ofis ve Yönetim'
+      title: 'Ofis ve Yönetim',
+      loading: 'lazy'
     },
     {
       src: '/images/joblocations/bina2.webp',
       alt: 'Orhan Makine yönetim ofisi ikinci görsel',
-      title: 'Yönetim Ofisi'
+      title: 'Yönetim Ofisi',
+      loading: 'lazy'
     },
     {
       src: '/images/joblocations/bina5.webp',
       alt: 'Orhan Makine ürün stok alanı',
-      title: 'Ürün Stok Alanı'
+      title: 'Ürün Stok Alanı',
+      loading: 'lazy'
     },
     {
       src: '/images/joblocations/bina6.webp',
       alt: 'Orhan Makine makine sergi alanı',
-      title: 'Makine Sergi Alanı'
+      title: 'Makine Sergi Alanı',
+      loading: 'lazy'
     },
     {
       src: '/images/joblocations/bina7.webp',
       alt: 'Orhan Makine teknik ekipman stok alanı',
-      title: 'Teknik Ekipman Stoku'
+      title: 'Teknik Ekipman Stoku',
+      loading: 'lazy'
     },
     {
       src: '/images/joblocations/bina8.webp',
       alt: 'Orhan Makine ürün depoları',
-      title: 'Ürün Depoları'
+      title: 'Ürün Depoları',
+      loading: 'lazy'
     },
     {
       src: '/images/joblocations/bina9.webp',
       alt: 'Orhan Makine yedek parça stok alanı',
-      title: 'Yedek Parça Stoku'
+      title: 'Yedek Parça Stoku',
+      loading: 'lazy'
     },
     {
       src: '/images/joblocations/bina10.webp',
       alt: 'Orhan Makine genel görünüm',
-      title: 'Firma Genel Görünüm'
+      title: 'Firma Genel Görünüm',
+      loading: 'lazy'
     }
   ];
 
   // ============================================
-  // GÖRSEL GALERİ FONKSİYONLARI
-  // Accessibility: Klavye navigasyonu için button elementleri
+  // GALERİ NAVİGASYON
   // ============================================
   const handlePrevImage = () => {
     setCurrentImageIndex((prev) => 
@@ -147,22 +162,21 @@ const AboutPage = () => {
 
   // ============================================
   // SEO VE META AYARLARI
-  // Performance: useEffect ile dinamik title ve meta tag güncellemesi
-  // SEO: JSON-LD structured data eklenmesi
+  // Performance: useEffect cleanup ile memory leak önleme
   // ============================================
-  React.useEffect(() => {
-    // Sayfa başlığı - SEO için optimize edilmiş
+  useEffect(() => {
+    // Sayfa başlığı
     document.title = 'Orhan Makine Hakkımızda | 40 Yıllık Makine Bileme Tecrübesi';
     
-    // Meta açıklama - SEO için optimize edilmiş
+    // Meta açıklama
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute('content', 
-        'Orhan Makine- 40 yılı aşkın tecrübemizle mobilya ve endüstriyel sektöre kaliteli makine satışı, bileme hizmeti ve teknik destek. Elazığ merkezli makine distribütörü.'
+        'Orhan Makine - 40 yılı aşkın tecrübemizle mobilya ve endüstriyel sektöre kaliteli makine satışı, bileme hizmeti ve teknik destek. Elazığ merkezli makine distribütörü.'
       );
     }
     
-    // PWA: Viewport meta tag kontrolü
+    // Viewport meta
     let viewportMeta = document.querySelector('meta[name="viewport"]');
     if (!viewportMeta) {
       viewportMeta = document.createElement('meta');
@@ -171,7 +185,7 @@ const AboutPage = () => {
       document.head.appendChild(viewportMeta);
     }
     
-    // SEO: Canonical link kontrolü
+    // Canonical link
     let canonicalLink = document.querySelector('link[rel="canonical"]');
     if (!canonicalLink) {
       canonicalLink = document.createElement('link');
@@ -180,7 +194,7 @@ const AboutPage = () => {
       document.head.appendChild(canonicalLink);
     }
     
-    // PWA: Manifest link kontrolü
+    // Manifest link
     let manifestLink = document.querySelector('link[rel="manifest"]');
     if (!manifestLink) {
       manifestLink = document.createElement('link');
@@ -189,7 +203,7 @@ const AboutPage = () => {
       document.head.appendChild(manifestLink);
     }
     
-    // SEO: Structured Data (JSON-LD) - Schema.org markup
+    // JSON-LD Structured Data
     const script = document.createElement('script');
     script.type = 'application/ld+json';
     script.text = JSON.stringify({
@@ -231,31 +245,37 @@ const AboutPage = () => {
     });
     document.head.appendChild(script);
 
-    // Performance: Preload önemli görseller
-    const preloadImages = [
-      '/images/joblocations/orhan-makine-bina.png',
-      buildingImages[0].src
+    // PERFORMANCE: Critical görselleri preload
+    const criticalImages = [
+      '/images/joblocations/orhan-makine-bina.png', // Hero image
+      buildingImages[0].src // İlk galeri görseli
     ];
     
-    preloadImages.forEach(src => {
+    const preloadLinks = criticalImages.map(src => {
       const link = document.createElement('link');
       link.rel = 'preload';
       link.as = 'image';
       link.href = src;
+      link.fetchpriority = 'high';
       document.head.appendChild(link);
+      return link;
     });
 
+    // Cleanup function
     return () => {
-      // Cleanup: Component unmount olduğunda script'i temizle
       if (document.head.contains(script)) {
         document.head.removeChild(script);
       }
+      preloadLinks.forEach(link => {
+        if (document.head.contains(link)) {
+          document.head.removeChild(link);
+        }
+      });
     };
-  }, []);
+  }, [buildingImages]);
 
   // ============================================
-  // EKİP ÜYELERİ - Personel bilgileri
-  // SEO: Her personel için açıklayıcı alt text
+  // EKİP ÜYELERİ - Performance: Eager loading için ilk 3
   // ============================================
   const teamMembers = [
     {
@@ -267,7 +287,8 @@ const AboutPage = () => {
       experience: '32+ yıl',
       description: '40 yılı aşkın sektör tecrübesi ile firmanın kurucusu ve yöneticisi. Mobilya makinaları konusunda uzman.',
       image: '/images/team/mehmet-ozcan-orhan.png',
-      alt: 'Mehmet Özcan Orhan - Orhan Makine Kurucusu'
+      alt: 'Mehmet Özcan Orhan - Orhan Makine Kurucusu',
+      loading: 'eager' // İlk görünen
     },
     {
       id: 2,
@@ -278,7 +299,8 @@ const AboutPage = () => {
       experience: '20+ yıl',
       description: 'Satış ve müşteri ilişkileri konusunda uzman. Teknik ürün bilgisi ile müşterilere en uygun çözümleri sunar.',
       image: '/images/team/hasan-esen.png',
-      alt: 'Hasan Esen - Orhan Makine Satış Müdürü'
+      alt: 'Hasan Esen - Orhan Makine Satış Müdürü',
+      loading: 'eager' // İlk görünen
     },
     {
       id: 3,
@@ -289,7 +311,8 @@ const AboutPage = () => {
       experience: '3+ yıl',
       description: 'Dijital dönüşüm ve yazılım çözümlerinden sorumlu. E-ticaret ve ERP sistemleri uzmanı.',
       image: '/images/team/halit-mustafa-karagoz.png',
-      alt: 'Halit Mustafa Karagöz - Orhan Makine Teknoloji Direktörü'
+      alt: 'Halit Mustafa Karagöz - Orhan Makine Teknoloji Direktörü',
+      loading: 'eager' // İlk görünen
     },
     {
       id: 4,
@@ -300,7 +323,8 @@ const AboutPage = () => {
       experience: '15+ yıl',
       description: 'Makine bakım, onarım ve teknik servis konularında uzman. CNC makinalarında uzmanlaşmıştır.',
       image: '/images/team/ercan-orhan.png',
-      alt: 'Ercan Orhan - Orhan Makine Teknik Servis Müdürü'
+      alt: 'Ercan Orhan - Orhan Makine Teknik Servis Müdürü',
+      loading: 'lazy'
     },
     {
       id: 5,
@@ -311,13 +335,13 @@ const AboutPage = () => {
       experience: '7+ yıl',
       description: 'Ürün geliştirme ve kalite kontrol sorumlusu. Yeni teknolojilerin takibi ve uygulanmasından sorumlu.',
       image: '/images/team/ugur.png',
-      alt: 'Alparslan Ayyıldız - Orhan Makine Ürün Uzmanı'
+      alt: 'Alparslan Ayyıldız - Orhan Makine Ürün Uzmanı',
+      loading: 'lazy'
     }
   ];
 
   // ============================================
-  // NAVIGASYON BUTONLARI - Hızlı erişim menüsü
-  // Accessibility: aria-label eklenmiş, klavye navigasyonu uyumlu
+  // NAVİGASYON BUTONLARI
   // ============================================
   const navButtons = [
     { id: 'about', label: 'Hakkımızda', icon: <Factory size={20} /> },
@@ -327,20 +351,16 @@ const AboutPage = () => {
   ];
 
   // ============================================
-  // RENDER FONKSİYONU
-  // Performance: React.memo kullanılabilir component'ler
+  // RENDER
   // ============================================
   return (
     <div className="about-page" itemScope itemType="https://schema.org/AboutPage">
       {/* ============================================
-          HERO SECTION - Ana Banner
-          SEO: H1 başlık, açıklayıcı alt text'ler
-          Performance: Eager loading for LCP image
+          HERO SECTION
           ============================================ */}
       <section className="about-hero" role="banner" aria-label="Orhan Makine tanıtım bannerı">
         <div className="about-hero-content">
           <div className="about-hero-text">
-            {/* Breadcrumb Navigasyonu - SEO için önemli */}
             <nav className="about-breadcrumb" aria-label="breadcrumb">
               <Link to="/" className="about-breadcrumb-link" aria-label="Ana sayfaya git">
                 Ana Sayfa
@@ -351,12 +371,10 @@ const AboutPage = () => {
               </span>
             </nav>
             
-            {/* Ana Başlık - H1 tag SEO için kritik */}
             <h1 className="about-hero-title" itemProp="headline">
               40 Yılı Aşkın Tecrübe ile Mobilya Sektöründe
             </h1>
             
-            {/* Açıklama - Ana sayfa açıklaması */}
             <p className="about-hero-description" itemProp="description">
               1980'den bu yana mobilya ve endüstriyel sektöre kaliteli makine satışı, 
               teknik destek, makine bileme hizmeti ve çözüm ortaklığı sunuyoruz.
@@ -364,15 +382,16 @@ const AboutPage = () => {
             </p>
           </div>
           
-          {/* Hero Görseli - LCP için eager loading */}
+          {/* HERO GÖRSELI - EAGER LOADING FOR LCP */}
           <div className="about-hero-image-container">
-          <OptimizedImage
+            <OptimizedImage
               src="/images/joblocations/orhan-makine-bina.png"
               alt="Orhan Makine Bileme işyeri binası - Elazığ merkez"
               className="about-hero-image"
               width="800"
               height="600"
               loading="eager"
+              fetchpriority="high"
               itemProp="image"
             />
             <div className="about-hero-badge" aria-label="1980'den beri hizmet veriyoruz">
@@ -384,8 +403,7 @@ const AboutPage = () => {
       </section>
 
       {/* ============================================
-          QUICK NAVIGATION - Hızlı Erişim Menüsü
-          Accessibility: ARIA labels, keyboard navigation
+          QUICK NAVIGATION
           ============================================ */}
       <nav className="about-quick-nav" aria-label="Sayfa içi navigasyon menüsü">
         <div className="about-quick-nav-container">
@@ -405,14 +423,12 @@ const AboutPage = () => {
       </nav>
 
       {/* ============================================
-          MAIN CONTENT - Ana İçerik
-          Semantik HTML: main tag, section'lar
+          MAIN CONTENT
           ============================================ */}
       <main className="about-main-content" id="main-content">
         
         {/* ============================================
             HAKKIMIZDA BÖLÜMÜ
-            SEO: H2 başlık, structured data uyumlu
             ============================================ */}
         <section 
           id="about" 
@@ -421,7 +437,6 @@ const AboutPage = () => {
           itemScope
           itemType="https://schema.org/Organization"
         >
-          {/* Bölüm Başlığı */}
           <header className="about-section-header">
             <Factory size={32} className="about-section-icon" aria-hidden="true" />
             <h2 id="about-heading" className="about-section-title" itemProp="name">
@@ -433,7 +448,6 @@ const AboutPage = () => {
           </header>
           
           <div className="about-section-content">
-            {/* Hikaye ve İstatistikler */}
             <article className="about-story">
               <div className="about-story-text">
                 <h3 className="about-story-title">
@@ -451,7 +465,6 @@ const AboutPage = () => {
                   bileme hizmeti ile yüzlerce işletmenin kesim kalitesini artırdık.
                 </p>
                 
-                {/* İstatistikler - Görsel veri sunumu */}
                 <div className="about-stats" role="region" aria-label="Firma istatistikleri">
                   <div className="about-stat">
                     <div className="about-stat-number" aria-label="40 yıldan fazla tecrübe">
@@ -480,24 +493,25 @@ const AboutPage = () => {
                 </div>
               </div>
               
-              {/* Bina Görselleri Galerisi */}
+              {/* BİNA GALERİSİ - PERFORMANCE OPTIMIZED */}
               <div className="about-building-gallery" role="region" aria-label="Firma görsel galerisi">
                 <div className="about-gallery-main">
                   <figure>
-                  <OptimizedImage
-                    src={buildingImages[currentImageIndex].src}
-                    alt={buildingImages[currentImageIndex].alt}
-                    className="about-gallery-image"
-                    width="600"
-                    height="400"
-                  />
+                    <OptimizedImage
+                      src={buildingImages[currentImageIndex].src}
+                      alt={buildingImages[currentImageIndex].alt}
+                      className="about-gallery-image"
+                      width="600"
+                      height="400"
+                      loading={buildingImages[currentImageIndex].loading}
+                      fetchpriority={buildingImages[currentImageIndex].fetchpriority}
+                    />
                     <figcaption className="about-gallery-overlay" aria-hidden="true">
                       <ImageIcon size={20} />
                       <span>{buildingImages[currentImageIndex].title}</span>
                     </figcaption>
                   </figure>
                   
-                  {/* Galeri Kontrolleri - Accessibility uyumlu */}
                   <button 
                     className="about-gallery-btn about-gallery-prev"
                     onClick={handlePrevImage}
@@ -514,7 +528,7 @@ const AboutPage = () => {
                   </button>
                 </div>
                 
-                {/* Thumbnail'ler - Keyboard navigasyonu için button */}
+                {/* THUMBNAILS - LAZY LOADING */}
                 <div className="about-gallery-thumbnails" role="tablist" aria-label="Galeri thumbnail seçimi">
                   {buildingImages.map((img, index) => (
                     <button
@@ -531,20 +545,18 @@ const AboutPage = () => {
                         alt={img.alt}
                         width="80"
                         height="60"
+                        loading="lazy"
                       />
                     </button>
                   ))}
                 </div>
               </div>
             </article>
-
-            {/* NOT: Hizmet Verdiğimiz Sektörler bölümü kaldırıldı */}
           </div>
         </section>
 
         {/* ============================================
             MİSYON & VİZYON BÖLÜMÜ
-            SEO: H2 başlık, anlamlı içerik
             ============================================ */}
         <section 
           id="mission" 
@@ -562,7 +574,6 @@ const AboutPage = () => {
           </header>
 
           <div className="about-mission-vision">
-            {/* Misyon */}
             <article className="about-mission">
               <div className="about-mission-icon" aria-hidden="true">
                 <Target size={48} />
@@ -604,7 +615,6 @@ const AboutPage = () => {
               </ul>
             </article>
 
-            {/* Vizyon */}
             <article className="about-vision">
               <div className="about-vision-icon" aria-hidden="true">
                 <Eye size={48} />
@@ -642,7 +652,6 @@ const AboutPage = () => {
             </article>
           </div>
 
-          {/* Değerlerimiz */}
           <div className="about-values" role="region" aria-label="Firma değerleri">
             <h3 className="about-values-title">
               Değerlerimiz
@@ -701,8 +710,7 @@ const AboutPage = () => {
         </section>
 
         {/* ============================================
-            EKİP BÖLÜMÜ
-            SEO: Personel bilgileri, alt text'ler
+            EKİP BÖLÜMÜ - PERFORMANCE OPTIMIZED
             ============================================ */}
         <section 
           id="team" 
@@ -737,14 +745,15 @@ const AboutPage = () => {
               >
                 <div className="about-team-image-container">
                   <div className="about-team-ellipse">
-                  <OptimizedImage
-                    src={member.image}
-                    alt={member.alt}
-                    className="about-team-image"
-                    width="200"
-                    height="200"
-                    itemProp="image"
-                  />
+                    <OptimizedImage
+                      src={member.image}
+                      alt={member.alt}
+                      className="about-team-image"
+                      width="200"
+                      height="200"
+                      loading={member.loading}
+                      itemProp="image"
+                    />
                   </div>
                   <div className="about-team-experience" aria-label={`${member.experience} tecrübe`}>
                     <Clock size={16} aria-hidden="true" />
@@ -811,8 +820,6 @@ const AboutPage = () => {
 
         {/* ============================================
             MARKALAR BÖLÜMÜ
-            SEO: Marka bilgileri, alt text'ler
-            NOT: Çözümlerimiz bölümü kaldırıldı
             ============================================ */}
         <section 
           id="brands" 
@@ -837,7 +844,6 @@ const AboutPage = () => {
             </p>
           </div>
 
-          {/* Marka Kartları - brandsData'dan çekiliyor */}
           <div className="about-brands-grid">
             {brandsData.map((brand) => (
               <article key={brand.id} className="about-brand-card">
@@ -870,7 +876,6 @@ const AboutPage = () => {
             ))}
           </div>
 
-          {/* Marka Kategorileri Özeti */}
           <div className="about-brand-categories" role="region" aria-label="Marka kategorileri">
             <h3 className="about-brand-categories-title">
               Marka Kategorilerimiz
@@ -889,9 +894,7 @@ const AboutPage = () => {
       </main>
 
       {/* ============================================
-          CTA SECTION - Çağrı-Eylem Bölümü
-          SEO: Call-to-action butonları
-          Accessibility: Açıklayıcı button text'leri
+          CTA SECTION
           ============================================ */}
       <section className="about-cta" role="region" aria-label="İletişim çağrısı">
         <div className="about-cta-content">

@@ -1,29 +1,29 @@
 /* ============================================
    ORHAN MAKİNE BİLEME - HAKKIMIZDA SAYFASI
-   Eski Açık Mavi Tema - Responsive ve SEO Uyumlu
+   Açık Mavi Tema - Responsive, SEO ve Performance Optimized
    ============================================ */
 
 /* ============================================
-   CSS DEĞİŞKENLERİ - AÇIK TEMA (ESKİ RENKLER)
+   CSS DEĞİŞKENLERİ - AÇIK TEMA
    ============================================ */
    :root {
     /* RENK PALETİ - AÇIK TEMA */
-    --about-primary: #2b8df5;          /* Ana mavi renk */
-    --about-primary-light: #5ba3f7;    /* Açık mavi */
-    --about-primary-dark: #1d6fb8;     /* Koyu mavi */
-    --about-secondary: #f0f7ff;        /* Çok açık mavi arka plan */
-    --about-white: #ffffff;            /* Beyaz */
-    --about-background: #fafbfc;       /* Sayfa arka planı - çok açık gri */
-    --about-surface: #ffffff;          /* Kart arka planları */
-    --about-text-primary: #1a202c;     /* Ana metin rengi */
-    --about-text-secondary: #4a5568;   /* İkincil metin */
-    --about-text-muted: #718096;       /* Soluk metin */
-    --about-border: #e2e8f0;           /* Kenarlıklar */
-    --about-border-light: #edf2f7;     /* Açık kenarlık */
-    --about-success: #10b981;          /* Başarı yeşili */
-    --about-warning: #f59e0b;          /* Uyarı sarısı */
-    --about-gradient-start: #2b8df5;   /* Gradient başlangıç */
-    --about-gradient-end: #5ba3f7;     /* Gradient bitiş */
+    --about-primary: #2b8df5;
+    --about-primary-light: #5ba3f7;
+    --about-primary-dark: #1d6fb8;
+    --about-secondary: #f0f7ff;
+    --about-white: #ffffff;
+    --about-background: #fafbfc;
+    --about-surface: #ffffff;
+    --about-text-primary: #1a202c;
+    --about-text-secondary: #4a5568;
+    --about-text-muted: #718096;
+    --about-border: #e2e8f0;
+    --about-border-light: #edf2f7;
+    --about-success: #10b981;
+    --about-warning: #f59e0b;
+    --about-gradient-start: #2b8df5;
+    --about-gradient-end: #5ba3f7;
     
     /* TİPOGRAFİ */
     --about-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 
@@ -38,7 +38,7 @@
     --about-radius-xl: 20px;
     --about-radius-2xl: 24px;
     
-    /* GÖLGELER - YUMUŞAK VE MODERN */
+    /* GÖLGELER */
     --about-shadow-sm: 0 1px 3px rgba(43, 141, 245, 0.06), 
                        0 1px 2px rgba(43, 141, 245, 0.03);
     --about-shadow-md: 0 4px 6px rgba(43, 141, 245, 0.08), 
@@ -49,13 +49,30 @@
                        0 10px 10px rgba(43, 141, 245, 0.04);
     --about-shadow-hover: 0 12px 20px rgba(43, 141, 245, 0.15);
     
-    /* TRANSITION - YUMUŞAK ANİMASYONLAR */
+    /* TRANSITION - GPU accelerated */
     --about-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --about-transition-fast: all 0.2s ease;
     
     /* CONTAINER */
     --about-max-width: 1200px;
     --about-container-padding: 20px;
+  }
+  
+  /* ============================================
+     PERFORMANCE OPTIMIZATION - GPU ACCELERATION
+     ============================================ */
+  .about-hero,
+  .about-stat,
+  .about-value-card,
+  .about-brand-card,
+  .about-team-card,
+  .about-gallery-image,
+  .about-cta-button {
+    /* GPU acceleration için transform ve will-change */
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
   }
   
   /* ============================================
@@ -71,7 +88,7 @@
   }
   
   /* ============================================
-     HERO SECTION - ANA BANNER
+     HERO SECTION
      ============================================ */
   .about-hero {
     background: linear-gradient(135deg, var(--about-gradient-start) 0%, var(--about-gradient-end) 100%);
@@ -81,7 +98,6 @@
     overflow: hidden;
   }
   
-  /* Hero gradient overlay efekti */
   .about-hero::before {
     content: '';
     position: absolute;
@@ -104,7 +120,7 @@
     z-index: 1;
   }
   
-  /* Breadcrumb navigasyonu */
+  /* Breadcrumb */
   .about-breadcrumb {
     display: flex;
     align-items: center;
@@ -150,7 +166,7 @@
     line-height: 1.7;
   }
   
-  /* Hero görsel container */
+  /* Hero görsel - Performance optimized */
   .about-hero-image-container {
     position: relative;
     border-radius: var(--about-radius-2xl);
@@ -168,10 +184,9 @@
   }
   
   .about-hero-image-container:hover .about-hero-image {
-    transform: scale(1.05);
+    transform: scale(1.05) translateZ(0);
   }
   
-  /* Hero badge */
   .about-hero-badge {
     position: absolute;
     bottom: 20px;
@@ -189,7 +204,7 @@
   }
   
   /* ============================================
-     QUICK NAVIGATION - HIZLI ERİŞİM MENÜSÜ
+     QUICK NAVIGATION - MOBİL RESPONSIVE
      ============================================ */
   .about-quick-nav {
     background: var(--about-white);
@@ -227,6 +242,13 @@
     white-space: nowrap;
   }
   
+  /* İkonlar her zaman görünür */
+  .about-nav-button svg {
+    flex-shrink: 0;
+    /* MOBİLDE İKONLAR GİZLENMEYECEK */
+    display: block !important;
+  }
+  
   .about-nav-button:hover {
     color: var(--about-primary);
     background: var(--about-secondary);
@@ -240,7 +262,7 @@
   }
   
   /* ============================================
-     MAIN CONTENT - ANA İÇERİK
+     MAIN CONTENT
      ============================================ */
   .about-main-content {
     max-width: var(--about-max-width);
@@ -248,7 +270,6 @@
     padding: 60px var(--about-container-padding);
   }
   
-  /* Bölüm temel stilleri */
   .about-section {
     margin-bottom: 80px;
     display: none;
@@ -258,11 +279,11 @@
   @keyframes fadeIn {
     from {
       opacity: 0;
-      transform: translateY(10px);
+      transform: translateY(10px) translateZ(0);
     }
     to {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateY(0) translateZ(0);
     }
   }
   
@@ -320,7 +341,7 @@
     margin-bottom: 20px;
   }
   
-  /* İstatistik kartları */
+  /* İstatistik kartları - Performance optimized */
   .about-stats {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -339,7 +360,7 @@
   }
   
   .about-stat:hover {
-    transform: translateY(-5px);
+    transform: translateY(-5px) translateZ(0);
     box-shadow: var(--about-shadow-hover);
     border-color: var(--about-primary);
   }
@@ -362,7 +383,7 @@
   }
   
   /* ============================================
-     BİNA GALERİSİ - YENİ EKLENEN
+     BİNA GALERİSİ - PERFORMANCE OPTIMIZED
      ============================================ */
   .about-building-gallery {
     display: flex;
@@ -379,6 +400,13 @@
     background: var(--about-white);
   }
   
+  /* Görsel yüklenene kadar placeholder */
+  .about-gallery-main figure {
+    position: relative;
+    margin: 0;
+    background: var(--about-secondary);
+  }
+  
   .about-gallery-image {
     width: 100%;
     height: 400px;
@@ -388,10 +416,9 @@
   }
   
   .about-gallery-main:hover .about-gallery-image {
-    transform: scale(1.03);
+    transform: scale(1.03) translateZ(0);
   }
   
-  /* Galeri overlay */
   .about-gallery-overlay {
     position: absolute;
     bottom: 0;
@@ -428,7 +455,7 @@
   
   .about-gallery-btn:hover {
     background: var(--about-white);
-    transform: translateY(-50%) scale(1.1);
+    transform: translateY(-50%) scale(1.1) translateZ(0);
     box-shadow: var(--about-shadow-lg);
   }
   
@@ -440,7 +467,7 @@
     right: 15px;
   }
   
-  /* Thumbnail görüntüleri */
+  /* Thumbnail - lazy loading için optimize */
   .about-gallery-thumbnails {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -454,7 +481,7 @@
     cursor: pointer;
     transition: var(--about-transition);
     padding: 0;
-    background: var(--about-white);
+    background: var(--about-secondary);
     height: 80px;
   }
   
@@ -468,7 +495,7 @@
   
   .about-gallery-thumb:hover {
     border-color: var(--about-primary);
-    transform: translateY(-2px);
+    transform: translateY(-2px) translateZ(0);
     box-shadow: var(--about-shadow-md);
   }
   
@@ -479,7 +506,7 @@
   }
   
   .about-gallery-thumb.active img {
-    transform: scale(1.05);
+    transform: scale(1.05) translateZ(0);
   }
   
   /* ============================================
@@ -504,7 +531,7 @@
   
   .about-mission:hover,
   .about-vision:hover {
-    transform: translateY(-5px);
+    transform: translateY(-5px) translateZ(0);
     box-shadow: var(--about-shadow-hover);
     border-color: var(--about-primary);
   }
@@ -598,7 +625,7 @@
   }
   
   .about-value-card:hover {
-    transform: translateY(-8px);
+    transform: translateY(-8px) translateZ(0);
     box-shadow: var(--about-shadow-hover);
     border-color: var(--about-primary);
   }
@@ -663,7 +690,7 @@
   }
   
   .about-team-card:hover {
-    transform: translateY(-8px);
+    transform: translateY(-8px) translateZ(0);
     box-shadow: var(--about-shadow-hover);
     border-color: var(--about-primary);
   }
@@ -834,7 +861,7 @@
   }
   
   .about-brand-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-5px) translateZ(0);
     box-shadow: var(--about-shadow-hover);
     border-color: var(--about-primary);
   }
@@ -900,7 +927,7 @@
     font-weight: 500;
   }
   
-  /* Marka kategorileri özeti */
+  /* Marka kategorileri */
   .about-brand-categories {
     background: var(--about-white);
     padding: 40px;
@@ -934,7 +961,7 @@
   }
   
   .about-brand-category-item:hover {
-    transform: translateY(-5px);
+    transform: translateY(-5px) translateZ(0);
     box-shadow: var(--about-shadow-md);
     background: var(--about-white);
     border-color: var(--about-primary-light);
@@ -959,7 +986,7 @@
   }
   
   /* ============================================
-     CTA SECTION - ÇAĞRI-EYLEM
+     CTA SECTION
      ============================================ */
   .about-cta {
     background: linear-gradient(135deg, var(--about-gradient-start) 0%, var(--about-gradient-end) 100%);
@@ -970,7 +997,6 @@
     overflow: hidden;
   }
   
-  /* CTA gradient overlay */
   .about-cta::before {
     content: '';
     position: absolute;
@@ -1036,7 +1062,7 @@
   
   .about-cta-primary:hover {
     background: rgba(255, 255, 255, 0.95);
-    transform: translateY(-3px);
+    transform: translateY(-3px) translateZ(0);
     box-shadow: var(--about-shadow-xl);
   }
   
@@ -1049,12 +1075,12 @@
   .about-cta-secondary:hover {
     background: rgba(255, 255, 255, 0.15);
     border-color: var(--about-white);
-    transform: translateY(-3px);
+    transform: translateY(-3px) translateZ(0);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
   }
   
   /* ============================================
-     RESPONSIVE TASARIM - TABLET & MOBİL
+     RESPONSIVE TASARIM - MOBİL İKONLAR DAHİL
      ============================================ */
   
   /* TABLET (992px ve altı) */
@@ -1099,6 +1125,18 @@
     .about-gallery-thumbnails {
       grid-template-columns: repeat(3, 1fr);
     }
+    
+    /* MOBİL NAVİGASYON - İKONLAR GÖRÜNÜR */
+    .about-nav-button {
+      padding: 18px 12px;
+      font-size: 14px;
+      gap: 8px;
+    }
+    
+    .about-nav-button svg {
+      width: 18px;
+      height: 18px;
+    }
   }
   
   /* TABLET (768px ve altı) */
@@ -1119,10 +1157,12 @@
       font-size: 1.75rem;
     }
     
+    /* NAVİGASYON - YATAY SCROLL + İKONLAR */
     .about-quick-nav-container {
       overflow-x: auto;
       padding-bottom: 10px;
       scrollbar-width: thin;
+      -webkit-overflow-scrolling: touch;
     }
     
     .about-quick-nav-container::-webkit-scrollbar {
@@ -1135,10 +1175,19 @@
     }
     
     .about-nav-button {
-      padding: 15px;
-      font-size: 14px;
+      padding: 16px 16px;
+      font-size: 13px;
       white-space: nowrap;
-      min-width: 120px;
+      min-width: 140px;
+      gap: 8px;
+    }
+    
+    /* İKONLAR TABLET'TE DE GÖRÜNÜR */
+    .about-nav-button svg {
+      display: block !important;
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
     }
     
     .about-stats,
@@ -1197,6 +1246,27 @@
       font-size: 1.75rem;
     }
     
+    /* MOBİL NAVİGASYON - KOMPAKT + İKONLAR */
+    .about-nav-button {
+      min-width: 110px;
+      padding: 14px 12px;
+      font-size: 12px;
+      gap: 6px;
+      flex-direction: column;
+    }
+    
+    .about-nav-button svg {
+      display: block !important;
+      width: 20px;
+      height: 20px;
+      margin-bottom: 4px;
+    }
+    
+    .about-nav-button span {
+      font-size: 11px;
+      text-align: center;
+    }
+    
     .about-mission,
     .about-vision,
     .about-value-card,
@@ -1236,12 +1306,6 @@
     .about-team-ellipse {
       width: 150px;
       height: 150px;
-    }
-    
-    .about-nav-button {
-      min-width: 100px;
-      padding: 12px 8px;
-      font-size: 13px;
     }
     
     .about-gallery-thumbnails {
@@ -1296,6 +1360,12 @@
     .about-gallery-thumbnails {
       grid-template-columns: repeat(2, 1fr);
     }
+    
+    /* ÇOK KÜÇÜK EKRANLAR İÇİN İKON BOYUTU */
+    .about-nav-button svg {
+      width: 18px;
+      height: 18px;
+    }
   }
   
   /* ============================================
@@ -1327,7 +1397,7 @@
     }
   }
   
-  /* Focus stilleri - klavye navigasyonu için */
+  /* Focus stilleri */
   .about-nav-button:focus-visible,
   .about-cta-button:focus-visible,
   .about-gallery-btn:focus-visible,
@@ -1337,7 +1407,7 @@
     border-radius: var(--about-radius-sm);
   }
   
-  /* Yüksek kontrast modu desteği */
+  /* Yüksek kontrast modu */
   @media (prefers-contrast: high) {
     :root {
       --about-border: #000000;
