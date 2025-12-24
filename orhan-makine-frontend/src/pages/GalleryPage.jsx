@@ -21,7 +21,7 @@ import {
   Mail, MessageCircle, Facebook,
   Copy, Check
 } from 'lucide-react';
-import { productsData } from '../data/productsData';
+import { useProducts } from '../context/ProductsContext';
 import '../styles/GalleryPage.css';
 
 const GalleryPage = () => {
@@ -37,6 +37,14 @@ const GalleryPage = () => {
   const [copied, setCopied] = useState(false);
   const navigate = useNavigate();
   const shareMenuRef = useRef(null);
+
+  // ✅ YENİ - Context'ten verileri al
+  const { 
+    products: productsData, 
+    categories, 
+    brands, 
+    loading 
+  } = useProducts();
 
   // ============================================
   // SEO AYARLARI - React Helmet YERİNE
@@ -64,20 +72,18 @@ const GalleryPage = () => {
       // Cleanup - eski başlığı geri al
       document.title = 'Orhan Makine Bileme';
     };
-  }, []);
+  }, [productsData.length]);
 
   // ============================================
-  // KATEGORİ VE MARKA LİSTELERİ
+  // KATEGORİ VE MARKA LİSTELERİ - Context'ten al
   // ============================================
-  const categories = useMemo(() => {
-    const cats = [...new Set(productsData.map(product => product.category))];
-    return ['all', ...cats];
-  }, []);
+  const galleryCategories = useMemo(() => {
+    return ['all', ...categories];
+  }, [categories]);
 
-  const brands = useMemo(() => {
-    const brnds = [...new Set(productsData.map(product => product.brand))];
-    return ['all', ...brnds];
-  }, []);
+  const galleryBrands = useMemo(() => {
+    return ['all', ...brands];
+  }, [brands]);
 
   // Kategori ikonları
   const getCategoryIcon = (category) => {
@@ -96,6 +102,9 @@ const GalleryPage = () => {
   // FİLTRELEME LOGİĞİ
   // ============================================
   const filteredProducts = useMemo(() => {
+    // ✅ Boş kontrol
+    if (!productsData || productsData.length === 0) return [];
+
     let filtered = [...productsData];
 
     // Arama filtresi
@@ -119,7 +128,7 @@ const GalleryPage = () => {
     }
 
     return filtered;
-  }, [searchQuery, selectedCategory, selectedBrand]);
+  }, [searchQuery, selectedCategory, selectedBrand, productsData]);
 
   // ============================================
   // LIGHTBOX FONKSİYONLARI
@@ -220,6 +229,90 @@ const GalleryPage = () => {
     e.target.src = '/images/placeholder.jpg';
   };
 
+  // ✅ LOADING STATE kontrolü
+  if (loading) {
+    return (
+      <div className="gallery-page">
+        <nav className="gallery-breadcrumb" aria-label="Breadcrumb">
+          <div className="gallery-breadcrumb-container">
+            <Link to="/" className="gallery-breadcrumb-link">
+              <Home size={16} />
+              <span>Ana Sayfa</span>
+            </Link>
+            <ChevronRight size={14} />
+            <span className="gallery-breadcrumb-current" aria-current="page">
+              <Camera size={16} />
+              <span>Galeri</span>
+            </span>
+          </div>
+        </nav>
+
+        <header className="gallery-header">
+          <div className="gallery-header-container">
+            <div className="gallery-header-left">
+              <h1 className="gallery-title">
+                Ürün Galerimiz
+              </h1>
+              <div className="gallery-counter">
+                <span className="gallery-counter-text">Yükleniyor...</span>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <main className="gallery-main">
+          <div className="gallery-loading">
+            <div className="loading-spinner"></div>
+            <p>Galeri yükleniyor...</p>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
+  // ✅ Boş state kontrolü
+  if (!productsData || productsData.length === 0) {
+    return (
+      <div className="gallery-page">
+        <nav className="gallery-breadcrumb" aria-label="Breadcrumb">
+          <div className="gallery-breadcrumb-container">
+            <Link to="/" className="gallery-breadcrumb-link">
+              <Home size={16} />
+              <span>Ana Sayfa</span>
+            </Link>
+            <ChevronRight size={14} />
+            <span className="gallery-breadcrumb-current" aria-current="page">
+              <Camera size={16} />
+              <span>Galeri</span>
+            </span>
+          </div>
+        </nav>
+
+        <header className="gallery-header">
+          <div className="gallery-header-container">
+            <div className="gallery-header-left">
+              <h1 className="gallery-title">
+                Ürün Galerimiz
+              </h1>
+              <div className="gallery-counter">
+                <span className="gallery-counter-number">0</span>
+                <span className="gallery-counter-text">ürün</span>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <main className="gallery-main">
+          <div className="gallery-empty">
+            <Package size={48} />
+            <h3>Ürün Bulunamadı</h3>
+            <p>Henüz galeride ürün bulunmuyor.</p>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
   // ============================================
   // RENDER - GÜNCELLENMİŞ
   // ============================================
@@ -309,7 +402,7 @@ const GalleryPage = () => {
                 <span>Kategori</span>
               </h3>
               <div className="gallery-filter-options">
-                {categories.map(category => (
+                {galleryCategories.map(category => (
                   <button
                     key={category}
                     className={`gallery-filter-option ${selectedCategory === category ? 'gallery-active' : ''}`}
@@ -330,7 +423,7 @@ const GalleryPage = () => {
                 <span>Marka</span>
               </h3>
               <div className="gallery-filter-options">
-                {brands.map(brand => (
+                {galleryBrands.map(brand => (
                   <button
                     key={brand}
                     className={`gallery-filter-option ${selectedBrand === brand ? 'gallery-active' : ''}`}
@@ -660,11 +753,11 @@ const GalleryPage = () => {
               <span className="gallery-stat-label">Toplam Ürün</span>
             </div>
             <div className="gallery-footer-stat">
-              <span className="gallery-stat-number">{brands.length - 1}</span>
+              <span className="gallery-stat-number">{brands.length}</span>
               <span className="gallery-stat-label">Marka</span>
             </div>
             <div className="gallery-footer-stat">
-              <span className="gallery-stat-number">{categories.length - 1}</span>
+              <span className="gallery-stat-number">{categories.length}</span>
               <span className="gallery-stat-label">Kategori</span>
             </div>
           </div>

@@ -19,9 +19,11 @@ import {
 import { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import OptimizedImage from "../components/OptimizedImage";
-import { productsData } from "../data/productsData";
+import { useProducts } from "../context/ProductsContext"; // ✅ YENİ
 
 export default function HomePage() {
+  // ✅ TÜM HOOK'LARI EN ÜSTTE TANIMLA (conditional'dan önce)
+  const { getRandomProducts, loading } = useProducts();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -42,10 +44,9 @@ export default function HomePage() {
   // POPÜLER ÜRÜNLER
   // ===============================
   const featuredProducts = useMemo(() => {
-    return [...productsData]
-      .sort(() => Math.random() - 0.5)
-      .slice(0, 8);
-  }, []);
+    if (!getRandomProducts) return [];
+    return getRandomProducts(8);
+  }, [getRandomProducts]);
 
   // Mobilde 2'li, desktop'ta 4'lü gösterim
   const slidesToShow = isMobile ? 2 : 4;
@@ -149,7 +150,11 @@ export default function HomePage() {
     });
 
     document.head.appendChild(script);
-    return () => document.head.removeChild(script);
+    return () => {
+      if (script.parentNode) {
+        document.head.removeChild(script);
+      }
+    };
   }, []);
 
   // ===============================
@@ -171,7 +176,13 @@ export default function HomePage() {
             </p>
           </div>
 
-          {featuredProducts.length === 0 ? (
+          {/* ✅ LOADING STATE - CONDITIONAL RENDERING HOOK'LARDAN SONRA */}
+          {loading ? (
+            <div className="home-products-loading">
+              <div className="loading-spinner"></div>
+              <p>Ürünler yükleniyor...</p>
+            </div>
+          ) : featuredProducts.length === 0 ? (
             <div className="home-products-loading">
               <p>Ürünler yükleniyor...</p>
             </div>

@@ -6,7 +6,7 @@ import React, {
   useCallback, 
   useMemo 
 } from 'react';
-import { productsData } from '../data/productsData'; // productsData import ediliyor
+import { useProducts } from '../context/ProductsContext'; // ✅ YENİ - productsData yerine
 
 const CartContext = createContext();
 
@@ -22,19 +22,27 @@ export const useCart = () => {
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
   const [isInitialized, setIsInitialized] = useState(false);
+  
+  // ✅ YENİ - ProductsContext'ten verileri al
+  const { products: productsData, getProductById, loading: productsLoading } = useProducts();
 
   /* --------------------------------------------
     📌 1) SAYFA YÜKLENİNCE LocalStorage'dan oku  
   --------------------------------------------- */
   useEffect(() => {
     try {
-      const saved = localStorage.getItem("orhanmakine-cart");
+      const saved = localStorage.getItem("orhanmakina-cart");
       if (saved) {
         const parsed = JSON.parse(saved);
-        // Sadece gerekli bilgileri localStorage'dan al, diğer verileri productsData'dan tamamla
+        // productsData boşsa veya yükleniyorsa bekleyelim
+        if (productsData.length === 0 && productsLoading) {
+          console.log("Ürün verileri yükleniyor, sepette bekle...");
+          return;
+        }
+        
         const enhancedCart = parsed.map(item => {
-          // productsData'dan tam ürün bilgilerini bul
-          const fullProduct = productsData.find(p => p.id === item.id);
+          // ✅ YENİ - getProductById kullan
+          const fullProduct = getProductById(item.id);
           
           if (fullProduct) {
             return {
@@ -61,7 +69,7 @@ export const CartProvider = ({ children }) => {
     } finally {
       setIsInitialized(true);
     }
-  }, []);
+  }, [productsData, productsLoading, getProductById]);
 
   /* ---------------------------------------------------------
     📌 2) LocalStorage'a yazmayı optimize et
@@ -75,9 +83,9 @@ export const CartProvider = ({ children }) => {
         const simplifiedCart = cartItems.map(item => ({
           id: item.id,
           quantity: item.quantity,
-          // Diğer bilgiler productsData'dan yeniden yüklenecek
+          // Diğer bilgiler ProductsContext'ten yeniden yüklenecek
         }));
-        localStorage.setItem("orhanmakine-cart", JSON.stringify(simplifiedCart));
+        localStorage.setItem("orhanmakina-cart", JSON.stringify(simplifiedCart));
       } catch (error) {
         console.error("Sepet verisi kaydedilemedi:", error);
       }
@@ -87,14 +95,14 @@ export const CartProvider = ({ children }) => {
   }, [cartItems, isInitialized]);
 
   /* ---------------------------------------------------------
-    📌 3) productsData'dan ürün bilgilerini getiren yardımcı fonksiyon
+    📌 3) ProductsContext'ten ürün bilgilerini getiren yardımcı fonksiyon
   ---------------------------------------------------------- */
   const getProductFromData = useCallback((productId) => {
-    return productsData.find(product => product.id === productId);
-  }, []);
+    return getProductById(productId);
+  }, [getProductById]);
 
   /* --------------------------------------------
-     📌 ÜRÜN EKLE — productsData'dan otomatik veri al
+     📌 ÜRÜN EKLE — ProductsContext'ten otomatik veri al
   --------------------------------------------- */
   const addToCart = useCallback((productId, quantity = 1) => {
     if (!productId) {
@@ -121,7 +129,7 @@ export const CartProvider = ({ children }) => {
         };
         return updated;
       } else {
-        // Yeni ürün ekle - TÜM bilgileri productsData'dan al
+        // Yeni ürün ekle - TÜM bilgileri ProductsContext'ten al
         const newItem = {
           id: productFromData.id,
           name: productFromData.name || "İsimsiz Ürün",
@@ -200,12 +208,12 @@ export const CartProvider = ({ children }) => {
     const cartItem = cartItems.find(item => item.id === productId);
     if (!cartItem) return null;
     
-    // productsData'dan güncel bilgileri de getir
+    // ProductsContext'ten güncel bilgileri de getir
     const productFromData = getProductFromData(productId);
     
     return {
       ...cartItem,
-      // productsData'dan gelen güncel bilgilerle birleştir
+      // ProductsContext'ten gelen güncel bilgilerle birleştir
       currentPrice: productFromData?.price || cartItem.price,
       currentInStock: productFromData?.inStock !== false,
       productDetails: productFromData
@@ -255,7 +263,7 @@ export const CartProvider = ({ children }) => {
   }, [cartItems, getTotalPrice, getItemCount]);
 
   /* ---------------------------------------------------------
-    📌 ÜRÜN FİYAT KONTROLÜ - productsData'dan güncel fiyat
+    📌 ÜRÜN FİYAT KONTROLÜ - ProductsContext'ten güncel fiyat
   ---------------------------------------------------------- */
   const getCurrentProductPrice = useCallback((productId) => {
     const product = getProductFromData(productId);
@@ -332,6 +340,20 @@ export const CartProvider = ({ children }) => {
     getCurrentProductPrice,
     getProductFromData
   ]);
+
+  // ✅ Sepet yüklenene kadar loading state
+  if (!isInitialized || productsLoading) {
+    return (
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        minHeight: '100vh' 
+      }}>
+        <div>Sepet yükleniyor...</div>
+      </div>
+    );
+  }
 
   return (
     <CartContext.Provider value={value}>

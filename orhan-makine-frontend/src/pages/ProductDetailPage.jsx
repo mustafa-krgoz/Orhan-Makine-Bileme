@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useParams, Link, useLocation } from 'react-router-dom';
 import '../styles/ProductDetailPage.css';
-import { productsData } from "../data/productsData";
+import { useProducts } from "../context/ProductsContext";
 import { useFavorites } from "../context/FavoritesContext";
 import { useCart } from "../context/CartContext";
 import ShareModal from '../components/ShareModel/ShareModel';
@@ -44,9 +44,11 @@ const ProductDetailPage = () => {
   const commentFormRef = useRef(null);
 
   const { isFavorite, toggleFavorite } = useFavorites();
-  const { addToCart } = useCart(); // Sadece addToCart'ı al
+  const { addToCart } = useCart();
 
-  const product = productsData.find((p) => p.id === Number(id));
+  // ✅ YENİ - Context'ten product ve loading state'ini al
+  const { getProductById, loading } = useProducts();
+  const product = getProductById(id);
 
   const [zoomPosition, setZoomPosition] = useState({ x: 50, y: 50 });
 
@@ -72,6 +74,21 @@ const ProductDetailPage = () => {
     }
   }, [location]);
 
+  // ✅ LOADING STATE kontrolü ekle
+  if (loading) {
+    return (
+      <div className="product-detail-page">
+        <div className="container">
+          <div className="product-loading">
+            <div className="loading-spinner"></div>
+            <p>Ürün bilgileri yükleniyor...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ✅ Ürün bulunamadı kontrolü
   if (!product) {
     return (
       <div className="product-not-found">

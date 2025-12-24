@@ -6,7 +6,7 @@ import {
   useCallback, 
   useMemo 
 } from "react";
-import { productsData } from "../data/productsData";
+import { useProducts } from "../context/ProductsContext"; // ✅ YENİ
 
 const FavoritesContext = createContext();
 
@@ -22,13 +22,16 @@ export function useFavorites() {
 export function FavoritesProvider({ children }) {
   const [favoriteIds, setFavoriteIds] = useState([]);
   const [isInitialized, setIsInitialized] = useState(false);
+  
+  // ✅ YENİ - ProductsContext'ten verileri al
+  const { products: productsData, getProductById, loading: productsLoading } = useProducts();
 
   /* -----------------------------------------------------
      📌 1) SAYFA YÜKLENİNCE FAVORİLERİ LOCALSTORAGE'DAN AL
   ------------------------------------------------------- */
   useEffect(() => {
     try {
-      const saved = localStorage.getItem("orhanmakine-favorites");
+      const saved = localStorage.getItem("orhanmakina-favorites");
       if (saved) {
         const parsed = JSON.parse(saved);
         // Sadece geçerli ID'leri filtrele (sayısal ID'ler)
@@ -53,7 +56,7 @@ export function FavoritesProvider({ children }) {
     
     const timeout = setTimeout(() => {
       try {
-        localStorage.setItem("orhanmakine-favorites", JSON.stringify(favoriteIds));
+        localStorage.setItem("orhanmakina-favorites", JSON.stringify(favoriteIds));
       } catch (error) {
         console.error("Favori verisi kaydedilemedi:", error);
       }
@@ -114,13 +117,18 @@ export function FavoritesProvider({ children }) {
      📌 8) FAVORİ ÜRÜNLERİ HESAPLA — useMemo ile optimize
   ------------------------------------------------------- */
   const favoriteProducts = useMemo(() => {
+    // productsData boşsa veya yükleniyorsa boş array döndür
+    if (!productsData || productsData.length === 0 || productsLoading) {
+      return [];
+    }
+    
     // ID'leri sıralı olarak getir (en yeni eklenenler önce)
     const sortedIds = [...favoriteIds].reverse();
     
     return sortedIds
-      .map(id => productsData.find(p => p.id === id))
+      .map(id => getProductById(id))
       .filter(Boolean); // undefined/null değerleri filtrele
-  }, [favoriteIds]);
+  }, [favoriteIds, productsData, productsLoading, getProductById]);
 
   /* -----------------------------------------------------
      📌 9) FAVORİ SAYISI
@@ -133,14 +141,41 @@ export function FavoritesProvider({ children }) {
   const hasFavorites = favoritesCount > 0;
 
   /* -----------------------------------------------------
-     📌 11) PRODUCTS DATA'DAN GÜNCEL ÜRÜN BİLGİSİ AL
+     📌 11) PRODUCTS CONTEXT'DEN GÜNCEL ÜRÜN BİLGİSİ AL
   ------------------------------------------------------- */
   const getFavoriteProductDetails = useCallback((productId) => {
-    return productsData.find(p => p.id === productId);
-  }, []);
+    return getProductById(productId);
+  }, [getProductById]);
 
   /* -----------------------------------------------------
-     📌 12) PROVIDER VALUE → useMemo
+     📌 12) FAVORİ ÜRÜNLERİN STOK DURUMU
+  ------------------------------------------------------- */
+  const getFavoritesWithStockStatus = useCallback(() => {
+    return favoriteProducts.map(product => ({
+      ...product,
+      isInStock: product?.inStock !== false,
+      isAvailable: product?.inStock === true
+    }));
+  }, [favoriteProducts]);
+
+  /* -----------------------------------------------------
+     📌 13) FAVORİ KATEGORİLERİ
+  ------------------------------------------------------- */
+  const favoriteCategories = useMemo(() => {
+    if (favoriteProducts.length === 0) return [];
+    
+    const categories = new Set();
+    favoriteProducts.forEach(product => {
+      if (product?.category) {
+        categories.add(product.category);
+      }
+    });
+    
+    return Array.from(categories);
+  }, [favoriteProducts]);
+
+  /* -----------------------------------------------------
+     📌 14) PROVIDER VALUE → useMemo
   ------------------------------------------------------- */
   const value = useMemo(() => ({
     // State
@@ -149,6 +184,10 @@ export function FavoritesProvider({ children }) {
     favoritesCount,
     hasFavorites,
     isInitialized,
+    
+    // Enhanced favorites data
+    favoritesWithStock: getFavoritesWithStockStatus(),
+    favoriteCategories,
     
     // Actions
     toggleFavorite,
@@ -162,13 +201,20 @@ export function FavoritesProvider({ children }) {
     
     // Convenience getters
     getFavoriteIds: () => favoriteIds,
-    getFavoriteCount: () => favoritesCount
+    getFavoriteCount: () => favoritesCount,
+    getFavoriteCategories: () => favoriteCategories,
+    
+    // Loading state (ProductsContext ile senkronize)
+    isLoading: !isInitialized || productsLoading
   }), [
     favoriteIds,
     favoriteProducts,
     favoritesCount,
     hasFavorites,
     isInitialized,
+    productsLoading,
+    getFavoritesWithStockStatus,
+    favoriteCategories,
     toggleFavorite,
     addToFavorites,
     removeFromFavorites,
@@ -176,6 +222,20 @@ export function FavoritesProvider({ children }) {
     isFavorite,
     getFavoriteProductDetails
   ]);
+
+  // ✅ Loading state - FavoritesContext ProductsContext'e bağlı
+  if (!isInitialized || productsLoading) {
+    return (
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        minHeight: '100vh' 
+      }}>
+        <div>Favoriler yükleniyor...</div>
+      </div>
+    );
+  }
 
   return (
     <FavoritesContext.Provider value={value}>

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { productsData } from "../../data/productsData";
+import { useProducts } from "../../context/ProductsContext"; // ✅ YENİ
 import {
   Search,
   ShoppingCart,
@@ -29,6 +29,11 @@ export default function Navbar() {
   const navigate = useNavigate();
   
   // =====================================================
+  // CONTEXT API - ProductsContext Eklendi
+  // =====================================================
+  const { products: productsData, loading: productsLoading } = useProducts(); // ✅ YENİ
+  
+  // =====================================================
   // STATE YÖNETİMİ
   // =====================================================
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -53,7 +58,7 @@ export default function Navbar() {
   const previewTimeoutRef = useRef(null);
 
   // =====================================================
-  // CONTEXT API - GÜNCELLENDİ
+  // CONTEXT API - Favorites & Cart
   // =====================================================
   const { favoritesCount } = useFavorites();
   
@@ -144,10 +149,14 @@ export default function Navbar() {
   );
 
   // =====================================================
-  // ARAMA FONKSİYONU
+  // ARAMA FONKSİYONU - ProductsContext ile Güncellendi
   // =====================================================
   const searchResults = useMemo(() => {
-    if (!searchQuery.trim()) return [];
+    // ✅ Ürünler yüklenene kadar boş array döndür
+    if (!searchQuery.trim() || productsLoading || !productsData || productsData.length === 0) {
+      return [];
+    }
+    
     return productsData
       .filter(
         (product) =>
@@ -157,7 +166,7 @@ export default function Navbar() {
           product.productCode?.toLowerCase().includes(searchQuery.toLowerCase())
       )
       .slice(0, 6);
-  }, [searchQuery]);
+  }, [searchQuery, productsData, productsLoading]);
 
   // =====================================================
   // EVENT HANDLER'LAR
@@ -300,9 +309,14 @@ export default function Navbar() {
   }, []);
 
   // =====================================================
-  // CART PREVIEW İÇİN GÜNCEL ÜRÜN BİLGİLERİ
+  // CART PREVIEW İÇİN GÜNCEL ÜRÜN BİLGİLERİ - GÜNCELLENDİ
   // =====================================================
   const cartPreviewItems = useMemo(() => {
+    // ✅ Ürünler yüklenene kadar boş array döndür
+    if (productsLoading || !productsData || productsData.length === 0) {
+      return [];
+    }
+    
     return cartItems.slice(0, 3).map(item => {
       // productsData'dan güncel ürün bilgilerini al
       const productFromData = productsData.find(p => p.id === item.id);
@@ -316,7 +330,7 @@ export default function Navbar() {
         inStock: productFromData?.inStock !== false
       };
     });
-  }, [cartItems]);
+  }, [cartItems, productsData, productsLoading]);
 
   // =====================================================
   // RENDER
@@ -442,16 +456,18 @@ export default function Navbar() {
                 <input
                   ref={searchInputRef}
                   type="text"
-                  placeholder="Ürün ara..."
+                  placeholder={productsLoading ? "Yükleniyor..." : "Ürün ara..."} // ✅ Loading feedback
                   className="nav-search-input"
                   value={searchQuery}
                   onChange={handleSearchChange}
                   onFocus={handleSearchFocus}
+                  disabled={productsLoading} // ✅ Loading sırasında disable
                   aria-label="Arama terimi"
                 />
                 <button 
                   type="submit" 
                   className="nav-search-button"
+                  disabled={productsLoading} // ✅ Loading sırasında disable
                   aria-label="Ara"
                 >
                   <Search className="nav-search-icon" />
@@ -465,7 +481,13 @@ export default function Navbar() {
                   role="listbox"
                   aria-label="Arama sonuçları"
                 >
-                  {searchResults.length > 0 ? (
+                  {/* ✅ Loading durumu */}
+                  {productsLoading ? (
+                    <div className="nav-search-loading">
+                      <div className="loading-spinner-small"></div>
+                      <span>Aranıyor...</span>
+                    </div>
+                  ) : searchResults.length > 0 ? (
                     <>
                       <div className="nav-search-results-header">
                         <span>{searchResults.length} ürün bulundu</span>
@@ -473,7 +495,7 @@ export default function Navbar() {
                       {searchResults.map((product) => (
                         <Link
                           key={product.id}
-                          to={getProductDetailPath(product)} // DÜZELTİLDİ: doğru yönlendirme
+                          to={getProductDetailPath(product)}
                           className="nav-search-result-item"
                           onClick={handleSearchItemClick}
                           role="option"
@@ -607,76 +629,87 @@ export default function Navbar() {
                           {cartCount} ürün
                         </span>
                       </div>
-                      <div className="cart-preview-items">
-                        {cartPreviewItems.map((item) => (
-                          <div key={item.id} className="cart-preview-item">
-                            <div className="cart-preview-item-image">
-                              <img 
-                                src={item.image} 
-                                alt={item.name} 
-                                width="60" 
-                                height="60" 
-                                loading="lazy"
-                              />
-                            </div>
-                            <div className="cart-preview-item-info">
-                              <h5>{item.name}</h5>
-                              <div className="cart-preview-item-meta">
-                                <span>{item.quantity} adet</span>
-                                <span>×</span>
-                                <span className="price">
-                                  {formatPrice(item.price)} TL
-                                </span>
-                              </div>
-                              <div className="cart-preview-item-total">
-                                {formatPrice(item.price * item.quantity)} TL
-                              </div>
-                            </div>
-                            <button
-                              className="cart-preview-remove"
-                              onClick={(e) => handleRemoveFromCart(e, item.id)}
-                              aria-label={`${item.name} ürününü kaldır`}
-                              disabled={!item.inStock}
-                            >
-                              <X className="remove-icon" />
-                            </button>
-                          </div>
-                        ))}
-                      </div>
-                      {cartItems.length > 3 && (
-                        <div className="cart-preview-more">
-                          +{cartItems.length - 3} ürün daha...
+                      
+                      {/* ✅ Ürünler yükleniyorsa loading göster */}
+                      {productsLoading ? (
+                        <div className="cart-preview-loading">
+                          <div className="loading-spinner-small"></div>
+                          <p>Ürün bilgileri yükleniyor...</p>
                         </div>
+                      ) : (
+                        <>
+                          <div className="cart-preview-items">
+                            {cartPreviewItems.map((item) => (
+                              <div key={item.id} className="cart-preview-item">
+                                <div className="cart-preview-item-image">
+                                  <img 
+                                    src={item.image} 
+                                    alt={item.name} 
+                                    width="60" 
+                                    height="60" 
+                                    loading="lazy"
+                                  />
+                                </div>
+                                <div className="cart-preview-item-info">
+                                  <h5>{item.name}</h5>
+                                  <div className="cart-preview-item-meta">
+                                    <span>{item.quantity} adet</span>
+                                    <span>×</span>
+                                    <span className="price">
+                                      {formatPrice(item.price)} TL
+                                    </span>
+                                  </div>
+                                  <div className="cart-preview-item-total">
+                                    {formatPrice(item.price * item.quantity)} TL
+                                  </div>
+                                </div>
+                                <button
+                                  className="cart-preview-remove"
+                                  onClick={(e) => handleRemoveFromCart(e, item.id)}
+                                  aria-label={`${item.name} ürününü kaldır`}
+                                  disabled={!item.inStock}
+                                >
+                                  <X className="remove-icon" />
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                          {cartItems.length > 3 && (
+                            <div className="cart-preview-more">
+                              +{cartItems.length - 3} ürün daha...
+                            </div>
+                          )}
+                          <div className="cart-preview-total">
+                            <span>Toplam:</span>
+                            <span className="total-price">
+                              {formatPrice(getTotalPrice())} TL
+                            </span>
+                          </div>
+                          <div className="cart-preview-actions">
+                            <Link 
+                              to="/cart" 
+                              className="btn-view-cart" 
+                              onClick={() => {
+                                closeAll();
+                                setShowCartPreview(false);
+                              }}
+                            >
+                              <ShoppingBag className="btn-icon" />
+                              Sepete Git
+                            </Link>
+                            <Link 
+                              to="/checkout" 
+                              className="btn-checkout" 
+                              onClick={() => {
+                                closeAll();
+                                setShowCartPreview(false);
+                              }}
+                            >
+                              Ödeme Yap
+                            </Link>
+                          </div>
+                        </>
                       )}
-                      <div className="cart-preview-total">
-                        <span>Toplam:</span>
-                        <span className="total-price">
-                          {formatPrice(getTotalPrice())} TL
-                        </span>
-                      </div>
-                      <div className="cart-preview-actions">
-                        <Link 
-                          to="/cart" 
-                          className="btn-view-cart" 
-                          onClick={() => {
-                            closeAll();
-                            setShowCartPreview(false);
-                          }}
-                        >
-                          <ShoppingBag className="btn-icon" />
-                          Sepete Git
-                        </Link>
-                        <Link 
-                          to="/checkout" 
-                          className="btn-checkout" 
-                          onClick={() => {
-                            closeAll();
-                            setShowCartPreview(false);
-                          }}
-                        >
-                          Ödeme Yap
-                        </Link>
-                      </div>
                     </div>
                   )}
                 </div>
@@ -697,16 +730,18 @@ export default function Navbar() {
               >
                 <input
                   type="text"
-                  placeholder="Ürün ara..."
+                  placeholder={productsLoading ? "Yükleniyor..." : "Ürün ara..."} // ✅ Loading feedback
                   className="nav-mobile-search-input"
                   value={searchQuery}
                   onChange={handleSearchChange}
                   onFocus={handleSearchFocus}
+                  disabled={productsLoading} // ✅ Loading sırasında disable
                   aria-label="Arama terimi"
                 />
                 <button 
                   type="submit" 
                   className="nav-mobile-search-button"
+                  disabled={productsLoading} // ✅ Loading sırasında disable
                   aria-label="Ara"
                 >
                   <Search className="nav-mobile-search-icon" />
@@ -720,11 +755,17 @@ export default function Navbar() {
                   role="listbox"
                   aria-label="Mobil arama sonuçları"
                 >
-                  {searchResults.length > 0 ? (
+                  {/* ✅ Loading durumu */}
+                  {productsLoading ? (
+                    <div className="nav-mobile-search-loading">
+                      <div className="loading-spinner-small"></div>
+                      <span>Aranıyor...</span>
+                    </div>
+                  ) : searchResults.length > 0 ? (
                     searchResults.map((product) => (
                       <Link
                         key={product.id}
-                        to={getProductDetailPath(product)} // DÜZELTİLDİ: doğru yönlendirme
+                        to={getProductDetailPath(product)}
                         className="nav-mobile-search-result-item"
                         onClick={handleSearchItemClick}
                         role="option"
@@ -753,7 +794,7 @@ export default function Navbar() {
             </div>
           </div>
         )}
-
+        
         {/* MOBİL MENÜ SIDEBAR */}
         {isMobile && (
           <>

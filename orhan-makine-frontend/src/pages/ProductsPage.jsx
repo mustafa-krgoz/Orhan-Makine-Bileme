@@ -5,7 +5,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../styles/ProductsPage.css";
-import { productsData } from "../data/productsData";
+import { useProducts } from "../context/ProductsContext";
 import { useFavorites } from "../context/FavoritesContext";
 import { useCart } from "../context/CartContext";
 
@@ -13,8 +13,7 @@ const ProductsPage = () => {
   // ----------------------------------------------------------
   // STATE YÖNETİMİ
   // ----------------------------------------------------------
-  const [products] = useState(productsData);
-  const [filteredProducts, setFilteredProducts] = useState(productsData);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [imageErrors, setImageErrors] = useState({});
@@ -25,14 +24,12 @@ const ProductsPage = () => {
   const [tempSelectedBrands, setTempSelectedBrands] = useState([]);
   const [tempFilters, setTempFilters] = useState({
     campaign: false,
-    sponsored: false,
     new: false,
     discounted: false,
   });
 
   const [filters, setFilters] = useState({
     campaign: false,
-    sponsored: false,
     new: false,
     discounted: false,
   });
@@ -44,11 +41,14 @@ const ProductsPage = () => {
   const { isFavorite, toggleFavorite } = useFavorites();
   const { addToCart } = useCart(); // Sadece addToCart'ı al
 
-  // Tüm kategoriler
-  const categories = [...new Set(products.map((p) => p.category))];
-
-  // Tüm markalar
-  const brands = [...new Set(products.map((p) => p.brand))];
+  // Tüm kategoriler, markalar, ürünler
+  
+    const { 
+      products: productsData, 
+      categories, 
+      brands, 
+      loading 
+    } = useProducts();
 
   // ----------------------------------------------------------
   // MOBİL FILTER OVERLAY KONTROL
@@ -163,7 +163,8 @@ const ProductsPage = () => {
   // FİLTRELEME VE SIRALAMA
   // ----------------------------------------------------------
   useEffect(() => {
-    let result = products;
+    if (!productsData || productsData.length === 0) return;
+    let result = productsData;
 
     if (selectedCategories.length > 0) {
       result = result.filter((p) => selectedCategories.includes(p.category));
@@ -174,7 +175,6 @@ const ProductsPage = () => {
     }
 
     if (filters.campaign) result = result.filter((p) => p.isCampaign);
-    if (filters.sponsored) result = result.filter((p) => p.isSponsored);
     if (filters.new) result = result.filter((p) => p.isNew);
     if (filters.discounted)
       result = result.filter((p) => shouldShowDiscount(p));
@@ -214,7 +214,7 @@ const ProductsPage = () => {
     filters,
     searchTerm,
     sortOption,
-    products,
+    productsData,
   ]);
 
   // ----------------------------------------------------------
@@ -331,18 +331,6 @@ const ProductsPage = () => {
         <label className="checkbox-item">
           <input
             type="checkbox"
-            checked={filters.sponsored}
-            onChange={(e) =>
-              handleDesktopFilterChange("sponsored", e.target.checked)
-            }
-          />
-          <span className="checkmark"></span>
-          Sponsor Ürünler
-        </label>
-
-        <label className="checkbox-item">
-          <input
-            type="checkbox"
             checked={filters.new}
             onChange={(e) => handleDesktopFilterChange("new", e.target.checked)}
           />
@@ -437,18 +425,6 @@ const ProductsPage = () => {
         <label className="checkbox-item">
           <input
             type="checkbox"
-            checked={tempFilters.sponsored}
-            onChange={(e) =>
-              setTempFilters((prev) => ({ ...prev, sponsored: e.target.checked }))
-            }
-          />
-          <span className="checkmark"></span>
-          Sponsor Ürünler
-        </label>
-
-        <label className="checkbox-item">
-          <input
-            type="checkbox"
             checked={tempFilters.new}
             onChange={(e) =>
               setTempFilters((prev) => ({ ...prev, new: e.target.checked }))
@@ -486,231 +462,264 @@ const ProductsPage = () => {
       </div>
     </div>
   );
-
-  // ----------------------------------------------------------
-  // RENDER
-  // ----------------------------------------------------------
-  return (
-    <div className="products-page">
-      <div className="products-container">
-        
-        {/* ------------------------------------------------------
-            DESKTOP SIDEBAR
-        ------------------------------------------------------ */}
-        <aside className="products-sidebar desktop-only" aria-label="Ürün filtreleri">
-          <DesktopFilterSidebar />
-        </aside>
-
-        {/* ------------------------------------------------------
-            MOBİL HAMBURGER OVERLAY
-        ------------------------------------------------------ */}
-        {isMobileFilterOpen && (
-          <>
-            <div 
-              className="mobile-filter-overlay" 
-              onClick={closeMobileFilter}
-              aria-hidden="true"
-            ></div>
-            <aside 
-              className="mobile-filter-sidebar"
-              role="dialog"
-              aria-label="Mobil filtre menüsü"
-            >
-              <div className="mobile-filter-header">
-                <h2>Filtrele</h2>
-                <button 
-                  className="close-filter-btn"
-                  onClick={closeMobileFilter}
-                  aria-label="Filtreyi kapat"
-                >
-                  ✕
-                </button>
+// ----------------------------------------------------------
+// RENDER
+// ----------------------------------------------------------
+return (
+  <div className="products-page">
+    <div className="products-container">
+      
+      {/* ------------------------------------------------------
+          DESKTOP SIDEBAR - HER ZAMAN GÖRÜNSİN
+      ------------------------------------------------------ */}
+      <aside className="products-sidebar desktop-only" aria-label="Ürün filtreleri">
+        {loading ? (
+          <div className="filter-sidebar-content">
+            <div className="filter-group">
+              <div className="filter-loading">
+                <div className="loading-spinner-small"></div>
+                <p>Filtreler yükleniyor...</p>
               </div>
-              <MobileFilterSidebar />
-            </aside>
-          </>
+            </div>
+          </div>
+        ) : (
+          <DesktopFilterSidebar />
         )}
+      </aside>
 
-        {/* ------------------------------------------------------
-            SAĞ ÜRÜN LİSTESİ
-        ------------------------------------------------------ */}
-        <main className="products-content">
-
-          {/* MOBİL HAMBURGER BUTON */}
-          <button 
-            className="mobile-filter-toggle"
-            onClick={toggleMobileFilter}
-            aria-label="Filtreleri aç"
-            aria-expanded={isMobileFilterOpen}
+      {/* ------------------------------------------------------
+          MOBİL HAMBURGER OVERLAY
+      ------------------------------------------------------ */}
+      {isMobileFilterOpen && (
+        <>
+          <div 
+            className="mobile-filter-overlay" 
+            onClick={closeMobileFilter}
+            aria-hidden="true"
+          ></div>
+          <aside 
+            className="mobile-filter-sidebar"
+            role="dialog"
+            aria-label="Mobil filtre menüsü"
           >
-            <span className="hamburger-icon">
-              <span></span>
-              <span></span>
-              <span></span>
-            </span>
-            <span className="filter-text">Filtrele</span>
-          </button>
-
-          {/* Üst Bilgi */}
-          <header className="products-header">
-            <span className="products-count">
-              Toplam {filteredProducts.length} ürün
-            </span>
-
-            {/* HIZLI ARAMA - PC GÖRÜNÜMDE HEADER'DA */}
-            <div className="header-search-box desktop-search-only">
-              <span className="search-icon">🔍</span>
-              <input
-                type="text"
-                placeholder="Ürün, marka veya kod ara..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="search-input"
-                aria-label="Ürün arama"
-              />
-            </div>
-
-            <div className="sort-options">
-              <label htmlFor="sort-select">Sırala:</label>
-              <select
-                id="sort-select"
-                value={sortOption}
-                onChange={(e) => setSortOption(e.target.value)}
-                className="sort-select"
-                aria-label="Ürün sıralama seçenekleri"
+            <div className="mobile-filter-header">
+              <h2>Filtrele</h2>
+              <button 
+                className="close-filter-btn"
+                onClick={closeMobileFilter}
+                aria-label="Filtreyi kapat"
               >
-                <option value="recommended">Önerilen</option>
-                <option value="price-low">Fiyat (Artan)</option>
-                <option value="price-high">Fiyat (Azalan)</option>
-                <option value="name">İsim (A→Z)</option>
-                <option value="rating">Değerlendirme</option>
-              </select>
+                ✕
+              </button>
             </div>
-          </header>
-
-          {/* Ürün Grid */}
-          <section className="products-grid" aria-label="Ürün listesi">
-            {filteredProducts.map((product) => (
-              <article key={product.id} className="product-card">
-                
-                {/* ÜRÜN GÖRSELİ */}
-                <div className="product-image">
-                  <img
-                    src={
-                      imageErrors[product.id]
-                        ? "/images/default-product.png"
-                        : product.image
-                    }
-                    alt={`${product.brand} ${product.name}`}
-                    onError={() => handleImageError(product.id)}
-                    loading="lazy"
-                    width="300"
-                    height="300"
-                  />
-
-                  {/* BADGE ALANI */}
-                  <div className="product-badges" aria-label="Ürün etiketleri">
-                    {shouldShowDiscount(product) && (
-                      <span className="badge discount" aria-label="İndirim yüzdesi">
-                        %{calculateDiscount(
-                          product.originalPrice,
-                          product.price
-                        )}
-                      </span>
-                    )}
-
-                    {product.isNew && <span className="badge new">YENİ</span>}
-                    {product.isCampaign && (
-                      <span className="badge campaign">KAMPANYA</span>
-                    )}
+            {loading ? (
+              <div className="filter-sidebar-content">
+                <div className="filter-group">
+                  <div className="filter-loading">
+                    <div className="loading-spinner-small"></div>
+                    <p>Filtreler yükleniyor...</p>
                   </div>
-
-                  {/* FAVORİ BUTONU */}
-                  <button
-                    className={`favorite-btn ${
-                      isFavorite(product.id) ? "active" : ""
-                    }`}
-                    onClick={() => toggleFavorite(product.id)}
-                    aria-label={
-                      isFavorite(product.id)
-                        ? "Favorilerden çıkar"
-                        : "Favorilere ekle"
-                    }
-                  >
-                    {isFavorite(product.id) ? "❤️" : "🤍"}
-                  </button>
                 </div>
+              </div>
+            ) : (
+              <MobileFilterSidebar />
+            )}
+          </aside>
+        </>
+      )}
 
-                {/* ÜRÜN BİLGİLERİ */}
-                <div className="product-info">
-                  <div className="product-brand">{product.brand}</div>
+      {/* ------------------------------------------------------
+          SAĞ ÜRÜN LİSTESİ - LOADING BURDA
+      ------------------------------------------------------ */}
+      <main className="products-content">
 
-                  <h3 className="product-name">{product.name}</h3>
+        {/* MOBİL HAMBURGER BUTON */}
+        <button 
+          className="mobile-filter-toggle"
+          onClick={toggleMobileFilter}
+          aria-label="Filtreleri aç"
+          aria-expanded={isMobileFilterOpen}
+        >
+          <span className="hamburger-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+          <span className="filter-text">Filtrele</span>
+        </button>
 
-                  {/* ÜRÜN KODU */}
-                  <div className="product-code">
-                    <span className="product-code-label">Ürün Kodu:</span>
-                    <span className="product-code-value">
-                      {product.productCode !== "-" ? product.productCode : "—"}
-                    </span>
-                  </div>
+        {/* Üst Bilgi */}
+        <header className="products-header">
+          <span className="products-count">
+            {loading ? 'Yükleniyor...' : `Toplam ${filteredProducts.length} ürün`}
+          </span>
 
-                  <p className="product-description">
-                    {product.description}
-                  </p>
+          {/* HIZLI ARAMA - PC GÖRÜNÜMDE HEADER'DA */}
+          <div className="header-search-box desktop-search-only">
+            <span className="search-icon">🔍</span>
+            <input
+              type="text"
+              placeholder="Ürün, marka veya kod ara..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="search-input"
+              aria-label="Ürün arama"
+              disabled={loading}
+            />
+          </div>
 
-                  {/* FİYAT ALANI */}
-                  <div className="product-pricing">
-                    {shouldShowDiscount(product) && (
-                      <div className="original-price" aria-label="Eski fiyat">
-                        {formatPrice(product.originalPrice)} TL
-                      </div>
-                    )}
+          <div className="sort-options">
+            <label htmlFor="sort-select">Sırala:</label>
+            <select
+              id="sort-select"
+              value={sortOption}
+              onChange={(e) => setSortOption(e.target.value)}
+              className="sort-select"
+              aria-label="Ürün sıralama seçenekleri"
+              disabled={loading}
+            >
+              <option value="recommended">Önerilen</option>
+              <option value="price-low">Fiyat (Artan)</option>
+              <option value="price-high">Fiyat (Azalan)</option>
+              <option value="name">İsim (A→Z)</option>
+              <option value="rating">Değerlendirme</option>
+            </select>
+          </div>
+        </header>
 
-                    <div className="current-price" aria-label="Güncel fiyat">
-                      {formatPrice(product.price)} TL
+        {/* ✅ LOADING STATE - ÜRÜN GRİDİNDE */}
+        {loading ? (
+          <div className="products-loading">
+            <div className="loading-spinner"></div>
+            <p>Ürünler yükleniyor...</p>
+          </div>
+        ) : (
+          <>
+            {/* Ürün Grid */}
+            <section className="products-grid" aria-label="Ürün listesi">
+              {filteredProducts.map((product) => (
+                <article key={product.id} className="product-card">
+                  
+                  {/* ÜRÜN GÖRSELİ */}
+                  <div className="product-image">
+                    <img
+                      src={
+                        imageErrors[product.id]
+                          ? "/images/default-product.png"
+                          : product.image
+                      }
+                      alt={`${product.brand} ${product.name}`}
+                      onError={() => handleImageError(product.id)}
+                      loading="lazy"
+                      width="300"
+                      height="300"
+                    />
+
+                    {/* BADGE ALANI */}
+                    <div className="product-badges" aria-label="Ürün etiketleri">
+                      {shouldShowDiscount(product) && (
+                        <span className="badge discount" aria-label="İndirim yüzdesi">
+                          %{calculateDiscount(
+                            product.originalPrice,
+                            product.price
+                          )}
+                        </span>
+                      )}
+
+                      {product.isNew && <span className="badge new">YENİ</span>}
+                      {product.isCampaign && (
+                        <span className="badge campaign">KAMPANYA</span>
+                      )}
                     </div>
-                  </div>
 
-                  {/* BUTONLAR */}
-                  <div className="product-actions">
+                    {/* FAVORİ BUTONU */}
                     <button
-                      className="add-to-cart-btn"
-                      disabled={!product.inStock}
-                      onClick={() => handleAddToCart(product.id)}
+                      className={`favorite-btn ${
+                        isFavorite(product.id) ? "active" : ""
+                      }`}
+                      onClick={() => toggleFavorite(product.id)}
                       aria-label={
-                        product.inStock
-                          ? "Sepete ekle"
-                          : "Stokta yok"
+                        isFavorite(product.id)
+                          ? "Favorilerden çıkar"
+                          : "Favorilere ekle"
                       }
                     >
-                      {product.inStock ? "SEPETE EKLE" : "STOKTA YOK"}
+                      {isFavorite(product.id) ? "❤️" : "🤍"}
                     </button>
-
-                    <Link
-                      to={`/product/${product.id}`}
-                      className="view-details-btn"
-                      aria-label={`${product.name} detaylarını görüntüle`}
-                    >
-                      Detaylı İncele
-                    </Link>
                   </div>
-                </div>
-              </article>
-            ))}
-          </section>
 
-          {/* ÜRÜN YOKSA */}
-          {filteredProducts.length === 0 && (
-            <div className="no-products" role="status">
-              <h3>Ürün bulunamadı</h3>
-              <p>Filtreleri değiştirip tekrar deneyin.</p>
-            </div>
-          )}
-        </main>
-      </div>
+                  {/* ÜRÜN BİLGİLERİ */}
+                  <div className="product-info">
+                    <div className="product-brand">{product.brand}</div>
+
+                    <h3 className="product-name">{product.name}</h3>
+
+                    {/* ÜRÜN KODU */}
+                    <div className="product-code">
+                      <span className="product-code-label">Ürün Kodu:</span>
+                      <span className="product-code-value">
+                        {product.productCode !== "-" ? product.productCode : "—"}
+                      </span>
+                    </div>
+
+                    <p className="product-description">
+                      {product.description}
+                    </p>
+
+                    {/* FİYAT ALANI */}
+                    <div className="product-pricing">
+                      {shouldShowDiscount(product) && (
+                        <div className="original-price" aria-label="Eski fiyat">
+                          {formatPrice(product.originalPrice)} TL
+                        </div>
+                      )}
+
+                      <div className="current-price" aria-label="Güncel fiyat">
+                        {formatPrice(product.price)} TL
+                      </div>
+                    </div>
+
+                    {/* BUTONLAR */}
+                    <div className="product-actions">
+                      <button
+                        className="add-to-cart-btn"
+                        disabled={!product.inStock}
+                        onClick={() => handleAddToCart(product.id)}
+                        aria-label={
+                          product.inStock
+                            ? "Sepete ekle"
+                            : "Stokta yok"
+                        }
+                      >
+                        {product.inStock ? "SEPETE EKLE" : "STOKTA YOK"}
+                      </button>
+
+                      <Link
+                        to={`/product/${product.id}`}
+                        className="view-details-btn"
+                        aria-label={`${product.name} detaylarını görüntüle`}
+                      >
+                        Detaylı İncele
+                      </Link>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </section>
+
+            {/* ÜRÜN YOKSA */}
+            {filteredProducts.length === 0 && (
+              <div className="no-products" role="status">
+                <h3>Ürün bulunamadı</h3>
+                <p>Filtreleri değiştirip tekrar deneyin.</p>
+              </div>
+            )}
+          </>
+        )}
+      </main>
     </div>
-  );
+  </div>
+  );  
 };
 
 export default ProductsPage;

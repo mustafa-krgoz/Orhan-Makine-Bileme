@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 // GLOBAL CONTEXT'LER
 import { FavoritesProvider } from "./context/FavoritesContext";
 import { CartProvider } from "./context/CartContext";
+import { ProductsProvider } from "./context/ProductsContext";
 
 // COMPONENTS
 import Navbar from "./components/Navbar/Navbar.jsx";
@@ -92,6 +93,7 @@ function App() {
 
   return (
     // ⭐ GLOBAL CONTEXT'LER
+  <ProductsProvider>
     <CartProvider>
       <FavoritesProvider>
         <Router>
@@ -185,6 +187,7 @@ function App() {
         </Router>
       </FavoritesProvider>
     </CartProvider>
+  </ProductsProvider>
   );
 }
 
