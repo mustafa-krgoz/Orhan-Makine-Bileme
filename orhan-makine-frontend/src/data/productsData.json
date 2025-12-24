@@ -17,7 +17,7 @@
     "image": "/images/products/CORA-KOMPRESOR-2.5HP-100L.webp",
     "description": "Yüksek performanslı, sessiz ve enerji tasarruflu kompresör.",
     "features": ["Yüksek basınç kapasitesi", "Düşük enerji tüketimi", "Sessiz çalışma", "Dayanıklı gövde"],
-    
+
     "specifications": {
       "Güç": "2.5 / 2.5 HP",
       "HavaGirişi": "194 Lt/d-m3/saat",
@@ -410,37 +410,6 @@
   },
   {
     "id": 14,
-    "slug": "makita-ls1219l-lazerli-gonye",
-    "metaTitle": "Makita LS1219L Lazerli Gönye Kesme | Sessiz ve Hassas",
-    "metaDescription": "Makita LS1219L lazer kılavuzlu gönye kesme makinesi yüksek kapasite ve sessiz çalışma sunar.",
-    "name": "Makita Lazerli Gönye Kesme",
-    "productCode": "LS1219L",
-    "category": "kesme-makineleri",
-    "categorySlug": "kesme-makineleri",
-    "subCategory": "elektrikli",
-    "brand": "Makita",
-    "brandSlug": "makita",
-    "price": 65000,
-    "originalPrice": 69000,
-    "showDiscount": true,
-    "image": "/images/products/MAKITA-LS1219L-GONYE-KESME.webp",
-    "description": "Lazer kılavuzlu hassas gönye kesim makinesi.",
-    "features": ["Lazer kılavuz", "Yüksek kesim kapasitesi", "Sessiz çalışma"],
-
-    "specifications": {
-      "diskDiameter": "305 mm",
-      "angleRange": "0-45°",
-      "weight": "29 kg"
-    },
-
-    "inStock": true,
-    "isNew": true,
-    "isCampaign": false,
-    "reviews": [],
-    "questions": []
-  },
-  {
-    "id": 15,
     "slug": "makita-uc4041a-zincir-testere",
     "metaTitle": "Makita UC4041A Elektrikli Zincir Testere | 1800W Güç",
     "metaDescription": "Makita UC4041A elektrikli zincir testere hızlı ve güvenli kesim için tasarlanmıştır. Otomatik yağlama sistemi içerir.",
@@ -471,7 +440,7 @@
     "questions": []
   },
   {
-    "id": 16,
+    "id": 15,
     "slug": "makita-m3602b-freze-makinasi",
     "metaTitle": "Makita M3602B Freze Makinesi | Güçlü Motor 1650W",
     "metaDescription": "Makita M3602B freze makinesi, profesyonel yüzey işlemleri için yüksek devirli güçlü bir motora sahiptir.",
@@ -502,7 +471,7 @@
     "questions": []
   },
   {
-    "id": 17,
+    "id": 16,
     "slug": "scheppach-hml80l-lazerli-gonye",
     "metaTitle": "Scheppach HML80L Lazerli Gönye Kesme Makinesi | Uygun Fiyat",
     "metaDescription": "Scheppach HML80L lazerli gönye kesme makinesi hassas kesimler için ideal ve dayanıklı yapıya sahiptir.",
@@ -533,7 +502,7 @@
     "questions": []
   },
   {
-    "id": 18,
+    "id": 17,
     "slug": "makita-bo4901-eksantrik-titresim",
     "metaTitle": "Makita BO4901 Eksantrik Titreşim Zımparası | 330W",
     "metaDescription": "Makita BO4901 eksantrik titreşimli zımpara, geniş tabanı ve düşük titreşimiyle profesyonel yüzey işleri için idealdir.",
@@ -564,7 +533,7 @@
     "questions": []
   },
   {
-    "id": 19,
+    "id": 18,
     "slug": "makita-bo6030-dairesel-zimpara",
     "metaTitle": "Makita BO6030 Dairesel Eksantrik Zımpara | 720W",
     "metaDescription": "Makita BO6030 dairesel eksantrik zımpara, yüksek devirli motoruyla hassas yüzey işler için idealdir.",
@@ -595,7 +564,7 @@
     "questions": []
   },
   {
-    "id": 20,
+    "id": 19,
     "slug": "makita-hm0870c-kirici",
     "metaTitle": "Makita HM0870C Kırıcı | AVT Titreşim Azaltma",
     "metaDescription": "Makita HM0870C kırıcı orta seviye profesyonel işler için ideal darbe gücü sunar.",
@@ -626,7 +595,7 @@
     "questions": []
   },
   {
-    "id": 21,
+    "id": 20,
     "slug": "makita-hm1101c-kirici",
     "metaTitle": "Makita HM1101C Kırıcı | 14J Darbe Gücü",
     "metaDescription": "Makita HM1101C kırıcı, düşük titreşim ve güçlü performans ile profesyonel kullanım sunar.",
@@ -657,7 +626,7 @@
     "questions": []
   },
   {
-    "id": 22,
+    "id": 21,
     "slug": "makita-hm1203c-kirici",
     "metaTitle": "Makita HM1203C Kırıcı | 25.5J Darbe Gücü",
     "metaDescription": "Makita HM1203C ağır iş sınıfı kırıcı, profesyonel dayanıklılık ve yüksek performans sunar.",
@@ -688,7 +657,7 @@
     "questions": []
   },
   {
-    "id": 23,
+    "id": 22,
     "slug": "makita-hr4002-delici-kirici",
     "metaTitle": "Makita HR4002 Delici Kırıcı | SDS-Max",
     "metaDescription": "Makita HR4002 SDS-MAX delici kırıcı güçlü motoru ve profesyonel performansıyla öne çıkar.",
@@ -719,7 +688,7 @@
     "questions": []
   },
   {
-    "id": 24,
+    "id": 23,
     "slug": "makita-ls1219l-lazerli-gonye-70800",
     "metaTitle": "Makita LS1219L Profesyonel Lazerli Gönye Kesme | 305 mm",
     "metaDescription": "Makita LS1219L geniş kapasiteli, çift kızaklı, lazerli gönye kesme makinesi profesyoneller için idealdir.",
