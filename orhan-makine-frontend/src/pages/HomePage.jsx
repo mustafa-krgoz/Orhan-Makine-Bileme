@@ -248,7 +248,7 @@ export default function HomePage() {
                           </ul>
 
                           <Link
-                            to={`/product/${product.id}`}
+                            to={`/${product.categorySlug}/${product.slug}`}
                             className="home-product-button"
                             aria-label={`${product.name} detaylarını görüntüle`}
                           >

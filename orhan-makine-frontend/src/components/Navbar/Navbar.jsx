@@ -294,7 +294,7 @@ export default function Navbar() {
   // =====================================================
   const getProductDetailPath = useCallback((product) => {
     // Product.id kullanarak yönlendirme yap
-    return `/product/${product.id}`;
+    return `/${product.categorySlug}/${product.slug}`;
   }, []);
 
   // =====================================================

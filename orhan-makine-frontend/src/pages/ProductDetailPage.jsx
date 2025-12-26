@@ -19,7 +19,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const ProductDetailPage = () => {
-  const { id } = useParams();
   const location = useLocation();
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
@@ -46,9 +45,14 @@ const ProductDetailPage = () => {
   const { isFavorite, toggleFavorite } = useFavorites();
   const { addToCart } = useCart();
 
-  // ✅ YENİ - Context'ten product ve loading state'ini al
-  const { getProductById, loading } = useProducts();
-  const product = getProductById(id);
+// URL → /:categorySlug/:slug
+const { categorySlug, slug } = useParams();
+
+// Yeni SEO uyumlu fonksiyon
+const { getProductByCategoryAndSlug, loading } = useProducts();
+
+// Ürünü kategori + slug ile bul
+const product = getProductByCategoryAndSlug(categorySlug, slug);
 
   const [zoomPosition, setZoomPosition] = useState({ x: 50, y: 50 });
 

@@ -232,7 +232,7 @@ export default function FavoritesPage() {
                       <div className="product-brand">{product.brand}</div>
 
                       <h3 className="product-name">
-                        <Link to={`/product/${product.id}`}>
+                        <Link to={`/${product.categorySlug}/${product.slug}`}>
                           {product.name}
                         </Link>
                       </h3>
@@ -285,7 +285,7 @@ export default function FavoritesPage() {
                       </button>
 
                       <Link
-                        to={`/product/${product.id}`}
+                        to={`/${product.categorySlug}/${product.slug}`}
                         className="btn-view-details"
                         aria-label={`${product.name} detaylarını görüntüle`}
                       >

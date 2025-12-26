@@ -695,7 +695,7 @@ return (
                       </button>
 
                       <Link
-                        to={`/product/${product.id}`}
+                        to={`/${product.categorySlug}/${product.slug}`}
                         className="view-details-btn"
                         aria-label={`${product.name} detaylarını görüntüle`}
                       >
