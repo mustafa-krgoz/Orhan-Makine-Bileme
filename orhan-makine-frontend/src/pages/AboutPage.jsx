@@ -247,7 +247,7 @@ const AboutPage = () => {
 
     // PERFORMANCE: Critical görselleri preload
     const criticalImages = [
-      '/images/joblocations/orhan-makine-bina.png', // Hero image
+      '/images/joblocations/orhan-makine-bina.webp', // Hero image
       buildingImages[0].src // İlk galeri görseli
     ];
     
@@ -286,7 +286,7 @@ const AboutPage = () => {
       age: 49,
       experience: '32+ yıl',
       description: '40 yılı aşkın sektör tecrübesi ile firmanın kurucusu ve yöneticisi. Mobilya makinaları konusunda uzman.',
-      image: '/images/team/mehmet-ozcan-orhan.png',
+      image: '/images/team/mehmet-ozcan-orhan.webp',
       alt: 'Mehmet Özcan Orhan - Orhan Makine Kurucusu',
       loading: 'eager' // İlk görünen
     },
@@ -298,7 +298,7 @@ const AboutPage = () => {
       age: 50,
       experience: '20+ yıl',
       description: 'Satış ve müşteri ilişkileri konusunda uzman. Teknik ürün bilgisi ile müşterilere en uygun çözümleri sunar.',
-      image: '/images/team/hasan-esen.png',
+      image: '/images/team/hasan-esen.webp',
       alt: 'Hasan Esen - Orhan Makine Satış Müdürü',
       loading: 'eager' // İlk görünen
     },
@@ -310,7 +310,7 @@ const AboutPage = () => {
       age: 24,
       experience: '3+ yıl',
       description: 'Dijital dönüşüm ve yazılım çözümlerinden sorumlu. E-ticaret ve ERP sistemleri uzmanı.',
-      image: '/images/team/halit-mustafa-karagoz.png',
+      image: '/images/team/halit-mustafa-karagoz.webp',
       alt: 'Halit Mustafa Karagöz - Orhan Makine Teknoloji Direktörü',
       loading: 'eager' // İlk görünen
     },
@@ -322,7 +322,7 @@ const AboutPage = () => {
       age: 38,
       experience: '15+ yıl',
       description: 'Makine bakım, onarım ve teknik servis konularında uzman. CNC makinalarında uzmanlaşmıştır.',
-      image: '/images/team/ercan-orhan.png',
+      image: '/images/team/ercan-orhan.webp',
       alt: 'Ercan Orhan - Orhan Makine Teknik Servis Müdürü',
       loading: 'lazy'
     },
@@ -334,7 +334,7 @@ const AboutPage = () => {
       age: 29,
       experience: '7+ yıl',
       description: 'Ürün geliştirme ve kalite kontrol sorumlusu. Yeni teknolojilerin takibi ve uygulanmasından sorumlu.',
-      image: '/images/team/ugur.png',
+      image: '/images/team/ugur.webp',
       alt: 'Alparslan Ayyıldız - Orhan Makine Ürün Uzmanı',
       loading: 'lazy'
     }
@@ -385,7 +385,7 @@ const AboutPage = () => {
           {/* HERO GÖRSELI - EAGER LOADING FOR LCP */}
           <div className="about-hero-image-container">
             <OptimizedImage
-              src="/images/joblocations/orhan-makine-bina.png"
+              src="/images/joblocations/orhan-makine-bina.webp"
               alt="Orhan Makine Bileme işyeri binası - Elazığ merkez"
               className="about-hero-image"
               width="800"

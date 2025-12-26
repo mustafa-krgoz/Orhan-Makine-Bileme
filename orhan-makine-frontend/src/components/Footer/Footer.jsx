@@ -1,5 +1,6 @@
-import { Phone, Mail, MapPin, Clock, Instagram, Linkedin } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, Instagram, Linkedin, Facebook } from "lucide-react";
 import { Link } from "react-router-dom";
+import WhatsAppButton from "../WhatsAppButton/WhatsAppButton";
 import "./Footer.css";
 
 export default function Footer() {
@@ -18,13 +19,14 @@ export default function Footer() {
     { name: "İletişim", path: "/contact" },
   ];
 
-  // Sosyal medya linkleri - external linkler için a etiketi
+  // Sosyal medya linkleri - Renkli arka planlar ile
   const socialLinks = [
     { 
       icon: Instagram, 
       href: "https://www.instagram.com/orhan_makina_bileme/", 
       name: "Instagram",
-      color: "#E4405F"
+      color: "#E4405F",
+      gradient: "linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)"
     },
     { 
       icon: Linkedin, 
@@ -33,21 +35,10 @@ export default function Footer() {
       color: "#0A66C2"
     },
     { 
-      // WhatsApp için özel SVG ikonu
-      icon: () => (
-        <svg 
-          width="20" 
-          height="20" 
-          viewBox="0 0 24 24" 
-          fill="currentColor"
-          aria-hidden="true"
-        >
-          <path d="M17.507 14.307l-.009.075c-.016.15-.02.321-.04.472-.114.836-.35 1.509-.983 2.066-.338.3-.77.48-1.18.633-.823.307-1.678.386-2.539.442-1.797.117-3.573-.264-5.166-1.23-2.186-1.319-3.892-3.294-4.97-5.599a9.95 9.95 0 0 1-1.108-4.66c.037-1.6.528-3.128 1.514-4.375C3.768 1.482 5.334.6 6.993.175c1.745-.45 3.544-.248 5.195.521 1.183.55 2.23 1.345 3.114 2.311.82.893 1.302 1.982 1.537 3.155.2 1.006.156 2.022-.127 3.003-.207.72-.518 1.4-.883 2.046-.385.682-.517 1.417-.58 2.18-.013.155-.02.31-.03.464l-.003.045c-.001.015-.003.03-.005.045zM12 0C5.373 0 0 5.373 0 12c0 2.126.663 4.1 1.788 5.718L0 24l6.335-1.652A11.96 11.96 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/>
-        </svg>
-      ), 
-      href: "https://wa.me/905395159925",
-      name: "WhatsApp",
-      color: "#25D366"
+      icon: Facebook, 
+      href: "https://www.facebook.com/orhanmakina.23/", 
+      name: "Facebook",
+      color: "#1877F2"
     },
   ];
 
@@ -96,12 +87,24 @@ export default function Footer() {
                       rel="noopener noreferrer nofollow"
                       aria-label={`${social.name} sayfamızı ziyaret edin`}
                       className="footer-social-link"
-                      style={{ '--social-color': social.color }}
+                      style={{ 
+                        '--social-color': social.color,
+                        '--social-gradient': social.gradient || social.color
+                      }}
+                      data-platform={social.name.toLowerCase()}
                     >
                       <Icon className="footer-social-icon" aria-hidden="true" />
                     </a>
                   );
                 })}
+                
+                {/* WhatsApp için özel buton komponenti */}
+                <div className="footer-whatsapp-wrapper">
+                  <WhatsAppButton 
+                    phoneNumber="905395159925"
+                    message="Merhaba, Orhan Makine'den ürünler hakkında bilgi almak istiyorum."
+                  />
+                </div>
               </div>
             </section>
 
@@ -127,7 +130,7 @@ export default function Footer() {
               </ul>
             </nav>
 
-            {/* BÖLÜM 3: İLETİŞİM BİLGİLERİ (Hızlı Linklerin sağına taşındı) */}
+            {/* BÖLÜM 3: İLETİŞİM BİLGİLERİ */}
             <section 
               className="footer-col" 
               aria-labelledby="contact-info-title"
