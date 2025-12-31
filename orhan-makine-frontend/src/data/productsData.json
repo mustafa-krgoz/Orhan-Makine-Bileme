@@ -131,7 +131,7 @@
 
     "inStock": true,
     "isNew": false,
-    "isCampaign": true,
+    "isCampaign": false,
     "reviews": [],
     "questions": []
   },
@@ -390,7 +390,7 @@
     },
 
     "inStock": true,
-    "isNew": true,
+    "isNew": false,
     "isCampaign": false,
     "reviews": [],
     "questions": []
